@@ -1,0 +1,275 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        xmlns:votingWidget="http://java.sun.com/jsf/composite/widget/voting"
+        xmlns:votingConfirmation="http://java.sun.com/jsf/composite/voting/confirming"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[votingConfirmationOverviewController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{votingConfirmationOverviewController.initiellKontekstvelgerURL}"
+                        rendered="#{votingConfirmationOverviewController.context}"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="page" id="page-voting-confirmation-overview" data-view="VotingConfirmationOverview">
+                <h1 class="page-title">#{msgs['@voting.confirmation.overview.heading']}</h1>
+
+                <div style="height: 12px;">
+                    <widget:pageTitleMetaTemplate models="#{votingConfirmationOverviewController.pageTitleMeta}"/>
+                </div>
+                <p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+
+                <h:form id="form">
+
+                    <votingConfirmation:voterConfirmation rendered="#{votingConfirmationOverviewController.renderVoterConfirmation}"/>
+
+                    <!-- Voting list -->
+                    <p:panel id="votingConfirmationOverviewPanel" rendered="#{votingConfirmationOverviewController.renderVotingOverview}" styleClass="votingConfirmationOverviewPanel">
+                        <div class="votingPeriod">
+                            <h2 class="margin-right--small">#{msgs[votingConfirmationOverviewController.viewModel.votingOverviewHeading]}</h2>
+
+                            <p:calendar pattern="dd/MM/yyyy"
+                                        styleClass="votingPeriodFromDateCalendar"
+                                        readonlyInput="true"
+                                        maxdate="#{votingConfirmationOverviewController.viewModel.selectedVotingPeriod.toDateAsFullDate}"
+                                        value="#{votingConfirmationOverviewController.viewModel.selectedVotingPeriod.fromDateAsLegacyDate}">
+                                <p:ajax event="dateSelect" update="@form" listener="#{votingConfirmationOverviewController.onVotingPeriodUpdated()}"
+                                        oncomplete="EVA.Application.getInstance().getView().onFromVotingDateChanged()"/>
+                            </p:calendar>
+                            <p:calendar pattern="dd/MM/yyyy"
+                                        styleClass="votingPeriodToDateCalendar"
+                                        readonlyInput="true"
+                                        mindate="#{votingConfirmationOverviewController.viewModel.selectedVotingPeriod.fromDateAsFullDate}"
+                                        value="#{votingConfirmationOverviewController.viewModel.selectedVotingPeriod.toDateAsLegacyDate}">
+                                <p:ajax event="dateSelect" update="@form" listener="#{votingConfirmationOverviewController.onVotingPeriodUpdated()}"
+                                        oncomplete="EVA.Application.getInstance().getView().onToVotingDateChanged()"/>
+                            </p:calendar>
+
+                            <h4>- Status fra og med
+                                <p:commandLink value="#{votingConfirmationOverviewController.viewModel.selectedVotingPeriod.fromDateAsShortDate}"
+                                               onclick="EVA.Application.getInstance().getView().onFromVotingDateClicked()"
+                                               styleClass="btn btn-link votingPeriodFromDateLink"/> til og med
+                                <p:commandLink value="#{votingConfirmationOverviewController.viewModel.selectedVotingPeriod.toDateAsShortDate}"
+                                               onclick="EVA.Application.getInstance().getView().onToVotingDateClicked()"
+                                               styleClass="btn btn-link votingPeriodToDateLink"/>
+                            </h4>
+                        </div>
+
+                        <votingWidget:optionalTableColumns/>
+
+                        <p:dataTable
+                                id="votingOverviewTable"
+                                widgetVar="votingOverviewTable"
+                                var="voting"
+                                value="#{votingConfirmationOverviewController.votingLazyDataModel}"
+                                selectionMode="single"
+                                selection="#{votingConfirmationOverviewController.viewModel.selectedVoting}"
+                                rowKey="#{voting.votingNumber}"
+                                emptyMessage="#{msgs['@voting.envelope.overview.list.noResults']}"
+                                styleClass="votingConfirmationTable"
+                                style="background-color: #e4e4e4"
+                                paginator="true"
+                                rows="100"
+                                lazy="true"
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} Side {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                currentPageReportTemplate="Viser {startRecord} - {endRecord} stemmegivninger av {totalRecords} "
+                                showTotalItemCount="true"
+                                rowsPerPageTemplate="5,10,20,50,100"
+                                paginatorPosition="both">
+
+                            <p:ajax event="rowSelect" listener="#{votingConfirmationOverviewController.onSelectedVotingRow}" update="@(.onMainContentUpdate)"/>
+
+                            <!-- Voting number -->
+                            <p:column headerText="#{msgs['@voting.number']}"
+                                      styleClass="column-voting-number"
+                                      rendered="#{votingConfirmationOptionalTableColumnManager.shouldRenderOptionalColumn('VOTING_NUMBER')}"
+                                      sortBy="#{voting.votingNumber}">
+                                <h:outputText pt:data-aft="VN-#{voting.votingNumberDisplay}" value="#{voting.votingNumberDisplay}"/>
+                            </p:column>
+
+                            <!-- Person id -->
+                            <p:column headerText="#{msgs['@person.id']}"
+                                      styleClass="column-person-id"
+                                      sortBy="#{voting.personId}">
+                                <h:outputText value="#{voting.personId}">
+                                    <f:converter converterId="localDateConverter"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <!-- Name line -->
+                            <p:column headerText="#{msgs['@common.name']}"
+                                      styleClass="column-name-line"
+                                      sortBy="#{voting.nameLine}">
+                                <h:outputText value="#{voting.nameLine}"/>
+                            </p:column>
+
+                            <!-- Voting category -->
+                            <p:column styleClass="column-voting-category"
+                                      filterBy="#{voting.votingCategory.name}"
+                                      sortBy="#{voting.votingCategory.name}"
+                                      headerText="Stemmetype">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu id="votingCategoryCheckBoxMenu"
+                                                          styleClass="ui-selectonemenu ui-selectonemenu.ui-state-default"
+                                                          panelStyleClass="select-checkbox-menu"
+                                                          label="#{msgs[votingConfirmationOverviewController.viewModel.filteredVotingCategoriesHeader]}"
+                                                          filter="true"
+                                                          filterMatchMode="exact"
+                                                          onchange="PF('votingOverviewTable').filter()"
+                                                          value="#{votingConfirmationOverviewController.viewModel.selectedVotingCategories}">
+                                        <f:selectItems value="#{votingConfirmationOverviewController.viewModel.allVotingCategories}"
+                                                       var="category"
+                                                       itemValue="#{category}"
+                                                       itemLabel="#{category.id} - #{msgs[category.name]}"/>
+                                        <p:ajax event="change" update="form:votingOverviewTable:votingCategoryCheckBoxMenu" oncomplete="PF('votingOverviewTable').filter()"/>
+                                        <p:ajax event="toggleSelect" update="form:votingOverviewTable:votingCategoryCheckBoxMenu" oncomplete="PF('votingOverviewTable').filter()"/>
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{msgs[voting.votingCategory.name]}"/>
+                            </p:column>
+                            
+                            <!-- Processing type -->
+                            <p:column headerText="#{msgs['@voting.envelope.overview.heading.processingType']}"
+                                      filterBy="#{voting.processingType}"
+                                      filterMatchMode="exact"
+                                      sortBy="#{voting.status}"
+                                      sortable="true"
+                                      rendered="#{votingConfirmationOverviewController.viewModel.renderProcessingTypeColumn}">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('votingOverviewTable').filter()"
+                                                     value="#{votingConfirmationOverviewController.viewModel.selectedProcessingType}">
+                                        <f:selectItem itemLabel="#{msgs['@common.all']}" itemValue="#{null}"/>
+                                        <f:selectItem itemLabel="#{msgs['@voting.envelope.overview.processingType.suggestedApproved']}" itemValue="SUGGESTED_APPROVED"/>
+                                        <f:selectItem itemLabel="#{msgs['@voting.envelope.overview.processingType.suggestedRejected']}" itemValue="SUGGESTED_REJECTED"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText value="#{msgs[voting.suggestedProcessingType.displayName]}"/>
+                            </p:column>
+
+                            <!-- Voting status -->
+                            <p:column headerText="#{msgs[votingConfirmationOverviewController.viewModel.votingStatusColumnHeader]}"
+                                      styleClass="column-processing-status"
+                                      filterBy="#{voting.status}"
+                                      filterMatchMode="exact"
+                                      sortBy="#{voting.status}"
+                                      sortable="#{votingConfirmationOverviewController.statusSortable}"
+                                      rendered="#{votingConfirmationOverviewController.viewModel.renderVotingStatusColumn}">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('votingOverviewTable').filter()"
+                                                     disabled="#{votingConfirmationOverviewController.statusFilterDisabled}"
+                                                     value="#{votingConfirmationOverviewController.viewModel.selectedConfirmationStatus}">
+                                        <f:selectItem itemLabel="#{msgs['@common.all']}" itemValue="#{null}"/>
+                                        <f:selectItems
+                                                var="confirmationStatus"
+                                                value="#{votingConfirmationOverviewController.votingConfirmationStatuses}"
+                                                itemLabel="#{msgs[confirmationStatus.name]}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText pt:data-aft="STATUS-#{voting.votingNumberDisplay}" value="#{msgs[voting.status]}"/>
+                            </p:column>
+
+                            <!-- Suggested processing list -->
+                            <p:column headerText="#{msgs[votingConfirmationOverviewController.viewModel.votingStatusColumnHeader]}"
+                                      styleClass="column-suggested-rejection-reason"
+                                      sortBy="#{voting.suggestedRejectionReason}"
+                                      filterMatchMode="exact"
+                                      filterBy="#{voting.suggestedRejectionReason}"
+                                      rendered="#{votingConfirmationOverviewController.viewModel.renderSuggestedRejectionReason}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu
+                                            id="suggestedRejectionReasonCheckBoxMenu"
+                                            label="#{msgs[votingConfirmationOverviewController.viewModel.suggestedProcessingColumnFilterHeader]}"
+                                            styleClass="ui-selectonemenu ui-selectonemenu.ui-state-default"
+                                            panelStyleClass="select-checkbox-menu"
+                                            onchange="PF('votingOverviewTable').filter()"
+                                            value="#{votingConfirmationOverviewController.viewModel.selectedSuggestedProcessingList}">
+                                        <f:selectItems
+                                                var="suggestedProcessingType"
+                                                value="#{votingConfirmationOverviewController.viewModel.suggestedProcessingList}"
+                                                itemLabel="#{suggestedProcessingType.id} - #{msgs[suggestedProcessingType.textProperty]}"
+                                                itemValue="#{suggestedProcessingType.id}"/>
+                                        <p:ajax event="change" update="form:votingOverviewTable:suggestedRejectionReasonCheckBoxMenu" oncomplete="PF('votingOverviewTable').filter()"/>
+                                        <p:ajax event="toggleSelect" update="form:votingOverviewTable:suggestedRejectionReasonCheckBoxMenu" oncomplete="PF('votingOverviewTable').filter()"/>
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{msgs[voting.suggestedRejectionReason]}"/>
+                            </p:column>
+
+                            <!-- Rejection reason -->
+                            <p:column styleClass="column-rejection-reason"
+                                      rendered="#{votingConfirmationOverviewController.viewModel.showConfirmedVotings}"
+                                      headerText="#{msgs['@voting.envelope.overview.heading.rejectReason']}"
+                                      filterBy="#{voting.rejectionReason}"
+                                      filterMatchMode="exact"
+                                      sortBy="#{voting.rejectionReason}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu
+                                            id="rejectionReasonCheckBoxMenu"
+                                            label="#{msgs[votingConfirmationOverviewController.viewModel.rejectionReasonsColumnFilterHeader]}"
+                                            styleClass="ui-selectonemenu ui-selectonemenu.ui-state-default"
+                                            panelStyleClass="select-checkbox-menu"
+                                            onchange="PF('votingOverviewTable').filter()"
+                                            value="#{votingConfirmationOverviewController.viewModel.selectedRejectionReasons}">
+                                        <f:selectItems
+                                                var="rejectionReason"
+                                                value="#{votingConfirmationOverviewController.viewModel.rejectionReasons}"
+                                                itemLabel="#{rejectionReason.id} - #{msgs[rejectionReason.name]}"
+                                                itemValue="#{rejectionReason.id}"/>
+                                        <p:ajax event="change" update="form:votingOverviewTable:rejectionReasonCheckBoxMenu" oncomplete="PF('votingOverviewTable').filter()"/>
+                                        <p:ajax event="toggleSelect" update="form:votingOverviewTable:rejectionReasonCheckBoxMenu" oncomplete="PF('votingOverviewTable').filter()"/>
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{msgs[voting.rejectionReason]}"/>
+                            </p:column>
+                            
+                            <p:column headerText="#{msgs['@common.date']}"
+                                      styleClass="column-date"
+                                      rendered="#{votingConfirmationOptionalTableColumnManager.shouldRenderOptionalColumn('DATE')}"
+                                      sortBy="#{voting.votingDate}">
+                                <h:outputText value="#{voting.votingDate}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msgs['@common.time']}"
+                                      styleClass="column-time"
+                                      rendered="#{votingConfirmationOptionalTableColumnManager.shouldRenderOptionalColumn('TIME')}"
+                                      sortBy="#{voting.votingTime}">
+                                <h:outputText value="#{voting.votingTime}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msgs['@voting.registeredBy']}"
+                                      styleClass="column-registered-by"
+                                      rendered="#{votingConfirmationOptionalTableColumnManager.shouldRenderOptionalColumn('VOTING_REGISTERED_BY')}"
+                                      sortBy="#{voting.votingRegisteredBy}">
+                                <h:outputText value="#{voting.votingRegisteredBy}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msgs['@voter.listedIn']}"
+                                      styleClass="column-listed-in"
+                                      rendered="#{votingConfirmationOptionalTableColumnManager.shouldRenderOptionalColumn('VOTER_LISTED_IN')}"
+                                      sortBy="#{voting.voterListedIn}">
+                                <h:outputText value="#{voting.voterListedIn}"/>
+                            </p:column>
+
+                            <p:column styleClass="optional-columns-column">
+                                <f:facet name="header">
+                                    <p:commandButton
+                                            styleClass="btn btn-primary"
+                                            icon="cog-wheel"
+                                            oncomplete="EVA.Widget.VotingOptionalTableColumnsWidget.getInstance().toggleColumnsPicker()"
+                                            title="#{msgs['@voting.confirmation.votingListToProcess.button.columnPicker']}">
+                                    </p:commandButton>
+                                </f:facet>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

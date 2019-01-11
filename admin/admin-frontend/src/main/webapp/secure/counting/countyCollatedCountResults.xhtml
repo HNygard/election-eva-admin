@@ -1,0 +1,32 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.counting.countyResults"/>
+
+		<ui:define name="content">
+
+			<div id="page-collated-count-results" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.counting.countyResults']}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{countyVoteCountsController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+					</div>
+				</div>
+
+				<widget:settlementSummary provider="#{countyVoteCountsController}"/>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

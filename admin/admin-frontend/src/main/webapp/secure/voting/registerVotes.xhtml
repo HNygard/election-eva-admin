@@ -1,0 +1,73 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:param name="helpId" value="@help.searchAdvance"/>
+        <ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[registerVotingInEnvelopeController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{registerVotingInEnvelopeController.initiellKontekstvelgerURL}"
+                        rendered="#{registerVotingInEnvelopeController.context}"/>
+            <p:menuitem value="#{msgs['@voting.manntallsSok.breadcrumb']}"
+                        actionListener="#{registerVotingInEnvelopeController.manntallsSokVelger(null)}"
+                        update="@(.onMainContentUpdate)"
+                        rendered="#{registerVotingInEnvelopeController.harVelger}"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="page" data-view="SearchElectoralRoll">
+                <h1 class="page-title">
+                    <h:outputText value="#{msgs['@menu.earlyVoting.recievedEnvelopsInMunicipality']}"/>
+                </h1>
+
+                <widget:pageTitleMetaTemplate models="#{registerVotingInEnvelopeController.pageTitleMeta}"/>
+
+                <h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+                    <div class="#{registerVotingInEnvelopeController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+                        <p:messages id="msgs" globalOnly="true"/>
+                        <widget:meldinger id="statiskeMeldingerWidget" meldingerWidget="#{registerVotingInEnvelopeController.statiskeMeldinger}"/>
+                    </div>
+                </h:panelGroup>
+
+                <widget:stemmegivningTittel id="stemmegivningTittelForhand"
+                                            tittel="@voting.searchAdvance.header"
+                                            velger="#{registerVotingInEnvelopeController.velger}"
+                                            visOpprettFiktivVelgerLink="${registerVotingInEnvelopeController.visOpprettFiktivVelgerLink}"
+                                            opprettFiktivVelger="${registerVotingInEnvelopeController.registerFictitiousVoterAndPrepareRegisterVotingView}"
+                                            visSlettForhandsstemmeLink="${registerVotingInEnvelopeController.visSlettForhandsstemmeLink}"
+                                            slettForhandsstemme="#{registerVotingInEnvelopeController.slettForhandsstemme}"/>
+
+                <h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+
+                    <manntall:manntallsSok id="manntallsSok"
+                                           renderLopenummerTab="false"
+                                           renderManntallsnummerTab="true"
+                                           kommuneListe="#{registerVotingInEnvelopeController.kommuneListe}"
+                                           visIMantallKolonne="true"
+                                           rendered="#{not registerVotingInEnvelopeController.harVelger}"/>
+
+                    <widget:stemmegivning id="stemmegivning"
+                                          ctrl="#{registerVotingInEnvelopeController}"
+                                          velger="#{registerVotingInEnvelopeController.velger}"
+                                          manntallsnummer="#{registerVotingInEnvelopeController.manntallsnummer}"
+                                          template="stemmegivningForhand.xhtml"
+                                          stemmetypeDisabled="#{registerVotingInEnvelopeController.stemmetypeDisabled}"
+                                          stemmetypeListe="#{registerVotingInEnvelopeController.stemmetypeListe}"
+                                          rendered="#{registerVotingInEnvelopeController.harVelger}"/>
+
+                    <ui:fragment rendered="#{registerVotingInEnvelopeController.voteToOtherMunicipalityConfirmDialog}">
+                        <ui:include src="includes/voteToOtherMunicipalityConfirmDialog.xhtml">
+                            <ui:param name="ctrl" value="#{registerVotingInEnvelopeController}"/>
+                        </ui:include>
+                    </ui:fragment>
+
+                </h:panelGroup>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

@@ -1,0 +1,43 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:kontekstvelger="http://java.sun.com/jsf/composite/kontekstvelger"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{kontekstvelgerController.linkNavn1}"
+						ajax="false"
+						action="#{kontekstvelgerController.visPanel1()}"
+						rendered="#{kontekstvelgerController.visLink1}"/>
+			<p:menuitem value="#{kontekstvelgerController.linkNavn2}"
+						ajax="false"
+						action="#{kontekstvelgerController.visPanel2()}"
+						rendered="#{kontekstvelgerController.visLink2}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-kontekstvelger" class="page">
+
+				<h:form id="form">
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+
+							<h:panelGroup id="kontekstvelger" name="kontekstvelger" layout="block">
+								<kontekstvelger:panel id="panel" panel="#{kontekstvelgerController.currentContextPickerPanel}"/>
+								<h:outputScript>
+									EVA.tableScrollableBody();
+								</h:outputScript>
+							</h:panelGroup>
+						</div>
+					</div>
+				</h:form>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,54 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:template="http://java.sun.com/jsf/composite/template"
+		contentType="text/html">
+
+	<div id="editCandidate-search" class="row">
+		<div class="col-md-12">
+			<ui:fragment rendered="#{candidateController.moreHitsThanDisplayed}">
+				<p class="eva-icon-warning alert alert-warning">
+					<h:outputText value="#{msgs['@listProposal.manyHits']}"/>
+				</p>
+			</ui:fragment>
+
+			<template:electoralRollSearchResult
+				id="electoralRoll"
+				electoralRollResult="#{candidateController.voterResult}"
+				selectedVoter="#{candidateController.selectedVoterResult}"/>
+
+			<div class="form-actions">
+
+				<p:commandButton
+					id="createVoterFromCandidate"
+					value="#{msgs['@common.ok']}"
+					async="true"
+					action="#{candidateController.createCandidateFromVoter()}"
+					process="@form"
+					update="@form"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+				<p:commandButton
+					id="cancelSearchForCandidateInElectoralRoll"
+					value="#{msgs['@common.back']}"
+					action="#{candidateController.cancelSearchForCandidateInElectoralRoll()}"
+					process="@form"
+					update="@form"
+					styleClass="btn btn-link"/>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var dialog = PF('#{candidateController.editCandidateDialog.id}');
+		dialog.jq.css({'width': '1200px'});
+		dialog.jq.position({of: jQuery(window)});
+		dialog.setTitle("#{msgs['@listProposal.edit.candidate.searchBy']}");
+		
+		PF('electoralRollSeachResultWidget').getPaginator().setPage(0);
+	</script>
+
+</f:view>

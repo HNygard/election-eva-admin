@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.valg.eva</groupId>
+		<artifactId>admin</artifactId>
+        <version>2019.22-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>admin-rapport</artifactId>
+	<packaging>jar</packaging>
+	<name>EVA Administrasjon Rapport</name>
+
+	<dependencies>
+		<!-- Interne avhengigheter -->
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-common</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-backend-testtools</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-backend-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-settlement</artifactId>
+		</dependency>
+
+		<!-- Eksterne avhengigheter -->
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${finalName}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>META-INF/persistence.xml</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>META-INF/persistence.xml</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+	</build>
+
+	<reporting>
+		<plugins>
+			<!-- SureFire -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report-only</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>

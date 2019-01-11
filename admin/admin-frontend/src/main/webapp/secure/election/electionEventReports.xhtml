@@ -1,0 +1,53 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.election.election_event_reports"/>
+
+		<ui:define name="content">
+
+			<div id="page-my-page" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@common.rapporter']}"/>
+				</h1>
+
+				<h:form id="form">
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msg" globalOnly="true"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<h:panelGroup styleClass="main-menu" layout="block">
+								<ui:repeat var="menu" value="#{electionEventReportsController.menus}">
+									<widget:menu menu="#{menu}" renderRootHeader="true" menuItemTemplate="/secure/election/includes/reportMenuItem.xhtml"/>
+								</ui:repeat>
+							</h:panelGroup>
+						</div>
+					</div>
+
+					<div class="form-group form-actions">
+						<p:commandButton
+							id="saveReports"
+							pt:data-aft="saveReports"
+							value="#{msgs['@common.save']}"
+							action="#{electionEventReportsController.saveReports}"
+							partialSubmit="true"
+							process="@form"
+							update="@form"
+							icon="eva-icon-plus"
+							styleClass="btn btn-primary"/>
+					</div>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

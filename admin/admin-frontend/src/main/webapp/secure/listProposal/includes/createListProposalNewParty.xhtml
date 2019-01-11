@@ -1,0 +1,44 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<h2>
+		<h:outputText value="#{msgs['@listProposal.party.create.header']}"/>
+	</h2>
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="form-group required">
+				<h:outputLabel for="partyName" value="#{msgs['@party.name']}"/>
+				<h:inputText id="partyName"
+							 value="#{opprettListeforslagController.newParty.oversattNavn}"
+							 styleClass="form-control"
+							 disabled="#{opprettListeforslagController.contestLocked}"/>
+			</div>
+
+			<div class="form-group required">
+				<h:outputLabel for="partyId" value="#{msgs['@party.id']}"/>
+				<h:inputText id="partyId" value="#{opprettListeforslagController.newParty.id}"
+							 maxlength="8"
+							 styleClass="form-control"
+							 disabled="#{opprettListeforslagController.contestLocked}"/>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="form-actions">
+		<p:commandButton id="createNewPartyAndListProposal"
+						 ajax="false"
+						 value="#{msgs['@listProposal.party.createProposal.action']}"
+						 action="#{opprettListeforslagController.createPartyAffiliation}"
+						 update="fwMainContentForm:newListProposalPanel"
+						 disabled="#{opprettListeforslagController.contestLocked}"
+						 icon="eva-icon-plus"
+						 styleClass="btn btn-primary"/>
+	</div>
+
+</f:view>

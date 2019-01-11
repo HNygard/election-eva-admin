@@ -1,0 +1,62 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+
+		<ui:define name="content">
+
+
+			<!--@elvariable id="controller" type="no.valg.eva.admin.frontend.counting.ctrls.RegisterModifiedBallotController"-->
+
+			<f:event type="preRenderView" listener="#{controller.onPageUpdate}"/>
+
+			<div id="page-register-modified-ballot" class="page" data-view="RegisterModifiedBallot">
+				<div class="row">
+					<div class="col-xs-12">
+
+						<h:panelGroup id="content" layout="block">
+
+							<h:form role="form" id="downloadBallot">
+								<widget:registerModifiedBallotHeader controller="#{controller}"/>
+							</h:form>
+
+							<h:form role="form" styleClass="form-inline" id="registerModifiedBallotForm">
+
+								<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages" autoUpdate="true"/>
+
+								<p:remoteCommand name="validate" update="messages" actionListener="#{controller.validateAndShowErrorMessage}" />
+								
+								<div class="row">
+
+									<widget:registerModifiedBallotCandidates id="ballotCandidates" controller="#{controller}"/>
+
+									<widget:registerModifiedBallotWriteIns id="ballotWriteIns" controller="#{controller}"/>
+
+									<widget:registerModifiedBallotActions id="ballotActions" controller="#{controller}"/>
+
+								</div>
+
+							</h:form>
+
+
+							<script type="text/javascript">
+								//<![CDATA[
+								EVA.Application.onViewReady(function () {
+									this.setViewParams({
+										confirmPageExitLabel: "#{msgs['@count.ballot.register.changes.warn.page.unload']}"
+									});
+								});
+								//]]>
+							</script>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

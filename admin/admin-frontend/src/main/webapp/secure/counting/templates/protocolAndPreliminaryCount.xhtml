@@ -1,0 +1,33 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+		contentType="text/html"
+		xmlns:counting="http://java.sun.com/jsf/composite/counting">
+
+	<span id="countStatus" style="display: none">#{protocolAndPreliminaryCountController.protocolAndPreliminaryCount.status.name()}</span>
+	<counting:dailyMarkOffCounts id="dailyMarkOffCounts"
+								 disabled="#{!protocolAndPreliminaryCountController.isCountEditable()}" 
+								 model="#{protocolAndPreliminaryCountController.dailyMarkOffCountsModel}" />
+	<counting:ballotCounts id="ballotCounts"
+						   disabled="#{!protocolAndPreliminaryCountController.isManualCountAndEditable()}" 
+						   model="#{protocolAndPreliminaryCountController.ballotCountsModel}" />
+	<counting:markOffCounts id="markOffCounts"
+							disabled="#{!protocolAndPreliminaryCountController.isCountEditable()}"
+							model="#{protocolAndPreliminaryCountController.markOffCountsModel}" />
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<h:outputLabel value="#{msgs['@count.protocolEnvelopes']}" for="protocolEnvelopes"/>
+					<counting:protocolEnvelopes id="protocolEnvelopes" disabled="#{!protocolAndPreliminaryCountController.isCountEditable()}" count="#{protocolAndPreliminaryCountController.protocolAndPreliminaryCount.protocolCount}"/>
+				</div>
+				<div class="col-md-3">
+					<counting:comment id="commentWidget" disabled="${!protocolAndPreliminaryCountController.isCountEditable()}" count="#{protocolAndPreliminaryCountController.count}"/>
+				</div>
+				<div class="col-md-6">
+					<counting:bottomButtons id="bottomButtons" countController="#{protocolAndPreliminaryCountController}"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</f:view>

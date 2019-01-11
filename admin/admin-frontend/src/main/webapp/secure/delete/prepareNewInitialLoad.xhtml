@@ -1,0 +1,88 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:define name="content">
+			<div id="page-prepare-new-initil-load" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@delete.prepareInitialLoad.header']}"/>
+				</h1>
+
+				<h:form id="form" name="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages globalOnly="true" id="messages"/>
+						</div>
+					</div>
+
+					<ui:fragment rendered="#{not prepareNewInitialLoadController.deleted}">
+
+						<div class="row">
+							<div class="col-md-12">
+								<widget:message message="@delete.prepareInitialLoad.infoText"/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 form-actions">
+								<p:commandButton id="deleteButton"
+												 onclick="PF('deleteConfirmation').show()"
+												 value="#{msgs['@common.delete']}"
+												 icon="eva-icon-close"
+												 styleClass="btn btn-danger"/>
+							</div>
+						</div>
+
+
+					</ui:fragment>
+
+					<ui:fragment rendered="#{prepareNewInitialLoadController.deleted}">
+						<div class="row">
+							<div class="col-md-6 form-actions">
+								<a href="deleteVotersBatches.xhtml" class="btn btn-link">#{msgs['@delete.listDeleteVoters.header']}</a>
+							</div>
+						</div>
+					</ui:fragment>
+
+					<p:confirmDialog
+						header=""
+						message="#{msgs['@delete.prepareInitialLoad.infoText']}"
+						severity="alert"
+						widgetVar="deleteConfirmation"
+						width="400"
+						fixedCenter="true"
+						modal="true"
+						visible="false"
+						resizable="false">
+
+						<p:commandButton
+							id="YesButton"
+							value="#{msgs['@common.yes']}"
+							ajax="false"
+							immediate="true"
+							action="#{prepareNewInitialLoadController.prepareForNewInitialLoad()}"
+							styleClass="btn btn-primary"
+							oncomplete="PF('deleteConfirmation').hide()"/>
+
+						<p:commandButton
+							id="NoButton"
+							value="#{msgs['@common.cancel']}"
+							onclick="PF('deleteConfirmation').hide()"
+							type="button"
+							styleClass="btn btn-default"/>
+
+					</p:confirmDialog>
+				</h:form>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

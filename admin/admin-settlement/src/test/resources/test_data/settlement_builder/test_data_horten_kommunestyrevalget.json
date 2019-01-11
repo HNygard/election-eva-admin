@@ -1,0 +1,1183 @@
+{
+  "election": {
+    "id": "02",
+    "settlementConfig": "PERSONAL_AND_WRITE_IN",
+    "baselineVoteFactor": "0.25",
+    "settlementFirstDivisor": "1.40",
+    "contest": {
+      "id": "000701",
+      "numberOfPositions": 50,
+      "ballots": [
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "SAMF"
+            },
+            "candidates": [
+              {
+                "id": "03060900000"
+              },
+              {
+                "id": "03110500000"
+              },
+              {
+                "id": "04040400000"
+              },
+              {
+                "id": "06030800000"
+              },
+              {
+                "id": "06051000000"
+              },
+              {
+                "id": "14110100000"
+              },
+              {
+                "id": "14110200000"
+              },
+              {
+                "id": "16050000000"
+              },
+              {
+                "id": "20120000000"
+              },
+              {
+                "id": "21010200000"
+              },
+              {
+                "id": "21040700000"
+              },
+              {
+                "id": "21060900000"
+              },
+              {
+                "id": "23040500000"
+              },
+              {
+                "id": "23090900000"
+              },
+              {
+                "id": "31010400000"
+              },
+              {
+                "id": "31011200000"
+              },
+              {
+                "id": "25099300000"
+              },
+              {
+                "id": "01074600000"
+              },
+              {
+                "id": "01122300000"
+              },
+              {
+                "id": "05035600000"
+              },
+              {
+                "id": "20025200000"
+              },
+              {
+                "id": "20113300000"
+              },
+              {
+                "id": "21042800000"
+              },
+              {
+                "id": "21084500000"
+              },
+              {
+                "id": "30046400000"
+              },
+              {
+                "id": "30053300000"
+              }
+            ]
+          }
+        },
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "H"
+            },
+            "candidates": [
+              {
+                "id": "01051000000"
+              },
+              {
+                "id": "02020500000"
+              },
+              {
+                "id": "03010100000"
+              },
+              {
+                "id": "03010500000"
+              },
+              {
+                "id": "03070400000"
+              },
+              {
+                "id": "04040300000"
+              },
+              {
+                "id": "06010900000"
+              },
+              {
+                "id": "07090500000"
+              },
+              {
+                "id": "14080300000"
+              },
+              {
+                "id": "16010300000"
+              },
+              {
+                "id": "16071000000"
+              },
+              {
+                "id": "20100200000"
+              },
+              {
+                "id": "21030100000"
+              },
+              {
+                "id": "21070000000"
+              },
+              {
+                "id": "23040300000"
+              },
+              {
+                "id": "23110500000"
+              },
+              {
+                "id": "30080300000"
+              },
+              {
+                "id": "31100500000"
+              },
+              {
+                "id": "16048700000"
+              },
+              {
+                "id": "18049200000"
+              },
+              {
+                "id": "25029000000"
+              },
+              {
+                "id": "25079000000"
+              },
+              {
+                "id": "25118200000"
+              },
+              {
+                "id": "26019100000"
+              },
+              {
+                "id": "31018700000"
+              },
+              {
+                "id": "01024700000"
+              },
+              {
+                "id": "02029300000"
+              },
+              {
+                "id": "29044400000"
+              },
+              {
+                "id": "30053400000"
+              }
+            ]
+          }
+        },
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "HORT"
+            },
+            "candidates": [
+              {
+                "id": "06010000000"
+              },
+              {
+                "id": "06020000000"
+              },
+              {
+                "id": "06057700000"
+              },
+              {
+                "id": "06100000000"
+              },
+              {
+                "id": "07048200000"
+              },
+              {
+                "id": "07070000000"
+              },
+              {
+                "id": "11120000000"
+              },
+              {
+                "id": "12017800000"
+              },
+              {
+                "id": "12050000000"
+              },
+              {
+                "id": "13047700000"
+              },
+              {
+                "id": "13077800000"
+              },
+              {
+                "id": "15088200000"
+              },
+              {
+                "id": "15117800000"
+              },
+              {
+                "id": "15118200000"
+              },
+              {
+                "id": "16017700000"
+              },
+              {
+                "id": "16038200000"
+              },
+              {
+                "id": "16128000000"
+              },
+              {
+                "id": "17070000000"
+              },
+              {
+                "id": "19040000000"
+              },
+              {
+                "id": "19127800000"
+              },
+              {
+                "id": "20017800000"
+              },
+              {
+                "id": "20050000000"
+              },
+              {
+                "id": "21110000000"
+              },
+              {
+                "id": "24027700000"
+              },
+              {
+                "id": "24038200000"
+              }
+            ]
+          }
+        },
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "KRISTNE"
+            },
+            "candidates": [
+              {
+                "id": "01019700000"
+              },
+              {
+                "id": "01060000000"
+              },
+              {
+                "id": "01100000000"
+              },
+              {
+                "id": "01107700000"
+              },
+              {
+                "id": "02030000000"
+              },
+              {
+                "id": "02050000000"
+              },
+              {
+                "id": "02087700000"
+              },
+              {
+                "id": "02107800000"
+              },
+              {
+                "id": "03017700000"
+              },
+              {
+                "id": "03020000000"
+              },
+              {
+                "id": "03050000000"
+              },
+              {
+                "id": "03079400000"
+              },
+              {
+                "id": "03118200000"
+              },
+              {
+                "id": "04057800000"
+              },
+              {
+                "id": "04117800000"
+              },
+              {
+                "id": "05030000000"
+              },
+              {
+                "id": "05060000000"
+              },
+              {
+                "id": "05068200000"
+              },
+              {
+                "id": "05100000000"
+              },
+              {
+                "id": "15117700000"
+              },
+              {
+                "id": "18018200000"
+              },
+              {
+                "id": "18048200000"
+              },
+              {
+                "id": "18089400000"
+              }
+            ]
+          }
+        },
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "BLANK"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "contestReports": [
+    {
+      "voteCounts": [
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "FO",
+          "ballotCounts": [
+            {
+              "ballotId": "KRISTNE",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "H",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "HORT",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "FS",
+          "ballotCounts": [
+            {
+              "ballotId": "KRISTNE",
+              "unmodifiedBallots": 20
+            },
+            {
+              "ballotId": "H",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "HORT",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "VF",
+          "ballotCounts": [
+            {
+              "ballotId": "KRISTNE",
+              "unmodifiedBallots": 20
+            },
+            {
+              "ballotId": "H",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "HORT",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "BLANK",
+              "unmodifiedBallots": 4
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0003",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "KRISTNE",
+              "unmodifiedBallots": 7
+            },
+            {
+              "ballotId": "H",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "HORT",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "BLANK",
+              "unmodifiedBallots": 1
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0004",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "KRISTNE",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "H",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "HORT",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "VS",
+          "ballotCounts": [
+            {
+              "ballotId": "KRISTNE",
+              "unmodifiedBallots": 20
+            },
+            {
+              "ballotId": "H",
+              "unmodifiedBallots": 5
+            },
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "HORT",
+              "unmodifiedBallots": 10
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedAffiliationVoteCounts": [
+    {
+      "affiliationId": "KRISTNE",
+      "earlyVotingBallots": 35,
+      "electionDayVotingBallots": 52,
+      "baselineVotes": 4350
+    },
+    {
+      "affiliationId": "H",
+      "earlyVotingBallots": 20,
+      "electionDayVotingBallots": 35,
+      "baselineVotes": 2750
+    },
+    {
+      "affiliationId": "SAMF",
+      "earlyVotingBallots": 25,
+      "electionDayVotingBallots": 50,
+      "baselineVotes": 3750
+    },
+    {
+      "affiliationId": "HORT",
+      "earlyVotingBallots": 15,
+      "electionDayVotingBallots": 30,
+      "baselineVotes": 2250
+    },
+    {
+      "affiliationId": "BLANK",
+      "electionDayVotingBallots": 5,
+      "baselineVotes": 250
+    }
+  ],
+  "expectedCandidateVoteCounts": [],
+  "expectedCandidateRanks": [
+    {
+      "candidateId": "01051000000"
+    },
+    {
+      "candidateId": "02020500000"
+    },
+    {
+      "candidateId": "03010100000"
+    },
+    {
+      "candidateId": "03010500000"
+    },
+    {
+      "candidateId": "03070400000"
+    },
+    {
+      "candidateId": "04040300000"
+    },
+    {
+      "candidateId": "06010900000"
+    },
+    {
+      "candidateId": "07090500000"
+    },
+    {
+      "candidateId": "14080300000"
+    },
+    {
+      "candidateId": "16010300000"
+    },
+    {
+      "candidateId": "16071000000"
+    },
+    {
+      "candidateId": "20100200000"
+    },
+    {
+      "candidateId": "21030100000"
+    },
+    {
+      "candidateId": "21070000000"
+    },
+    {
+      "candidateId": "23040300000"
+    },
+    {
+      "candidateId": "23110500000"
+    },
+    {
+      "candidateId": "30080300000"
+    },
+    {
+      "candidateId": "31100500000"
+    },
+    {
+      "candidateId": "16048700000"
+    },
+    {
+      "candidateId": "18049200000"
+    },
+    {
+      "candidateId": "25029000000"
+    },
+    {
+      "candidateId": "25079000000"
+    },
+    {
+      "candidateId": "25118200000"
+    },
+    {
+      "candidateId": "26019100000"
+    },
+    {
+      "candidateId": "31018700000"
+    },
+    {
+      "candidateId": "01024700000"
+    },
+    {
+      "candidateId": "02029300000"
+    },
+    {
+      "candidateId": "29044400000"
+    },
+    {
+      "candidateId": "30053400000"
+    },
+    {
+      "candidateId": "06010000000"
+    },
+    {
+      "candidateId": "06020000000"
+    },
+    {
+      "candidateId": "06057700000"
+    },
+    {
+      "candidateId": "06100000000"
+    },
+    {
+      "candidateId": "07048200000"
+    },
+    {
+      "candidateId": "07070000000"
+    },
+    {
+      "candidateId": "11120000000"
+    },
+    {
+      "candidateId": "12017800000"
+    },
+    {
+      "candidateId": "12050000000"
+    },
+    {
+      "candidateId": "13047700000"
+    },
+    {
+      "candidateId": "13077800000"
+    },
+    {
+      "candidateId": "15088200000"
+    },
+    {
+      "candidateId": "15117800000"
+    },
+    {
+      "candidateId": "15118200000"
+    },
+    {
+      "candidateId": "16017700000"
+    },
+    {
+      "candidateId": "16038200000"
+    },
+    {
+      "candidateId": "16128000000"
+    },
+    {
+      "candidateId": "17070000000"
+    },
+    {
+      "candidateId": "19040000000"
+    },
+    {
+      "candidateId": "19127800000"
+    },
+    {
+      "candidateId": "20017800000"
+    },
+    {
+      "candidateId": "20050000000"
+    },
+    {
+      "candidateId": "21110000000"
+    },
+    {
+      "candidateId": "24027700000"
+    },
+    {
+      "candidateId": "24038200000"
+    },
+    {
+      "candidateId": "03060900000"
+    },
+    {
+      "candidateId": "03110500000"
+    },
+    {
+      "candidateId": "04040400000"
+    },
+    {
+      "candidateId": "06030800000"
+    },
+    {
+      "candidateId": "06051000000"
+    },
+    {
+      "candidateId": "14110100000"
+    },
+    {
+      "candidateId": "14110200000"
+    },
+    {
+      "candidateId": "16050000000"
+    },
+    {
+      "candidateId": "20120000000"
+    },
+    {
+      "candidateId": "21010200000"
+    },
+    {
+      "candidateId": "21040700000"
+    },
+    {
+      "candidateId": "21060900000"
+    },
+    {
+      "candidateId": "23040500000"
+    },
+    {
+      "candidateId": "23090900000"
+    },
+    {
+      "candidateId": "31010400000"
+    },
+    {
+      "candidateId": "31011200000"
+    },
+    {
+      "candidateId": "25099300000"
+    },
+    {
+      "candidateId": "01074600000"
+    },
+    {
+      "candidateId": "01122300000"
+    },
+    {
+      "candidateId": "05035600000"
+    },
+    {
+      "candidateId": "20025200000"
+    },
+    {
+      "candidateId": "20113300000"
+    },
+    {
+      "candidateId": "21042800000"
+    },
+    {
+      "candidateId": "21084500000"
+    },
+    {
+      "candidateId": "30046400000"
+    },
+    {
+      "candidateId": "30053300000"
+    },
+    {
+      "candidateId": "01019700000"
+    },
+    {
+      "candidateId": "01060000000"
+    },
+    {
+      "candidateId": "01100000000"
+    },
+    {
+      "candidateId": "01107700000"
+    },
+    {
+      "candidateId": "02030000000"
+    },
+    {
+      "candidateId": "02050000000"
+    },
+    {
+      "candidateId": "02087700000"
+    },
+    {
+      "candidateId": "02107800000"
+    },
+    {
+      "candidateId": "03017700000"
+    },
+    {
+      "candidateId": "03020000000"
+    },
+    {
+      "candidateId": "03050000000"
+    },
+    {
+      "candidateId": "03079400000"
+    },
+    {
+      "candidateId": "03118200000"
+    },
+    {
+      "candidateId": "04057800000"
+    },
+    {
+      "candidateId": "04117800000"
+    },
+    {
+      "candidateId": "05030000000"
+    },
+    {
+      "candidateId": "05060000000"
+    },
+    {
+      "candidateId": "05068200000"
+    },
+    {
+      "candidateId": "05100000000"
+    },
+    {
+      "candidateId": "15117700000"
+    },
+    {
+      "candidateId": "18018200000"
+    },
+    {
+      "candidateId": "18048200000"
+    },
+    {
+      "candidateId": "18089400000"
+    }
+  ],
+  "expectedCandidateSeats": [
+    {
+      "candidateId": "01019700000"
+    },
+    {
+      "candidateId": "03060900000"
+    },
+    {
+      "candidateId": "01051000000"
+    },
+    {
+      "candidateId": "06010000000"
+    },
+    {
+      "candidateId": "01060000000"
+    },
+    {
+      "candidateId": "03110500000"
+    },
+    {
+      "candidateId": "02020500000"
+    },
+    {
+      "candidateId": "01100000000"
+    },
+    {
+      "candidateId": "04040400000"
+    },
+    {
+      "candidateId": "06020000000"
+    },
+    {
+      "candidateId": "01107700000"
+    },
+    {
+      "candidateId": "03010100000"
+    },
+    {
+      "candidateId": "06030800000"
+    },
+    {
+      "candidateId": "02030000000"
+    },
+    {
+      "candidateId": "06057700000"
+    },
+    {
+      "candidateId": "06051000000"
+    },
+    {
+      "candidateId": "02050000000"
+    },
+    {
+      "candidateId": "03010500000"
+    },
+    {
+      "candidateId": "14110100000"
+    },
+    {
+      "candidateId": "02087700000"
+    },
+    {
+      "candidateId": "06100000000"
+    },
+    {
+      "candidateId": "03070400000"
+    },
+    {
+      "candidateId": "02107800000"
+    },
+    {
+      "candidateId": "14110200000"
+    },
+    {
+      "candidateId": "03017700000"
+    },
+    {
+      "candidateId": "16050000000"
+    },
+    {
+      "candidateId": "04040300000"
+    },
+    {
+      "candidateId": "07048200000"
+    },
+    {
+      "candidateId": "03020000000"
+    },
+    {
+      "candidateId": "20120000000"
+    },
+    {
+      "candidateId": "06010900000"
+    },
+    {
+      "candidateId": "03050000000"
+    },
+    {
+      "candidateId": "07070000000"
+    },
+    {
+      "candidateId": "21010200000"
+    },
+    {
+      "candidateId": "03079400000"
+    },
+    {
+      "candidateId": "07090500000"
+    },
+    {
+      "candidateId": "21040700000"
+    },
+    {
+      "candidateId": "03118200000"
+    },
+    {
+      "candidateId": "11120000000"
+    },
+    {
+      "candidateId": "21060900000"
+    },
+    {
+      "candidateId": "14080300000"
+    },
+    {
+      "candidateId": "04057800000"
+    },
+    {
+      "candidateId": "04117800000"
+    },
+    {
+      "candidateId": "23040500000"
+    },
+    {
+      "candidateId": "12017800000"
+    },
+    {
+      "candidateId": "16010300000"
+    },
+    {
+      "candidateId": "05030000000"
+    },
+    {
+      "candidateId": "23090900000"
+    },
+    {
+      "candidateId": "12050000000"
+    },
+    {
+      "candidateId": "05060000000"
+    },
+    {
+      "candidateId": "16071000000"
+    },
+    {
+      "candidateId": "31010400000"
+    },
+    {
+      "candidateId": "05068200000"
+    },
+    {
+      "candidateId": "31011200000"
+    },
+    {
+      "candidateId": "20100200000"
+    },
+    {
+      "candidateId": "13047700000"
+    },
+    {
+      "candidateId": "05100000000"
+    },
+    {
+      "candidateId": "25099300000"
+    },
+    {
+      "candidateId": "15117700000"
+    },
+    {
+      "candidateId": "21030100000"
+    },
+    {
+      "candidateId": "01074600000"
+    },
+    {
+      "candidateId": "13077800000"
+    },
+    {
+      "candidateId": "18018200000"
+    },
+    {
+      "candidateId": "21070000000"
+    },
+    {
+      "candidateId": "01122300000"
+    },
+    {
+      "candidateId": "18048200000"
+    },
+    {
+      "candidateId": "15088200000"
+    },
+    {
+      "candidateId": "18089400000"
+    },
+    {
+      "candidateId": "05035600000"
+    },
+    {
+      "candidateId": "23040300000"
+    },
+    {
+      "candidateId": "20025200000"
+    },
+    {
+      "candidateId": "15117800000"
+    },
+    {
+      "candidateId": "23110500000"
+    },
+    {
+      "candidateId": "20113300000"
+    },
+    {
+      "candidateId": "21042800000"
+    },
+    {
+      "candidateId": "30080300000"
+    },
+    {
+      "candidateId": "15118200000"
+    },
+    {
+      "candidateId": "21084500000"
+    },
+    {
+      "candidateId": "31100500000"
+    },
+    {
+      "candidateId": "16017700000"
+    },
+    {
+      "candidateId": "30046400000"
+    },
+    {
+      "candidateId": "16048700000"
+    },
+    {
+      "candidateId": "30053300000"
+    },
+    {
+      "candidateId": "16038200000"
+    },
+    {
+      "candidateId": "18049200000"
+    },
+    {
+      "candidateId": "16128000000"
+    },
+    {
+      "candidateId": "25029000000"
+    },
+    {
+      "candidateId": "17070000000"
+    },
+    {
+      "candidateId": "25079000000"
+    },
+    {
+      "candidateId": "25118200000"
+    },
+    {
+      "candidateId": "19040000000"
+    },
+    {
+      "candidateId": "26019100000"
+    },
+    {
+      "candidateId": "19127800000"
+    },
+    {
+      "candidateId": "31018700000"
+    },
+    {
+      "candidateId": "20017800000"
+    },
+    {
+      "candidateId": "01024700000"
+    },
+    {
+      "candidateId": "20050000000"
+    },
+    {
+      "candidateId": "02029300000"
+    },
+    {
+      "candidateId": "29044400000"
+    },
+    {
+      "candidateId": "21110000000"
+    },
+    {
+      "candidateId": "30053400000"
+    },
+    {
+      "candidateId": "24027700000"
+    },
+    {
+      "candidateId": "24038200000"
+    }
+  ]
+}

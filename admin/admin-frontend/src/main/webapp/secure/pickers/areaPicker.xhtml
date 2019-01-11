@@ -1,0 +1,33 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:picker="http://java.sun.com/jsf/composite/pickers"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:define name="content">
+			<f:event type="preRenderView" listener="#{conversationScopedHelper.startConversation()}"/>
+
+			<div id="page-context-picker" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs[request.getParameter('title')]}"/>
+				</h1>
+
+				<h:form id="form">
+					<div class="row">
+						<div class="col-md-12">
+							<picker:area
+									actionController="#{areaPickerController}"
+									mvAreaSelectionLevel="#{areaPickerController.areaCfg.level}"
+									mvAreaAllSelectable="#{areaPickerController.areaCfg.multiSelect}"
+									mvAreaHideLeadingSingles="#{areaPickerController.areaCfg.hideLeadingSingles}"/>
+						</div>
+					</div>
+				</h:form>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

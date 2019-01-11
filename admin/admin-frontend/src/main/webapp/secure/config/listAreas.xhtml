@@ -1,0 +1,53 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:h="http://java.sun.com/jsf/html"
+		contentType="text/html">
+
+<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.area.list_areas"/>
+
+		<ui:define name="content">
+
+			<div id="page-configuration-list-areas" class="page" data-view="ListAreas">
+
+			<h1 class="page-title">
+					<h:outputText value="#{msgs['@area.list_areas.header']}" />
+			</h1>
+			<!-- No need to set up guard here for pageTitleMeta - DAB-->
+			<widget:pageTitleMetaTemplate models="#{mvAreaController.pageTitleMeta}"/>
+
+				<!-- level 1 forms -->
+				<ui:include src="/secure/contextEditor/country.xhtml"/>
+				<ui:include src="/secure/contextEditor/createCountry.xhtml"/>
+
+				<!-- level 2 forms -->
+				<ui:include src="/secure/contextEditor/county.xhtml"/>
+				<ui:include src="/secure/contextEditor/createCounty.xhtml"/>
+
+				<!-- level 3 forms -->
+				<ui:include src="/secure/contextEditor/municipality.xhtml"/>
+				<ui:include src="/secure/contextEditor/createMunicipality.xhtml"/>
+
+				<!-- level 4 forms -->
+				<ui:include src="/secure/contextEditor/borough.xhtml"/>
+				<ui:include src="/secure/contextEditor/createBorough.xhtml"/>
+
+				<!-- level 5 forms -->
+				<ui:include src="/secure/contextEditor/pollingDistrict.xhtml"/>
+				<ui:include src="/secure/contextEditor/createPollingDistrict.xhtml"/>
+
+				<!-- level 6 forms -->
+				<ui:include src="/secure/contextEditor/pollingPlace.xhtml"/>
+				<ui:include src="/secure/contextEditor/createPollingPlace.xhtml"/>
+
+				<h:form id="hierarchyEditor" styleClass="context-editor-form">
+					<widget:contextEditor id="contextEditor" mvAreaSelectionLevel="6"/>
+				</h:form>
+
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

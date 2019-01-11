@@ -1,0 +1,46 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+    <p:column>
+        <f:facet name="header">
+            <h:outputText value="#{msgs['@area_level[5].name']}"/>
+        </f:facet>
+        <h:outputText value="#{valgnattrapport.areaPath.pollingDistrictId} - #{valgnattrapport.areaName}"/>
+    </p:column>
+    <p:column>
+		<f:facet name="header">#{msgs['@count.Count']}</f:facet>
+		<ui:fragment rendered="#{valgnattrapport.forelopig}">
+			<h:outputText value="#{msgs['@count.preliminary']}"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{valgnattrapport.endelig}">
+			<h:outputText value="#{msgs['@count.final']}"/>
+		</ui:fragment>
+	</p:column>
+	<p:column>
+		<f:facet name="header">#{msgs['@statistic.column.voteType']}</f:facet>
+		<ui:fragment rendered="#{valgnattrapport.valgting}">
+			<h:outputText value="#{msgs['@voting.evoting.votes']}"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{valgnattrapport.forhand}">
+			<h:outputText value="#{msgs['@voting.approveVoting.advanceVote']}"/>
+		</ui:fragment>
+	</p:column>
+	<p:column>
+		<f:facet name="header">#{msgs['@statistic.column.countStatus']}</f:facet>
+		<ui:fragment rendered="#{!valgnattrapport.klarForRapportering and valgnattrapport.notSendt}">
+			<h:outputText value="#{msgs['@statistic.column.countStatus.notFinished']}"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{valgnattrapport.klarForRapportering or valgnattrapport.sendt}">
+			<ui:fragment rendered="#{!valgnattrapport.kretsvis}">
+				<h:outputText value="#{msgs['@statistic.corrected.ready']}"/>
+			</ui:fragment>
+			<ui:fragment rendered="#{valgnattrapport.kretsvis}">
+				<h:outputText value="#{msgs['@statistic.corrected.ready.pollingDistrict']}"/>
+			</ui:fragment>
+		</ui:fragment>
+	</p:column>
+</f:view>

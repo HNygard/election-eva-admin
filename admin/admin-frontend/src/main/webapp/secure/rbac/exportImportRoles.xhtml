@@ -1,0 +1,87 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		contentType="text/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="content">
+			<div id="page-export-import-roles" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.rbac.roles']}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages id="msgs" globalOnly="true"/>
+					</div>
+				</div>
+
+				<h:form id="exportForm">
+					<p:accordionPanel id="exportAccordion" styleClass="ui-accordion-default">
+						<p:tab title="#{msgs['@menu.rbac.export_operators']}">
+							<div class="row">
+								<div class="form-actions col-md-12">
+									<p:commandButton id="exportButton"
+													 pt:data-aft="exportButton"
+													 value="#{msgs['@menu.rbac.roles_export']}"
+													 action="#{exportImportRolesController.exportRoles()}"
+													 ajax="false"
+													 icon="eva-icon-download"
+													 styleClass="btn btn-primary"/>
+								</div>
+							</div>
+
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+
+
+				<h:form id="importForm" enctype="multipart/form-data">
+					<p:accordionPanel id="importAccordion" styleClass="ui-accordion-default">
+						<p:tab title="#{msgs['@menu.rbac.import_operators']}">
+
+							<div class="row">
+								<div class="checkbox-inline col-md-12">
+									<h:outputLabel>
+										<h:selectBooleanCheckbox id="deleteExistingRoles"
+																 pt:data-aft="deleteExistingRoles"
+																 value="#{exportImportRolesController.deleteExistingRoles}">
+											<p:ajax event="change" process="@this" update="@none"/>
+										</h:selectBooleanCheckbox>
+										<h:outputText value="#{msgs['@rbac.roles_import.delete_existing']}"/>
+									</h:outputLabel>
+								</div>
+							</div>
+
+							<div>
+								<p:fileUpload
+									id="fileUpload"
+									widgetVar="fileUploadWidget"
+									allowTypes="/(\.|\/)(txt)$/"
+									fileUploadListener="#{exportImportRolesController.fileUpload}"
+									fileLimit="1"
+									mode="advanced"
+									process="@form"
+									update="msgs"
+									oncomplete="EVA.Application.getInstance().hideLoader();PF('fileUploadWidget').uploadedFileCount = 0;"
+									onstart="EVA.Application.getInstance().showLoader()"
+									label="#{msgs['@common.Select.file']}"
+									uploadLabel="#{msgs['@menu.rbac.roles_import']}"
+									fileLimitMessage="#{msgs['@common.upload.fileLimitMessage']}"
+									cancelLabel="#{msgs['@common.upload.cancelLabel']}">
+								</p:fileUpload>
+							</div>
+
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

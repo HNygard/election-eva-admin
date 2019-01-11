@@ -1,0 +1,36 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		contentType="text/html">
+
+	<!--@elvariable id="menuItem" type="no.valg.eva.admin.frontend.common.menu.Menu"-->
+	<ui:fragment rendered="#{menuItem.centralConfirmDialog}">
+		<p:commandLink
+			rendered="#{menuItem.enabled}"
+			value="#{msgs['@menu.config.central_overview']}"
+			onclick="PF('centralConfirmDialog').show(); return false;"/>
+		<h:outputText value="#{msgs['@menu.config.central_overview']}" rendered="#{!menuItem.enabled}" styleClass="menu-item-disabled"/>
+	</ui:fragment>
+	<ui:fragment rendered="#{menuItem.reportLink}">
+		<p:commandLink id="report"
+					   pt:data-aft="report_#{menuItem.source.rapportId}"
+					   value="#{msgs[menuItem.text]}"
+					   action="#{reportLinksController.selectReportAndOpenParameterDialog(menuItem.source)}"
+					   process="@this"
+					   update="@(.index-msgs)"
+					   partialSubmit="true"
+					   rendered="#{menuItem.enabled}"/>
+		<h:outputText value="#{msgs[menuItem.text]}" rendered="#{!menuItem.enabled}" styleClass="menu-item-disabled"/>
+	</ui:fragment>
+	<ui:fragment rendered="#{!menuItem.centralConfirmDialog and !menuItem.reportLink}">
+		<h:outputText value="#{msgs[menuItem.text]}" rendered="#{menuItem.hasHeader()}"/>
+		<ui:fragment rendered="#{menuItem.enabled and not menuItem.hasHeader()}">
+            <a href="#{menuItem.getUrl()}" class="#{menuItem.deprecated ? 'deprecated' : ''}"
+               data-aft="#{empty menuItem.cssClass ? '' : menuItem.cssClass}">#{msgs[menuItem.text]}</a>
+		</ui:fragment>
+		<h:outputText value="#{msgs[menuItem.text]}" rendered="#{!menuItem.enabled and not menuItem.hasHeader()}" styleClass="menu-item-disabled"/>
+	</ui:fragment>
+</f:view>

@@ -1,0 +1,186 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				contentType="text/html">
+
+	<h:form id="electionLevel1Form">
+		<ui:param name="helpId" value="@help.election.election_group"/>
+
+		<p:dialog id="electionLevel1Dialog"
+				  header="#{msgs['@common.redact']} #{msgs['@election_level[1].name']}"
+				  widgetVar="editElectionLevel1Widget"
+				  fixedCenter="true"
+				  fitViewport="true"
+				  modal="true"
+				  visible="false"
+				  resizable="false"
+				  width="600"
+				  height="460">
+
+			<h:panelGroup id="dialogContent" layout="block" styleClass="election-group">
+
+				<div class="row">
+					<div class="col-md-12 center-block">
+						<p:messages id="msg" />
+					</div>
+				</div>
+
+				<div class="row">
+					<h:panelGroup styleClass="form-group col-md-12" layout="block">
+						<h:outputLabel value="#{msgs['@election_level[0].name']}" for="electionEventName"/>
+						<h:inputText
+							id="electionEventName"
+							disabled="true"
+							readonly="true"
+							styleClass="form-control"
+							value="#{electionGroupController.currentElectionGroup.electionEventName}"
+						/>
+					</h:panelGroup>
+
+					<!-- electionGroupId -->
+					<h:panelGroup styleClass="required form-group col-md-4" layout="block">
+						<h:outputLabel value="#{msgs['@common.id']}" for="electionGroupId"/>
+						<h:inputText
+							id="electionGroupId"
+							value="#{electionGroupController.currentElectionGroup.id}"
+							label="#{msgs['@common.id']}"
+							required="true"
+							maxlength="2"
+							disabled="#{electionGroupController.inputDisabled}"
+							styleClass="form-control"/>
+					</h:panelGroup>
+
+					<!-- electionGroupName -->
+					<h:panelGroup styleClass="required form-group col-md-6" layout="block">
+						<h:outputLabel value="#{msgs['@common.name']}" for="electionGroupName"/>
+						<h:inputText
+							id="electionGroupName"
+							value="#{electionGroupController.currentElectionGroup.name}"
+							label="#{msgs['@common.name']}"
+							styleClass="form-control"
+							maxlength="100"
+							required="true"
+							disabled="#{electionGroupController.inputDisabled}"/>
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="form-group col-md-12" layout="block">
+						<div class="checkbox">
+							<h:outputLabel for="electronicMarkoffs">
+								<h:selectBooleanCheckbox id="electronicMarkoffs"
+														 value="#{electionGroupController.currentElectionGroup.electronicMarkoffs}"
+														 disabled="#{electionGroupController.inputDisabled}"/>
+								<h:outputText value="#{msgs['@election.election_group.electronic_markoffs']}"/>
+							</h:outputLabel>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup styleClass="form-group col-md-12" layout="block">
+						<div class="checkbox">
+							<h:outputLabel for="scanningPermitted">
+								<h:selectBooleanCheckbox id="scanningPermitted"
+														 value="#{electionGroupController.currentElectionGroup.scanningPermitted}"
+														 disabled="#{electionGroupController.inputDisabled}"/>
+								<h:outputText value="#{msgs['@election.election_group.scanning_permitted']}"/>
+							</h:outputLabel>
+						</div>
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="form-group col-md-12" layout="block">
+						<div class="checkbox">
+							<h:outputLabel for="advanceVoteInBallotBox">
+								<h:selectBooleanCheckbox id="advanceVoteInBallotBox"
+														 value="#{electionGroupController.currentElectionGroup.advanceVoteInBallotBox}"
+														 disabled="#{electionGroupController.inputDisabled}"/>
+								<h:outputText value="#{msgs['@election.election_group.advance_vote_in_ballot_box']}"/>
+							</h:outputLabel>
+						</div>
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="form-group col-md-12" layout="block">
+						<div class="checkbox">
+							<h:outputLabel for="validateRoleAndListProposal">
+								<h:selectBooleanCheckbox id="validateRoleAndListProposal"
+														 value="#{electionGroupController.currentElectionGroup.validateRoleAndListProposal}"
+														 disabled="#{electionGroupController.inputDisabled}"/>
+								<h:outputText value="#{msgs['@election.election_group.validate_role_and_list_proposal']}"/>
+							</h:outputLabel>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup styleClass="form-group col-md-12" layout="block">
+						<div class="checkbox">
+							<h:outputLabel for="validatePollingPlaceElectoralBoardAndListProposal">
+								<h:selectBooleanCheckbox id="validatePollingPlaceElectoralBoardAndListProposal"
+														 value="#{electionGroupController.currentElectionGroup.validatePollingPlaceElectoralBoardAndListProposal}"
+														 disabled="#{electionGroupController.inputDisabled}"/>
+								<h:outputText value="#{msgs['@election.election_group.validate_polling_place_electoral_board_and_list_proposal']}"/>
+							</h:outputLabel>
+						</div>
+					</h:panelGroup>
+					
+				</div>
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					action="#{electionGroupController.doUpdateElectionGroup(electionGroupController.currentElectionGroup)}"
+					id="update"
+					value="#{msgs['@common.save']}"
+					update="dialogContent"
+					disabled="#{!userAccess.konfigurasjonValgValggruppe or electionGroupController.inputDisabled}"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+				<p:commandButton
+					id="deleteButton"
+					onclick="PF('level1Confirmation').show()"
+					update=":level1DialogForm:dialogMessage"
+					value="#{msgs['@common.delete']}"
+					disabled="#{!userAccess.konfigurasjonValgValggruppe or !electionGroupController.currentRemovable or electionGroupController.inputDisabled}"
+					icon="eva-icon-close"
+					styleClass="btn btn-danger"/>
+
+				<p:commandLink
+					id="backToElectionList"
+					onclick="PF('editElectionLevel1Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+			</f:facet>
+		</p:dialog>
+	</h:form>
+
+
+	<h:form id="level1DialogForm">
+		<p:confirmDialog
+			header="#{msgs['@common.delete']} #{msgs['@election_level[1].name']}"
+			severity="alert"
+			widgetVar="level1Confirmation"
+			modal="true">
+			<f:facet name="message">
+				<h:outputText id="dialogMessage"
+							  value="#{msgs.get('@common.delete.confirmation', msgs['@election_level[1].name'], electionGroupController.currentElectionGroup.name)}"/>
+			</f:facet>
+
+			<p:commandButton
+				id="YesButton"
+				icon="eva-icon-checkmark"
+				styleClass="btn btn-primary"
+				value="#{msgs['@common.yes']}"
+				immediate="true"
+				update=":hierarchyEditor"
+				oncomplete="PF('editElectionLevel1Widget').hide();"
+				action="#{electionGroupController.doDeleteElectionGroup(electionGroupController.currentElectionGroup)}"
+				onclick="PF('level1Confirmation').hide();"/>
+
+			<p:commandButton
+				id="NoButton"
+				styleClass="btn"
+				value="#{msgs['@common.no']}"
+				onclick="PF('level1Confirmation').hide()"
+				update="level1DialogForm:NoButton"/>
+
+		</p:confirmDialog>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,76 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		contentType="text/html">
+
+	<p:dialog id="createRoleAndLocationDialog"
+			  header="#{msgs['@rbac.operator.add.roleAndLocation']}"
+			  widgetVar="createRoleAndLocationWidget"
+			  fixedCenter="true"
+			  closable="false"
+			  modal="true"
+			  visible="false"
+			  resizable="false"
+			  height="400"
+			  width="700">
+
+		<h:panelGroup id="createRoleAndLocationDialogPanel" layout="block" styleClass="row createRoleAndLocationDialogPanel">
+
+			<div class="col-md-12">
+
+				<p:selectOneRadio id="roleRadioButtonSelect" layout="custom" value="#{operatorEditController.selectedRoleToAdd}">
+					<f:selectItems value="#{operatorEditController.roleNameOptions}"/>
+					<p:ajax event="change" process="@form" update="@(.addRole) @(.select-containers)"
+							listener="#{operatorEditController.roleChanged()}"/>
+				</p:selectOneRadio>
+
+				<p:dataTable
+					id="roleNameOptionsTable"
+					value="#{operatorEditController.roleNameOptions}"
+					var="roleSelectItem"
+					rowIndexVar="roleIndex"
+					tableStyleClass="table table-striped hide-table-header">
+
+					<f:facet name="header" rendered="false"/>
+
+					<p:column>
+						<h:panelGroup id="radio-container" layout="block" styleClass="radio-container">
+							<p:radioButton for=":editOperatorForm:roleRadioButtonSelect"
+										   itemIndex="#{roleIndex}"
+										   style="display: inline-block;"
+										   styleClass="cb_#{roleSelectItem.value}"/>
+							<h:outputLabel value="#{roleSelectItem.label}"/>
+						</h:panelGroup>
+						<h:panelGroup id="select-container" layout="block" styleClass="select-containers">
+							<ui:include src="includes/electionSelect.xhtml"/>
+							<ui:include src="includes/areaSelect.xhtml"/>
+						</h:panelGroup>
+					</p:column>
+				</p:dataTable>
+
+			</div>
+		</h:panelGroup>
+
+		<f:facet name="footer">
+			<p:commandButton
+				id="addRole"
+				pt:data-aft="addRole"
+				process="createRoleAndLocationDialog"
+				styleClass="btn btn-primary addRole"
+				action="#{operatorEditController.validateAndAddRoleSelection}"
+				value="#{msgs['@common.add']}"
+				oncomplete="EVA.Application.getInstance().getView().validateOperator();"
+				disabled="#{operatorEditController.addSelectedRoleButtonDisabled}"
+			/>
+
+			<a id="backToEditOperator" class="btn btn-link close-dialog">
+				<h:outputText value="#{msgs['@common.cancel']}"/>
+			</a>
+		</f:facet>
+
+	</p:dialog>
+
+</f:view>

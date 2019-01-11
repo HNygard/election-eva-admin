@@ -1,0 +1,77 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:config="http://java.sun.com/jsf/composite/config"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.legg_inn_medlemmer_i_styrer"/>
+		<ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[localConfigurationController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{localConfigurationController.initiellKontekstvelgerURL}"
+                        rendered="#{localConfigurationController.context}"/>
+            <p:menuitem value="#{msgs['@menu.config.local.reporting_units']}" url="#{localConfigurationController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-local-configuration" class="page" data-view="LocalConfigurationNew">
+
+				<h1 class="page-title"><h:outputText value="#{msgs['@menu.config.local.reporting_units']}"/></h1>
+
+				<div class="row">
+					<div class="col-md-12">
+                        <widget:pageTitleMetaTemplate models="#{localConfigurationController.pageTitleMeta}"/>
+					</div>
+					<div class="col-md-12">
+						<p:messages id="main-messages" redisplay="false" for="main-messages"/>
+					</div>
+				</div>
+
+				<p:accordionPanel
+                        id="configurationPanel"
+                        styleClass="ui-accordion-default onStateChanged"
+                        dynamic="true"
+                        activeIndex="#{localConfigurationController.activeControllerIndex}"
+                        value="#{localConfigurationController.controllers}"
+                        widgetVar="localConfigurationAccordionPanel"
+                        var="itemController">
+
+                    <p:ajax event="tabChange" listener="#{localConfigurationController.onTabChange}" update="breadCrumbForm"/>
+
+					<p:tab id="tab"
+						   title="#{msgs[itemController.name]}"
+						   ariaLabel="#{itemController.id}">
+
+						<ui:fragment rendered="#{itemController.view == 'FYLKESVALGSTYRE'}">
+							<config:fylkesvalgstyre id="fylkesvalgstyre"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'VALGSTYRE'}">
+							<config:valgstyre id="valgstyre"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'OPPTELLINGSVALGSTYRE'}">
+							<config:opptellingsvalgstyre id="opptellingsvalgstyre"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'STEMMESTYRE'}">
+							<config:stemmestyre id="stemmestyre"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'BOROUGHS_STEMMESTYRE'}">
+                            <config:stemmestyreBorough id="stemmestyreBorough"/>
+						</ui:fragment>
+
+					</p:tab>
+
+				</p:accordionPanel>
+			</div>
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+

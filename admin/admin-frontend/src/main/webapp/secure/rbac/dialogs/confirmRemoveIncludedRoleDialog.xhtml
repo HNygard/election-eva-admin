@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h:outputText value="#{msgs['@rbac.role.removeIncludedRoleQuestion']}" />
+		</div>
+		<div class="form-actions col-md-12">
+			<p:commandButton id="deleteIncludedRoleButton"
+							 pt:data-aft="deleteIncludedRoleButton"
+							 value="#{msgs['@common.yes']}"
+							 action="#{roleController.deleteIncludedRole}"
+							 process="@this"
+							 update="@none"
+							 icon="eva-icon-close"
+							 styleClass="btn btn-danger"/>
+			<p:commandLink id="deleteIncludedRoleCancelButton"
+						   pt:data-aft="deleteIncludedRoleCancelButton"
+						   value="#{msgs['@common.cancel']}"
+						   onclick="#{roleController.confirmRemoveIncludedDialog.closeJS}"
+						   styleClass="btn btn-link"/>
+		</div>
+	</div>
+
+</f:view>

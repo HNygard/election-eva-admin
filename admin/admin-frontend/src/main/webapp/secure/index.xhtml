@@ -1,0 +1,69 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="hideMainPageLink" value="yes"/>
+		<ui:param name="helpId" value="@help.index"/>
+
+		<ui:define name="content">
+
+			<div id="page-my-page" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.main_page']}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages" styleClass="index-msgs"/>
+					</div>
+				</div>
+
+				<h:form id="fwMainContentForm" action="">
+
+					<p:accordionPanel rendered="#{myPageController.renderAccordion}" styleClass="ui-accordion-default">
+						<p:tab title="#{myPageController.accordionName}">
+							<ui:repeat var="menu" value="#{myPageController.adminMenuBuilder.menus}">
+								<widget:menu menu="#{menu}" renderRootHeader="false" menuItemTemplate="/secure/includes/indexMenuItem.xhtml"/>
+							</ui:repeat>
+						</p:tab>
+					</p:accordionPanel>
+
+					<h:panelGroup styleClass="main-menu" layout="block">
+						<ui:repeat var="menu" value="#{myPageController.userMenuBuilder.menus}">
+							<widget:menu menu="#{menu}" renderRootHeader="true"  menuItemTemplate="/secure/includes/indexMenuItem.xhtml"/>
+						</ui:repeat>
+					</h:panelGroup>
+
+					<p:confirmDialog
+						message="#{msgs['@menu.config.central_overview.show_msg']}"
+						severity="info" widgetVar="centralConfirmDialog">
+						<p:commandButton value="Ja"
+										 styleClass="btn btn-primary"
+										 onclick="PF('centralConfirmDialog').hide(); window.location = 'config/centralConfigurationOverview.xhtml';"/>
+						<p:commandLink value="Avbryt"
+									   styleClass="btn btn-link"
+									   onclick="PF('centralConfirmDialog').hide();"/>
+					</p:confirmDialog>
+
+					<p:confirmDialog
+						message="#{msgs['@listProposal.noPartyAffiliation']}"
+						modal="true" header="#{msgs['@menu.listProposal']}"
+						severity="alert" widgetVar="noOperatorPartyWidget">
+						<p:commandButton value="#{msgs['@common.ok']}"
+										 styleClass="btn btn-primary"
+										 oncomplete="PF('noOperatorPartyWidget').hide()"/>
+					</p:confirmDialog>
+
+				</h:form>
+				<widget:dialog id="#{reportLinksController.reportParametersDialog.id}" dialog="#{reportLinksController.reportParametersDialog}"/>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+
+</f:view>

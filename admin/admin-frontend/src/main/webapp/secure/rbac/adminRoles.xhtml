@@ -1,0 +1,89 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="content">
+			<div id="page-admin-roles" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.rbac.roles']}" style="float: left;"/>
+					<h:form id="createButtonForm" style="display: inline-block;float:right;">
+						<p:commandButton id="createRole"
+										 pt:data-aft="opprettNyRolleKnapp"
+										 value="#{msgs['@rbac.role.createRole']}"
+										 action="#{roleController.openCreateDialog()}"
+										 process="@this"
+										 update="@none"
+										 icon="eva-icon-plus"
+										 styleClass="btn btn-primary"/>
+					</h:form>
+				</h1>
+
+				<h:form id="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msg" globalOnly="true"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:dataTable id="roleListTable"
+										 pt:data-aft="roleListTable"
+										 var="role"
+										 value="#{roleController.roleList}"
+										 tableStyleClass="table table-striped">
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.role.roleName']}"/></f:facet>
+									<h:outputText value="#{msgs[role.name]}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@common.numberOfUsers']}"/></f:facet>
+									<h:outputText value="#{roleController.getNumberOfUsers(role)}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.role.secLevel']}"/></f:facet>
+									<h:outputText
+										value="#{msgs['@rbac.level']} #{role.securityLevel}"/>
+								</p:column>
+								<p:column style="width:100px;">
+									<f:facet name="header"></f:facet>
+									<p:commandLink id="editRoleLink"
+												   pt:data-aft="editRoleLink-#{role.id}"
+												   value="#{msgs['@common.redact']}"
+												   action="#{roleController.openEditDialog(role)}"
+												   process="@this"
+												   update="@none"
+												   styleClass="btn btn-link"/>
+								</p:column>
+								<p:column style="width:100px;">
+									<f:facet name="header"></f:facet>
+									<p:commandLink id="deleteRoleLink"
+												   pt:data-aft="deleteRoleLink-#{role.id}"
+												   value="#{msgs['@common.delete']}"
+												   action="#{roleController.openConfirmDeleteDialog(role)}"
+												   process="@this"
+												   update="@none"
+												   styleClass="btn btn-link"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</h:form>
+				<widget:dialog id="#{roleController.createRoleDialog.id}" dialog="#{roleController.createRoleDialog}"/>
+				<widget:dialog id="#{roleController.editRoleDialog.id}" dialog="#{roleController.editRoleDialog}"/>
+				<widget:dialog id="#{roleController.confirmDeleteRoleDialog.id}" dialog="#{roleController.confirmDeleteRoleDialog}"/>
+				<widget:dialog id="#{roleController.confirmRemoveIncludedDialog.id}" dialog="#{roleController.confirmRemoveIncludedDialog}"/>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

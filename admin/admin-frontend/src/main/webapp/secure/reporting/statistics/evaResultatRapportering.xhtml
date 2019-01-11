@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.statistic.reporting"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[statisticReportingController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{statisticReportingController.initiellKontekstvelgerURL}"
+                        rendered="#{statisticReportingController.context}"/>
+			<p:menuitem value="#{msgs[statisticReportingController.pageTitle]}" url="#{statisticReportingController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-statistic-reporting" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs[statisticReportingController.pageTitle]}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{statisticReportingController.pageTitleMeta}"/>
+				<h:form id="reportForm">
+					<widget:contestPicker
+						id="contestPicker"
+						template="/secure/reporting/statistics/templates/evaResultatRapportering.xhtml"
+						pickerController="#{statisticReportingController.contestPickerController}"
+						enableAjax="true"
+					/>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,68 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.valgtingProving"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[valgtingProvingVelgerController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{valgtingProvingVelgerController.initiellKontekstvelgerURL}"
+                        rendered="#{valgtingProvingVelgerController.context and not valgtingProvingVelgerController.wasRedirectedTo}"/>
+			<p:menuitem value="#{msgs['@voting.manntallsSok.breadcrumb']}"
+						actionListener="#{valgtingProvingVelgerController.manntallsSokVelger(null)}"
+						update="@(.onMainContentUpdate)"
+						rendered="#{valgtingProvingVelgerController.harVelger and not valgtingProvingVelgerController.wasRedirectedTo}"/>
+			<p:menuitem value="#{msgs[valgtingProvingVelgerController.redirectInfo.getTitle()]}"
+						action="#{valgtingProvingVelgerController.prepareRedirect}"
+						rendered="#{valgtingProvingVelgerController.wasRedirectedTo}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div class="page" data-view="SearchElectoralRoll">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.electionDay.approve']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{valgtingProvingVelgerController.pageTitleMeta}"/>
+
+				<h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+					<div class="#{valgtingProvingVelgerController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+						<p:messages id="msgs" globalOnly="true"/>
+					</div>
+				</h:panelGroup>
+
+				<h:panelGroup id="tittelContainer" layout="block" styleClass="onMainContentUpdate">
+					<ui:fragment rendered="#{empty valgtingProvingVelgerController.velger}">
+						<div class="row">
+							<div class="col-md-7">
+								<h4><h:outputText value="#{msgs['@voting.approveVoting.searchApproveNegativeVoting.header']}"/></h4>
+							</div>
+						</div>
+					</ui:fragment>
+				</h:panelGroup>
+
+				<h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+					<manntall:manntallsSok id="manntallsSok"
+										   renderLopenummerTab="true"
+										   renderManntallsnummerTab="true"
+										   kommuneListe="#{valgtingProvingVelgerController.kommuneListe}"
+										   visIMantallKolonne="true"
+										   rendered="#{not valgtingProvingVelgerController.harVelger}"/>
+
+					<widget:proving id="proving"
+									ctrl="#{valgtingProvingVelgerController}"
+									velger="#{valgtingProvingVelgerController.velger}"
+									manntallsnummer="#{valgtingProvingVelgerController.manntallsnummer}"
+									rendered="#{valgtingProvingVelgerController.harVelger}"/>
+
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

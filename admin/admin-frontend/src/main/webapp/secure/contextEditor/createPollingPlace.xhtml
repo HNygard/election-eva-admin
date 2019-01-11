@@ -1,0 +1,140 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="level6CreateForm" role="form">
+		<ui:param name="helpId" value="@help.area.polling_place"/>
+		<p:dialog
+			header="#{msgs['@area.polling_place.create.header']}"
+			widgetVar="createAreaLevel6Widget"
+			fixedCenter="true"
+			modal="true"
+			visible="false"
+			resizable="false"
+			width="800">
+
+			<h:panelGroup styleClass="row" layout="block">
+
+				<div class="col-md-9 center-block">
+					<p:messages id="msg"/>
+				</div>
+
+				<h:panelGroup styleClass="form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[5].name']}" for="pollingdistrictName"/>
+					<h:inputText
+						id="pollingdistrictName"
+						styleClass="form-control"
+						value="#{pollingPlaceController.parentMvArea.pollingDistrict.id} - #{pollingPlaceController.parentMvArea.pollingDistrict.name}"
+						readonly="true"
+						disabled="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[6].nummer']}" for="pollingPlaceId"/>
+					<h:inputText
+						value="#{pollingPlaceController.pollingPlace.id}"
+						maxlength="4"
+						id="pollingPlaceId"
+						pt:data-aft="stemmestedId"
+						disabled="#{isElectionEventDisabled}"
+						label="#{msgs['@area_level[6].nummer']}"
+						required="true"
+						styleClass="form-control"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@pollingplace.name']}" for="pollingPlaceName"/>
+					<h:inputText
+						id="pollingPlaceName"
+						pt:data-aft="stemmestedNavn"
+						value="#{pollingPlaceController.pollingPlace.name}"
+						disabled="#{isElectionEventDisabled}"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="50" required="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group col-md-12" layout="block">
+					<h:outputLabel value="#{msgs['@area.polling_place.type']}" for="electionDayVoting"/>
+					<h:selectOneRadio
+						value="#{pollingPlaceController.pollingPlaceType}"
+						id="electionDayVoting"
+						pt:data-aft="radioStemmestedstype"
+						label="#{msgs['@area.polling_place.type']}"
+						disabled="#{isElectionEventDisabled}"
+						required="true"
+						valueChangeListener="#{pollingPlaceController.changePollingPlaceType}"
+						immediate="false"
+						styleClass="ui-radio-group ui-radio-group-inline">
+						<f:selectItem
+							itemLabel="#{msgs['@area.polling_place.type_advance_voting']}"
+							itemValue="1"/>
+						<f:selectItem
+							itemLabel="#{msgs['@area.polling_place.type_election_day_voting']}"
+							itemValue="2"
+							itemDisabled="#{pollingPlaceController.parentMvArea.pollingDistrict.municipality}"/>
+						<p:ajax
+							update="@this @form:ballotOrEnvelopeChoiceContainer   "
+							oncomplete="PF('createAreaLevel6Widget').initPosition();"/>
+					</h:selectOneRadio>
+				</h:panelGroup>
+
+				<h:panelGroup id="ballotOrEnvelopeChoiceContainer" layout="block">
+					<h:panelGroup styleClass="form-group col-md-12" layout="block"
+								  rendered="#{pollingPlaceController.isRenderBallotOrEnvelopeChoice(pollingPlaceController.pollingPlace)}">
+						<h:outputLabel value="#{msgs['@area.polling_place.advance_voting_type']}" for="ballotOrEnvelopeChoice"/>
+						<h:selectOneRadio
+							value="#{pollingPlaceController.pollingPlace.advanceVoteInBallotBox}"
+							id="ballotOrEnvelopeChoice"
+							pt:data-aft="radioRettIUrne"
+							label="#{msgs['@area.polling_place.advance_voting_type']}"
+							required="true"
+							disabled="#{isElectionEventDisabled}"
+							styleClass="ui-radio-group ui-radio-group-inline">
+							<f:selectItem
+								itemLabel="#{msgs['@area.polling_place.advance_voting_type.ballot']}"
+								itemValue="#{true}"/>
+							<f:selectItem
+								itemLabel="#{msgs['@area.polling_place.advance_voting_type.envelope']}"
+								itemValue="#{false}"/>
+						</h:selectOneRadio>
+					</h:panelGroup>
+				</h:panelGroup>
+
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					id="create"
+					pt:data-aft="knappLagreStemmested"
+					action="#{pollingPlaceController.doCreatePollingPlace}"
+					disabled="#{isElectionEventDisabled}"
+					oncomplete="createPollingPlaceDialogBox(xhr, status, args)"
+					update=":level6CreateForm:msg :hierarchyEditor"
+					value="#{msgs['@area.polling_place.create.button.create']}"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+				<p:commandLink
+					id="backToAreaList"
+					onclick="PF('createAreaLevel6Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"
+					type="button"/>
+			</f:facet>
+		</p:dialog>
+	</h:form>
+	<script type="text/javascript">
+		//<![CDATA[
+		function createPollingPlaceDialogBox(xhr, status, args) {
+			if (args.createPollingPlaceHideDialog) {
+				PF('createAreaLevel6Widget').hide();
+			}
+		}
+		//]]>
+	</script>
+</ui:composition>

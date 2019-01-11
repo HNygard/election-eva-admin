@@ -1,0 +1,68 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.voting.foreignEarlyVotingsReport"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[faVotingsSentFromMunicipalityController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{faVotingsSentFromMunicipalityController.initiellKontekstvelgerURL}"
+                        rendered="#{faVotingsSentFromMunicipalityController.context}"/>
+            <p:menuitem value="#{msgs['@menu.earlyVoting.faVotings']}" url="#{faVotingsSentFromMunicipalityController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-votings-sent-from-other-municipality" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.earlyVoting.faVotings']}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="form">
+
+							<p:messages id="msgs" globalOnly="true"/>
+
+							<p:dataTable
+								id="sentFromMunicipalityDataTable"
+								value="#{faVotingsSentFromMunicipalityController.foreignEarlyVotingsList}"
+								var="faVoting"
+								tableStyleClass="table table-striped"
+								emptyMessage="#{msgs['@pf.datatable.emptyMsg']}">
+
+								<p:column sortBy="#{faVoting.nameLine}" headerText="#{msgs['@common.name']}">
+									<h:outputText value="#{faVoting.nameLine}"/>
+								</p:column>
+
+								<p:column sortBy="#{faVoting.municipalityName}" headerText="#{msgs['@voting.foreignEarlyVotingsReport.municipality']}">
+									<h:outputText value="#{faVoting.municipalityName}"/>
+								</p:column>
+
+								<p:column sortBy="#{faVoting.VMunicipalityName}" headerText="#{msgs['@voting.faVotingsSentFromMunicipality.voterMunicipality']}">
+									<h:outputText value="#{faVoting.VMunicipalityName}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@voting.electionGroup']}">
+									<h:outputText value="#{faVoting.electionGroupName}"/>
+								</p:column>
+
+								<p:column sortBy="#{faVoting.castTimestamp}" headerText="#{msgs['@voting.dateReceived']}">
+									<h:outputText value="#{faVoting.castTimestamp}">
+										<f:converter converterId="localDateConverter"/>
+									</h:outputText>
+								</p:column>
+
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

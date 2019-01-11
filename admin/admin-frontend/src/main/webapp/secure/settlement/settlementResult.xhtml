@@ -1,0 +1,152 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.settlement.status"/>
+		<ui:define name="topinfoheader"></ui:define>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs['@election_level[3].name']}"
+						rendered="#{!empty settlementResultController.contestPath and settlementResultController.contestList.size() gt 1}"
+						ajax="false"
+						action="#{settlementResultController.backToSelectContest}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-settlement-result" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.settlement.mandate_distribution']}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{settlementResultController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+					</div>
+				</div>
+
+				<widget:selectContest
+					id="selectContest"
+					rendered="#{empty settlementResultController.contestPath and !empty settlementResultController.contestList}"
+					selectContestProvider="#{settlementResultController}"/>
+
+				<h:form rendered="#{!empty settlementResultController.contestPath and settlementResultController.settlementDone}">
+					<div class="row row-tables">
+						<div class="col-md-#{settlementResultController.writein ? '3' : '4'}">
+							<h4><h:outputText value="#{msgs['@settlement.ballots']}"/></h4>
+							<p:dataTable var="affiliationVoteCount"
+										 value="#{settlementResultController.affiliationVoteCounts}"
+										 tableStyleClass="table table-striped">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.party']}"/>
+									</f:facet>
+									<h:outputText
+										value="#{msgs[affiliationVoteCount.affiliation.party.name]}"/>
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{affiliationVoteCount.affiliation.party.id}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.numberOf']}"/>
+									</f:facet>
+									<h:outputText value="#{affiliationVoteCount.ballots}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+						<ui:fragment rendered="#{settlementResultController.writein}">
+							<div class="col-md-3">
+								<h4><h:outputText value="#{msgs['@settlement.list_votes']}"/></h4>
+								<p:dataTable var="affiliationVoteCount"
+											 value="#{settlementResultController.affiliationVoteCounts}"
+											 tableStyleClass="table table-striped">
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@settlement.before_correction']}"/>
+										</f:facet>
+										<h:outputText value="#{affiliationVoteCount.baselineVotes}"/>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@settlement.added']}"/>
+										</f:facet>
+										<h:outputText value="#{affiliationVoteCount.addedVotes}"/>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@settlement.subtract']}"/>
+										</f:facet>
+										<h:outputText value="#{affiliationVoteCount.subtractedVotes}"/>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@common.TOTAL']}"/>
+										</f:facet>
+										<h:outputText value="#{affiliationVoteCount.votes}"/>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</ui:fragment>
+
+						<div class="col-md-#{settlementResultController.writein ? '2' : '3'}">
+							<h4><h:outputText value="#{msgs['@settlement.mandates']}"/></h4>
+							<p:dataTable var="mandate"
+										 value="#{settlementResultController.mandates}"
+										 tableStyleClass="table table-striped">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.numberOf']}"/>
+									</f:facet>
+									<h:outputText value="#{mandate}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+						<div data-aft="mandatfordelingTabell" class="col-md-#{settlementResultController.writein ? '4' : '5'}">
+							<h4><h:outputText value="#{msgs['@settlement.mandate_distribution']}"/></h4>
+							<p:dataTable var="candidateSeat"
+										 value="#{settlementResultController.candidateSeats}"
+										 tableStyleClass="table table-striped">
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.mandate_nr']}"/>
+									</f:facet>
+									<h:outputText value="#{candidateSeat.seatNumber}"/>
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.party']}"/>
+									</f:facet>
+									<h:outputText value="#{candidateSeat.affiliation.party.id}"/>
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.divisor']}"/>
+									</f:facet>
+									<h:outputText value="#{candidateSeat.divisor}"/>
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.quotient']}"/>
+									</f:facet>
+									<h:outputText value="#{candidateSeat.quotient}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

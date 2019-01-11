@@ -1,0 +1,258 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.electoralRoll.new"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[opprettVelgerManntallController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{opprettVelgerManntallController.initiellKontekstvelgerURL}"
+                        rendered="#{opprettVelgerManntallController.context}"/>
+            <p:menuitem value="#{msgs['@menu.electoralRoll.create']}" url="#{opprettVelgerManntallController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-new-voter-electoral-roll" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.electoralRoll.create']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{opprettVelgerManntallController.pageTitleMeta}"/>
+
+				<div class="col-md-12">
+					<p:messages id="msgs" globalOnly="true" autoUpdate="true"/>
+					<widget:message severity="warn" message="@electoralRoll.editer_utilgjengelig.ny"
+									rendered="#{not opprettVelgerManntallController.editerManntallTilgjengelig}"/>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="form">
+
+							<div class="row">
+								<div class="col-md-12">
+
+									<div class="panel electoral-summary">
+
+										<section class="panel-body">
+											<h3>
+												<h:outputText value="#{msgs['@common.personalInformation']}"/>
+											</h3>
+
+											<div class="row">
+
+												<div class="col-md-6">
+
+													<div class="form-group row required">
+														<h:outputLabel styleClass="col-md-5" value="#{msgs['@person.id']}" for="WFodselsnummer"/>
+														<p:inputMask
+															id="WFodselsnummer"
+															value="#{opprettVelgerManntallController.velger.id}"
+															label="#{msgs['@person.id']}"
+															mask="999999 99999"
+															styleClass="form-control col-md-8"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															required="true">
+															<f:converter converterId="whitespaceConverter"/>
+															<f:validator binding="#{socialSecurityNumberValidator}"/>
+														</p:inputMask>
+														<h:message for="WFodselsnummer" id="ssnNameError" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row required">
+														<h:outputLabel styleClass="col-md-5" for="wFirstNamn" value="#{msgs['@person.name.first']}"/>
+														<h:inputText
+															id="wFirstNamn"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.firstName}"
+															label="#{msgs['@person.name.first']}"
+															maxlength="50"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															required="true"/>
+														<h:message for="wFirstNamn" id="firstNameError" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-5" for="wMiddleNamn" value="#{msgs['@person.name.middle']}"/>
+														<h:inputText
+															id="wMiddleNamn"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.middleName}"
+															maxlength="50"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															label="#{msgs['@person.name.middle']}"/>
+														<h:message for="wMiddleNamn" id="middleNameError" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row required">
+														<h:outputLabel styleClass="col-md-5" for="wLastNamn" value="#{msgs['@person.name.last']}"/>
+														<h:inputText
+															id="wLastNamn"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.lastName}"
+															label="#{msgs['@person.name.last']}"
+															maxlength="50"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															required="true"/>
+														<h:message for="wLastNamn" id="lastNameError" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-5" for="wEpost" value="#{msgs['@person.email']}"/>
+														<h:inputText
+															id="wEpost"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.email}"
+															maxlength="129"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															label="#{msgs['@person.email']}">
+															<f:validator binding="#{blankOrValidEmailValidator}"/>
+														</h:inputText>
+														<h:message for="wEpost" id="emailError" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-5" for="wTelephoneNumber" value="#{msgs['@person.tlf']}"/>
+														<h:inputText
+															id="wTelephoneNumber"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.telephoneNumber}"
+															maxlength="35"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															label="#{msgs['@person.tlf']}">
+															<f:validator binding="#{phoneNumberValidator}"/>
+														</h:inputText>
+														<h:message for="wTelephoneNumber" id="telephoneNumberError" styleClass="inline-error"/>
+													</div>
+
+												</div>
+
+												<div class="col-md-6">
+
+													<div class="form-group row required">
+														<h:outputLabel styleClass="col-md-4" value="#{msgs['@person.municipality']}" for="municipalityDropdown"/>
+														<h:selectOneMenu
+															id="municipalityDropdown"
+															value="#{opprettVelgerManntallController.kommuneId}"
+															disabled="true"
+															styleClass="form-control col-md-8">
+															<f:selectItems
+																value="#{opprettVelgerManntallController.kommuneListe}"
+																var="kommune"
+																itemLabel="#{kommune.id()} - #{kommune.navn()}"
+																itemValue="#{kommune.id()}"/>
+															<h:message for="municipalityDropdown"
+																	   id="municipalityDropdownError" styleClass="inline-error"/>
+														</h:selectOneMenu>
+													</div>
+
+
+													<div class="form-group row required">
+														<h:outputLabel styleClass="col-md-4" for="wPollingDistrictId"
+																	   value="#{msgs['@electoralRoll.pollingDistrict']}"/>
+														<h:selectOneMenu
+															id="wPollingDistrictId"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.stemmekretsSti}"
+															required="true"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															label="#{msgs['@electoralRoll.pollingDistrict']}"
+															requiredMessage="#{msgs['@electoralRoll.validation.pollingDistrict']}">
+															<f:selectItems
+																value="#{opprettVelgerManntallController.stemmekretsListe}"
+																var="stemmekrets"
+																itemLabel="#{stemmekrets.id()} - #{stemmekrets.navn()}"
+																itemValue="#{stemmekrets.sti().areaPath().path()}"/>
+														</h:selectOneMenu>
+														<h:message for="wPollingDistrictId" id="selectedMvAreaPkError" styleClass="inline-error"/>
+
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-4" for="wAddressLine1" value="#{msgs['@person.address']}"/>
+														<h:inputText
+															id="wAddressLine1"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.addressLine1}"
+															maxlength="50"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															label="#{msgs['@person.address']}"/>
+														<h:message for="wAddressLine1" id="addressLine1Error" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-4" for="wAddressLine2" value="#{msgs['@person.coAddress']}"/>
+														<h:inputText
+															id="wAddressLine2"
+															styleClass="form-control col-md-8"
+															value="#{opprettVelgerManntallController.velger.addressLine2}"
+															maxlength="50"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															label="#{msgs['@person.coAddress']}"/>
+														<h:message for="wAddressLine2" id="addressLine2Error" styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-4" for="wPostalCode" value="#{msgs['@person.postal.code']}"/>
+														<h:inputText
+															value="#{opprettVelgerManntallController.velger.postalCode}"
+															id="wPostalCode"
+															maxlength="4"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															styleClass="form-control col-md-3"
+															size="4"
+															label="#{msgs['@person.postal.code']}"/>
+														<h:message for="postTown" id="postTownError"
+																   styleClass="inline-error"/>
+													</div>
+
+													<div class="form-group row">
+														<h:outputLabel styleClass="col-md-4" for="wPostalCode" value="#{msgs['@person.postal.town']}"/>
+														<h:inputText
+															value="#{opprettVelgerManntallController.velger.postTown}"
+															id="postTown"
+															maxlength="50"
+															disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"
+															styleClass="form-control col-md-5"
+															label="#{msgs['@person.postal.town']}"/>
+														<h:message for="wPostalCode" id="postalCodeError"
+																   styleClass="inline-error"/>
+													</div>
+
+												</div>
+
+											</div>
+										</section>
+
+										<div class="form-actions">
+											<p:commandButton
+												id="create"
+												pt:data-aft="opprettVelgerKnapp"
+												value="#{msgs['@electoralRoll.newVoterNotInElectoralRoll.createButton']}"
+												action="#{opprettVelgerManntallController.opprettVelger}"
+												process="@form"
+												update="@form"
+												icon="eva-icon-plus"
+												styleClass="btn btn-primary"
+												disabled="#{isElectionEventDisabled or not opprettVelgerManntallController.editerManntallTilgjengelig}"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+
+
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,167 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<div id="editProposer-edit" data-aft="redigerUnderskriftDialog" class="row">
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">#{msgs['@listProposal.candidate.sub.personinfo']}</h3>
+				</div>
+
+				<ui:param name="proposer" value="#{proposerController.proposerForEdit}"/>
+
+				<div class="panel-body">
+
+					<div class="form-group">
+						<h:outputLabel style="width: 100%;" value="#{msgs['@person.id.short']}" for="status"/>
+
+						<h:outputText
+							id="status"
+							disabled="true"
+							readonly="true"
+							styleClass="font-bold"
+							value="#{proposer.idSet ? 'OK' : ''}"
+							maxlength="50"/>
+					</div>
+
+					<div class="form-group">
+						<h:outputLabel style="width: 100%;" value="#{msgs['@proposer.status']}" for="proposerRole"/>
+
+						<h:outputText styleClass="font-bold" value="#{msgs[proposer.proposerRole.name]}" rendered="#{proposer.proposerRole.single}"/>
+
+						<h:selectOneMenu
+							id="proposerRole"
+							styleClass="form-control"
+							value="#{proposer.proposerRole}"
+							rendered="#{!proposer.proposerRole.single}">
+							<f:selectItem itemLabel="" itemValue=""/>
+							<f:selectItems var="proposerRole"
+										   itemLabel="#{msgs[proposerRole.name]}"
+										   value="#{proposerController.proposerRoleList}"/>
+							<f:converter converterId="proposerRoleConverter"/>
+						</h:selectOneMenu>
+
+					</div>
+
+					<div class="form-group required">
+						<h:outputLabel value="#{msgs['@person.name.first']}" for="firstname"/>
+						<h:inputText
+							id="firstname"
+							pt:data-aft="fornavnInput"
+							value="#{proposer.firstName}"
+							maxlength="50"
+							styleClass="form-control"/>
+
+					</div>
+
+					<div class="form-group required">
+						<h:outputLabel value="#{msgs['@person.name.last']}" for="surname"/>
+						<h:inputText
+							id="surname"
+							pt:data-aft="etternavnInput"
+							styleClass="form-control"
+							value="#{proposer.lastName}"
+							maxlength="50"/>
+					</div>
+
+					<div class="form-group required">
+						<h:outputLabel value="#{msgs['@person.birthdate']}" for="birthdate"/>
+
+						<p:inputMask mask="#{msgs['@common.date.date_mask']}"
+									 id="birthdate"
+									 pt:data-aft="fodselsdatoInput"
+									 value="#{proposer.formattedDateOfBirth}"
+									 size="10"
+									 styleClass="form-control"/>
+
+						<h:outputText styleClass="help-block" value="#{msgs['@common.date.date_display_pattern']}"/>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">#{msgs['@listProposal.candidate.sub.contactinfo']}</h3>
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+						<h:outputLabel value="#{msgs['@person.address']}" for="address"/>
+						<h:inputText
+							id="address"
+							pt:data-aft="adresseInput"
+							styleClass="form-control"
+							value="#{proposer.addressLine1}"
+							maxlength="50"/>
+					</div>
+
+					<div class="form-group">
+						<h:outputLabel for="zipcode" value="#{msgs['@person.postal.code.short']}"/>
+						<h:inputText
+							id="zipcode"
+							pt:data-aft="postnummerInput"
+							value="#{proposer.postalCode}"
+							maxlength="4"
+							styleClass="form-control"
+							size="4"/>
+					</div>
+
+					<div class="form-group">
+						<h:outputLabel for="city" value="#{msgs['@person.postal.town']}"/>
+						<h:inputText
+							id="city"
+							pt:data-aft="poststedInput"
+							value="#{proposer.postTown}"
+							styleClass="form-control"
+							maxlength="50"/>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="form-actions col-md-12">
+			<p:commandButton id="saveProposer"
+							 pt:data-aft="lagreKnapp"
+							 value="#{proposer.pk == null ? msgs['@common.add'] : msgs['@common.save']}"
+							 icon="#{proposer.pk == null ? 'eva-icon-plus' : 'eva-icon-checkmark'}"
+							 action="#{proposerController.saveProposer}"
+							 process="@form"
+							 update="@form"
+							 styleClass="btn btn-primary"/>
+
+			<ui:fragment rendered="#{userAccess.manntallSøk}">
+
+				<p:commandButton
+					id="searchForProposerInElectoralRoll"
+					pt:data-aft="finnPersonIManntallKnapp"
+					styleClass="btn btn-primary"
+					icon="eva-icon-search"
+					process="@form"
+					update="@form"
+					value="#{msgs['@listProposal.findPersonInElectoralRoll']}"
+					action="#{proposerController.searchForProposerInElectoralRoll(proposer)}"
+					rendered="#{proposerController.electoralRollSearchAvailable}"/>
+			</ui:fragment>
+
+			<widget:dialogClose dialog="#{proposerController.editProposerDialog}"/>
+
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var dialog = PF('#{proposerController.editProposerDialog.id}');
+		dialog.jq.css({'width': '900px'});
+		dialog.jq.position({of: jQuery(window)});
+		dialog.setTitle("#{msgs['@listProposal.edit.proposer.edit']}");
+	</script>
+</f:view>

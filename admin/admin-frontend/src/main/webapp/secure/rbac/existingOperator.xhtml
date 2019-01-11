@@ -1,0 +1,172 @@
+<f:view xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns="http://www.w3.org/1999/xhtml"
+		contentType="text/html">
+
+	<div class="subpanel-header col-md-12"></div>
+	<h:form id="showExistingUserForm" name="userSearchForm" styleClass="subpanel-form operator-exists-form" role="form">
+
+		<div class="row">
+			<p:messages id="msg" styleClass="col-md-12"/>
+		</div>
+
+		<h2>
+			<h:outputText value="#{msgs['@rbac.operator.already.registered']}"/>
+		</h2>
+		<p:panelGrid columns="2" columnClasses="operator-details, operator-roles">
+			<!-- operator details -->
+			<h:panelGroup>
+
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@common.name']}" for="full-name"/>
+					<h:inputText
+						id="full-name"
+						name="full-name"
+						styleClass="form-control"
+						disabled="true"
+						value="#{existingOperatorController.operator.name}"
+						maxlength="102"
+						size="30"
+						tabindex="2"/>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@person.streetAddress']}" for="short-address"/>
+
+					<h:inputText
+						id="short-address"
+						name="shortAdress"
+						disabled="true"
+						styleClass="form-control"
+						value="#{existingOperatorController.operator.address.shortDisplay}"
+						maxlength="102"
+						size="30" tabindex="2"
+					/>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@person.id']}" for="idLine"/>
+					<h:inputText
+						id="idLine"
+						name="idLine"
+						disabled="true"
+						styleClass="form-control"
+						value="#{existingOperatorController.operator.personId.id}"
+						maxlength="102"
+						size="15"
+						tabindex="2"/>
+
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@person.tlf']}" for="tlfLine"/>
+					<h:inputText
+						id="tlfLine"
+						name="tlfLine"
+						disabled="true"
+						styleClass="form-control"
+						value="#{existingOperatorController.operator.telephoneNumber}"
+						maxlength="102"
+						size="15"
+						tabindex="2"/>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@common.address.email']}" for="emailLine"/>
+					<h:inputText
+						id="emailLine"
+						name="emailLine"
+						disabled="true"
+						styleClass="form-control"
+						value="#{existingOperatorController.operator.email}"
+						maxlength="102"
+						size="40"
+						tabindex="2"/>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@rbac.operator.operatorIsActive']}:" for="activeOperator"/>
+					<h:selectBooleanCheckbox id="activeOperator"
+											 style="margin-left: 5px;"
+											 value="#{existingOperatorController.operator.active}"
+											 label="#{msgs['@rbac.operator.operatorIsActive']}"/>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel for="operatorKeySerialNumber" value="#{msgs['@person.keySerialNumber']}: "/>
+					<p:inputText id="operatorKeySerialNumber"
+								 value="#{existingOperatorController.operator.keySerialNumber}"
+								 validatorMessage="#{msgs['@validation.key.serial.number.regex']}"
+								 maxlength="19"
+								 styleClass="form-control">
+						<f:validateRegex pattern="(\d{4}-\d{4}-\d{9})?"/>
+					</p:inputText>
+				</div>
+
+			</h:panelGroup>
+
+			<!-- operator roles -->
+			<h:panelGroup>
+				<h:outputLabel value="#{msgs['@rbac.operator.roleAndLocation']}"/>
+
+				<div class="operator-role-list">
+					<ui:repeat
+						id="roleAssociations"
+						value="#{existingOperatorController.operator.roleAssociations}"
+						var="roleAssociation">
+						<div class="operator-role">
+
+							<h:panelGroup styleClass="area-name" layout="block">
+								<h:outputText value="#{roleAssociation.area.name}"/>
+							</h:panelGroup>
+							<h:panelGroup styleClass="role-name" layout="block">
+								<h:outputText value="#{msgs[roleAssociation.role.roleName]}"/>
+							</h:panelGroup>
+
+						</div>
+
+					</ui:repeat>
+				</div>
+			</h:panelGroup>
+
+			<!-- empty group to ensure btn-toolbars gets centered in table -->
+			<h:panelGroup/>
+
+			<!-- form actions -->
+			<h:panelGroup>
+				<div class="btn-toolbar" role="toolbar">
+					<div class="btn-group">
+
+						<p:commandButton
+							action="#{existingOperatorController.goToEditView}"
+							id="editOperator"
+							value="#{msgs['@rbac.handle.operator']}"
+							icon="eva-icon-cog"
+							styleClass="btn btn-primary"
+							update=":content"
+							oncomplete="window.scrollTo(0,0)">
+						</p:commandButton>
+
+						<p:commandLink
+							id="cancelEditOperator"
+							styleClass="btn btn-link"
+							value="#{msgs['@common.cancel']}"
+							action="#{existingOperatorController.backToSearch}"
+							update=":content">
+						</p:commandLink>
+
+					</div>
+				</div>
+			</h:panelGroup>
+		</p:panelGrid>
+		<h:outputScript>
+			/*<![CDATA[*/
+			EVA.Application.onViewReady(function () {
+				this.setMode('#{operatorAdminController.view.name()}');
+			});
+			/*]]>*/
+		</h:outputScript>
+	</h:form>
+</f:view>

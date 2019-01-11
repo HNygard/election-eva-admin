@@ -1,0 +1,147 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:param name="helpId" value="@help.reporting_unit_type"/>
+
+
+        <ui:define name="content">
+
+            <div id="page-reporting-unit-type" class="page">
+
+                <h:form id="reportingUnitType" pt:data-aft="reportingUnitType">
+
+                    <h1 class="page-title">
+                        #{msgs['@reporting_unit_type.header']}
+                    </h1>
+
+                    <p:messages autoUpdate="true"/>
+
+                    <p:dialog severity="alert" widgetVar="confirmation" modal="true"
+                              id="confirmationId" height="300" width="500" resizable="false"
+                              fixedCenter="true"
+                              header="#{msgs['@reporting_unit_type.details']}">
+                        <h:panelGrid columns="2">
+                            #{msgs['@common.type']}:
+                            <h:outputText
+                                    value="#{msgs[reportingUnitTypeController.selectedReportingUnitTypeDto.name]}"
+                                    id="name"/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1">
+                            <h:outputText
+                                    value="#{msgs['@common.choose']} #{msgs[reportingUnitTypeController.selectedReportingUnitTypeDto.electionLevelName]} #{msgs['@reporting_unit_type.dialog_info']}"
+                                    id="type"/>
+
+                            <p:dataTable value="#{reportingUnitTypeController.electionList}"
+                                         id="electionList" var="list">
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value=""/>
+                                    </f:facet>
+                                    <h:selectBooleanCheckbox styleClass="chkbox selectReportingUnit_#{list.electionLevelId}"
+                                                             value="#{list.reportingUnit}" pt:data-aft="selectReportingUnit_#{list.electionLevelId}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['@common.id']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{list.electionLevelId}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText
+                                                value="#{msgs[reportingUnitTypeController.selectedReportingUnitTypeDto.electionLevelName]}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{list.namedPath}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:panelGrid>
+
+                        <!-- Command buttons -->
+                        <f:facet name="footer">
+                            <p:commandButton
+                                    id="repUnitSubmit"
+                                    action="#{reportingUnitTypeController.updateElectionReportingUnits(reportingUnitTypeController.selectedReportingUnitTypeDto)}"
+                                    value="#{msgs['@common.save']}"
+                                    oncomplete="PF('confirmation').hide();"
+                                    update="@form:reportingUnitTypeTable"
+                                    icon="eva-icon-checkmark"
+                                    styleClass="btn btn-primary"
+                                    pt:data-aft="saveReportingUnitTypeButton"/>
+                            <p:commandLink
+                                    id="backToAreaList"
+                                    onclick="PF('confirmation').hide(); return false;"
+                                    value="#{msgs['@common.cancel']}"
+                                    styleClass="btn btn-link"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <h3>#{msgs['@reporting_unit_type.details']}</h3>
+
+                    <p:dataTable
+                            id="reportingUnitTypeTable"
+                            var="reportingUnitTypeDto"
+                            value="#{reportingUnitTypeController.reportingUnitTypeDtoList}"
+                            tableStyleClass="table table-striped">
+
+                        <p:column styleClass="reporting-type-status">
+                            <h:outputText styleClass="eva-icon-checkmark" rendered="#{reportingUnitTypeDto.selectedElections.size() > 0}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msgs['@common.id']}" styleClass="reporting-type-id">
+                            <h:outputText value="#{reportingUnitTypeDto.id}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msgs['@common.name']}" styleClass="reporting-type-name">
+                            <h:outputText value="#{msgs[reportingUnitTypeDto.name]}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msgs['@reporting_unit_type.election_header']}" styleClass="reporting-unit-type">
+                            <h:outputText
+                                    value="#{msgs[reportingUnitTypeDto.electionLevelName]}: "
+                                    rendered="#{reportingUnitTypeDto.selectedElections.size() > 0}"
+                                    styleClass="bold"/>
+                            <h:outputText
+                                    value="#{msgs[reportingUnitTypeDto.electionLevelName]}"
+                                    rendered="#{reportingUnitTypeDto.selectedElections.size() == 0}"/>
+                            <h:outputText
+                                    value="#{msgs[reportingUnitTypeDto.mvElectionNameString]}"/>
+                        </p:column>
+
+                        <p:column rendered="#{userDataController.getElectionEvent().electionEventStatus.id == 0}" styleClass="reporting-type-actions">
+                            <p:commandLink
+                                    styleClass="cb_#{msgs[reportingUnitTypeDto.name]} btn btn-link"
+                                    oncomplete="PF('confirmation').show()"
+                                    update="@form:name @form:type @form:electionList"
+                                    action="#{reportingUnitTypeController.setReportingUnitTypeRow(reportingUnitTypeDto)}"
+                                    value="#{msgs['@reporting_unit_type.link_update']}"
+                                    rendered="#{reportingUnitTypeDto.selectedElections.size() > 0}"
+                                    pt:data-aft="createReportingUnitTypeLink_#{msgs[reportingUnitTypeDto.name]}"/>
+                            <p:commandLink
+                                    styleClass="cb_#{msgs[reportingUnitTypeDto.name]} btn btn-link"
+                                    oncomplete="PF('confirmation').show()"
+                                    update="@form:name @form:type @form:electionList"
+                                    action="#{reportingUnitTypeController.setReportingUnitTypeRow(reportingUnitTypeDto)}"
+                                    value="#{msgs['@reporting_unit_type.link_create']}"
+                                    rendered="#{reportingUnitTypeDto.selectedElections.size() == 0}"
+                                    pt:data-aft="createReportingUnitTypeLink_#{msgs[reportingUnitTypeDto.name]}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+
+            </div>
+
+        </ui:define>
+    </ui:composition>
+</f:view>

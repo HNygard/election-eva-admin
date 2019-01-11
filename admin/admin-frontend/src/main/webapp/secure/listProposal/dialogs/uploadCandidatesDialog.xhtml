@@ -1,0 +1,53 @@
+<f:view
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:c="http://java.sun.com/jsp/jstl/core"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+	
+	<c:set target="#{candidateUploadController}" value="#{param.cid}" property="cid"/>
+	<h:inputHidden id="cid" value="#{candidateUploadController.cid}"/>
+
+	<div class="row">
+		<div class="col-md-12">
+			
+			<div class="form-group">
+				<p:fileUpload
+						process="@form"
+						update="@form"
+						fileUploadListener="#{candidateUploadController.fileImport}"
+						label="#{msgs['@common.upload.import']}"
+						uploadLabel="#{msgs['@listProposal.upload.import']}"
+						fileLimitMessage="#{msgs['@listProposal.upload.fileLimitMessage']}"
+						oncomplete="EVA.Application.getInstance().hideLoader(); PF('candidateAjaxUploadWidget').uploadedFileCount = 0;"
+						onstart="EVA.Application.getInstance().showLoader()"
+						cancelLabel="#{msgs['@listProposal.upload.cancelLabel']}"
+						widgetVar="candidateAjaxUploadWidget"
+						fileLimit="1"
+						allowTypes="/(\.|\/)(xls|xlsx)$/"
+						invalidFileMessage="#{msgs.get('@common.import.from.excel.invalid_filetype', 'xls, xlsx')}"
+						id="uploadCandidates"
+						mode="advanced">
+						</p:fileUpload>
+			</div>
+
+			<div class="form-group">
+				<div class="checkbox-inline">
+					<label>
+					<h:selectBooleanCheckbox
+							id="writeOverCandidates"
+							value="#{candidateUploadController.writeOverCandidates}">
+						<p:ajax event="change"/>
+					</h:selectBooleanCheckbox>
+					#{msgs['@listProposal.candidate.writeOverCandidates']}
+					</label>
+				</div>
+
+				<a href="#{candidateUploadController.downloadCandidateFileTemplate()}" class="btn btn-link">
+					#{msgs['@common.download.template']}
+				</a>
+			</div>
+		</div>
+	</div>
+</f:view>

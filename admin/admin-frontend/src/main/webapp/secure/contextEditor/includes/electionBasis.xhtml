@@ -1,0 +1,63 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h:outputLabel value="#{msgs['@election_level[1].name']}:" for="electionGroupName"/>
+			<h:outputText id="electionGroupName" value="#{electionController.currentElection.electionGroupName}"/>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group required">
+				<h:outputLabel value="#{msgs['@common.id']}:" for="electionId"/>
+				<p:inputText
+					id="electionId"
+					pt:data-aft="electionId"
+					value="#{electionController.currentElection.id}"
+					size="2"
+					maxlength="2"
+					label="#{msgs['@common.id']}"
+					disabled="#{electionController.inputDisabled}"
+					required="true"
+					styleClass="form-control"/>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group required">
+				<h:outputLabel value="#{msgs['@common.name']}:" for="electionName"/>
+				<p:inputText
+					id="electionName"
+					pt:data-aft="electionName"
+					value="#{electionController.currentElection.name}"
+					label="#{msgs['@common.name']}"
+					maxlength="100"
+					required="true"
+					disabled="#{electionController.inputDisabled}"
+					styleClass="form-control"/>
+			</div>
+		</div>
+		<div class="col-md-7">
+			<div class="form-group required">
+				<h:outputLabel value="#{msgs['@config.central.election.tab.basis.endDateOfBirth.label']}:" for="electionAgeLimit"/>
+				<p:inputMask
+					id="electionAgeLimit"
+					pt:data-aft="electionAgeLimit"
+					size="10"
+					styleClass="form-control datepicker"
+					value="#{electionController.currentElection.endDateOfBirth}"
+					mask="#{msgs['@common.date.date_mask']}"
+					converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}: '#{msgs['@config.central.election.tab.basis.endDateOfBirth.label']}'"
+					label="#{msgs['@config.central.election.tab.basis.endDateOfBirth.label']}"
+					required="true"
+					disabled="#{electionController.inputDisabled}">
+					<f:converter converterId="localDateConverter"/>
+				</p:inputMask>
+				<h:outputText styleClass="help-block" value="#{msgs['@common.date.date_format']}: #{msgs['@common.date.date_display_pattern']}"/>
+			</div>
+		</div>
+	</div>
+
+</f:view>

@@ -1,0 +1,82 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:param name="helpId" value="@help.sticker"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{generateBarcodeStickersController.selectElectionLinkName}"
+						ajax="false"
+						action="#{generateBarcodeStickersController.redirectToSelectElection()}"/>
+			<p:menuitem value="#{generateBarcodeStickersController.selectCountCategoryLinkName}"
+						ajax="false"
+						action="#{generateBarcodeStickersController.redirectToSelectCountCategory()}"/>
+			<p:menuitem value="#{generateBarcodeStickersController.selectPollingDistrictLinkName}"
+						ajax="false"
+						action="#{generateBarcodeStickersController.redirectToSelectPollingDistrict()}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-sticker" class="page" data-view="Sticker">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.counting.barcode_sticker']}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{generateBarcodeStickersController.electionPageTitleMeta}"/>
+				<widget:pageTitleMetaTemplate models="#{generateBarcodeStickersController.areaPageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages id="messageBox" globalOnly="true" showSummary="true" showDetail="false" autoUpdate="true"/>
+					</div>
+				</div>
+
+				<h:form id="form">
+					<h:panelGroup layout="block" id="tabContent">
+						<div class="row">
+							<div class="col-md-12 sticker-input">
+								<div class="row">
+									<div class="col-md-10 col-md-offset-2">
+										<!-- Number of stickers -->
+										<div class="form-group required">
+											<h:outputLabel value="#{msgs['@common.numberOf']}" for="numStickers"/>
+											<p:inputText
+												id="numStickers"
+												value="#{generateBarcodeStickersController.numberOfStickers}"
+												label="#{msgs['@common.numberOf']}"
+												validatorMessage="#{msgs['@rapport.barcode_sticker.error.toMany']}"
+												required="true"
+												styleClass="form-control">
+												<f:validateLongRange minimum="1" maximum="99"/>
+											</p:inputText>
+											<h:message for="numStickers" id="numStickersError" styleClass="inline-error"/>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-10 col-md-offset-2">
+										<div class="form-actions">
+											<p:commandButton ajax="false"
+															 icon="eva-icon-download"
+															 widgetVar="generateSticker"
+															 value="#{msgs['@rapport.barcode_sticker.generateSticker']}"
+															 action="#{generateBarcodeStickersController.generateSticker()}"
+															 id="generateSticker" styleClass="btn btn-primary"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

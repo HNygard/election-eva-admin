@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<p:dataTable id="kretsStemmetallDataTable"
+						 value="#{statisticReportingController.rapporteringerForStemmeskjemaValgting}"
+						 tableStyleClass="table table-striped"
+						 emptyMessage=""
+						 var="valgnattrapport">
+				<ui:include src="stemmetallColumns.xhtml"/>
+				<p:column>
+					<ui:include src="statusColumn.xhtml"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header"></f:facet>
+					<p:commandButton value="#{msgs['@statistic.action.report']}"
+									 action="#{statisticReportingController.rapporterStemmetall(valgnattrapport)}"
+									 update="@form"
+									 styleClass="btn btn-primary exportPollingDistrictCountData-"
+									 disabled="#{!valgnattrapport.klarForRapportering}" />
+				</p:column>
+			</p:dataTable>
+		</div>
+	</div>
+</f:view>

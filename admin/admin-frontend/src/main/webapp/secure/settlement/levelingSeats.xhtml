@@ -1,0 +1,109 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.settlement.leveling_seats"/>
+
+		<ui:define name="content">
+
+			<div id="page-leveling-seats" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.settlement.leveling_seats']}"/>
+				</h1>
+
+				<h:form id="form">
+					<p:messages id="msg"/>
+					<h:panelGroup id="reports" styleClass="row" layout="block" rendered="#{levelingSeatsController.statusDone}">
+						<div class="col-md-12">
+							<ui:param name="report" value="#{reportLinksController.getValghendelsesRapportById('Report_39')}"/>
+							<p:commandLink id="report_#{report.rapportId}"
+										   pt:data-aft="report_#{report.rapportId}"
+										   value="#{msgs[report.nameKey]}"
+										   action="#{reportLinksController.selectReportAndOpenParameterDialog(report)}"
+										   process="@this"
+										   partialSubmit="true"
+										   styleClass="btn btn-link"
+										   rendered="#{menuItem.enabled}"/>
+							<ui:param name="report" value="#{reportLinksController.getValghendelsesRapportById('Report_67')}"/>
+							<p:commandLink id="report_#{report.rapportId}"
+										   pt:data-aft="report_#{report.rapportId}"
+										   value="#{msgs[report.nameKey]}"
+										   action="#{reportLinksController.selectReportAndOpenParameterDialog(report)}"
+										   process="@this"
+										   partialSubmit="true"
+										   styleClass="btn btn-link"
+										   rendered="#{menuItem.enabled}"/>
+						</div>
+					</h:panelGroup>
+
+					<p:dataTable id="levelingSeats"
+								 pt:data-aft="utjevningsmandaterTabell"
+								 var="levelingSeat"
+								 rendered="#{levelingSeatsController.statusDone}"
+								 value="#{levelingSeatsController.levelingSeats}"
+								 tableStyleClass="table table-striped"
+								 emptyMessage="#{msgs['@pf.datatable.emptyMsg']}">
+						<p:column sortBy="#{levelingSeat.seatNumber}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@settlement.mandate_nr']}"/>
+							</f:facet>
+							<h:outputText value="#{levelingSeat.seatNumber}"/>
+						</p:column>
+						<p:column sortBy="#{levelingSeat.rankNumber}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@settlement.new_nr']}"/>
+							</f:facet>
+							<h:outputText value="#{levelingSeat.rankNumber}"/>
+						</p:column>
+						<p:column sortBy="#{levelingSeat.contestName}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@reports.all.county']}"/>
+							</f:facet>
+							<h:outputText value="#{levelingSeat.contestName}"/>
+						</p:column>
+						<p:column sortBy="#{levelingSeat.partyId}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.party']}"/>
+							</f:facet>
+							<h:outputText value="#{levelingSeat.partyId}"/>
+						</p:column>
+						<p:column sortBy="#{levelingSeat.displayOrder}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@reports.all.candidate.number.abbr']}"/>
+							</f:facet>
+							<h:outputText value="#{levelingSeat.displayOrder}"/>
+						</p:column>
+						<p:column sortBy="#{levelingSeat.candidateName}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@reports.all.candidatename']}"/>
+							</f:facet>
+							<h:outputText value="#{levelingSeat.candidateName}"/>
+						</p:column>
+					</p:dataTable>
+
+					<h:panelGroup id="distribute" styleClass="row" layout="block" rendered="#{not levelingSeatsController.statusDone}">
+						<div class="col-md-12">
+							<p:commandButton
+								id="distributeLevelingSeats"
+								pt:data-aft="utfoerFordelingAvUtjevningsmandaterKnapp"
+								action="#{levelingSeatsController.distributeLevelingSeats()}"
+								process="@this"
+								update="@form"
+								value="#{msgs['@settlement.leveling_seats.perform']}"
+								styleClass="btn btn-primary"
+								disabled="#{not levelingSeatsController.statusReady}"/>
+						</div>
+					</h:panelGroup>
+				</h:form>
+				<widget:dialog id="#{reportLinksController.reportParametersDialog.id}" dialog="#{reportLinksController.reportParametersDialog}"/>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

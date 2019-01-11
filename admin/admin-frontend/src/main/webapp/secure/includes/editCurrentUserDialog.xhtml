@@ -1,0 +1,50 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<div class="row">
+		<p class="col-md-12">
+			#{msgs['@help.operator.edit.own.contact.info.text']}
+		</p>
+	</div>
+	<div class="row">
+		<div class="col-md-4 form-group required">
+			<h:outputLabel for="phone" value="#{msgs['@person.tlf.mobile']}"/>
+			<p:inputText
+				requiredMessage="#{msgs['@common.phone.mobile.required']}"
+				id="phone"
+				value="#{userDataController.contactInfo.phone}"
+				styleClass="form-control"
+				required="true">
+				<f:validator binding="#{phoneNumberValidator}"/>
+			</p:inputText>
+		</div>
+
+		<div class="col-md-8 form-group">
+			<h:outputLabel for="email" value="#{msgs['@common.address.email']}"/>
+			<p:inputText
+				id="email"
+				value="#{userDataController.contactInfo.email}"
+				styleClass="form-control"
+				size="52"
+				type="email">
+				<f:validator binding="#{blankOrValidEmailValidator}"/>
+			</p:inputText>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<p:commandButton
+				action="#{userDataController.saveOperator}"
+				process="@form"
+				update="@form"
+				value="#{msgs['@common.button.saveChanges']}"
+				styleClass="btn btn-primary"
+				icon="eva-icon-checkmark"/>
+			<widget:dialogClose dialog="#{userDataController.editCurrentUserDialog}" />
+		</div>
+	</div>
+</f:view>        

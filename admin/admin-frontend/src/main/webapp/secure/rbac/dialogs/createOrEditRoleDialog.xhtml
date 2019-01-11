@@ -1,0 +1,283 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<h:panelGroup layout="block" rendered="#{roleController.self}">
+		<h:panelGroup layout="block" rendered="#{roleController.self}">
+			<widget:message severity="error" message="@rbac.operator.CantChangeRightsOnSelfError" />
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<div class="row">
+		<div class="form-group col-md-4#{roleController.isCreate() ? ' required' : ''}">
+			<h:outputLabel value="#{msgs['@common.name']}" for="name"/>
+			<p:inputText id="name"
+						 pt:data-aft="rolleNavn"
+						 label="#{msgs['@common.name']}"
+						 value="#{roleController.currentRole.name}"
+						 rendered="#{roleController.isCreate()}"
+						 required="true"
+						 maxlength="50"
+						 styleClass="form-control"/>
+			<h:outputText value="#{msgs[roleController.currentRole.name]}"
+						  rendered="#{!roleController.isCreate()}"
+						  styleClass="form-control"/>
+		</div>
+		<div class="form-group col-md-4#{roleController.isCreate() ? ' required' : ''}">
+			<h:outputLabel value="#{msgs['@common.id']}" for="roleId"/>
+			<p:inputText id="roleId"
+						 pt:data-aft="rolleId"
+						 label="#{msgs['@common.id']}"
+						 value="#{roleController.currentRole.id}"
+						 rendered="#{roleController.isCreate()}"
+						 required="true"
+						 maxlength="25"
+						 styleClass="form-control"/>
+			<h:outputText value="#{msgs[roleController.currentRole.id]}"
+						  rendered="#{!roleController.isCreate()}"
+						  styleClass="form-control"/>
+		</div>
+		<div class="form-group col-md-2 required">
+			<h:outputLabel value="#{msgs['@rbac.role.secLevel']}" for="secLevel"/>
+			<p:inputText id="secLevel"
+						 pt:data-aft="sikkerhetsnivaa"
+						 label="#{msgs['@rbac.role.secLevel']}"
+						 value="#{roleController.currentRole.securityLevel}"
+						 disabled="#{roleController.isSelf()}"
+						 style="width: 50px;"
+						 required="true"
+						 styleClass="form-control"/>
+		</div>
+		<div class="form-group col-md-2">
+			<h:outputLabel value="#{msgs['@rbac.role.mutex']}" for="mutEx"/>
+			<h:selectBooleanCheckbox id="mutEx"
+									 pt:data-aft="mutEx"
+									 value="#{roleController.currentRole.mutuallyExclusive}"
+									 disabled="#{roleController.isSelf()}"
+									 label="#{msgs['@rbac.role.mutex']}"
+									 styleClass="form-control"/>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h4>#{msgs['@election.common.election_level']}</h4>
+		</div>
+		<div class="form-group col-md-12 area-selection">
+			<h:selectOneMenu
+				id="electionLevelSelect"
+				pt:data-aft="valgnivaaNedtrekksmeny"
+				value="#{roleController.currentRole.electionLevel}">
+
+				<f:selectItem itemLabel="#{msgs['@common.choose']}"/>
+				<f:selectItems
+                    var="electionLevel"
+                    value="#{roleController.currentRole.electionLevels}"
+                    itemLabel="#{msgs[electionLevel.messageProperty()]}"
+                    itemValue="#{electionLevel}"/>
+			</h:selectOneMenu>
+		</div>
+
+		<div class="col-md-12">
+			<h4>#{msgs['@area.common.area_level']}</h4>
+		</div>
+		<div class="form-group col-md-12 area-selection">
+			<h:selectBooleanCheckbox id="roleCounty"
+									 pt:data-aft="fylkesnivaaAvkrysningsboks"
+									 value="#{roleController.currentRole.countyAreaLevel}"
+									 disabled="#{roleController.isSelf()}"/>
+			<h:outputLabel for="roleCounty" value="#{msgs['@area_level[2].name']}"/>
+
+			<h:selectBooleanCheckbox id="roleMunicipality"
+									 pt:data-aft="kommunenivaaAvkrysningsboks"
+									 value="#{roleController.currentRole.municipalityAreaLevel}"										 
+									 disabled="#{roleController.isSelf()}" />
+			<h:outputLabel for="roleMunicipality" value="#{msgs['@area_level[3].name']}"/>
+
+			<h:selectBooleanCheckbox id="rolePollingDistrict"
+									 pt:data-aft="kretsnivaaAvkrysningsboks"
+									 value="#{roleController.currentRole.pollingDistrictAreaLevel}" 
+									 disabled="#{roleController.isSelf()}" />
+			<h:outputLabel for="rolePollingDistrict" value="#{msgs['@area_level[5].name']}"/>
+
+			<h:selectBooleanCheckbox id="rolePollingPlace" 
+									 pt:data-aft="stemmestedsnivaaAvkrysningsboks" 
+									 value="#{roleController.currentRole.pollingPlaceAreaLevel}" 
+									 disabled="#{roleController.isSelf()}">
+				<p:ajax event="click" process="@this"
+						update="rolePollingPlaceVsOrFoContainer"/>
+			</h:selectBooleanCheckbox>
+			<h:outputLabel for="rolePollingPlace" value="#{msgs['@area_level[6].name']}"/>
+
+			<h:panelGroup id="rolePollingPlaceVsOrFoContainer">
+				<h:selectOneMenu
+					id="rolePollingPlaceVsOrFo"
+					pt:data-aft="rolePollingPlaceVsOrFo"
+					value="#{roleController.currentRole.electionDayVotingPollingPlaceType}"
+					rendered="#{roleController.currentRole.pollingPlaceAreaLevel}"
+					required="true"
+					converter="javax.faces.Boolean"
+					style="width: 200px; margin-left: 10px;">
+
+					<f:selectItem itemLabel="#{msgs['@common.choose']}*"/>
+					<f:selectItem
+						itemLabel="#{msgs['@area.polling_place.type_election_day_voting']}"
+						itemValue="true"/>
+					<f:selectItem
+						itemLabel="#{msgs['@area.polling_place.type_advance_voting']}"
+						itemValue="false"/>
+
+				</h:selectOneMenu>
+			</h:panelGroup>
+		</div>
+
+		<div class="col-md-12">
+			<h4>#{msgs['@rbac.operator.status']}</h4>
+		</div>
+		<div class="form-group col-md-12 area-selection">
+			<h:selectBooleanCheckbox id="activeRole"
+									 pt:data-aft="activeRoleAvkrysningsboks"
+									 value="#{roleController.currentRole.active}"
+									 disabled="#{roleController.isSelf()}" 
+									 label="#{msgs['@rbac.role.status.roleIsactive']}"/>
+			<h:outputLabel for="activeRole" value="#{msgs['@rbac.role.status.roleIsactive']}"/>
+
+			<h:panelGroup>
+				<h:selectBooleanCheckbox id="userSupportRole"
+										 pt:data-aft="brukerstotteAvkrysningsboks"
+										 value="#{roleController.currentRole.userSupport}"
+										 disabled="#{roleController.isSelf()}"
+										 label="#{msgs['@rbac.role.isUserSupport']}"/>
+			</h:panelGroup>
+			<h:outputLabel for="userSupportRole" value="#{msgs['@rbac.role.isUserSupport']}"/>
+		</div>
+        
+        <div class="col-md-12">
+            <h4>#{msgs['@rbac.role.checkConflicts']}</h4>
+        </div>
+        <div class="form-group col-md-12 area-selection">
+            <h:selectBooleanCheckbox id="checkCandidateConflicts"
+                                     pt:data-aft="checkConflictsAvkrysningsboks"
+                                     value="#{roleController.currentRole.checkCandidateConflicts}"
+                                     disabled="#{roleController.isSelf()}"
+                                     label="#{msgs['@rbac.role.listProposal']}"/>
+            <h:outputLabel for="checkCandidateConflicts" value="#{msgs['@rbac.role.listProposal']}"/>
+        </div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h4>#{msgs['@rbac.role.includedRoles']}</h4>
+		</div>
+		<div class="form-group col-md-12">
+			<h:selectOneMenu id="roles"
+							 pt:data-aft="rolleNedtrekksmeny"
+							 value="#{roleController.newIncludedRoleId}"
+							 disabled="#{roleController.isSelf()}"
+							 styleClass="marg-right-1">
+				<f:selectItems value="#{roleController.roleList}" var="n"
+							   disabled="#{roleController.isSelf()}" itemLabel="#{msgs[n.name]}"
+							   itemValue="#{n.id}"/>
+			</h:selectOneMenu>
+			<p:commandButton id="addIncludedRole"
+							 pt:data-aft="leggTilInkludertRolleKnapp"
+							 value="#{msgs['@rbac.role.includeRole']}"
+							 action="#{roleController.addIncludedRole}"
+							 process="@form"
+							 update="@form"
+							 disabled="#{roleController.isSelf()}"
+							 icon="eva-icon-plus"
+							 styleClass="btn btn-xs btn-primary marg-right-2"/>
+			<p:commandButton id="deleteIncludedRoleButton"
+							 pt:data-aft="slettInkludertRolleKnapp"
+							 value="#{msgs['@rbac.role.removeIncludedRole']}"
+							 action="#{roleController.openConfirmRemoveIncludedDialog}"
+							 disabled="#{empty roleController.currentIncludedRole}"
+							 icon="eva-icon-close"
+							 styleClass="btn btn-xs btn-danger"/>
+		</div>
+		<h:panelGroup id="includedRolesTableContainer" styleClass="col-md-12" layout="block">
+			<!--@elvariable id="role" type="no.valg.eva.admin.common.rbac.Role"-->
+			<p:dataTable id="includedRolesTable"
+						 pt:data-aft="inkluderteRollerTabell"
+						 rendered="#{not empty roleController.includedRolesList}"
+						 var="role"
+						 value="#{roleController.includedRolesList}"
+						 disabled="#{roleController.isSelf()}"
+						 rowKey="#{role.id}"
+						 selection="#{roleController.currentIncludedRole}"
+						 selectionMode="single"
+						 paginator="true"
+						 rows="10"
+						 paginatorAlwaysVisible="false"
+						 emptyMessage=""
+						 tableStyleClass="table table-striped">
+				<p:ajax event="rowSelect" update="@form:deleteIncludedRoleButton"/>
+				<p:column sortBy="#{msgs[role.name]}">
+					<f:facet name="header"><h:outputText value="#{msgs['@rbac.role']}"/></f:facet>
+					<h:outputText value="#{msgs[role.name]}"/>
+				</p:column>
+				<p:column sortBy="#{role.securityLevel}">
+					<f:facet name="header"><h:outputText value="#{msgs['@rbac.role.secLevel']}"/></f:facet>
+					<h:outputText value="#{roleController.getAccumulatedSecLevel(role)}"/>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h4>#{msgs['@rbac.role.privateRights']}</h4>
+		</div>
+		<div class="col-md-12">
+			<p:tree value="#{roleController.treeRoot}" var="node"
+					pt:data-aft="egneRettigheter"
+					selectionMode="checkbox"
+					selection="#{roleController.selectedNodes}"
+					nodeSelectListener="#{roleController.onNodeSelect}"
+					id="customTree">
+
+				<p:treeNode>
+					<h:outputText pt:data-aft="egneRettigheter-#{node.getPath()}" value="#{node.name}"/>
+				</p:treeNode>
+			</p:tree>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-actions col-md-12">
+			<p:commandButton id="persistRoleButton"
+							 pt:data-aft="lagreRolleKnapp"
+							 value="#{msgs['@common.save']}"
+							 disabled="#{roleController.isSelf()}"
+							 action="#{roleController.createRole}"
+							 process="@form"
+							 update="msgDialog"
+							 rendered="#{roleController.isCreate()}"
+							 onsuccess=""
+							 styleClass="btn btn-primary"/>
+			<p:commandButton id="updateRoleButton"
+							 pt:data-aft="oppdaterRolleKnapp"
+							 value="#{msgs['@common.save']}"
+							 disabled="#{roleController.isSelf()}"
+							 action="#{roleController.editRole}"
+							 process="@form"
+							 update="msgDialog"
+							 rendered="#{!roleController.isCreate()}"
+							 styleClass="btn btn-primary"/>
+			<p:commandLink id="cancelLink"
+                           pt:data-aft="avbrytLink"
+                           process="@this"
+                           update="@none"
+                           immediate="true"
+                           value="#{msgs['@common.cancel']}"
+                           onclick="#{roleController.currentEditDialog.closeJS}return false;"
+                           styleClass="btn btn-link"/>
+		</div>
+	</div>
+
+</f:view>

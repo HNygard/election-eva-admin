@@ -1,0 +1,57 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.oversikt_manntallsavvik"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[electoralRollOverviewController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+						url="#{electoralRollOverviewController.initiellKontekstvelgerURL}"
+						rendered="#{electoralRollOverviewController.context}"/>
+            <p:menuitem value="#{msgs['@menu.config.local.electoral_roll_overview']}" url="#{electoralRollOverviewController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-electoral-roll-overview" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.config.local.electoral_roll_overview']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{electoralRollOverviewController.pageTitleMeta}"/>
+
+				<h:form id="localAreaConfiguration">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="messages" globalOnly="true"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+
+							<widget:configOverviewElementList
+								id="districtsWithoutVoters"
+								list="#{electoralRollOverviewController.pollingDistrictsWithoutVoters}"
+								label="#{msgs['@config.polling_districts.without_voters']}"
+								required="false"/>
+
+							<widget:configOverviewElementList
+								id="votersWithoutPollingDistricts"
+								list="#{electoralRollOverviewController.pollingDistrictOnlyInElectoralRoll}"
+								label="#{msgs['@config.voters.without_polling_districts']}"
+								required="true"/>
+						</div>
+					</div>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

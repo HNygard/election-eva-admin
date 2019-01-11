@@ -1,0 +1,5 @@
+body {
+    background-image: url("#{resource['images:themes/test-ribbon.gif']}") !important;
+	background-repeat: no-repeat;
+	background-position: left top;
+}

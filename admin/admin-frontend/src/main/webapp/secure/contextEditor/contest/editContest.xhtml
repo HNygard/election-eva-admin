@@ -1,0 +1,141 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:config="http://java.sun.com/jsf/composite/config"
+		contentType="text/html">
+
+	<h:panelGroup id="editContestContainer" styleClass="editContestContainer" layout="block">
+		<ui:param name="isNew" value="#{contestController.currentContest.pk == null}"/>
+
+		<div class="row">
+			<div class="col-md-12">
+				<p class="bg-warning">
+					#{contestController.singleArea ? msgs['@election.contest.create.info.single_area'] : msgs['@election.contest.create.info.not_single_area']}:
+					<abbr>#{msgs[contestController.parentAreaLevel.name]}</abbr>
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9 center-block">
+				<p:messages id="editContestMsg" styleClass="editContestMsg" globalOnly="true" />
+			</div>
+		</div>
+
+		<h:panelGroup styleClass="row" layout="block">
+			<!-- Area select panel -->
+			<h:panelGroup styleClass="required form-group col-md-12" layout="block" rendered="#{isNew}">
+				<widget:areaSelectPanel renderDropdownSelectedAreaLevel="true" id="areaSelectWidget"/>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{not isNew or mvAreaController.areaSelectForAreaLevelCompleted}">
+				<!-- Election group -->
+				<h:panelGroup styleClass="form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@election_level[1].name']}:" style="width: 75px;"/>
+					<span id="electionGroup" class='label label-primary'>#{contestController.parent.electionGroupName}</span>
+				</h:panelGroup>
+				<!-- Election -->
+				<h:panelGroup styleClass="form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@election_level[2].name']}:" for="electionName"/>
+					<span id="electionName" class='label label-primary'>#{contestController.parent.name}</span>
+				</h:panelGroup>
+				<!-- Contest status  -->
+				<h:panelGroup styleClass="form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@common.status']}:"/>
+					<span id="configurationStatus" class='label label-primary'>#{msgs[contestController.contestStatus]}</span>
+				</h:panelGroup>
+				<!-- contestId -->
+				<h:panelGroup id="contestIdGroup" styleClass="form-group col-md-12" layout="block">
+					<h:outputLabel value="#{msgs['@common.id']}:" style="width: 75px;"/>
+					<span id="contestId" class='label label-primary'>#{isNew ? mvAreaController.selectedAreaId : contestController.currentContest.id}</span>
+				</h:panelGroup>
+				<!-- contestName -->
+				<h:panelGroup id="contestNameGroup" styleClass="required form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@common.name']}:" />
+					<h:inputText
+						id="contestNameNew"
+						pt:data-aft="contestNameNew"
+						value="#{mvAreaController.selectedAreaName}"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="100"
+						required="true"
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@common.name'])}"
+						rendered="#{isNew}"
+						disabled="#{contestController.disabled or contestController.singleArea}"/>
+					<h:inputText
+						id="contestNameEdit"
+						pt:data-aft="contestNameEdit"
+						value="#{contestController.currentContest.name}"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="100"
+						required="true"
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@common.name'])}"
+						rendered="#{!isNew}"
+						disabled="#{contestController.disabled or contestController.singleArea}"/>
+					<h:message for="contestNameNew" id="nameErrorNew" styleClass="inline-error"/>
+					<h:message for="contestNameEdit" id="nameErrorEdit" styleClass="inline-error"/>
+				</h:panelGroup>
+				<!-- End date of birth, age limit for voter -->
+				<h:panelGroup id="endDateOfBirthGroup" styleClass="form-group col-md-8" layout="block">
+					<h:panelGroup styleClass="col-md-12" layout="block">
+						<h:outputLabel value="#{msgs['@election.common.end_date_of_birth']}" for="endDateOfBirth"/>
+						<p:inputMask id="endDateOfBirth"
+									 pt:data-aft="endDateOfBirth"
+									 immediate="true"
+									 value="#{contestController.currentContest.endDateOfBirth}"
+									 mask="#{msgs['@common.date.date_mask']}"
+									 converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+									 label="#{msgs['@election.common.end_date_of_birth']}"
+									 styleClass="form-control datepicker"
+									 required="false"
+									 size="10"
+									 disabled="#{contestController.disabled}">
+							<f:converter converterId="localDateConverter"/>
+						</p:inputMask>
+						<h:outputText styleClass="help-block" value="#{msgs['@common.date.date_format']}: #{msgs['@common.date.date_display_pattern']}"/>
+						<h:outputText styleClass="help-block" value="#{msgs['@election.common.end_date_of_birth.help']}"/>
+						<h:message for="endDateOfBirth" id="endDateOfBirthError" styleClass="inline-error"/>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group col-md-12" layout="block">
+					<h3>#{msgs['@election.contest.panelheader.date_and_rule_info']}</h3>
+					<h:panelGroup styleClass="col-md-12">
+						<config:contestListProposalData
+							id="contestListProposalData"
+							contestListProposalDataSource="#{contestController}"
+							disabled="#{contestController.disabled or not contestController.listProposalWriteMode}" />
+					</h:panelGroup>
+					<h:panelGroup styleClass="form-group col-md-12">
+						<!-- penultimateRecount -->
+						<h:outputLabel
+							value="#{msgs['@election.election.penultimateRecount']}"
+							for="penultimateRecount"/>
+						<h:selectOneRadio
+							id="penultimateRecount"
+							pt:data-aft="penultimateRecount"
+							layout="lineDirection"
+							value="#{contestController.penultimateRecount}"
+							immediate="true"
+							styleClass="ui-radio-group ui-radio-group-inline"
+							valueChangeListener="#{contestController.changePenultimateRecount}"
+							disabled="#{contestController.disabled}">
+							<f:selectItem id="notSelected"
+										  itemLabel="#{msgs['@common.notSelected']} " itemValue="0"/>
+							<f:selectItem id="trueSelected"
+										  itemLabel="#{msgs['@common.yes']} " itemValue="1"/>
+							<f:selectItem id="falseSelected"
+										  itemLabel="#{msgs['@common.no']} " itemValue="2"/>
+						</h:selectOneRadio>
+
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+
+</f:view>

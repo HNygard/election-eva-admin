@@ -1,0 +1,43 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+
+        <ui:param name="helpId" value="@help.election.list_elections"/>
+        
+        <ui:define name="content">
+
+            <f:event type="preRenderView" listener="#{conversationScopedHelper.startConversation()}"/>
+
+            <div id="page-configuration-list-elections" class="page" data-view="ListElections">
+
+                <h1 class="page-title">
+					<h:outputText value="#{msgs['@election.list_elections.header']}" />
+                </h1>
+
+                <!-- level1 forms -->
+                <ui:include src="/secure/contextEditor/electionGroup.xhtml"/>
+                <ui:include src="/secure/contextEditor/createElectionGroup.xhtml"/>
+
+                <!-- level2 forms -->
+                <ui:include src="/secure/contextEditor/election.xhtml"/>
+                <ui:include src="/secure/contextEditor/createElection.xhtml"/>
+
+                <!-- level3 forms -->
+                <ui:include src="/secure/contextEditor/contest.xhtml"/>
+                <ui:include src="/secure/contextEditor/createContest.xhtml"/>
+                <ui:include src="/secure/contextEditor/contextConfirmDialog.xhtml"/>
+
+                <h:form id="hierarchyEditor" styleClass="context-editor-form">
+                    <widget:contextEditor id="contextEditor" mvElectionSelectionLevel="3"/>
+                </h:form>
+
+                
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

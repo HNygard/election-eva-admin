@@ -1,0 +1,115 @@
+<f:view xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:c="http://java.sun.com/jsp/jstl/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+	<ui:composition>
+
+		<div class="row" data-widget="Header">
+
+			<div class="col-xs-6">
+				<div class="row">
+					<div class="col-md-12">
+						<a class="eva-icon-logo" id="logo" href="#{request.contextPath}/secure/index.xhtml"/>
+						<c:if test="${userDataController.operatorRole != null}">
+							<h:outputText
+								pt:data-aft="election-event-name"
+								styleClass="election-event-name bold"
+								title="#{userDataController.electionNameLine}"
+								value="#{userDataController.electionNameLine}"/>
+						</c:if>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-6 dashed-border-left user-badge">
+				<h:form id="headerForm" styleClass="form-horizontal">
+					<div class="user-meta">
+						<ui:fragment rendered="#{userDataController.renderForceContactInfo}">
+							<p:remoteCommand name="openDialog" process="@this" partialSubmit="true" action="#{userDataController.showContactInfoDialog}"/>
+							<script type="text/javascript">
+								EVA.Application.onApplicationReady(function () {
+									openDialog();
+								});
+							</script>
+						</ui:fragment>
+
+						<p:commandLink
+							id="showContactInfoDialog"
+							styleClass="user-name"
+							pt:data-aft="user-name"
+							title="#{userDataController.userData.nameLine}"
+							value="#{userDataController.userData.nameLine}"
+							disabled="#{empty userDataController.operatorRole}"
+							action="#{userDataController.showContactInfoDialog}"
+							process="@this"
+							partialSubmit="true">
+							<i class="eva-icon-user"/>
+						</p:commandLink>
+						<ui:fragment rendered="${userDataController.operatorRole != null}">
+							<br/>
+							<h:outputText
+								title="#{msgs.getByElectionEvent(userDataController.role.name, userDataController.userData.electionEventPk)}"
+								value="#{msgs['@header.role']} #{msgs.getByElectionEvent(userDataController.role.name, userDataController.userData.electionEventPk)}"
+								styleClass="cb_role_id_#{userDataController.role.id}"
+								pt:data-aft="role-name"/>
+							<ui:fragment rendered="${userDataController.operatorArea != null}">
+								<br/>
+								<h:outputText
+									pt:data-aft="area-name"
+									styleClass="cb_area_id_#{userDataController.operatorArea.id()}"
+									title="#{userDataController.operatorArea} #{msgs[userDataController.operatorArea.areaLevelString]}"
+									value="#{msgs['@header.area']} #{userDataController.operatorArea} #{msgs[userDataController.operatorArea.areaLevelString].toLowerCase()}"/>
+								<h:outputText
+									pt:data-aft="user-#{userDataController.operatorRole.operator.id}-role-#{userDataController.role.id}-area-#{userDataController.operatorArea.id()}"></h:outputText>
+							</ui:fragment>
+						</ui:fragment>
+					</div>
+
+					<ul class="user-menu list-inline right">
+
+						<c:if test="${userDataController.operatorRole != null}">
+							<li class="select-locale">
+								<h:selectOneMenu
+									id="selectLocale"
+									value="#{changeLocaleController.currentLocale}"
+									styleClass="dropdown-widget"
+									onchange="$('#headerForm').submit();"
+									required="true">
+									<f:selectItems value="#{changeLocaleController.locales}" var="from" itemValue="#{from}" itemLabel="#{msgs[from.name]}"/>
+									<f:converter converterId="localeConverter"/>
+								</h:selectOneMenu>
+							</li>
+						</c:if>
+
+						<c:if test="${not empty helpId}">
+							<li class="help">
+								<p:commandLink id="helpLink" value="#{msgs['@help']}"/>
+							</li>
+						</c:if>
+
+						<c:if test="${userDataController.operatorRole != null}">
+							<li>
+								<p:link id="changeRole" outcome="/secure/selectRole" value="#{msgs['@header.change_role']}"/>
+							</li>
+						</c:if>
+
+						<li>
+							<a href="/logout" id="logoutLink">
+								<h:outputText value="#{msgs['@rbac.logout']}"/>
+							</a>
+						</li>
+
+					</ul>
+
+				</h:form>
+			</div>
+			<widget:dialog id="#{userDataController.editCurrentUserDialog.id}" dialog="#{userDataController.editCurrentUserDialog}"/>
+		</div>
+	</ui:composition>
+</f:view>

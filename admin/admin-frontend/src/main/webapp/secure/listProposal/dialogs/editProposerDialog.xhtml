@@ -1,0 +1,13 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		contentType="text/html">
+
+	<ui:fragment rendered="#{not proposerController.searchMode}">
+		<ui:include src="editProposerDialog_edit.xhtml"/>
+	</ui:fragment>
+
+	<ui:fragment rendered="#{proposerController.searchMode}">
+		<ui:include src="editProposerDialog_search.xhtml"/>
+	</ui:fragment>
+</f:view>

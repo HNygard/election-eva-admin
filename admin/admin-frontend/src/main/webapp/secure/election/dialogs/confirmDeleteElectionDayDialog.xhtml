@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				contentType="text/html">
+
+	<p:confirmDialog id="deleteElectionDayButtons"
+					 message="#{msgs['@election.election_event.election_day_confirm_text']}"
+					 header="#{msgs['@election.election_event.election_day_confirm_header']}"
+					 severity="alert" widgetVar="confirmation" fixedCenter="true"
+					 width="600"
+					 modal="true" visible="false" resizable="false">
+
+		<div class="row">
+			<div class="col-md-12 form-group action-buttons">
+				<p:commandButton
+					id="deleteElectionDay"
+					value="#{msgs['@common.yes']}"
+					update="electionDayDataTable messageBox"
+					action="#{electionEventController.deleteElectionDay}"
+					styleClass="btn btn-primary"
+					oncomplete="PF('confirmation').hide()"/>
+				<p:commandLink value="#{msgs['@common.no']}" onclick="PF('confirmation').hide()" styleClass="btn btn-link"/>
+			</div>
+		</div>
+	</p:confirmDialog>
+
+</ui:composition>

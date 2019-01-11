@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				contentType="text/html">
+
+	<h:panelGroup id="dialogContent" layout="block">
+		<p:messages id="dialogMsg" autoUpdate="true" globalOnly="true"/>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group required">
+					<h:outputLabel for="electionDay" value="#{msgs['@election.election_event.election_day']} (#{msgs['@common.date.date_display_pattern']}):"/>
+					<p:inputMask value="#{electionEventController.electionDay.date}"
+								 requiredMessage="#{msgs.get('@common.message.required', msgs['@election.election_event.election_day'])}"
+								 mask="#{msgs['@common.date.date_mask']}" id="electionDay"
+								 label="#{msgs['@election.election_event.election_day']}"
+								 converter="localDateConverter"
+								 converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+								 required="true" styleClass="form-control" size="10">
+						<f:converter converterId="localDateConverter"/>
+					</p:inputMask>
+					<h:message for="electionDay" id="electionDayError" styleClass="inline-error"/>
+				</div>
+				<div class="form-group required">
+					<h:outputLabel for="electionDayDialogStartTime"
+								   value="#{msgs['@election.election_event.election_day_start_time']} (#{msgs['@common.date.time_display_pattern']}):"/>
+					<p:inputMask
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@election.election_event.election_day_start_time'])}"
+						value="#{electionEventController.electionDay.startTime}"
+						mask="#{msgs['@common.date.time_mask']}"
+						id="electionDayDialogStartTime"
+						label="#{msgs['@election.election_event.election_day_start_time']}"
+						required="true" styleClass="form-control">
+						<f:converter converterId="localTimeConverter"/>
+					</p:inputMask>
+					<h:message for="electionDayDialogStartTime" id="electionDayDialogStartTimeError" styleClass="inline-error"/>
+				</div>
+				<div class="form-group required">
+					<h:outputLabel for="electionDayDialogEndTime"
+								   value="#{msgs['@election.election_event.election_day_end_time']} (#{msgs['@common.date.time_display_pattern']}):"/>
+					<p:inputMask
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@election.election_event.election_day_end_time'])}"
+						value="#{electionEventController.electionDay.endTime}"
+						mask="#{msgs['@common.date.time_mask']}" id="electionDayDialogEndTime"
+						label="#{msgs['@election.election_event.election_day_end_time']}"
+						required="true" styleClass="form-control">
+						<f:converter converterId="localTimeConverter"/>
+					</p:inputMask>
+					<h:message for="electionDayDialogEndTime" id="electionDayDialogEndTimeError" styleClass="inline-error"/>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 form-group action-buttons">
+				<p:commandButton
+					action="#{electionEventController.doAddElectionDay}"
+					update="dialogContent"
+					value="#{msgs['@common.save']}"
+					styleClass="btn btn-primary"/>
+				<p:commandLink id="cancel"
+							   onclick="PF('addElectionDayDialog').hide();return false;"
+							   value="#{msgs['@common.cancel']}"
+							   styleClass="btn btn-link"/>
+			</div>
+		</div>
+
+	</h:panelGroup>
+</ui:composition>

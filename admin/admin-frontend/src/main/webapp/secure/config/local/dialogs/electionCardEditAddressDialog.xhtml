@@ -1,0 +1,86 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        contentType="text/html">
+
+    <h:panelGroup id="dialogContent" layout="block" styleClass="row formData">
+        <div class="col-md-12">
+            <div class="form-group row required">
+                <h:outputLabel value="#{msgs['@common.mailingAddress']}" for="address" styleClass="col-xs-12"/>
+                <p:inputText
+                    id="address"
+                    pt:data-aft="address"
+                    name="address"
+                    size="50"
+                    maxlength="50"
+                    styleClass="form-control col-xs-12 street-name"
+                    placeholder="#{msgs['@common.search']}"
+                    label="#{msgs['@common.mailingAddress']}"
+                    disabled="#{not localConfigurationController.electionCardCtrl.editable}"
+                    value="#{localConfigurationController.electionCardCtrl.selected.address}"
+                    required="true">
+                    <f:validator binding="#{onlyLettersOrDigitsValidator}"/>
+                </p:inputText>
+                <h:message id="addressMessage" for="address" styleClass="inline-error inline-error-small"/>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="form-group row required">
+                        <h:outputLabel value="#{msgs['@person.postal.code.short']}" for="postalCode" styleClass="col-xs-12"/>
+                        <p:inputText
+                            id="postalCode"
+                            pt:data-aft="postalCode"
+                            name="postalCode"
+                            size="4"
+                            maxlength="4"
+                            styleClass="form-control col-xs-12 postal-code"
+                            label="#{msgs['@person.postal.code.short']}"
+                            disabled="#{not localConfigurationController.electionCardCtrl.editable}"
+                            value="#{localConfigurationController.electionCardCtrl.selected.postalCode}"
+                            required="true">
+                            <f:validator binding="#{postalCodeValidator}"/>
+                        </p:inputText>
+                        <h:message id="postalCodeMessage" for="postalCode" styleClass="inline-error inline-error-small"/>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group row required">
+                        <h:outputLabel value="#{msgs['@person.postal.town']}" for="place" styleClass="col-xs-12"/>
+                        <p:inputText
+                            id="place"
+                            pt:data-aft="place"
+                            name="place"
+                            size="40"
+                            maxlength="40"
+                            styleClass="form-control col-xs-12 postal-town"
+                            label="#{msgs['@person.postal.town']}"
+                            disabled="#{not localConfigurationController.electionCardCtrl.editable}"
+                            value="#{localConfigurationController.electionCardCtrl.selected.postTown}"
+                            required="true">
+                            <f:validator binding="#{onlyLettersAndSeparatorsValidator}"/>
+                        </p:inputText>
+                        <h:message id="placeMessage" for="place" styleClass="inline-error inline-error-small"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions col-md-12">
+            <p:commandButton id="confirmButton"
+                             pt:data-aft="confirmButton"
+                             action="#{localConfigurationController.electionCardCtrl.saveAddress}"
+                             process="@(.formData)"
+                             value="#{msgs['@common.done']}"
+                             styleClass="btn btn-primary"
+                             update="addressMessage postalCodeMessage placeMessage"/>
+            <p:commandLink id="cancelLink"
+                           pt:data-aft="cancelLink"
+                           action="#{localConfigurationController.electionCardCtrl.cancelSaveAddress}"
+                           process="@this"
+                           update="@none"
+                           value="#{msgs['@common.cancel']}"
+                           styleClass="btn btn-link"/>
+        </div>
+    </h:panelGroup>
+</f:view>

@@ -1,0 +1,239 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<div id="editCandidate-edit" class="candidate-personalia">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">#{msgs['@listProposal.candidate.sub.personinfo']}</h3>
+				</div>
+				<ui:param value="#{candidateController.candidateForEdit}" name="candidate"/>
+
+				<div class="panel-body">
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<h:outputLabel for="displayOrder" value="#{msgs['@common.Number.short']}"/>
+								<h:inputText
+									id="displayOrder"
+									styleClass="form-control"
+									disabled="true"
+									readonly="true"
+									value="#{candidate.displayOrder}"/>
+							</div>
+							<ui:fragment rendered="#{userAccess.manntallSøk}">
+								<div class="form-group">
+									<h:outputLabel for="status" value="#{msgs['@person.id.short']}"/>
+									<h:inputText
+										styleClass="form-control"
+										disabled="true"
+										readonly="true"
+										value="#{candidate.idSet ? candidate.id : ''}"
+										id="status"
+										maxlength="50"/>
+								</div>
+							</ui:fragment>
+
+							<div class="form-group required">
+
+								<h:outputLabel for="birthdate" value="#{msgs['@person.birthdate']}"/>
+								<p:inputMask mask="#{msgs['@common.date.date_mask']}"
+											 value="#{candidate.formattedDateOfBirth}"
+											 id="birthdate"
+											 styleClass="form-control"/>
+								<h:outputText styleClass="help-block"
+											  value="#{msgs['@common.date.date_display_pattern']} (#{msgs['@listProposal.onlyBirthYearWillBeShownOnBallot']})"/>
+
+							</div>
+							<ui:fragment rendered="#{candidateController.showCandidateResidence}">
+
+								<div class="form-group">
+									<h:outputLabel
+										for="recidence"
+										value="#{msgs['@person.residence']}"/>
+									<h:inputText
+										id="recidence"
+										value="#{candidate.residence}"
+										styleClass="form-control"
+										maxlength="#{candidateController.maxCandidateResidenceProfessionLength}"/>
+								</div>
+
+							</ui:fragment>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group required">
+								<h:outputLabel for="firstname" value="#{msgs['@person.name.first']}"/>
+								<h:inputText
+									id="firstname"
+									value="#{candidate.firstName}"
+									maxlength="#{candidateController.maxCandidateNameLength}"
+									styleClass="form-control"/>
+							</div>
+							<div class="form-group">
+								<h:outputLabel for="middlename" value="#{msgs['@person.name.middle']}"/>
+								<h:inputText
+									id="middlename"
+									value="#{candidate.middleName}"
+									maxlength="#{candidateController.maxCandidateNameLength}"
+									styleClass="form-control"/>
+
+							</div>
+							<div class="form-group required">
+								<h:outputLabel for="surname" value="#{msgs['@person.name.last']}"/>
+								<h:inputText
+									id="surname"
+									styleClass="form-control"
+									value="#{candidate.lastName}"
+									maxlength="#{candidateController.maxCandidateNameLength}"/>
+							</div>
+							<ui:fragment rendered="#{candidateController.showCandidateProfession}">
+								<div class="form-group">
+									<h:outputLabel for="profession" value="#{msgs['@person.profession']}"/>
+									<h:inputText
+										value="#{candidate.profession}"
+										id="profession"
+										styleClass="form-control"
+										maxlength="#{candidateController.maxCandidateResidenceProfessionLength}"/>
+								</div>
+
+							</ui:fragment>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="candidate-contact-information" style="display: none;">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">#{msgs['@listProposal.candidate.sub.contactinfo']}</h3>
+				</div>
+				<div class="panel-body">
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<h:outputLabel for="address" value="#{msgs['@person.address']}"/>
+								<h:inputText
+									id="address"
+									value="#{candidate.addressLine1}"
+									styleClass="form-control"
+									size="30"
+									maxlength="50"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="zipcode" value="#{msgs['@person.postal.code.short']}"/>
+								<h:inputText
+									value="#{candidate.postalCode}"
+									id="zipcode"
+									maxlength="4"
+									styleClass="form-control"/>
+
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="city" value="#{msgs['@person.postal.town']}"/>
+								<h:inputText
+									id="city"
+									styleClass="form-control"
+									value="#{candidate.postTown}"
+									maxlength="50"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<h:outputLabel for="phonenumber" value="#{msgs['@person.tlf.short']}"/>
+								<h:inputText
+									id="phonenumber"
+									styleClass="form-control"
+									value="#{candidate.telephoneNumber}"
+									maxlength="8"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="email" value="#{msgs['@person.email']}"/>
+								<h:inputText value="#{candidate.email}"
+											 id="email"
+											 size="30"
+											 styleClass="form-control"
+											 maxlength="50"/>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 candidate-misc">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">#{msgs['@listProposal.candidate.sub.otherinfo']}</h3>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<h:outputLabel for="infotext" value="#{msgs['@common.comment']}"/>
+						<h:inputTextarea
+							id="infotext"
+							value="#{candidate.infoText}"
+							maxlength="600"
+							rows="3"
+							styleClass="form-control full-width"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="form-actions col-md-12">
+		<div class="row">
+			<p:commandButton
+					id="saveCandidate"
+					value="#{candidate.pk == null ?  msgs['@common.add'] : msgs['@common.save']}"
+					icon="#{candidate.pk == null ? 'eva-icon-plus' : 'eva-icon-checkmark'}"
+					action="#{candidateController.validateRoleConflicts()}"
+					process="@form"
+					styleClass="btn btn-primary"/>
+			<p:commandButton
+				id="search"
+				value="#{msgs['@listProposal.findPersonInElectoralRoll']}"
+				action="#{candidateController.searchForCandidateInElectoralRoll(candidate)}"
+				process="@form"
+				update="@form"
+				icon="eva-icon-search"
+				styleClass="btn btn-primary"
+				rendered="#{candidateController.electoralRollSearchAvailable}"/>
+			<p:commandButton
+				id="next"
+				value="#{msgs['@common.edit']} #{msgs['@listProposal.candidate.sub.contactinfo']}"
+				icon="eva-icon-arrow-next"
+				ajax="false"
+				onclick="jQuery('.candidate-personalia, .next-button').hide();jQuery('.candidate-contact-information, .previous-button').show();return false;"
+				styleClass="btn btn-primary next-button"/>
+			<p:commandButton
+				id="previous"
+				value="#{msgs['@common.edit']} #{msgs['@listProposal.candidate.sub.personinfo']}"
+				icon="eva-icon-arrow-previous"
+				ajax="false"
+				style="display:none;"
+				onclick="jQuery('.candidate-personalia, .next-button').show();jQuery('.candidate-contact-information, .previous-button').hide();return false;"
+				styleClass="btn btn-primary previous-button"/>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var dialog = PF('#{candidateController.editCandidateDialog.id}');
+		dialog.jq.css({'width': '900px'});
+		dialog.jq.position({of: jQuery(window)});
+		dialog.setTitle("#{msgs['@common.candidate']}");
+	</script>
+</f:view>

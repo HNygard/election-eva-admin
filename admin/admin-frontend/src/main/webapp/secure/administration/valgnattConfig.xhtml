@@ -1,0 +1,37 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:param name="helpId" value="@help.statistic.reporting"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs[valgnattConfigController.pageTitle]}" url="valgnattConfig.xhtml"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-statistic-reporting" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs[valgnattConfigController.pageTitle]}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{valgnattConfigController.pageTitleMeta}"/>
+
+				<h:form id="reportForm">
+					<widget:contestPicker
+						id="contestPicker"
+						template="/secure/administration/templates/valgnattConfig.xhtml"
+						pickerController="#{valgnattConfigController.contestPickerController}"
+						enableAjax="true"
+						enableCache="false"/>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

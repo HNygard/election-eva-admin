@@ -1,0 +1,11 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				contentType="text/html">
+
+	<ui:fragment rendered="#{valgnattConfigController.electionDataList != null}">
+		<h3><h:outputText value="#{msgs['@statistic.reporting.initialData']}"/></h3>
+		<ui:include src="electionDataDataTable.xhtml"/>
+	</ui:fragment>
+
+</ui:composition>

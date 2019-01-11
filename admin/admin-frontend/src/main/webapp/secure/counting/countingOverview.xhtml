@@ -1,0 +1,128 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[countingOverviewController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{countingOverviewController.initiellKontekstvelgerURL}"
+                        rendered="#{countingOverviewController.context}"/>
+            <p:menuitem value="#{msgs['@menu.counting.overview']}" url="#{countingOverviewController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-counting-overview" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.counting.overview']}"/>
+				</h1>
+
+				<p:messages d="messages" globalOnly="true" />
+
+				<h:form id="reportMedia">
+					<p:commandButton
+						id="reportToMedia"
+						styleClass="btn #{countingOverviewController.rapporterKnappStil} report-to-media"
+						value="#{countingOverviewController.tekstForRapporteringsknapp}"
+						ajax="false"
+						action="#{countingOverviewController.getReportToMediaUrl()}"
+						rendered="#{not countingOverviewController.ingenTellingerForDetteOmraadet}"
+					/>
+				</h:form>
+
+				<p:tabView
+					id="tabView"
+					activeIndex="#{countingOverviewController.activeTabIndex}"
+					value="#{countingOverviewController.tabs}"
+					dynamic="true"
+					cache="false"
+					var="tab">
+
+					<p:ajax event="tabChange" listener="#{countingOverviewController.onTabChange}" update="reportMedia"/>
+
+					<p:tab id="tab" title="#{tab.title}">
+						<div class="row">
+							<div class="col-md-12">
+								<ul class="legend list list-unstyled list-inline">
+									<li class="legend-header col-md-12 bold">Tegnforklaring</li>
+
+									<li>
+										<h:outputText value="#{msgs['@count.overview.count_approved']}" styleClass="eva-icon-checkmark"/>
+									</li>
+
+									<li>
+										<h:outputText value="#{msgs['@count.overview.count_registered']}" styleClass="eva-icon-file"/>
+									</li>
+
+									<li>
+										<h:outputText value="#{msgs['@count.overview.count_rejected_ballots_not_processed']}" styleClass="eva-icon-warning"/>
+									</li>
+
+									<li>
+										<h:outputText value="#{msgs['@count.overview.count_not_required']}" styleClass="eva-icon-ellipsis"/>
+									</li>
+
+									<li>
+										<h:outputText value="#{msgs['@count.manual_count']}" styleClass="eva-icon-user"/>
+									</li>
+
+									<li>
+										<h:outputText value="#{msgs['@count.automatic_count']}" styleClass="eva-icon-print"/>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-12">
+								<p:accordionPanel
+									id="countingOverviewPanel"
+									styleClass="ui-accordion-default"
+									dynamic="true"
+									multiple="true"
+									activeIndex="#{countingOverviewController.activePanelIndeces}"
+									value="#{countingOverviewController.panels}"
+									widgetVar="countingOverviewAccordionPanel"
+									var="panel">
+
+									<p:tab id="panel" titleStyleClass="#{panel.titleStyle}">
+										<f:facet name="title">
+											<span class="overview-panel-title">
+												<h:outputText value="#{panel.title}"/>
+												<ui:fragment rendered="#{countingOverviewController.isStatusSummaryRenderedFor(panel.countingOverviewRoot) 
+																			and panel.countingOverviewRoot.statuses[0].primaryIconStyle != null}">
+													<h:outputText value=" (#{msgs[panel.countingOverviewRoot.statuses[0].statusType.header]}: "/>
+													<h:outputText styleClass="#{panel.countingOverviewRoot.statuses[0].primaryIconStyle}"/>
+													<h:outputText value=")"/>
+												</ui:fragment>
+											</span>
+										</f:facet>
+										<p:treeTable
+											id="treeTable"
+											value="#{panel.treeRoot}"
+											var="countingOverview"
+											tableStyleClass="table table-striped">
+
+											<p:columns value="#{panel.columns}" var="column" headerText="#{msgs[column.header]}" style="#{column.style}">
+												<ui:repeat value="#{column.itemsFor(countingOverview)}" var="item">
+													<h:outputText value="#{msgs[item.value]}" rendered="#{item.text}"/>
+													<h:outputText styleClass="#{item.value}" rendered="#{item.icon}"/>
+													<h:outputLink value="#{item.value}" styleClass="btn-sm btn-link"
+																  rendered="#{item.link}">#{msgs[item.description]}</h:outputLink>
+												</ui:repeat>
+											</p:columns>
+										</p:treeTable>
+									</p:tab>
+
+								</p:accordionPanel>
+							</div>
+						</div>
+					</p:tab>
+
+				</p:tabView>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+
+</f:view>

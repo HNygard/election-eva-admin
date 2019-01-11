@@ -1,0 +1,121 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.empty_election_card"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[emptyElectionCardController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{emptyElectionCardController.initiellKontekstvelgerURL}"
+                        rendered="#{emptyElectionCardController.context}"/>
+            <p:menuitem value="#{msgs['@menu.report.empty_election_card']}" url="#{emptyElectionCardController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-empty-election-card" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.report.empty_election_card']}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form>
+
+							<p:messages id="msgs" globalOnly="true"/>
+
+							<div class="form-group required">
+								<h:outputLabel value="#{msgs['@common.name']}" for="name"/>
+								<p:inputText
+									id="name"
+									label="#{msgs['@common.name']}"
+									required="true"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.name}"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="#{msgs['@person.birthdate']}" for="dateOfBirth"/>
+								<p:inputMask
+									id="dateOfBirth"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.dateOfBirth}"
+									mask="#{msgs['@common.date.date_mask']}"
+									label="#{msgs['@election.election_event.election_day']}"
+									converter="localDateConverter"
+									converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}">
+									<f:converter converterId="localDateConverter"/>
+								</p:inputMask>
+								<h:outputText styleClass="help-block" value="#{msgs['@common.date.date_format']}: #{msgs['@common.date.date_display_pattern']}"/>
+								<h:message for="dateOfBirth" id="electionDayDateError" styleClass="inline-error"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="#{msgs['@person.address']}" for="address"/>
+								<p:inputText
+									id="address"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.address}"/>
+
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="#{msgs['@person.postal.code']}" for="postalCode"/>
+								<p:inputText
+									id="postalCode"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.zip}"
+									maxlength="4"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="#{msgs['@person.postal.town']}" for="postTown"/>
+								<p:inputText
+									id="postTown"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.town}"
+									maxlength="50"/>
+
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="#{msgs['@area_level[5].nummer']}" for="pollingDistrict"/>
+								<p:inputText
+									id="pollingDistrict"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.pollingDistrict}"
+									maxlength="4"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="#{msgs['@area_level[6].name']}" for="pollingPlaceName"/>
+								<p:inputText
+									id="pollingPlaceName"
+									styleClass="form-control"
+									value="#{emptyElectionCardController.pollingPlaceName}"
+									maxlength="50"/>
+							</div>
+
+							<div class="form-actions">
+								<p:commandButton
+									id="create"
+									ajax="false"
+									action="#{emptyElectionCardController.makeElectionCard}"
+									value="#{msgs['@common.print']}"
+									icon="eva-icon-print"
+									styleClass="btn btn-primary"/>
+							</div>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+
+
+		</ui:define>
+	</ui:composition>
+</f:view>

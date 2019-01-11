@@ -1,0 +1,22 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<!--@elvariable id="menuItem" type="no.valg.eva.admin.frontend.common.menu.Menu"-->
+
+	<p:commandLink id="report"
+				   pt:data-aft="report_#{menuItem.source.rapportId}"
+				   value="#{msgs[menuItem.source.nameKey]}"
+				   action="#{reportLinksController.selectReportAndOpenParameterDialog(menuItem.source)}"
+				   process="@this"
+				   update="form:msgs"
+				   rendered="#{menuItem.source.tilgjengelig and menuItem.enabled}"
+				   partialSubmit="true"/>
+	<h:outputText value="#{msgs[menuItem.source.nameKey]}"
+				  rendered="#{not menuItem.source.tilgjengelig or not menuItem.enabled}"
+				  styleClass="menu-item-disabled"/>
+
+</f:view>

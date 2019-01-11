@@ -1,0 +1,33 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+		contentType="text/html"
+		xmlns:counting="http://java.sun.com/jsf/composite/counting">
+
+	<span id="countStatus" style="display: none">#{preliminaryCountController.preliminaryCount.status.name()}</span>
+	<span>#{preliminaryCountController.sjekkAntallStemmesedlerLagtTilSideLagret()}</span>
+	<p:messages errorClass="errors" layout="table" showDetail="false" for="preliminaryCount"/>
+	<counting:dailyMarkOffCounts id="dailyMarkOffCounts"
+								 disabled="#{!preliminaryCountController.isCountEditable()}"
+								 model="#{preliminaryCountController.dailyMarkOffCountsModel}" />
+	<counting:lateValidationCovers id="lateValidationCovers"
+								   disabled="#{!preliminaryCountController.isCountEditable()}"
+								   model="#{preliminaryCountController.lateValidationCoversModel}"/>
+	<counting:ballotCounts id="ballotCounts"
+						   disabled="#{!preliminaryCountController.isManualCountAndEditable()}"
+						   model="#{preliminaryCountController.ballotCountsModel}"/>
+	<counting:markOffCounts id="markOffCounts"
+							disabled="#{!preliminaryCountController.isManualCountAndEditable()}"
+							model="#{preliminaryCountController.markOffCountsModel}"/>
+	<counting:markOffCountsForAllPollingDistricts id="markOffCountsForAllPollingDistricts"
+												  disabled="#{!preliminaryCountController.isManualCountAndEditable()}"
+												  model="#{preliminaryCountController.markOffCountsModelForAllPollingDistricts}"/>
+	
+	<div class="row">
+		<div class="col-md-6">
+			<counting:comment id="commentWidget" disabled="#{!preliminaryCountController.isCountEditable()}" count="#{preliminaryCountController.count}"/>
+		</div>
+		<div class="col-md-6">
+			<counting:bottomButtons id="bottomButtons" countController="#{preliminaryCountController}"/>
+		</div>
+	</div>
+</f:view>

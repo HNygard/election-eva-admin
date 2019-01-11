@@ -1,0 +1,84 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.searchAdvance"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[forhandOrdinaerController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{forhandOrdinaerController.initiellKontekstvelgerURL}"
+                        rendered="#{forhandOrdinaerController.context}"/>
+			<p:menuitem value="#{msgs['@voting.manntallsSok.breadcrumb']}"
+						actionListener="#{forhandOrdinaerController.manntallsSokVelger(null)}"
+						update="@(.onMainContentUpdate)"
+						rendered="#{forhandOrdinaerController.harVelger}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div class="page" data-view="SearchElectoralRoll">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.earlyVoting.manual']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{forhandOrdinaerController.pageTitleMeta}"/>
+
+				<h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+					<div class="#{forhandOrdinaerController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+						<p:messages id="msgs" globalOnly="true" autoUpdate="true"/>
+						<widget:meldinger id="statiskeMeldingerWidget" meldingerWidget="#{forhandOrdinaerController.statiskeMeldinger}"/>
+					</div>
+				</h:panelGroup>
+
+				<widget:stemmegivningTittel id="stemmegivningTittelForhand"
+											tittel="#{forhandOrdinaerController.tittel}"
+											velger="#{forhandOrdinaerController.velger}"
+											visOpprettFiktivVelgerLink="${forhandOrdinaerController.visOpprettFiktivVelgerLink}"
+											opprettFiktivVelger="${forhandOrdinaerController.opprettFiktivVelger}"
+											visSlettForhandsstemmeLink="${forhandOrdinaerController.visSlettForhandsstemmeLink}"
+											slettForhandsstemme="#{forhandOrdinaerController.slettForhandsstemme}"/>
+
+				<h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+					<manntall:manntallsSok id="manntallsSok"
+										   renderLopenummerTab="false"
+										   renderManntallsnummerTab="true"
+										   kommuneListe="#{forhandOrdinaerController.kommuneListe}"
+										   visIMantallKolonne="true"
+										   rendered="#{not forhandOrdinaerController.harVelger}"/>
+			
+					<widget:stemmegivning id="stemmegivning"
+										  ctrl="#{forhandOrdinaerController}"
+										  velger="#{forhandOrdinaerController.velger}"
+										  manntallsnummer="#{forhandOrdinaerController.manntallsnummer}"
+										  template="stemmegivningForhand.xhtml"
+										  sentInnkommetDisabled="#{forhandOrdinaerController.sentInnkommetDisabled}"
+										  stemmetypeDisabled="#{forhandOrdinaerController.stemmetypeDisabled}"
+										  stemmetypeListe="#{forhandOrdinaerController.stemmetypeListe}"
+										  rendered="#{forhandOrdinaerController.harVelger}"/>
+					
+					<ui:fragment rendered="#{forhandOrdinaerController.voteToOtherMunicipalityConfirmDialog}">
+						<ui:include src="includes/voteToOtherMunicipalityConfirmDialog.xhtml">
+							<ui:param name="ctrl" value="#{forhandOrdinaerController}"/>
+						</ui:include>
+					</ui:fragment>
+					
+					<h:outputScript>
+						/*<![CDATA[*/
+						EVA.Application.initDontLeaveTheVotingProtocol(
+								'#{forhandOrdinaerController.harVelger}',
+								'#{forhandOrdinaerController.kanRegistrereStemmegivning}',
+								'#{msgs["@voting.registration.cancelWarning"]}',
+								'#{msgs["@voting.registration.timeoutWarning"]}'
+						);
+						/*]]>*/
+					</h:outputScript>
+				</h:panelGroup>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

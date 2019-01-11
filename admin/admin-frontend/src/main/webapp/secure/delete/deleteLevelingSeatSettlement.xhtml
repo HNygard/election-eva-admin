@@ -1,0 +1,45 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html"
+>
+
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:define name="content">
+			<div id="page-delete-leveling-seat-settlement" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@delete.levelingSeatSettlement.header']}"/>
+				</h1>
+
+				<h:form id="form" name="form">
+
+					<span style="display: none;">#{deleteLevelingSeatSettlementController.deleted}</span>
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msgs" globalOnly="true"/>
+						</div>
+					</div>
+
+					<ui:fragment rendered="#{not deleteLevelingSeatSettlementController.deleted}">
+
+						<div class="row">
+							<div class="col-md-6 form-actions">
+								<p:commandButton value="#{msgs['@common.delete']}"
+												 action="#{deleteLevelingSeatSettlementController.deleteLevelingSeatSettlement}"
+												 update="form"
+												 icon="eva-icon-close"
+												 styleClass="btn btn-danger"/>
+							</div>
+						</div>
+					</ui:fragment>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

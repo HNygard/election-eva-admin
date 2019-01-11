@@ -1,0 +1,125 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="list-proposal-actions form-actions form-group col-md-9">
+			<p:commandButton
+				id="addProposer"
+				pt:data-aft="leggTilNyUnderskriftKnapp"
+				value="#{msgs['@listProposal.edit.proposer.add']}"
+				action="#{proposerController.createNewProposer()}"
+				process="@this"
+				rendered="#{!redigerListeforslagController.listLocked}"
+				partialSubmit="true"
+				icon="eva-icon-plus"
+				styleClass="btn btn-primary"/>
+		</div>
+
+		<div class="col-md-3 proposer-list-meta">
+
+			<div class="col-md-12 text-center">
+				<label class="font-normal" style="margin-right: 4px;">#{msgs['@listProposal.proposer.min']}</label>
+				<h:outputText styleClass="font-bold text-center" value="#{redigerListeforslagController.minimumProposerText} #{msgs['@common.entity.short']}"/>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<p:dataTable
+				id="proposerDataTable"
+				pt:data-aft="underskrifterTabell"
+				value="#{proposerController.proposerList}"
+				emptyMessage=""
+				var="proposer"
+				tableStyleClass="table table-striped"
+				paginator="true"
+				paginatorAlwaysVisible="false"
+				rows="50"
+				loadingMessage="#{msgs['@pf.datatable.loadingMsg']}"
+				errorMessage="#{msgs['@pf.datatable.errMsg']}"
+				firstPageLinkLabel="#{msgs['@pf.datatable.first']}"
+				nextPageLinkLabel="#{msgs['@pf.datatable.next']}"
+				previousPageLinkLabel="#{msgs['@pf.datatable.prev']}"
+				lastPageLinkLabel="#{msgs['@pf.datatable.last']}"
+				draggableRows="#{!velgRedigerListeforslagController.contestCountBegun}"
+				rowIndexVar="rowIndex">
+
+				<p:ajax event="rowReorder" listener="#{proposerController.onRowReorder}" update="proposerDataTable"/>
+
+				<p:column rendered="#{!redigerListeforslagController.listLocked}" styleClass="draggable" style="width: 40px;">
+
+					<f:facet name="header">
+						<i class="eva-icon-directional-sort"/>
+					</f:facet>
+
+					<i class="eva-icon-sort"/>
+
+				</p:column>
+
+				<p:column headerText="#" styleClass="displayOrder" style="width: 50px;">
+					<h:outputText value="#{rowIndex + 1}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@proposer.status']}">
+					<h:outputText value="#{msgs[proposer.proposerRole.name]}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.name.first']}">
+					<h:outputText value="#{proposer.firstName}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.name.last']}">
+					<h:outputText value="#{proposer.lastName}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.birthdate']}">
+					<h:outputText value="#{proposer.formattedDateOfBirth}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@listProposal.approve.inRoll']}">
+					<h:outputText value="#{proposer.idSet ? proposer.id : ''}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.residence']}">
+					<h:outputText value="#{proposer.postTown}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@common.actions']}" styleClass="list-actions" style="width: 260px;">
+
+					<ui:fragment rendered="#{!redigerListeforslagController.listLocked}">
+
+						<p:commandLink
+							id="chooseProposer"
+							pt:data-aft="redigerUnderskriftLink-#{rowIndex}"
+							value="#{proposerController.getEditProposerLabel(rowIndex, proposer)}"
+							action="#{proposerController.editProposer(proposer)}"
+							process="@this"
+							partialSubmit="true"
+							styleClass="btn btn-link"/>
+
+						<p:commandLink
+							id="deleteProposer"
+							pt:data-aft="slettUnderskriftLink-#{rowIndex}"
+							value="#{msgs['@common.delete']}"
+							action="#{proposerController.promptDeleteProposer(proposer)}"
+							process="@this"
+							partialSubmit="true"
+							styleClass="btn btn-link"
+							rendered="#{rowIndex gt 1 and proposer.lastName.length() != 0 and userAccess.listeforslagRediger}"/>
+
+					</ui:fragment>
+
+				</p:column>
+			</p:dataTable>
+		</div>
+	</div>
+
+</f:view>

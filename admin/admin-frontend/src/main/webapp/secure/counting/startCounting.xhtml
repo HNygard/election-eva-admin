@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<h:outputText style="display: none" value="#{startCountingController.cid}"/>
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+		<ui:define name="topinfoheader">
+			<h:outputText value="#{msgs['@menu.counting.heading']}"/>
+		</ui:define>
+		<ui:define name="content">
+
+			<div id="page-start-counting" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs[startCountingController.pageTitle]}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="countForm">
+							<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

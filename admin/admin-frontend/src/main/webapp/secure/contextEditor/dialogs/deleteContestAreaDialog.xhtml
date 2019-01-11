@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<p:confirmDialog message="#{msgs['@delete.contest_area.confirmText']}"
+					 header="#{msgs['@common.delete']}" severity="alert"
+					 id="deleteContestAreaDialog" widgetVar="deleteContestAreaDialog" styleClass="deleteContestAreaDialog" fixedCenter="true"
+					 modal="true" visible="false" resizable="false">
+
+		<f:facet name="message">
+			<h:outputText value="#{msgs['@area.common.area_name']}: #{contestController.selectedContestArea.mvArea}"/>
+		</f:facet>
+
+		<p:commandButton
+			id="deleteSelectedContestAreaButton"
+			action="#{contestController.deleteSelectedContestArea}"
+			process="@this"
+			update="@(.contestAreaTableContainer)"
+			oncomplete="PF('deleteContestAreaDialog').hide();EVA.Application.getInstance().getView().scrollToNonSingleContestAreas();"
+			value="#{msgs['@common.yes']}"
+			disabled="#{contestController.disabled}"
+			icon="eva-icon-notification"
+			styleClass="btn btn-danger"/>
+		<p:commandLink
+			id="cancelDeleteSelectedContestAreaButton"
+			action="#{contestController.setSelectedContestArea(null)}"
+			process="@this"
+			oncomplete="PF('deleteContestAreaDialog').hide()"
+			value="#{msgs['@common.cancel']}"
+			styleClass="btn btn-link"/>
+	</p:confirmDialog>
+
+</f:view>

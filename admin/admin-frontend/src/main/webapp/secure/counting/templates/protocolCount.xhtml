@@ -1,0 +1,42 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:counting="http://java.sun.com/jsf/composite/counting"
+		contentType="text/html">
+
+	<span id="countStatus" style="display: none">#{protocolCountController.protocolCount.status.name()}</span>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-6">
+					<counting:protocolBallotCounts id="protocolBallotCounts"/>
+				</div>
+				<div class="col-md-6">
+					<counting:dailyMarkOffs id="dailyMarkOffsView"
+											disabled="${!protocolCountController.isCountEditable()}"
+											protocolCount="#{protocolCountController.protocolCount}"
+											counts="#{protocolCountController.counts}"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<h:outputLabel value="#{msgs['@count.protocolEnvelopes']}" for="protocolEnvelopes"/>
+					<counting:protocolEnvelopes id="protocolEnvelopes" disabled="${!protocolCountController.isCountEditable()}"
+												count="#{protocolCountController.protocolCount}"/>
+				</div>
+				<div class="col-md-3">
+					<counting:comment id="commentWidget" disabled="${!protocolCountController.isCountEditable()}" count="#{protocolCountController.count}"/>
+				</div>
+				<div class="col-md-6">
+					<counting:bottomButtons id="bottomButtons" countController="#{protocolCountController}"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</f:view>

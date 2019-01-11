@@ -1,0 +1,238 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	
+	<h3>#{reportLinksController.parametersBean.areaLevelForReportAndUser}</h3>
+
+    <h:panelGroup id="avkryssningsmanntall" layout="block" styleClass="row avkryssningsmanntall" rendered="#{reportLinksController.parametersBean.avkrysningsmanntall}">
+		<ui:include src="includes/avkryssningsmanntallParams.xhtml" />
+	</h:panelGroup>
+
+	<div class="col-md-12" id="parameterSelects">
+		<ui:repeat value="#{reportLinksController.parametersBean.parameters}"
+				   var="parameter" varStatus="status">
+			<h:panelGroup rendered="#{!parameter.inferred and !parameter.fixed}" layout="block" styleClass="row">
+
+				<ui:param name="selectablesValues"
+						  value="#{reportLinksController.parametersBean.getSelectItemsForParameter(parameter)}"/>
+
+				<span class="col-md-4 right #{parameter.mandatory ? 'required' : ''}">
+					<h:outputText
+							value="#{msgs.get('@rapport.parameter.label.'.concat(selectablesValues != null ? selectablesValues.parameterId : parameter.label))}:"/>
+				</span>
+				<div class="col-md-8">
+					<p:remoteCommand name="updateSelections" process="@form" update="@form"/>
+					<h:panelGroup rendered="#{parameter.parent != null}" styleClass="#{parameter.mandatory ? 'required_select' : ''}">
+						<h:panelGroup rendered="#{empty selectablesValues.selectItems}">
+							<p:selectOneMenu value="#{reportLinksController.parametersBean.arguments[parameter.id]}" styleClass="input_#{parameter.id}">
+							</p:selectOneMenu>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{selectablesValues.selectItems.size() eq 1}">
+							<p:selectOneMenu value="#{reportLinksController.parametersBean.arguments[parameter.id]}" styleClass="input_#{parameter.id}">
+								<f:selectItem itemLabel="#{selectablesValues.selectItems[0].label}" itemValue="#{selectablesValues.selectItems[0].value}"/>
+							</p:selectOneMenu>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{selectablesValues.selectItems.size() gt 1}">
+							<p:selectOneMenu value="#{reportLinksController.parametersBean.arguments[parameter.id]}" styleClass="input_#{parameter.id}">
+								<f:selectItem itemLabel="--#{msgs['@common.choose']}--"
+											  noSelectionOption="true"/>
+								<f:selectItems value="#{selectablesValues.selectItems}"
+											   var="selectableValue" itemLabel="#{msgs[selectableValue.label]}"
+											   itemValue="#{selectableValue.value}"/>
+								<p:ajax event="change" update="@form" process="@form"
+										listener="#{reportLinksController.parametersBean.handleSelectedParameter(parameter)}"/>
+							</p:selectOneMenu>
+						</h:panelGroup>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{parameter.parent == null}">
+						<h:panelGroup rendered="#{parameter.type ne 'date' and parameter.type ne 'number'}" styleClass="#{parameter.mandatory ? 'required_field' : ''}">
+							<p:inputText rendered="#{parameter.mandatory}"
+										 value="#{reportLinksController.parametersBean.arguments[parameter.id]}"
+										 immediate="true"
+										 styleClass="input_#{parameter.id}"
+										 onkeyup="checkMandatoryFields()"
+										 onblur="checkMandatoryFields()"/>
+
+							<p:inputText rendered="#{not parameter.mandatory}"
+										 value="#{reportLinksController.parametersBean.arguments[parameter.id]}"
+										 styleClass="input_#{parameter.id}"
+										 immediate="true"
+										 onkeyup="checkNumberFields()"
+										 onblur="checkNumberFields()"/>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{parameter.type eq 'number'}" styleClass="#{parameter.mandatory ? 'required_number' : 'number'}">
+							<p:inputText rendered="#{parameter.mandatory}"
+										 value="#{reportLinksController.parametersBean.arguments[parameter.id]}"
+										 immediate="true"
+										 styleClass="input_#{parameter.id}"
+										 onkeyup="checkMandatoryFields()"
+										 onblur="checkMandatoryFields()"/>
+
+							<p:inputText rendered="#{not parameter.mandatory}"
+										 value="#{reportLinksController.parametersBean.arguments[parameter.id]}"
+										 styleClass="input_#{parameter.id}"
+										 immediate="true"
+										 onkeyup="checkNumberFields()"
+										 onblur="checkNumberFields()"/>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{parameter.type eq 'date'}" styleClass="#{parameter.mandatory ? 'required_date' : ''}">
+							<p:inputMask
+									rendered="#{parameter.mandatory}"
+									value="#{reportLinksController.parametersBean.arguments[parameter.id]}"
+									mask="#{msgs['@common.date.date_mask']}"
+									converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+									styleClass="left form-control datepicker input_#{parameter.id}"
+									onkeyup="checkMandatoryFields()"
+									onblur="checkMandatoryFields()">
+								<f:converter converterId="localDateConverter"/>
+							</p:inputMask>
+							<p:inputMask
+									rendered="#{not parameter.mandatory}"
+									value="#{reportLinksController.parametersBean.arguments[parameter.id]}"
+									mask="#{msgs['@common.date.date_mask']}"
+									converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+									styleClass="left form-contreol datepicker input_#{parameter.id}"
+									onkeyup="checkNumberFields()"
+									onblur="checkNumberFields()">
+								<f:converter converterId="localDateConverter"/>
+							</p:inputMask>
+						</h:panelGroup>
+					</h:panelGroup>
+				</div>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{parameter.inferred or parameter.fixed}">
+				<h:inputHidden value="#{reportLinksController.parametersBean.arguments[parameter.id]}"/>
+			</h:panelGroup>
+		</ui:repeat>
+	</div>
+	<h:outputScript>
+		/*<![CDATA[*/
+		function checkMandatoryFields() {
+			var allRequiredFieldsAreFilled = true;
+			$(".required_select select, .required_field input").each(function (index, input) {
+				allRequiredFieldsAreFilled &= ($(input).val() != "");
+			})
+			$(".required_date input").each(function (index, input) {
+				allRequiredFieldsAreFilled &= (/[0-3][0-9]\.[0-1][0-9]\.[0-9]{4}/.test($(input).val()));
+			})
+			$(".required_number input").each(function (index, input) {
+				allRequiredFieldsAreFilled &= (/^[0-9]{0,9}$/.test($(input).val()));
+			})
+			enableDisableButton(allRequiredFieldsAreFilled, "downloadLink_0");
+			enableDisableButton(allRequiredFieldsAreFilled, "downloadLink_1");
+		}
+
+		function checkNumberFields() {
+			var allNumberFieldsAreOk = true;
+			$(".number input").each(function (index, input) {
+				allNumberFieldsAreOk &= (/^[0-9]{0,9}$/.test($(input).val()));
+			})
+			enableDisableButton(allNumberFieldsAreOk, "downloadLink_0");
+			enableDisableButton(allNumberFieldsAreOk, "downloadLink_1");
+		}
+		
+		function enableDisableButton(enable, widgetVar) {
+			var button = PF(widgetVar);
+			if (button) {
+			    if (enable) {
+			        button.enable();
+				} else {
+			        button.disable();
+				}
+			}
+		}
+
+		$(document).ready(function () {
+			var prevNumberOfOptions = 0;
+			$('#parameterSelects select').each(function (index, parameter) {
+				if (parameter.type == 'hidden') {
+					prevNumberOfOptions = 1;
+				} else {
+					if (parameter.options.length == 0 && prevNumberOfOptions == 1) {
+						updateSelections();
+					}
+					prevNumberOfOptions = parameter.options.length;
+				}
+			})
+			if (prevNumberOfOptions == 1) {
+				updateDownloadLink();
+			}
+		});
+		/*]]>*/
+	</h:outputScript>
+
+	<div class="row"/>
+	<div class="row">
+		<p:remoteCommand name="updateDownloadLink" update="downloadLinkContainer downloadLinkContainer2"/>
+		<h:panelGroup styleClass="col-md-12 right downloadLinkContainer" id="downloadLinkContainer" layout="block"
+					  rendered="#{reportLinksController.parametersBean.selectedReport.async == false}">
+			<ui:repeat value="#{reportLinksController.parametersBean.selectedReport.fileFormats}" var="format" varStatus="formatStatus">
+				<p:commandButton value="#{msgs['@rapport.lastned']} #{format}"
+								 pt:data-aft="download-button-#{format}"
+								 onclick="PrimeFaces.monitorDownload(null, stop);"
+								 styleClass="btn btn-primary button_download_#{format}"
+								 icon="eva-icon-download"
+								 id="downloadLink"
+								 disabled="#{!reportLinksController.parametersBean.allParametersSupplied}"
+								 widgetVar="downloadLink_#{formatStatus.index}"
+								 ajax="false">
+					<p:fileDownload
+							value="#{reportLinksController.getReportContent(format)}"
+							contentDisposition="#{format == 'html' ? 'inline' : 'attachment'}">
+					</p:fileDownload>
+				</p:commandButton>
+				<h:outputText value=" &#160; "/>
+			</ui:repeat>
+		</h:panelGroup>
+		<h:panelGroup styleClass="col-md-12 right downloadLinkContainer" layout="block"
+					  rendered="#{reportLinksController.parametersBean.selectedReport.async == true}"
+					  id="downloadLinkContainer2">
+			<ui:repeat value="#{reportLinksController.parametersBean.selectedReport.fileFormats}" var="format" varStatus="formatStatus">
+				<p:poll interval="3" listener="#{reportLinksController.pollReportContent(format)}"
+						update="reportContentContainer" autoStart="false" widgetVar="poll" onerror="PF('poll').stop();stop();PF('statusDialog').hide();"
+						stop="#{reportLinksController.asyncReportExecution.ready or reportLinksController.asyncReportExecution.failed}"/>
+				<h:panelGroup id="reportContentContainer">
+					<h:outputScript rendered="#{reportLinksController.asyncReportExecution.ready}">
+						/*<![CDATA[*/
+						$(document).ready(function () {
+							PF('poll').stop();
+							PF('statusDialog').hide();
+							window.location = '#{reportLinksController.reportDownloadUrl}';
+							setTimeout(function () {
+								window.location.reload(false);
+							}, 2000)
+						});
+						/*]]>*/
+					</h:outputScript>
+					<p:commandButton value="#{msgs['@rapport.lastned']} #{format}"
+									 pt:data-aft="download-button-#{format}"
+									 id="asyncDownloadButton"
+									 styleClass="btn btn-primary button_asynch_download_#{format}"
+									 icon="eva-icon-download"
+									 disabled="#{!reportLinksController.parametersBean.allParametersSupplied or reportLinksController.asyncReportExecution.ready}"
+									 action="#{reportLinksController.pollReportContent(format)}"
+									 oncomplete="PF('poll').start();"
+									 onclick="PF('statusDialog').show()"
+									 widgetVar="downloadLink_#{formatStatus.index}"
+									 ajax="true">
+					</p:commandButton>
+				</h:panelGroup>
+			</ui:repeat>
+		</h:panelGroup>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+			<p:graphicImage name="/images/ajax-loader.gif"/>
+		</p:dialog>
+	</div>
+
+	<p:remoteCommand name="closeDialog" update="@namingcontainer" action="#{reportLinksController.reportParametersDialog.close}"/>
+	<script type="text/javascript">
+		function stop() {
+			setTimeout(closeDialog, 2000);
+		}
+	</script>
+</f:view>

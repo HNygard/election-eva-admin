@@ -1,0 +1,64 @@
+<f:view xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns="http://www.w3.org/1999/xhtml"
+        contentType="text/html">
+	
+	<div class="subpanel-header col-md-12"></div>
+	<h:form name="userSearchForm" styleClass="subpanel-form">
+		<p:panel>
+			<div class="row">
+				<p:messages id="msg" styleClass="col-md-12"/>
+			</div>
+			
+			<h2 class="col-md-12">
+				<h:outputText value="#{msgs['@help.electoralRoll.searchResult.header']}"/>
+			</h2>
+
+			<p:dataTable
+					value="#{electoralRollListController.personList}"
+					var="person"
+					paginator="true"
+					paginatorAlwaysVisible="false"
+					rows="20"
+					emptyMessage="#{msgs['@pf.datatable.emptyMsg']}"
+					paginatorPosition="bottom"
+					tableStyleClass="table table-striped"
+					styleClass="col-md-12">
+				<p:column>
+					<f:facet name="header">#{msgs['@common.name']}</f:facet>
+					<p:commandLink id="openEditModeLink"
+								   action="#{electoralRollListController.goToEditView(person)}"
+								   update=":content"
+								   value="#{electoralRollListController.getOpenEditLabel(person)}"
+								   ajax="true">
+					</p:commandLink>
+					
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs['@person.birthdate']}</f:facet>
+					<h:outputText value="#{person.dateOfBirth}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs['@person.address']}</f:facet>
+					<h:outputText value="#{person.address.streetAddress()}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs['@person.postal.town']}</f:facet>
+					<h:outputText value="#{person.address.municipality}"/>
+				</p:column>
+			</p:dataTable>
+
+			<div class="btn-group">
+				<p:commandLink
+					action="#{electoralRollListController.backToSearch}"
+					value="#{msgs['@common.cancel']}"
+					ajax="true"
+					update=":content"
+					process="@this"
+					styleClass="btn btn-link" />
+			</div>
+		</p:panel>
+	</h:form>
+
+</f:view>

@@ -1,0 +1,20 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+
+	<p:menuitem value="#{valgdistriktOpptellingskategoriOgValggeografiHolder.electionProviderHeader}"
+				url="#{valgdistriktOpptellingskategoriOgValggeografiHolder.velgValgUrl}"
+				rendered="#{valgdistriktOpptellingskategoriOgValggeografiHolder.electionPathSelected and not valgdistriktOpptellingskategoriOgValggeografiHolder.fromOverview}"/>
+	<p:menuitem value="#{valgdistriktOpptellingskategoriOgValggeografiHolder.countCategoryProviderHeader}"
+				url="#{valgdistriktOpptellingskategoriOgValggeografiHolder.velgOpptelingskategoriUrl}"
+				rendered="#{valgdistriktOpptellingskategoriOgValggeografiHolder.countCategorySelected and not valgdistriktOpptellingskategoriOgValggeografiHolder.fromOverview}"/>
+	<p:menuitem value="#{valgdistriktOpptellingskategoriOgValggeografiHolder.areaProviderHeader}"
+				url="#{valgdistriktOpptellingskategoriOgValggeografiHolder.velgValggeografiUrl}"
+				rendered="#{valgdistriktOpptellingskategoriOgValggeografiHolder.areaPathSelected and not valgdistriktOpptellingskategoriOgValggeografiHolder.fromOverview}"/>
+	<p:menuitem value="#{msgs['@menu.counting.overview']}"
+				url="#{valgdistriktOpptellingskategoriOgValggeografiHolder.countingOverviewURL}"
+				rendered="#{valgdistriktOpptellingskategoriOgValggeografiHolder.fromOverview}"/>
+
+</f:view>

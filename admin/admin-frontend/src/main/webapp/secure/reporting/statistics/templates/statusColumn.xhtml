@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	contentType="text/html">
+
+	<f:facet name="header">#{msgs['@statistic.column.reportStatus']}</f:facet>
+	
+	<ui:fragment rendered="#{!valgnattrapport.status.equals('NOT_SENT')}">
+		<div>
+			<h:outputText value="#{valgnattrapport.auditTimestamp}">
+				<f:converter converterId="dateTimeConverter"/>
+			</h:outputText>
+		</div>
+	</ui:fragment>
+	
+	<ui:fragment rendered="#{valgnattrapport.status.equals('OK')}">
+		<h:outputText value=" #{msgs['@statistic.report.ok']}" styleClass="ok"/>
+		<img src="#{resource['images:ixd/icon-steps-ok.png']}" />
+	</ui:fragment>
+
+	<ui:fragment rendered="#{valgnattrapport.status.equals('RESENDES')}">
+		<h:outputText value=" #{msgs['@statistic.report.resendes']}" styleClass="error"/>
+	</ui:fragment>
+	
+	<ui:fragment rendered="#{valgnattrapport.status.equals('ERROR')}">
+		<h:outputText value=" #{msgs['@statistic.report.ok']}" styleClass="error"/>
+		<img src="#{resource['images:ixd/icon-steps-ok.png']}" />
+		<h:outputText value=" #{msgs['@statistic.report.sent_with_error']}, " styleClass="error"/>
+	</ui:fragment>
+    
+	<ui:fragment rendered="#{valgnattrapport.status.equals('NOT_SENT')}">
+		<h:outputText value="#{msgs['@statistic.report.not_sent']}" styleClass="statustekst"/>
+	</ui:fragment>
+</f:view>

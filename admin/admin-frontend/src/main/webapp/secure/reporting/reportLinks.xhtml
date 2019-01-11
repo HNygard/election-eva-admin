@@ -1,0 +1,41 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+        <ui:param name="helpId" value="@help.alle_rapporter"/>
+		<ui:define name="content">
+			<div id="page-my-page" class="page page-report-links">
+				<p:messages/>
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.reports.links.heading']}"/>
+				</h1>
+				<h:form id="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msgs" globalOnly="true" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<h:panelGroup styleClass="main-menu" layout="block">
+								<ui:repeat var="menu" value="#{reportLinksController.menus}">
+									<widget:menu menu="#{menu}" renderRootHeader="true" menuItemTemplate="/secure/reporting/includes/reportMenuItem.xhtml"/>
+								</ui:repeat>
+							</h:panelGroup>
+						</div>
+					</div>
+
+				</h:form>
+				<widget:dialog id="#{reportLinksController.reportParametersDialog.id}" dialog="#{reportLinksController.reportParametersDialog}"/>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

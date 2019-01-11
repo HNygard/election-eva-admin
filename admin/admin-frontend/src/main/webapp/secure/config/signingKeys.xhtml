@@ -1,0 +1,66 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.signingKeys" />
+
+		<ui:define name="content">
+			<div class="page" id="page-signing-keys" >
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.config.certificate_management']}"/>
+				</h1>
+
+				<h:form id="form" prependId="false">
+					<p:messages d="messages" globalOnly="true" />
+					<p:dataTable var="signingKey"
+								 tableStyleClass="table table-striped"
+								 value="#{signingKeyController.signingKeys}">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.electionEvent']}, #{msgs['@common.id']}" />
+							</f:facet>
+							<h:outputText value="#{signingKey.electionEventName}, #{signingKey.electionEventId}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@config.certificate_management.key']}" />
+							</f:facet>
+							<h:outputText value="#{msgs[signingKey.keyDomainName]}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@config.certificate_management.certificate_file']}" />
+							</f:facet>
+							<h:outputText value="#{signingKey.fileName}" />
+						</p:column>
+						<p:column>
+							<p:commandLink id="addLink"
+										   value="#{msgs['@common.add']}"
+										   styleClass="btn btn-link addLink-#{signingKey.electionEventId}"
+										   action="#{signingKeyController.add(signingKey)}" 
+										   process="@this"
+										   update="@(.signingKeyEditDialogContent)"
+										   onsuccess="PF('signingKeyEditDialog').show();"
+										   rendered="#{signingKey.signingKeyPk == null}"/>
+							<p:commandLink id="editLink"
+										   value="#{msgs['@common.edit']}"
+										   styleClass="btn btn-link editLink-#{signingKey.electionEventId}"
+										   action="#{signingKeyController.edit(signingKey)}"
+										   process="@this"
+										   update="@(.signingKeyEditDialogContent)"
+										   onsuccess="PF('signingKeyEditDialog').show();"
+										   rendered="#{signingKey.signingKeyPk != null}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				<h:form id="dialogForm" prependId="false" enctype="multipart/form-data">
+					<ui:include src="dialogs/signingKeyEditDialog.xhtml" />
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

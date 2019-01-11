@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:widget="http://java.sun.com/jsf/composite/widget"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title><ui:insert name="windowTitle">#{msgs['@menu.main_title']}</ui:insert></title>
+	<ui:include src="/templates/scriptTemplate.xhtml"/>
+</h:head>
+
+<!-- add css class for internet explorer -->
+<h:body id="body" styleClass="#{header['User-Agent'].contains('; MSIE ') ? 'ie' : ''}">
+
+	<!-- Sets date and time mask and pattern -->
+	<c:set var="dateMask" value="99.99.9999"/>
+	<c:set var="datePattern" value="#{msgs['@common.date.date_pattern']}"/>
+	<c:set var="timePattern" value="#{msgs['@common.date.time_pattern']}"/>
+
+	<!-- Sets disabled flag for election event -->
+	<c:set var="isElectionEventDisabled" value="#{userDataController.currentElectionEventDisabled}"/>
+
+	<div class="innerBody">
+		<div class="container-fluid">
+
+			<ui:fragment rendered="#{bannerController.enabled}">
+				<p class="environtment-banner" style="background-color: #{bannerController.backgroundColor}; color: #{bannerController.textColor};">
+					<h:outputText value="#{bannerController.banner}"/>
+				</p>
+			</ui:fragment>
+
+			<div class="header-wrapper">
+
+				<div class="line black"/>
+
+				<div class="container">
+
+					<div class="page-header">
+						<div class="line yellow"/>
+						<ui:include src="/templates/header.xhtml"/>
+					</div>
+
+				</div>
+
+				<div class="line"/>
+
+			</div>
+
+			<div class="container">
+
+				<div class="content">
+
+					<noscript>
+						<widget:message severity="error" message="@global.error.no_javascript"/>
+					</noscript>
+
+					<div class="ui-messages ui-widget" id="no_cookies_msg" style="display:none;">
+						<div class="ui-messages-error ui-corner-all">
+							<span class="ui-messages-error-icon"/>
+							<ul>
+								<li><span class="ui-messages-error-summary"><h:outputText value="#{msgs['@global.error.no_cookies']}"/></span></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="page-container">
+						<h:form id="breadCrumbForm" rendered="#{!request.requestURI.contains('/secure/selectRole') and !request.requestURI.contains('/secure/index')}"
+								styleClass="breadCrumbForm onMainContentUpdate">
+							<p:breadCrumb>
+								<p:menuitem value="#{msgs['@menu.main_page']}" url="/secure/index.xhtml"/>
+								<ui:insert name="breadCrumb"/>
+							</p:breadCrumb>
+						</h:form>
+
+						<ui:insert name="content">
+							(page content gets inserted here)
+						</ui:insert>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<ui:insert name="footer">
+		<ui:include src="/templates/footer.xhtml"/>
+	</ui:insert>
+
+	<ui:include src="/templates/ajaxLoader.xhtml"/>
+
+	<h:outputStylesheet library="css" name="all.css"/>
+	<h:outputScript>
+		/*<![CDATA[*/
+		EVA.Application.createInstance({
+			conversationId: '#{javax.enterprise.context.conversation.id}',
+			keepAlive: {
+				interval: 5, // Minimum number of minutes between server keepalive polls
+				timeout: 29, // Actual number of minutes before session timeout
+				padding: 2, // Session timeout padding, when to warn the user
+				url: '/secure/empty.xhtml', // Keepalive poll URL
+				message: "#{msgs['@common.sessionTimeOutNear']}", // Warning message
+				buttonLabel: "#{msgs['@common.sessionTimeOutRemainLoggedIn']}" // Button label
+			}
+		});
+		/*]]>*/
+	</h:outputScript>
+</h:body>
+
+</html>

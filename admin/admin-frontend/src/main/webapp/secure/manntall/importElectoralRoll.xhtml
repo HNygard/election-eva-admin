@@ -1,0 +1,122 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.electoralRoll.importElectoralRoll"/>
+
+		<ui:define name="content">
+
+			<div id="page-electoral-roll-batches" class="page">
+
+				<p:messages id="msgs" globalOnly="true"/>
+
+				<h:form id="form">
+					<p:accordionPanel id="accordion" styleClass="ui-accordion-default">
+						<p:tab title="#{msgs['@electoralRoll.importElectoralRoll.header']}">
+							<div class="row bg-warning bg-warning-extra-margins">
+								<div class="col-md-12">
+									<h:outputText value="#{msgs['@electoralRoll.importElectoralRoll.ingress']}"/>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 form-group required">
+									<h:outputLabel
+										for="filePath"
+										value="#{msgs['@electoralRoll.importElectoralRoll.filePath']}:"/>
+									<h:inputText id="filePath"
+												 value="#{importElectoralRollController.filePath}"
+												 required="true"
+												 requiredMessage="#{msgs['@electoralRoll.importElectoralRoll.noFile']}"
+												 size="70"
+												 styleClass="form-control"
+												 validatorMessage="#{msgs['@election.election_event.voter_import_dir_format']}">
+										<f:validateRegex pattern="^/.+"/>
+									</h:inputText>
+								</div>
+								<div class="col-md-6 form-group required">
+									<h:outputLabel
+										for="finalImport"
+										value="#{msgs['@electoralRoll.importElectoralRoll.initialImportType']}:"/>
+									<h:selectOneRadio
+										id="finalImport"
+										label="#{msgs['@electoralRoll.importElectoralRoll.initialImportType']}"
+										required="true"
+										value="#{importElectoralRollController.finalImport}"
+										layout="pageDirection"
+										styleClass="ui-radio-group ui-radio-group-inline">
+										<f:selectItem
+											itemLabel="#{msgs['@electoralRoll.importElectoralRoll.preliminary']}"
+											itemValue="false"/>
+										<f:selectItem
+											itemLabel="#{msgs['@electoralRoll.importElectoralRoll.final']}"
+											itemValue="true"/>
+									</h:selectOneRadio>
+								</div>
+								<div class="col-md-12 form-actions">
+									<p:commandButton id="import"
+													 action="#{importElectoralRollController.importElectoralRoll}"
+													 process="@form"
+													 update=":msgs :batchesForm"
+													 value="#{msgs['@electoralRoll.importElectoralRoll.import']}"
+													 styleClass="btn btn-primary"
+													 disabled="#{isElectionEventDisabled}"/>
+								</div>
+							</div>
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+
+				<h4 class="page-title">
+					<h:outputText value="#{msgs['@electoralRoll.listImports.header']}"/>
+				</h4>
+
+				<h:form id="batchesForm">
+					<p:dataTable value="#{importElectoralRollController.batches}"
+								 var="batch" id="batches"
+								 tableStyleClass="table table-striped"
+								 emptyMessage="#{msgs['@pf.datatable.emptyMsg']}">
+						<p:column sortBy="#{batch.auditTimestamp}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.date']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.auditTimestamp}">
+								<f:converter converterId="localDateConverter"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.time']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.auditTimestamp}">
+								<f:converter converterId="localTimeConverter"/>
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{batch.infoText}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@voterAudit.batchNumber']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.infoText}"/>
+						</p:column>
+						<p:column sortBy="#{batch.messageText}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{msgs['@electoralRoll.listImports.message']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.messageText}"/>
+						</p:column>
+						<p:column sortBy="#{msgs[batch.batchStatus.name]}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.status']}"/>
+							</f:facet>
+							<h:outputText value="#{msgs[batch.batchStatus.name]}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

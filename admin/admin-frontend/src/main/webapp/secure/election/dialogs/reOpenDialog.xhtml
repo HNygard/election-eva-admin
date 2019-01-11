@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				contentType="text/html">
+
+	<h:form id="reOpenDialogForm">
+		<p:confirmDialog header="#{msgs['@election.election_event.reopen']}" severity="alert" widgetVar="reOpenConfirmation" modal="true">
+			<f:facet name="message">
+				<h:outputText id="reOpenDialogMessage"
+							  value="#{msgs.get('@election.election_event.reopen.confirmation', listElectionEventsController.electionEventToReOpen.name)}"/>
+			</f:facet>
+			<p:commandButton value="#{msgs['@common.yes']}" id="YesButton"
+							 styleClass="btn btn-primary"
+							 action="#{listElectionEventsController.reOpenElectionEvent()}"
+							 onclick="PF('reOpenConfirmation').hide();" update=":form"/>
+			<p:commandLink value="#{msgs['@common.no']}" id="NoButton"
+						   onclick="PF('reOpenConfirmation').hide();" update="NoButton" process="NoButton"/>
+		</p:confirmDialog>
+	</h:form>
+
+</ui:composition>

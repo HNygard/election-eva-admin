@@ -1,0 +1,186 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.voterAudit"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[voterAuditController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{voterAuditController.initiellKontekstvelgerURL}"
+                        rendered="#{voterAuditController.context}"/>
+            <p:menuitem value="#{msgs['@menu.electoralRoll.history']}" url="#{voterAuditController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-list-voter-audit" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.electoralRoll.history']}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{voterAuditController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="form">
+
+							<p:messages id="msgs"/>
+
+							<div class="row">
+								<div class="col-md-5">
+									<h3>
+										<h:outputText value="#{msgs['@voterAudit.header']}"/>
+									</h3>
+
+									<div class="row form-group required">
+										<h:outputLabel styleClass="col-md-2" value="#{msgs['@voterAudit.startDate']}"/>
+
+										<p:calendar
+											id="startDateVoterAudit"
+											value="#{voterAuditController.startDate}"
+											required="true"
+											pattern="dd.MM.yyyy"
+											requiredMessage="#{msgs['@voterAudit.validationStartDate']}"
+											converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+											locale="#{userDataController.userData.javaLocale}"
+											mask="true"
+											maxLength="10">
+											<f:converter converterId="localDateConverter"/>
+										</p:calendar>
+
+
+									</div>
+
+									<div class="row form-group required">
+										<h:outputLabel styleClass="col-md-2" value="#{msgs['@voterAudit.endDate']}"/>
+										<p:calendar
+											id="endDateVoterAudit"
+											value="#{voterAuditController.endDate}"
+											required="true"
+											pattern="dd.MM.yyyy"
+											requiredMessage="#{msgs['@voterAudit.validationStartDate']}"
+											converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+											locale="#{userDataController.userData.javaLocale}"
+											mask="true"
+											maxLength="10">
+											<f:converter converterId="localDateConverter"/>
+										</p:calendar>
+
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="#{msgs['@voterAudit.changeType']}"/>
+
+										<h:selectOneRadio
+											layout="lineDirection"
+											value="#{voterAuditController.selectedEndringsType}"
+											styleClass="ui-radio-group ui-radio-group-inline">
+											<f:selectItem itemValue=" " itemLabel="#{msgs['@common.all']}"/>
+											<f:selectItem itemValue="T"
+														  itemLabel="#{msgs['@voterAudit.access']}"/>
+											<f:selectItem itemValue="E"
+														  itemLabel="#{msgs['@common.change']}"/>
+											<f:selectItem itemValue="A"
+														  itemLabel="#{msgs['@voterAudit.terminate']}"/>
+										</h:selectOneRadio>
+
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="#{msgs['@voterAudit.searchMode']}"/>
+
+										<h:selectOneRadio
+											layout="lineDirection"
+											value="#{voterAuditController.selectedSearchMode}"
+											styleClass="ui-radio-group ui-radio-group-inline">
+											<f:selectItem itemValue=" " itemLabel="#{msgs['@common.all']}"/>
+											<f:selectItem itemValue="M"
+														  itemLabel="#{msgs['@voterAudit.manual']}"/>
+											<f:selectItem itemValue="A"
+														  itemLabel="#{msgs['@voterAudit.automatic']}"/>
+										</h:selectOneRadio>
+
+									</div>
+
+									<div class="row checkbox checkbox-inline">
+										<h:outputLabel>
+											<h:selectBooleanCheckbox value="#{voterAuditController.searchOnlyApproved}"/>
+											<h:outputText value="#{msgs['@voterAudit.searchOnlyApproved']}"/>
+										</h:outputLabel>
+									</div>
+
+
+									<div class="row form-group form-actions col-md-12">
+
+										<p:commandButton
+											action="#{voterAuditController.searchVoterAudit}"
+											ajax="false"
+											value="#{msgs['@common.search']}"
+											icon="eva-icon-search"
+											styleClass="btn btn-primary"/>
+
+										<p:commandButton
+											id="printVoterHistory"
+											immediate="true"
+											ajax="false"
+											icon="eva-icon-download"
+											styleClass="btn btn-primary"
+											value="#{msgs['@rapport.lastned']}"
+											action="#{voterAuditController.makeReport}"
+											rendered="#{voterAuditController.voterAuditList.size() > 0}"/>
+
+									</div>
+								</div>
+							</div>
+
+							<p:dataTable value="#{voterAuditController.voterAuditList}"
+										 var="vaList" border="1"
+										 rendered="#{voterAuditController.voterAuditList.size() > 0}">
+
+								<p:column sortBy="#{vaList.nameLine}" headerText="#{msgs['@common.name']}">
+									<h:outputText value="#{vaList.nameLine}"/>
+								</p:column>
+
+								<p:column sortBy="#{vaList.id}" headerText="#{msgs['@person.id']}">
+									<h:outputText value="#{vaList.voterId}"/>
+								</p:column>
+
+								<p:column sortBy="#{vaList.endringstype}" headerText="#{msgs['@voterAudit.changeType']}">
+									<h:outputText value="#{vaList.endringstype}"/>
+								</p:column>
+
+								<p:column sortBy="#{vaList.importBatchNumber}" headerText="#{msgs['@voterAudit.batchNumber']}">
+									<h:outputText value="#{vaList.importBatchNumber}"/>
+								</p:column>
+
+								<p:column sortBy="#{vaList.aarsakskode}" headerText="#{msgs['@voterAudit.aarsakskode']}">
+									<h:outputText value="#{vaList.aarsakskode} - #{msgs[aarsakskodeController.aarsakskodeMap.get(vaList.aarsakskode)]}"/>
+								</p:column>
+
+								<p:column sortBy="#{vaList.approved}" headerText="#{msgs['@electoralRoll.eligigbleAndApproved']}">
+									<h:outputText value="#{vaList.approved ? msgs['@common.yes'] : msgs['@common.no']}"/>
+								</p:column>
+
+								<p:column sortBy="#{vaList.id.auditTimestamp}" headerText="#{msgs['@common.time']}">
+									<h:outputText value="#{vaList.id.auditTimestamp}">
+										<f:converter converterId="dateTimeConverter"/>
+									</h:outputText>
+								</p:column>
+
+								<p:column sortBy="#{vaList.auditOperator}" headerText="#{msgs['@voterAudit.operator']}">
+									<h:outputText value="#{vaList.auditOperator}"/>
+								</p:column>
+
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

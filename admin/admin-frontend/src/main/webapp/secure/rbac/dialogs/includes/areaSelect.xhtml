@@ -1,0 +1,86 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		contentType="text/html">
+
+	<h:panelGroup id="area_level" layout="block" rendered="#{operatorEditController.isRenderAreas(roleSelectItem.value)}">
+		<h:outputLabel value="#{msgs['@common.area']}:" style="margin-right: 5px;"/>
+		<!-- Select county -->
+		<ui:fragment
+			rendered="#{operatorEditController.rootLevel and operatorEditController.rootLevelEdit.isRenderCountyList(roleSelectItem.value)}">
+			<h:selectOneMenu
+				id="selectCounty"
+				pt:data-aft="selectCounty_#{roleSelectItem.value}"
+				styleClass="select-area"
+				value="#{operatorEditController.rootLevelEdit.county}">
+				<f:selectItems
+					value="#{operatorEditController.rootLevelEdit.countyList}"
+					var="county"
+					itemValue="#{county.path}"
+					itemLabel="#{county.countyName}"/>
+			</h:selectOneMenu>
+			<p:commandLink
+				pt:data-aft="selectCountyLink_#{roleSelectItem.value}"
+				action="#{operatorEditController.rootLevelEdit.selectCounty}"
+				value="#{msgs['@common.choose']} #{msgs['@reports.all.county'].toLowerCase()}"
+				styleClass="btn btn-link"
+				update="@(.addRole) @(.select-containers)"/>
+		</ui:fragment>
+		<!-- Select municipality -->
+		<ui:fragment
+			rendered="#{operatorEditController.rootLevel and operatorEditController.rootLevelEdit.isRenderMunicipalityList(roleSelectItem.value)}">
+			<h:selectOneMenu
+				id="selectMunicipality"
+				pt:data-aft="selectMunicipality_#{roleSelectItem.value}"
+				styleClass="select-area"
+				value="#{operatorEditController.rootLevelEdit.municipality}">
+				<f:selectItem itemValue="0" itemLabel="#{msgs['@common.all']}"/>
+				<f:selectItems
+					value="#{operatorEditController.rootLevelEdit.municipalityList}"
+					var="municipality"
+					itemValue="#{municipality.path}"
+					itemLabel="#{municipality.municipalityName}"/>
+			</h:selectOneMenu>
+			<p:commandLink
+				pt:data-aft="selectMunicipalityLink_#{roleSelectItem.value}"
+				action="#{operatorEditController.rootLevelEdit.selectMunicipality}"
+				value="#{msgs['@common.choose']} #{msgs['@reports.all.municipality'].toLowerCase()}"
+				styleClass="btn btn-link"
+				update="@(.addRole) @(.select-containers)"/>
+			<p:commandLink
+				pt:data-aft="resetCountyLink_#{roleSelectItem.value}"
+				action="#{operatorEditController.rootLevelEdit.resetCounty}"
+				rendered="#{operatorEditController.rootLevel and not empty operatorEditController.rootLevelEdit.county}"
+				value="#{msgs['@common.back']}"
+				styleClass="btn btn-link"
+				update="@(.addRole) @(.select-containers)"/>
+		</ui:fragment>
+		<!-- Select area -->
+		<ui:fragment rendered="#{operatorEditController.isRenderSelectArea(roleSelectItem.value)}">
+			<h:outputText value="#{msgs['@pf.datatable.emptyMsg']}" rendered="#{operatorEditController.renderNoAreasAvailableText}"/>
+			<h:selectOneMenu
+				id="selectArea"
+				pt:data-aft="selectArea_#{roleSelectItem.value}"
+				styleClass="select-area"
+				rendered="#{not operatorEditController.renderNoAreasAvailableText}"
+				value="#{operatorEditController.selectedRoleAreaToAdd[roleSelectItem.value]}">
+				<f:selectItems
+					value="#{operatorEditController.availableAreasForRole[roleSelectItem.value]}"
+					var="areaSelectItem"
+					itemValue="#{areaSelectItem.areaPath}"
+					itemLabel="#{areaSelectItem.getLeafIdForAreaLevels(['POLLING_DISTRICT', 'POLLING_PLACE'])} #{msgs[areaSelectItem.name]}"/>
+			</h:selectOneMenu>
+			<p:commandLink
+				pt:data-aft="resetMunicipalityLink_#{roleSelectItem.value}"
+				action="#{operatorEditController.rootLevelEdit.resetMunicipality}"
+				rendered="#{operatorEditController.rootLevel and not empty operatorEditController.rootLevelEdit.municipality}"
+				value="#{msgs['@common.back']}"
+				styleClass="btn btn-link"
+				update="@(.addRole) @(.select-containers)"/>
+		</ui:fragment>
+	</h:panelGroup>
+
+</f:view>

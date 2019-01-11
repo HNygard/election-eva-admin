@@ -1,0 +1,23 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/simpleLayout.xhtml">
+		<ui:define name="content">
+			<div id="page-scanning-login" class="page">
+				<h1><h:outputText value="#{msgs['@select_election_event.header']}"/></h1>
+	
+				<h3><h:outputText value="#{msgs['@select_election_event.description']}"/></h3>
+	
+				<h:form id="selectElectionEventForm" styleClass="context-editor-form">
+	
+					<widget:selectElectionEvent id="selectElectionEventWidget" nextPage="scanningLoginSuccessful.xhtml"/>
+	
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

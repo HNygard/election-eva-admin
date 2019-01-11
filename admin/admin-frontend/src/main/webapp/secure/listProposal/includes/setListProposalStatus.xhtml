@@ -1,0 +1,53 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<p:commandButton
+		id="listProposalActionsMenu"
+		pt:data-aft="listehandlingerKnapp"
+		styleClass="btn btn-sm btn-primary pull-left"
+		value="Listehandlinger"
+		ajax="false"
+		onclick="return false;"
+		icon="eva-icon-cog"/>
+
+	<p:menu
+		overlay="true"
+		trigger="listProposalActionsMenu"
+		my="left top"
+		at="left bottom"
+		styleClass="actions-list-menu">
+
+		<p:menuitem
+			id="viewAuditLog"
+			value="#{msgs['@listProposal.edit.history']}"
+			process="@this"
+			partialSubmit="true"
+			action="#{candidateController.viewCandidateAudit()}"/>
+
+		<p:menuitem
+			id="candidateShowHideColumn"
+			value="#{msgs['@listProposal.candidate.showHideColumn']}"
+			process="@this"
+			partialSubmit="true"
+			action="#{redigerListeforslagController.viewCandidateColumn()}"/>
+
+		<p:menuitem
+			id="validateListProposal"
+			pt:data-aft="sjekkPersoneneMotManntallOgAndreListeforslagLink"
+			value="#{msgs['@listProposal.approve']}"
+			rendered="#{redigerListeforslagController.isBallotStatus('PENDING')}"
+			update="@(.election-meta) @namingcontainer @form:msg"
+			action="#{redigerListeforslagController.validateAndCheckAgainstElectoralRoll()}"/>
+
+		<p:menuitem
+			id="deleteAllCandidates"
+			action="#{candidateController.promptDeleteAllCandidate}"
+			process="@this"
+			partialSubmit="true"
+			value="#{msgs['@listProposal.candidate.deleteAll']}"/>
+
+	</p:menu>
+</f:view>

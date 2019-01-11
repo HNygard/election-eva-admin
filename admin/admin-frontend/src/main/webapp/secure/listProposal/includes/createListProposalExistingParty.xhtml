@@ -1,0 +1,46 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<h2>
+				<h:outputText value="#{msgs['@listProposal.party.choose.header']}"/>
+			</h2>
+
+			<div class="form-group required">
+
+				<h:outputLabel for="selectParty" value="#{msgs['@listProposal.party.choose']}"/>
+				<h:selectOneMenu id="selectParty"
+								 value="#{opprettListeforslagController.selectedPartyId}"
+								 styleClass="form-control no-indent"
+								 disabled="#{opprettListeforslagController.contestLocked}">
+					<f:selectItem
+						itemLabel="#{msgs['@listProposal.party.choose.dropdown']}"/>
+					<f:selectItems
+						value="#{opprettListeforslagController.partiesWithoutAffiliations}"
+						var="party" itemLabel="#{party.oversattNavn} - #{party.id}"
+						itemValue="#{party.id}"/>
+				</h:selectOneMenu>
+			</div>
+
+			<div class="form-group form-actions">
+				<p:commandButton
+					id="createNewListButton"
+					pt:data-aft="opprettListeforslagKnapp"
+					value="#{msgs['@listProposal.party.choose.action']}"
+					action="#{opprettListeforslagController.newListProposal}"
+					ajax="false"
+					disabled="#{opprettListeforslagController.contestLocked}"
+					icon="eva-icon-plus"
+					styleClass="btn btn-primary"/>
+			</div>
+
+
+		</div>
+	</div>
+</f:view>

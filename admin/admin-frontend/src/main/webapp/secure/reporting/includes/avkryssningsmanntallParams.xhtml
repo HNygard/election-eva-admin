@@ -1,0 +1,31 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<widget:message message="#{msgs['@rapport.messages.avkryssningsmanntall_allowed']}"
+                    severity="warn"
+                    escape="false"
+                    rendered="#{not reportLinksController.parametersBean.avkrysningsmanntallTest and 
+					reportLinksController.parametersBean.countUnapprovedAdvanceVotings == 0}"/>
+	<widget:message message="#{msgs['@rapport.messages.avkryssningsmanntall_not_allowed']}"
+                    severity="error"
+                    escape="false"
+                    rendered="#{not reportLinksController.parametersBean.avkrysningsmanntallTest and 
+					reportLinksController.parametersBean.countUnapprovedAdvanceVotings != 0}"/>
+	
+	<div class="col-xs-12">
+		<h:selectOneRadio id="avkryssningsmanntallRadio"
+                          pt:data-aft="avkryssningsmanntallRadio"
+                          styleClass="avkryssningsmanntallRadio"
+                          value="#{reportLinksController.parametersBean.avkrysningsmanntallTest}">
+			<f:selectItem itemLabel="#{msgs['@rapport.parameter.label.avkryssningsmanntallTest_true']}" itemValue="true" />
+			<f:selectItem itemLabel="#{msgs['@rapport.parameter.label.avkryssningsmanntallTest_false']}" itemValue="false" />
+			<p:ajax event="change" update="@form" process="@form" />
+		</h:selectOneRadio>
+	</div>
+	
+</f:view>

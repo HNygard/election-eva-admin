@@ -1,0 +1,68 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        contentType="text/html">
+
+    <div class="row">
+        <div class="col-md-12">
+            <p:dataTable
+                    id="table"
+                    var="pollingPlace"
+                    scrollable="#{electionDayPollingPlacesConfigurationController.placesWithCustomOpeningHours.size() > 10 ? 'true' : 'false'}"
+                    scrollHeight="500"
+                    tableStyleClass="table table-striped hide-table-header multiline-rows"
+                    value="#{electionDayPollingPlacesConfigurationController.placesWithCustomOpeningHours}">
+                <p:column>
+                    <h:outputText value="#{pollingPlace.id} - #{pollingPlace.name}"/>
+                </p:column>
+
+                <p:column>
+                    <h:panelGroup rendered="#{electionDayPollingPlacesConfigurationController.isOptionalElectionDay(pollingPlace)}">
+                        <h:outputLabel styleClass="font-bold"
+                                       value="#{electionDayPollingPlacesConfigurationController.getOptionalElectionDateFormatted()}"/>
+                        <ui:repeat var="currentPollingPlaceOpeningHour"
+                                   value="#{electionDayPollingPlacesConfigurationController.getOpeningHoursForPollingPlaceAndOptionalElectionDay(pollingPlace)}">
+                            <div style="display: block">
+                                <h:outputLabel
+                                    value="#{electionDayPollingPlacesConfigurationController.getFormattedTime(currentPollingPlaceOpeningHour.startTime)} 
+                                    - #{electionDayPollingPlacesConfigurationController.getFormattedTime(currentPollingPlaceOpeningHour.endTime)}"/>
+                            </div>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </p:column>
+
+                <p:column>
+                    <h:outputLabel styleClass="font-bold"
+                                   value="#{electionDayPollingPlacesConfigurationController.getRequiredElectionDateFormatted()}"/>
+                    <ui:repeat var="currentPollingPlaceOpeningHour"
+                               value="#{electionDayPollingPlacesConfigurationController.getOpeningHoursForPollingPlaceAndRequiredElectionDay(pollingPlace)}">
+                        <div style="display: block">   
+                            <h:outputLabel
+                                value="#{electionDayPollingPlacesConfigurationController.getFormattedTime(currentPollingPlaceOpeningHour.startTime)} 
+                                - #{electionDayPollingPlacesConfigurationController.getFormattedTime(currentPollingPlaceOpeningHour.endTime)}"/>
+                        </div>
+                    </ui:repeat>
+                </p:column>
+            </p:dataTable>
+        </div>
+        <div class="form-actions col-md-12">
+            <p:commandButton id="keepCustom"
+                             pt:data-aft="keepCustomButton"
+                             action="#{electionDayPollingPlacesConfigurationController.onKeepCustomOpeningHours()}"
+                             process="@this"
+                             value="#{msgs['@config.local.election_day.keepCustomOpeningHours']}"
+                             styleClass="btn btn-primary"/>
+            <p:commandButton id="overwriteCustom"
+                             pt:data-aft="overwriteCustomButton"
+                             action="#{electionDayPollingPlacesConfigurationController.onOverwriteOpeningHours()}"
+                             process="@this"
+                             value="#{msgs['@config.local.election_day.overwriteOpeningHours']}"
+                             styleClass="btn btn-primary"/>
+        </div>
+    </div>
+
+
+</f:view>

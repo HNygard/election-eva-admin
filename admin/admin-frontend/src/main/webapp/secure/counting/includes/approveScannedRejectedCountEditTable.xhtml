@@ -1,0 +1,100 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<div class="fake-table-header">
+		<h:outputText value="#{msgs['@count.ballot.approve.rejected.proposed']} #{msgs['@settlement.ballots'].toLowerCase()}"/>
+	</div>
+	
+	<p:dataTable id="rejectedBallotTable"
+				 var="rejectedBallot"
+				 scrollable="#{approveScannedRejectedCountController.rejectedBallots.size() > 10 ? true : false}"
+				 scrollHeight="500"
+				 value="#{approveScannedRejectedCountController.rejectedBallots}"
+				 rowStyleClass="rejected-ballot-#{rejectedBallot.confirmed ? 'changed' : 'unchanged'}"
+				 tableStyleClass="table table-striped hide-table-header"
+				 emptyMessage="#{msgs['@pf.datatable.emptyMsg']}">
+
+		<p:column styleClass="col-1" rendered="#{approveScannedRejectedCountController.hasMunicipalityRejectedBallots()}">
+			<h:panelGrid columns="1">
+				<span title="#{msgs['@area_level[3].name']}" class="rejected-ballot rejected-ballot-municipality"/>
+				<span title="#{msgs['@area_level[2].name']}" class="rejected-ballot rejected-ballot-county"/>
+			</h:panelGrid>
+		</p:column>
+
+		<p:column styleClass="col-2">
+			<h:panelGrid columns="1">
+				<p:commandLink value="#{approveScannedRejectedCountController.municipalityRejectedBallotFor(rejectedBallot).id}"
+							   action="#{approveScannedRejectedCountController.downloadMunicipalityRejectedBallotFor(rejectedBallot)}"
+							   rendered="#{approveScannedRejectedCountController.hasMunicipalityRejectedBallotFor(rejectedBallot)}"
+							   ajax="false"/>
+				<p:commandLink value="#{approveScannedRejectedCountController.municipalityApprovedBallotFor(rejectedBallot).id}"
+							   action="#{approveScannedRejectedCountController.downloadMunicipalityApprovedBallotFor(rejectedBallot)}"
+							   rendered="#{approveScannedRejectedCountController.hasMunicipalityApprovedBallotFor(rejectedBallot)}"
+							   ajax="false"/>
+				<p:commandLink value="#{rejectedBallot.id}"
+							   action="#{approveScannedRejectedCountController.downloadRejectedBallot(rejectedBallot)}"
+							   ajax="false"/>
+			</h:panelGrid>
+		</p:column>
+
+		<p:column styleClass="col-3">
+			<h:panelGrid id="col3" columns="1" styleClass="col3 col3_#{rejectedBallot.id}">
+				<h:outputText
+					value="#{approveScannedRejectedCountController.getMunicipalityRejectedBallotNameFor(rejectedBallot)}"
+					rendered="#{approveScannedRejectedCountController.hasMunicipalityRejectedBallotFor(rejectedBallot)}"/>
+				<h:outputText
+					value="#{approveScannedRejectedCountController.getMunicipalityApprovedBallotNameFor(rejectedBallot)}"
+					rendered="#{approveScannedRejectedCountController.hasMunicipalityApprovedBallotFor(rejectedBallot)}"/>
+				<!-- Display text if not in edit mode -->
+				<h:outputText value="#{approveScannedRejectedCountController.getRejectedBallotName(rejectedBallot)}"
+							  rendered="#{not approveScannedRejectedCountController.isEdited(rejectedBallot)}"/>
+				<!-- Selects if in edit mode -->
+				<ui:fragment rendered="#{approveScannedRejectedCountController.isEdited(rejectedBallot)}">
+					<!-- Select state -->
+					<h:selectOneMenu value="#{rejectedBallot.state}" style="margin-right: 5px;">
+						<p:ajax event="change" update="@(.selects_#{rejectedBallot.id}) @(.col4_#{rejectedBallot.id})"/>
+						<f:selectItems value="#{approveScannedRejectedCountController.stateSelectItems}"/>
+					</h:selectOneMenu>
+					<!-- Select based on state -->
+					<h:panelGroup id="selects" styleClass="selects_#{rejectedBallot.id}">
+						<h:selectOneMenu value="#{rejectedBallot.selectedBallotRejectionId}" rendered="#{rejectedBallot.isRejected()}">
+							<p:ajax event="change" update="@(.col4_#{rejectedBallot.id})"/>
+							<f:selectItems value="#{approveScannedRejectedCountController.ballotRejections}"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{rejectedBallot.selectedBallotId}" rendered="#{not rejectedBallot.isRejected() and rejectedBallot.state == 'MODIFIED'}">
+							<p:ajax event="change" update="@(.col4_#{rejectedBallot.id})"/>
+							<f:selectItem itemValue="" itemLabel="#{msgs['@common.choose']}"/>
+							<f:selectItems value="#{approveScannedRejectedCountController.ballots}"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{rejectedBallot.selectedBallotId}" rendered="#{not rejectedBallot.isRejected() and rejectedBallot.state == 'UNMODIFIED'}">
+							<p:ajax event="change" update="@(.col4_#{rejectedBallot.id})"/>
+							<f:selectItem itemValue="" itemLabel="#{msgs['@common.choose']}"/>
+							<f:selectItems value="#{approveScannedRejectedCountController.ballots}"/>
+							<f:selectItem itemValue="BLANK" itemLabel="#{msgs['@party[BLANK].name']}"/>
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</ui:fragment>
+			</h:panelGrid>
+		</p:column>
+
+		<p:column styleClass="col-4">
+			<h:panelGrid id="col4" styleClass="col4 col4_#{rejectedBallot.id}">
+				<!-- Edit link if no current edit -->
+				<p:commandLink value="#{msgs['@common.edit']}"
+							   update="@(.col3_#{rejectedBallot.id}) @(.col4) @(.registerRejectedCountsButton)"
+							   rendered="#{not approveScannedRejectedCountController.finalCount.rejectedBallotsProcessed and not approveScannedRejectedCountController.current}"
+							   action="#{approveScannedRejectedCountController.edit(rejectedBallot)}"/>
+				<!-- Save link if in edit mode -->
+				<p:commandLink value="#{msgs['@common.done']}"
+							   update="@form"
+							   rendered="#{approveScannedRejectedCountController.doRenderSaveLink(rejectedBallot) eq true}"
+							   action="#{approveScannedRejectedCountController.done()}"/>
+			</h:panelGrid>
+		</p:column>
+		
+	</p:dataTable>
+</f:view>

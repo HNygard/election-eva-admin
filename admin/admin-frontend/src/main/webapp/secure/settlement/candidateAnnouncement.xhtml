@@ -1,0 +1,168 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.settlement.status"/>
+		<ui:define name="topinfoheader"></ui:define>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs['@election_level[3].name']}"
+						rendered="#{!empty candidateAnnouncementController.contestPath and candidateAnnouncementController.contestList.size() gt 1}"
+						ajax="false"
+						action="#{candidateAnnouncementController.backToSelectContest}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-candidate-announcement" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.settlement.candidate_announcement']}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{candidateAnnouncementController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+					</div>
+				</div>
+
+				<widget:selectContest
+					id="selectContest"
+					rendered="#{empty candidateAnnouncementController.contestPath and !empty candidateAnnouncementController.contestList}"
+					selectContestProvider="#{candidateAnnouncementController}"/>
+
+				<h:form id="candidateAnnouncementForm"
+						rendered="#{!empty candidateAnnouncementController.contestPath and candidateAnnouncementController.settlementDone}">
+
+					<div class="row">
+
+						<div class="col-md-5">
+							<p:dataTable var="affiliation"
+										 value="#{candidateAnnouncementController.affiliations}"
+										 rowIndexVar="rowIndex"
+										 selectionMode="single"
+										 selection="#{candidateAnnouncementController.selectedAffiliation}"
+										 tableStyleClass="table table-striped"
+										 rowKey="#{affiliation.pk}">
+								<p:ajax event="rowSelect" listener="#{candidateAnnouncementController.onRowSelect}" update=":candidateAnnouncementForm:voteCounts"/>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.choose_party']}"/>
+									</f:facet>
+									<h:outputText value="#{msgs[affiliation.party.name]}"/>
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{affiliation.party.id}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.nr_of_mandates']}"/>
+									</f:facet>
+									<h:outputText value="#{candidateAnnouncementController.mandates[rowIndex]}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+
+						<div class="col-md-7">
+							<h:panelGroup id="voteCounts" styleClass="row" layout="block" style="position: relative;top: -38px;">
+								<h4 style="text-align: right;">
+									<h:outputText value="#{msgs['@candidate.list']}: "/>
+									<h:outputText value="#{msgs[candidateAnnouncementController.selectedAffiliation.party.name]}"/>
+								</h4>
+								<p:dataTable var="candidateVoteCount"
+											 value="#{candidateAnnouncementController.candidateVoteCounts}"
+											 tableStyleClass="table table-striped">
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@settlement.new_nr']}"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.rankNumber}"/>
+									</p:column>
+
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@person.name.last']}"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.lastName}"/>
+									</p:column>
+
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@person.firstName']}"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.firstName}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.baselineConfigured}">
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@vote_category[baseline].name']}"
+														  pt:data-aft="stemmetilleggTabelloverskrift"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.baseline}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.election.personal}">
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@vote_category[personal].name']}"
+														  pt:data-aft="personstemmerTabelloverskrift"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.personal.longValue()}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.election.renumber}">
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@settlement.candidate.renumberings']}"
+														  pt:data-aft="renummereringerTabelloverskrift"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.renumber.longValue()}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.election.strikeout}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{msgs['@settlement.candidate.strikeouts']}"
+												pt:data-aft="strykningerTabelloverskrift"/>
+										</f:facet>
+										<h:outputText
+											value="#{candidateVoteCount.strikeout.longValue()}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.election.writein}">
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@vote_category[writein].name']}"
+														  pt:data-aft="slengereTabelloverskrift"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.writein.longValue()}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.hasCandidateRanking()}">
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@common.Total']}"/>
+										</f:facet>
+										<h:outputText
+											value="#{candidateAnnouncementController.baselineConfigured ? candidateVoteCount.total : candidateVoteCount.total}"/>
+									</p:column>
+
+									<p:column rendered="#{candidateAnnouncementController.hasCandidateRanking()}">
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@settlement.list']}"/>
+										</f:facet>
+										<h:outputText value="#{candidateVoteCount.displayOrder}"/>
+									</p:column>
+								</p:dataTable>
+							</h:panelGroup>
+						</div>
+
+					</div>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

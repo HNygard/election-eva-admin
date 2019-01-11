@@ -1,0 +1,169 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		contentType="text/html">
+
+	<ui:fragment rendered="#{not operatorEditController.newCandidate}">
+
+		<div class="form-group">
+			<h:outputLabel value="#{msgs['@common.name']}" for="full-name"/>
+			<h:inputText
+				id="full-name"
+				name="full-name"
+				styleClass="form-control"
+				disabled="true"
+				value="#{operatorEditController.operator.name}"
+				maxlength="102"
+				size="30"
+				tabindex="2"/>
+		</div>
+	</ui:fragment>
+
+	<ui:fragment rendered="#{operatorEditController.newCandidate}">
+
+		<div class="form-group required">
+			<h:outputLabel value="#{msgs['@person.name.last']}" for="surname"/>
+
+			<h:inputText
+				id="surname"
+				pt:data-aft="surname"
+				name="surname"
+				styleClass="form-control"
+				value="#{operatorEditController.operator.lastName}"
+				maxlength="102"
+				size="30"
+				tabindex="2"
+				required="true"/>
+		</div>
+
+		<div class="form-group required">
+			<h:outputLabel value="#{msgs['@person.name.first']}" for="firstname"/>
+
+			<p:inputText
+				id="firstname"
+				pt:data-aft="firstname"
+				name="firstname"
+				styleClass="form-control"
+				value="#{operatorEditController.operator.firstName}"
+				maxlength="102"
+				size="30"
+				required="true"
+				tabindex="2"/>
+		</div>
+
+	</ui:fragment>
+
+	<div class="form-group">
+		<h:outputLabel value="#{msgs['@person.id']}" for="idLine"/>
+		<h:inputText
+			id="idLine"
+			name="idLine"
+			styleClass="form-control"
+			disabled="true"
+			value="#{operatorEditController.operator.personId.id}"
+			maxlength="102"
+			size="15"
+			tabindex="2"/>
+
+	</div>
+
+	<div class="form-group required">
+		<h:outputLabel value="#{msgs['@person.tlf.mobile']}" for="tlfLine"/>
+		<h:inputText
+			id="tlfLine"
+			pt:data-aft="tlfLine"
+			name="tlfLine"
+			styleClass="form-control"
+			value="#{operatorEditController.operator.telephoneNumber}"
+			maxlength="102"
+			size="15"
+			required="true"
+			tabindex="2">
+			<f:validator binding="#{phoneNumberValidator}"/>
+		</h:inputText>
+	</div>
+
+	<div class="form-group">
+		<h:outputLabel value="#{msgs['@common.streetname']}" for="addressLine1"/>
+		<h:inputText
+			id="addressLine1"
+			name="addressLine1"
+			styleClass="form-control"
+			value="#{operatorEditController.operator.address.addressLine1}"
+			maxlength="50"
+			size="30"
+			tabindex="2">
+			<h:message for="addressLine1" id="addressLine1Error" styleClass="inline-error"/>
+		</h:inputText>
+	</div>
+
+	<div class="form-group">
+		<div style="width: 80px;float:left;">
+			<h:outputLabel value="#{msgs['@person.postal.code.short']}" for="postalCode"/>
+			<h:inputText
+				id="postalCode"
+				name="postalCode"
+				styleClass="form-control"
+				value="#{operatorEditController.operator.address.postalCode}"
+				maxlength="4"
+				size="4"
+				tabindex="2">
+				<h:message for="postalCode" id="postalCodeError" styleClass="inline-error"/>
+			</h:inputText>
+		</div>
+		<div>
+			<h:outputLabel value="#{msgs['@person.postal.town']}" for="postTown"/>
+			<h:inputText
+				id="postTown"
+				name="postTown"
+				styleClass="form-control"
+				value="#{operatorEditController.operator.address.postTown}"
+				maxlength="50"
+				size="19"
+				tabindex="2">
+				<h:message for="postTown" id="postTownError" styleClass="inline-error"/>
+			</h:inputText>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<h:outputLabel value="#{msgs['@common.address.email']}" for="emailLine"/>
+		<h:inputText
+			id="emailLine"
+			pt:data-aft="emailLine"
+			name="emailLine"
+			styleClass="form-control"
+			value="#{operatorEditController.operator.email}"
+			maxlength="102"
+			size="40"
+			tabindex="2">
+			<f:validator binding="#{blankOrValidEmailValidator}"/>
+		</h:inputText>
+	</div>
+
+	<div class="form-group">
+		<h:outputLabel value="#{msgs['@rbac.operator.operatorIsActive']}:" for="activeOperator"/>
+		<h:selectBooleanCheckbox id="activeOperator"
+								 value="#{operatorEditController.operator.active}"
+								 style="margin-left: 5px;"
+								 disabled="#{operatorEditController.erRedigeringAvEgenBruker()}"
+								 label="#{msgs['@rbac.operator.operatorIsActive']}"/>
+	</div>
+
+	<ui:fragment rendered="#{userAccess.admin}">
+		<div class="form-group">
+			<h:outputLabel for="operatorKeySerialNumber" value="#{msgs['@person.keySerialNumber']}: "/>
+			<p:inputText id="operatorKeySerialNumber"
+						 value="#{operatorEditController.operator.keySerialNumber}"
+						 validatorMessage="#{msgs['@validation.key.serial.number.regex']}"
+						 maxlength="19"
+						 styleClass="form-control">
+				<f:validateRegex pattern="(\d{4}-\d{4}-\d{9})?"/>
+			</p:inputText>
+		</div>
+	</ui:fragment>
+
+</f:view>

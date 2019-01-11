@@ -1,0 +1,124 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="personalVotes">
+					<h:selectBooleanCheckbox
+						id="personalVotes"
+						pt:data-aft="personalVotes"
+						value="#{electionController.currentElection.personal}"
+						disabled="#{electionController.inputDisabled}"/>
+					#{msgs['@election.election.personal']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="writein">
+					<h:selectBooleanCheckbox
+						id="writein"
+						pt:data-aft="writein"
+						value="#{electionController.currentElection.writein}"
+						disabled="#{electionController.inputDisabled}">
+						<p:ajax event="change" process="@this" update="writeinLocalOverrideContainer" />
+					</h:selectBooleanCheckbox>
+					#{msgs['@election.election.writein']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+		<div class="col-md-12" style="padding-left: 35px;">
+			<h:panelGroup id="writeinLocalOverrideContainer" styleClass="checkbox">
+				<h:outputLabel for="writeinLocalOverride" styleClass="#{electionController.currentElection.writein ? '' : 'parent-disabled'}">
+					<h:selectBooleanCheckbox
+						id="writeinLocalOverride"
+						pt:data-aft="writeinLocalOverride"
+						value="#{electionController.currentElection.writeinLocalOverride}"
+						disabled="#{electionController.inputDisabled or not electionController.currentElection.writein}"/>
+					#{msgs['@election.election.writeinLocalOverride']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="renumber">
+					<h:selectBooleanCheckbox
+						id="renumber"
+						pt:data-aft="renumber"
+						value="#{electionController.currentElection.renumber}"
+						disabled="#{electionController.inputDisabled}">
+						<p:ajax event="change" process="@this" update="renumberLimitContainer" />
+					</h:selectBooleanCheckbox>
+					#{msgs['@election.election.rotation']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+
+		<div class="col-md-12" style="padding-left: 35px;">
+			<h:panelGroup id="renumberLimitContainer" styleClass="checkbox">
+				<h:outputLabel for="renumberLimit" styleClass="#{electionController.currentElection.renumber ? '' : 'parent-disabled'}">
+					<h:selectBooleanCheckbox
+						id="renumberLimit"
+						pt:data-aft="renumberLimit"
+						value="#{electionController.currentElection.renumberLimit}"
+						disabled="#{electionController.inputDisabled or not electionController.currentElection.renumber}"/>
+					#{msgs['@election.election.renumberLimit']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="strikeout">
+					<h:selectBooleanCheckbox
+						id="strikeout"
+						pt:data-aft="strikeout"
+						value="#{electionController.currentElection.strikeout}"
+						disabled="#{electionController.inputDisabled}"/>
+					#{msgs['@election.election.strikeout']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+
+		<div class="col-md-3">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="brukStemmetillegg">
+					<h:selectBooleanCheckbox
+						id="brukStemmetillegg"
+						pt:data-aft="brukStemmetillegg"
+						value="#{electionController.brukStemmetillegg}"
+						disabled="#{electionController.inputDisabled}">
+						<p:ajax event="change" process="@this" update="electionBaselineVoteFactorContainer" />
+					</h:selectBooleanCheckbox>
+					#{msgs['@election.election.affiliation_vote_factor_allowed']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+		<div class="col-md-9">
+			<h:panelGroup id="electionBaselineVoteFactorContainer" styleClass="form-group">
+				<h:outputLabel for="electionBaselineVoteFactor"
+							   value="#{msgs['@election.election.affiliation_vote_factor']}:"
+							   styleClass="#{electionController.brukStemmetillegg ? '' : 'parent-disabled'}"/>
+				<p:inputText
+					id="electionBaselineVoteFactor"
+					pt:data-aft="electionBaselineVoteFactor"
+					value="#{electionController.currentElection.baselineVoteFactor}"
+					label="#{msgs['@election.election.affiliation_vote_factor']}"
+					styleClass="form-control"
+					size="4"
+					maxlength="4"
+					required="false"
+					disabled="#{electionController.inputDisabled or not electionController.brukStemmetillegg}">
+					<f:converter converterId="bigDecimalConverter"/>
+				</p:inputText>
+			</h:panelGroup>
+		</div>
+	</div>
+
+
+</f:view>

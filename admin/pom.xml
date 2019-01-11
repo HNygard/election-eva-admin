@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>no.valg.eva</groupId>
+        <artifactId>admin-all</artifactId>
+        <version>2019.22-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>admin</artifactId>
+    <packaging>pom</packaging>
+    <name>EVA Administration Parent</name>
+
+    <modules>
+        <module>admin-common</module>
+        <module>admin-integration</module>
+        <module>admin-voting</module>
+        <module>admin-backend-common</module>
+        <module>admin-backend-testtools</module>
+        <module>admin-backend</module>
+        <module>admin-frontend</module>
+        <module>admin-counting</module>
+        <module>admin-settlement</module>
+        <module>admin-rbac</module>
+        <module>admin-configuration</module>
+        <module>admin-report-templates</module>
+        <module>admin-valgnatt</module>
+        <module>admin-rapport</module>
+    </modules>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <configuration>
+                        <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                        <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>lag-avhengighets-tre</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-dependency-file</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>tree</goal>
+                                </goals>
+                                <configuration>
+                                    <outputFile>target/${project.artifactId}-${project.version}_dependencies.txt</outputFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

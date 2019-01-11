@@ -1,0 +1,28 @@
+<f:view xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+		contentType="text/html"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:composition>
+		
+		<div class="container-fluid footer">
+
+			<div class="page-footer">
+				
+				<!--<div class="row">-->
+
+				<div class="col-xs-8 left">
+						<h:outputText value="#{msgs['@footer.text']}" escape="false"/>
+					</div>
+
+				<div class="col-xs-4 right">
+						EVA - v#{versionController.version} - #{versionController.hostId}
+					</div>
+					
+				<!--</div>-->
+				
+			</div>
+		</div>
+	</ui:composition>
+
+</f:view>

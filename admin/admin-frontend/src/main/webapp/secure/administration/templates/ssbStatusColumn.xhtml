@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        contentType="text/html">
+
+    <f:facet name="header">#{msgs['@statistic.column.reportStatus']}</f:facet>
+
+    <ui:fragment rendered="#{!ssbReport.status.equals('NOT_SENT')}">
+        <h:outputText value="#{ssbReport.auditTimestamp}">
+            <f:converter converterId="dateTimeConverter" />
+        </h:outputText>
+    </ui:fragment>
+
+    <ui:fragment rendered="#{ssbReport.status.equals('OK')}">
+        <h:outputText value=" #{msgs['@statistic.report.ok']}" style="color:green;" />
+        <img src="#{resource['images:ixd/icon-steps-ok.png']}" />
+    </ui:fragment>
+
+    <ui:fragment rendered="#{ssbReport.status.equals('ERROR')}">
+        <h:outputText value=" #{msgs['@statistic.report.ok']}" style="color:green;" />
+        <img src="#{resource['images:ixd/icon-steps-ok.png']}" />
+        <h:outputText value=" #{msgs['@statistic.report.sent_with_error']}, " style="color:red;" />
+    </ui:fragment>
+
+    <ui:fragment rendered="#{ssbReport.status.equals('NOT_SENT')}">
+        <h:outputText value="#{msgs['@statistic.report.not_sent']}" />
+    </ui:fragment>
+</f:view>

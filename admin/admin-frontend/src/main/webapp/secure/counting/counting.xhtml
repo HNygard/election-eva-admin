@@ -1,0 +1,71 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core"
+		xmlns:counting="http://java.sun.com/jsf/composite/counting"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+		
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@menu.counting.overview']}"
+						url="#{startCountingController.countingOverviewURL}"
+						rendered="#{startCountingController.breadCrumbRendered}"/>
+		</ui:define>
+		
+		<ui:define name="content">
+			<div id="page-counting" class="page" data-view="Counting">
+				<counting:topInfo id="topInfo" topInfoProvider="#{startCountingController.currentController}"/>
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="countingForm">
+							<p:remoteCommand name="updateDialog" process="@none" update="@(.dialogContent) :topInfo:topInfoBlock"/>
+							<p:remoteCommand name="processForm" process="@form" update="@none"/>
+							<p:messages globalOnly="true" id="messages" autoUpdate="true"/>
+
+							<p:tabView
+									id="tabView"
+									activeIndex="#{startCountingController.currentTab}"
+									dynamic="true"
+									onTabChange="processForm();"
+									onTabShow="updateDialog();EVA.Application.getInstance().getView().setup();"
+									cache="false">
+
+								<c:forEach var="currentTab" items="#{startCountingController.tabs}">
+									<p:tab title="#{msgs[currentTab.title]}" titleStyleClass="tab-title-#{currentTab.id}">
+										<h:panelGroup id="#{currentTab.id}" layout="block" styleClass="countingTab tab-#{currentTab.id}">
+											<ui:include src="#{currentTab.template}">
+												<ui:param name="tab" value="#{currentTab}"/>
+											</ui:include>
+										</h:panelGroup>
+									</p:tab>
+								</c:forEach>
+
+							</p:tabView>
+
+							<h:outputScript>
+								/*<![CDATA[*/
+								EVA.Application.onViewReady(function () {
+									EVA.Application.getInstance().getView().setup();
+								});
+									/*]]>*/
+							</h:outputScript>
+
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+			
+			<h:panelGroup id="dialogContent" styleClass="dialogContent" layout="block">
+				<c:if test="#{not empty startCountingController.currentController.approveDialog}">
+					<widget:dialog id="#{startCountingController.currentController.approveDialog.id}" dialog="#{startCountingController.currentController.approveDialog}"/>
+				</c:if>
+			</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</f:view>

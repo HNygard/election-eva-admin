@@ -1,0 +1,37 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[correctionsReportController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{correctionsReportController.initiellKontekstvelgerURL}"
+                        rendered="#{correctionsReportController.context}"/>
+            <p:menuitem value="#{msgs['@menu.config.rettelser']}" url="#{correctionsReportController.pageURL}"/>
+        </ui:define>
+        <ui:define name="content">
+            <div class="page" id="page-corrections-report">
+
+                <h1 class="page-title">
+                    <h:outputText value="#{msgs['@menu.config.rettelser']}"/>
+                </h1>
+           
+                <p:messages id="msg" />
+                
+                <h:form>
+                <p:commandButton value="#{msgs['@rapport.lastned']}"
+                                 id="exportButton"
+                                 styleClass="btn btn-primary margin-top--medium"
+                                 icon="eva-icon-download"
+                                 action="#{correctionsReportController.export}"
+                                 disabled="#{correctionsReportController.exportButtonDisabled}"
+                                 ajax="false">
+                </p:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

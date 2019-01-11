@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="electionLevel2CreateForm">
+		<ui:param name="helpId" value="@help.election.election"/>
+
+		<p:dialog
+			header="#{msgs['@election.election.create.header']}"
+			id="createElectionLevel2Widget"
+			widgetVar="createElectionLevel2Widget"
+			fixedCenter="true"
+			fitViewport="true"
+			modal="true"
+			visible="false"
+			resizable="false"
+			width="940"
+			height="500">
+
+			<h:panelGroup id="dialogContent" layout="block" styleClass="election">
+
+				<div class="row">
+					<div class="col-md-9 center-block">
+						<p:messages id="msg" />
+					</div>
+				</div>
+
+				<p:accordionPanel
+					id="panel"
+					activeIndex="#{electionController.activeIndex}"
+					styleClass="ui-accordion-default"
+					dynamic="false"
+					multiple="true"
+					cache="false">
+
+					<p:tab id="tab-basis" title="#{msgs['@config.central.election.tab.basis.title']}" titleStyleClass="tab-basis">
+						<ui:include src="includes/electionBasis.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-omraader" title="#{msgs['@config.central.election.tab.omraader.title']}" titleStyleClass="tab-omraader">
+						<ui:include src="includes/electionAreas.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-personvalgregler" title="#{msgs['@config.central.election.tab.personvalgregler.title']}" titleStyleClass="tab-personvalgregler">
+						<ui:include src="includes/electionPersonvalgregler.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-listeforslag" title="#{msgs['@config.central.election.tab.listeforslag.title']}" titleStyleClass="tab-listeforslag">
+						<ui:include src="includes/electionListeforslag.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-regler-opptelling" title="#{msgs['@config.central.election.tab.opptelling.title']}" titleStyleClass="tab-regler-opptelling">
+						<ui:include src="includes/electionOpptelling.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-ovrig" title="#{msgs['@config.central.election.tab.ovrig.title']}" titleStyleClass="tab-ovrig">
+						<ui:include src="includes/electionOther.xhtml"/>
+					</p:tab>
+
+				</p:accordionPanel>
+
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					id="create"
+					pt:data-aft="doCreateElection"
+					action="#{electionController.doCreateElection(electionController.currentElection)}"
+					update="dialogContent"
+					oncomplete="EVA.Application.getInstance().getView().scrollToDialogContentTop('electionLevel2CreateForm:createElectionLevel2Widget')"
+					value="#{msgs['@common.save']}"
+					disabled="#{!userAccess.konfigurasjonValgValg or electionController.inputDisabled}"
+					styleClass="btn btn-primary"/>
+
+				<p:commandLink
+					id="backToElectionList"
+					onclick="PF('createElectionLevel2Widget').hide();"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+			</f:facet>
+		</p:dialog>
+	</h:form>
+</ui:composition>

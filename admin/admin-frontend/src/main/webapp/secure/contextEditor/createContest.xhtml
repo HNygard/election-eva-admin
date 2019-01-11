@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="electionLevel3CreateForm">
+		<ui:param name="helpId" value="@help.election.contest"/>
+
+		<p:dialog
+			id="createElectionLevel3WidgetId"
+			widgetVar="createElectionLevel3Widget"
+			fixedCenter="true"
+			fitViewport="true"
+			header="#{msgs['@election.contest.create.header']}"
+			modal="true"
+			visible="false"
+			resizable="false"
+			width="940"
+			height="500">
+			
+			<ui:include src="contest/editContest.xhtml" />
+
+			<f:facet name="footer">
+				<h:panelGroup id="contestDialogFooter" styleClass="contestDialogFooter" layout="block">
+					<p:commandButton
+						id="createContestButton"
+						pt:data-aft="createContestButton"
+						action="#{contestController.createContest}"
+						process="@form"
+						update=":hierarchyEditor @(.editContestContainer)"
+						oncomplete="EVA.Application.getInstance().getView().ajaxOnComplete(xhr, status, args)"
+						value="#{msgs['@common.save']}"
+						disabled="#{contestController.updateContestButtonDisabled}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+					<p:commandLink
+						id="cancelCreateContestButton"
+						pt:data-aft="cancelCreateContestButton"
+						onclick="PF('createElectionLevel3Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+				</h:panelGroup>
+			</f:facet>
+		</p:dialog>
+	</h:form>
+</ui:composition>

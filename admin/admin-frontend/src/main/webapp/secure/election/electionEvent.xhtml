@@ -1,0 +1,371 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:param name="helpId" value="@help.election.election_event"/>
+
+        <ui:define name="content">
+
+            <div id="page-election-event" class="page" data-view="ElectionEvent">
+                <h1 class="page-title">
+                    <h:outputText
+                            value="#{msgs['@menu.config.edit_election_event']}"/>
+                </h1>
+
+                <h:form id="form">
+                    <ui:include src="dialogs/confirmDeleteElectionDayDialog.xhtml"/>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p:messages id="messageBox" globalOnly="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3><h:outputText value="#{msgs['@election.election_event.panelheader.main_info']}"/></h3>
+                        </div>
+                        <div class="col-md-7">
+                            <h3><h:outputText value="#{msgs['@election.election_event.panelheader.date_and_time_info']}"/></h3>
+                            <h:outputText styleClass="help-block" value="#{msgs['@common.date.date_format']}: #{msgs['@common.date.date_display_pattern']}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group required">
+                                <h:outputLabel for="id" value="#{msgs['@common.id']}:"/>
+                                <p:inputText
+                                        id="id"
+                                        value="#{electionEventController.updateForm.electionEvent.id}"
+                                        label="#{msgs['@common.id']}"
+                                        required="true"
+                                        requiredMessage="#{msgs.get('@common.message.required', msgs['@common.id'])}"
+                                        maxlength="6"
+                                        disabled="#{isElectionEventDisabled}"
+                                        styleClass="form-control"/>
+                                <h:message for="id" id="idError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required">
+                                <h:outputLabel for="name" value="#{msgs['@common.name']}:"/>
+                                <p:inputText
+                                        id="name"
+                                        value="#{electionEventController.updateForm.electionEvent.name}"
+                                        label="#{msgs['@common.name']}"
+                                        required="true"
+                                        requiredMessage="#{msgs.get('@common.message.required', msgs['@common.name'])}"
+                                        maxlength="100"
+                                        disabled="#{isElectionEventDisabled}"
+                                        styleClass="form-control"/>
+                                <h:message for="name" id="nameError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required">
+                                <h:outputLabel for="electionEventStatus" value="#{msgs['@election.election_event.election_event_status']}:"/>
+                                <h:selectOneListbox id="electionEventStatus"
+                                                    value="#{electionEventController.updateForm.statusId}"
+                                                    label="#{msgs['@election.election_event.election_event_status']}"
+                                                    required="true"
+                                                    size="1"
+                                                    disabled="#{isElectionEventDisabled or !userAccess.konfigurasjonValghendelseRediger}"
+                                                    styleClass="form-control">
+                                    <f:selectItems value="#{electionEventController.electionEventStatusList}"
+                                                   var="status"
+                                                   itemValue="#{status.id}"
+                                                   itemLabel="#{msgs[status.name]}"/>
+                                </h:selectOneListbox>
+                                <h:message for="electionEventStatus" id="electionEventStatusError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required">
+                                <h:outputLabel for="theme" value="#{msgs['@theme.choose']}:"/>
+                                <h:selectOneListbox id="theme"
+                                                    value="#{electionEventController.updateForm.electionEvent.theme}"
+                                                    label="#{msgs['@theme.choose']}"
+                                                    size="1"
+                                                    disabled="#{isElectionEventDisabled}"
+                                                    styleClass="form-control">
+                                    <f:selectItem itemLabel="#{msgs['@theme.default']}"/>
+                                    <f:selectItems value="#{electionEventController.themes}"/>
+                                </h:selectOneListbox>
+                                <h:message for="theme" id="themeError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="demoElection" value="#{msgs['@election.election_event.demo_election']}:"/>
+                                <h:selectBooleanCheckbox id="demoElection"
+                                                         value="#{electionEventController.updateForm.electionEvent.demoElection}"
+                                                         disabled="#{isElectionEventDisabled}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group required">
+                                <h:outputLabel for="localeList" value="#{msgs['@common.locale']}:"/>
+                                <h:selectManyListbox id="localeList"
+                                                     value="#{electionEventController.updateForm.selectedLocalePks}"
+                                                     valueChangeListener="#{electionEventController.valueChangeSelectManyCheckbox}"
+                                                     label="#{msgs['@common.locale']}"
+                                                     required="true"
+                                                     size="10"
+                                                     disabled="#{isElectionEventDisabled}"
+                                                     styleClass="form-control">
+                                    <f:selectItems value="#{electionEventController.locales}"
+                                                   var="locale"
+                                                   itemValue="#{locale.pk}"
+                                                   itemLabel="#{msgs[locale.name]}"/>
+                                    <p:ajax update="locale"/>
+                                </h:selectManyListbox>
+                                <h:message for="localeList" id="localeListError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required">
+                                <h:outputLabel for="locale" value="#{msgs['@common.locale.default']}:"/>
+                                <h:selectOneListbox id="locale"
+                                                    value="#{electionEventController.updateForm.electionEvent.locale}"
+                                                    label="#{msgs['@common.locale']}"
+                                                    required="true"
+                                                    size="1"
+                                                    disabled="#{isElectionEventDisabled}"
+                                                    styleClass="form-control">
+                                    <f:selectItem itemLabel="#{msgs['@common.locale.preselect']}"/>
+                                    <f:selectItems value="#{electionEventController.availableLocalesSet}"
+                                                   var="locale"
+                                                   itemLabel="#{msgs[locale.name]}"
+                                                   itemValue="#{locale}"/>
+                                    <f:converter converterId="localeConverter"/>
+                                </h:selectOneListbox>
+                                <h:message for="locale" id="localeError" styleClass="inline-error"/>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <h:outputLabel for="electoralRollCutOffDate" value="#{msgs['@election.election_event.electoral_roll_cut_off_date']}:"/>
+                                <p:inputMask
+                                        value="#{electionEventController.updateForm.electionEvent.electoralRollCutOffDate}"
+                                        mask="#{msgs['@common.date.date_mask']}"
+                                        disabled="#{isElectionEventDisabled}"
+                                        converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+                                        id="electoralRollCutOffDate"
+                                        label="#{msgs['@election.election_event.electoral_roll_cut_off_date']}:"
+                                        styleClass="form-control" size="10">
+                                    <f:converter converterId="localDateConverter"/>
+                                </p:inputMask>
+                                <h:message for="electoralRollCutOffDate" id="electoralRollCutOffDateError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required">
+                                <h:outputLabel for="earlyAdvanceVotingStartDate" value="#{msgs['@election.election_event.early_advance_voting_start_date']}:"/>
+                                <p:inputMask
+                                        required="true"
+                                        requiredMessage="#{msgs.get('@common.message.required', msgs['@election.election_event.early_advance_voting_start_date'])}"
+                                        value="#{electionEventController.updateForm.electionEvent.earlyAdvanceVotingStartDate}"
+                                        mask="#{msgs['@common.date.date_mask']}"
+                                        disabled="#{isElectionEventDisabled}"
+                                        converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+                                        id="earlyAdvanceVotingStartDate"
+                                        pt:data-aft="earlyAdvanceVotingStartDate"
+                                        label="#{msgs['@election.election_event.early_advance_voting_start_date']}:"
+                                        styleClass="form-control"
+                                        size="10">
+                                    <f:converter converterId="localDateConverter"/>
+                                </p:inputMask>
+                                <h:message for="earlyAdvanceVotingStartDate" id="earlyAdvanceVotingStartDateError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required">
+                                <h:outputLabel for="advanceVotingStartDate" value="#{msgs['@election.election_event.advance_voting_start_date']}:"/>
+                                <p:inputMask
+                                        required="true"
+                                        requiredMessage="#{msgs.get('@common.message.required', msgs['@election.election_event.advance_voting_start_date'])}"
+                                        value="#{electionEventController.updateForm.electionEvent.advanceVotingStartDate}"
+                                        mask="#{msgs['@common.date.date_mask']}"
+                                        disabled="#{isElectionEventDisabled}"
+                                        converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+                                        id="advanceVotingStartDate"
+                                        pt:data-aft="advanceVotingStartDate"
+                                        label="#{msgs['@election.election_event.advance_voting_start_date']}:"
+                                        styleClass="form-control"
+                                        size="10">
+                                    <f:converter converterId="localDateConverter"/>
+                                </p:inputMask>
+                                <h:message for="advanceVotingStartDate" id="advanceVotingStartDateError" styleClass="inline-error"/>
+                            </div>
+                            <div class="form-group required election-end-time">
+                                <h:outputLabel for="electionEndTime"
+                                               value="#{msgs['@election.election_event.enddate']} (#{msgs['@common.date.date_display_pattern']} - #{msgs['@common.date.time_display_pattern']}):"/>
+                                <div class="flex-container">
+                                    <div class="box">
+                                        <p:inputMask
+                                                required="true"
+                                                requiredMessage="#{msgs.get(['@common.message.required'], msgs['electionEventController.updateForm.electionEvent.electionEndDate'])}"
+                                                value="#{electionEventController.updateForm.electionEvent.electionEndDate}"
+                                                mask="#{msgs['@common.date.date_mask']}"
+                                                converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+                                                id="electionEndDate"
+                                                pt:data-aft="electionEndDate"
+                                                styleClass="form-control"
+                                                size="10">
+                                            <f:converter converterId="localDateConverter"/>
+                                        </p:inputMask>
+                                    </div>
+                                    <div class="box">-</div>
+                                    <div class="box">
+                                        <p:inputMask
+                                                required="true"
+                                                requiredMessage="#{msgs['@common.message.required']}"
+                                                value="#{electionEventController.updateForm.electionEvent.electionEndTime}"
+                                                mask="#{msgs['@common.date.time_mask']}"
+                                                converterMessage="#{msgs['@electoralRoll.validation.wrongFormatDate']}"
+                                                id="electionEndTime"
+                                                pt:data-aft="electionEndTime"
+                                                styleClass="form-control"
+                                                size="10">
+                                            <f:converter converterId="localTimeConverter"/>
+                                        </p:inputMask>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="voterNumbersAssignedDate" value="#{msgs['@election.election_event.voting_card_production_date']}:"/>
+                                <h:outputText id="voterNumbersAssignedDate"
+                                              value="#{electionEventController.updateForm.electionEvent.voterNumbersAssignedDate}"
+                                              style="display: block; font-weight: bold;">
+                                    <f:converter converterId="localDateConverter"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><h:outputText value="#{msgs['@election.election_event.panelheader.electoral_roll_info']}"/></h3>
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <h:outputLabel for="voterImportMunicipality" value="#{msgs['@election.election_event.voter_import_municipality']}:"/>
+                                        <h:selectOneRadio
+                                                value="#{electionEventController.updateForm.electionEvent.voterImportMunicipality}"
+                                                id="voterImportMunicipality" layout="lineDirection"
+                                                styleClass="ui-radio-group ui-radio-group-inline">
+                                            <f:selectItem id="voterImportMunicipalityFalse"
+                                                          itemLabel="#{msgs['@common.no']}" itemValue="#{false}"/>
+                                            <f:selectItem id="voterImportMunicipalityTrue"
+                                                          itemLabel="#{msgs['@common.yes']}" itemValue="#{true}"/>
+                                        </h:selectOneRadio>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group required">
+                                        <h:outputLabel for="electoralRollLinesPerPage" value="#{msgs['@election.election_event.electoral_roll_lines_per_page']}:"/>
+                                        <p:inputText
+                                                size="4"
+                                                value="#{electionEventController.updateForm.electionEvent.electoralRollLinesPerPage}"
+                                                id="electoralRollLinesPerPage"
+                                                label="#{msgs['@election.election_event.electoral_roll_lines_per_page']}"
+                                                styleClass="form-control" required="true" maxlength="4"
+                                                disabled="#{isElectionEventDisabled or electionEventController.updateForm.electionEvent.voterNumbersAssignedDate!=null}"/>
+                                        <h:message for="electoralRollLinesPerPage"
+                                                   id="electoralRollLinesPerPageError" styleClass="inline-error"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="voterImportDirName" value="#{msgs['@election.election_event.voter_import_url']} (/):"/>
+                                <p:inputText
+                                        value="#{electionEventController.updateForm.electionEvent.voterImportDirName}"
+                                        id="voterImportDirName"
+                                        label="#{msgs['@election.election_event.voter_import_url']}"
+                                        styleClass="form-control" required="false" maxlength="255" size="75"
+                                        disabled="#{isElectionEventDisabled}"/>
+                                <h:message for="voterImportDirName" id="voterImportDirNameError"/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><h:outputText value="#{msgs['@election.election_event.election_days']}"/></h3>
+                            <p:dataTable value="#{electionEventController.electionDayList}"
+                                         var="electionDay" id="electionDayDataTable"
+                                         emptyMessage="#{msgs['@election.election_event.election_day_none_exists']}"
+                                         tableStyleClass="table table-striped">
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['@election.election_event.election_day']} (#{msgs['@common.date.date_display_pattern']})"/>
+                                    </f:facet>
+                                    <p:inputMask value="#{electionDay.date}"
+                                                 mask="#{msgs['@common.date.date_mask']}" id="electionDayDate"
+                                                 disabled="#{isElectionEventDisabled}"
+                                                 label="#{msgs['@election.election_event.election_day']}"
+                                                 required="true" onload="true">
+                                        <f:converter converterId="localDateConverter"/>
+                                    </p:inputMask>
+                                    <h:message for="electionDayDate" id="electionDayDateError" styleClass="inline-error"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['@election.election_event.election_day_start_time']} (#{msgs['@common.date.time_display_pattern']})"/>
+                                    </f:facet>
+                                    <p:inputMask value="#{electionDay.startTime}"
+                                                 mask="#{msgs['@common.date.time_mask']}"
+                                                 id="electionDayStartTime" disabled="#{isElectionEventDisabled}"
+                                                 label="#{msgs['@election.election_event.election_day_start_time']}"
+                                                 required="true"
+                                                 onload="true">
+                                        <f:converter converterId="localTimeConverter"/>
+                                    </p:inputMask>
+                                    <h:message for="electionDayStartTime" id="electionDayStartTimeError" styleClass="inline-error"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['@election.election_event.election_day_end_time']} (#{msgs['@common.date.time_display_pattern']})"/>
+                                    </f:facet>
+                                    <p:inputMask value="#{electionDay.endTime}"
+                                                 mask="#{msgs['@common.date.time_mask']}"
+                                                 id="electionDayEndTime" disabled="#{isElectionEventDisabled}"
+                                                 label="#{msgs['@election.election_event.election_day_end_time']}"
+                                                 required="true"
+                                                 onload="true">
+                                        <f:converter converterId="localTimeConverter"/>
+                                    </p:inputMask>
+                                    <h:message for="electionDayEndTime" id="electionDayEndTimeError" styleClass="inline-error"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header"/>
+                                    <p:commandLink oncomplete="PF('confirmation').show()"
+                                                   value="#{msgs['@common.delete']}"
+                                                   action="#{electionEventController.setDeletedRow(electionDay)}"
+                                                   rendered="#{not isElectionEventDisabled and electionEventController.renderDeleteElectionDayLink}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                            <div class="row">
+                                <div class="col-md-12 right">
+                                    <p:commandLink
+                                            id="addElectionDayLink"
+                                            value="#{msgs['@election.election_event.election_day_add']}"
+                                            action="#{electionEventController.makeNewElectionDay}"
+                                            disabled="#{isElectionEventDisabled or !userAccess.konfigurasjonValghendelseRediger}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group action-buttons">
+                            <p:commandButton id="update"
+                                             action="#{electionEventController.doUpdateElectionEvent}"
+                                             value="#{msgs['@election.election_event.details.button.update']}"
+                                             styleClass="btn btn-primary"
+                                             ajax="false"
+                                             disabled="#{isElectionEventDisabled or !userAccess.konfigurasjonValghendelseRediger}"/>
+                        </div>
+                    </div>
+                </h:form>
+                <widget:dialog id="#{electionEventController.addElectionDayDialog.id}"
+                               dialog="#{electionEventController.addElectionDayDialog}"/>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

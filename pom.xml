@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>no.valg.eva</groupId>
+    <artifactId>admin-all</artifactId>
+    <packaging>pom</packaging>
+    <version>2019.22-SNAPSHOT</version>
+    <name>EVA Administration Top-level parent</name>
+
+    <modules>
+        <module>admin</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <jacoco.out.path>/var/lib/jenkins/workspace/jacoco</jacoco.out.path>
+        <jacoco.out.file>jacoco.exec</jacoco.out.file>
+
+        <!-- Sonar -->
+        <sonar.jacoco.reportPath>${jacoco.out.path}/${jacoco.out.file}</sonar.jacoco.reportPath>
+
+        <postgresql.version>42.2.5</postgresql.version>
+        <testDatabaseHost>localhost</testDatabaseHost>
+        <testDatabasePort>15432</testDatabasePort>
+        <testDatabaseName>evote</testDatabaseName>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <slf4j.version>1.8.0-beta2</slf4j.version>
+        <bc-jdk15on.version>1.60</bc-jdk15on.version>
+        <poi.version>3.17</poi.version>
+    </properties>
+
+    <!-- Brukes for å definere versjonene til bibliotekene vi bruker i submodulene våre. 
+         Versjonene til avhengighetene skal alltid være her (og ikke i submodulene) -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Interne avhengigheter -->
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-common</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-configuration</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-counting</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-rbac</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-settlement</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-valgnatt</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-voting</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Interne avhengigheter, test -->
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-common</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-configuration</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-counting</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-backend-common</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-backend-testtools</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-integration</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Eksterne avhengigheter -->
+            <dependency>
+                <!-- Loggerammeverk - videreutvikling av log4j. Brukes av slf4j -->
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <!-- Brukes for å håndtere CPS-kode ifbm Jenkins-tester -->
+                <groupId>com.cloudbees</groupId>
+                <artifactId>groovy-cps</artifactId>
+                <version>1.20</version>
+            </dependency>
+            <dependency>
+                <!-- Verktøy for håndtering av streams  -->
+                <groupId>com.codepoetics</groupId>
+                <artifactId>protonpack</artifactId>
+                <version>1.14</version>
+            </dependency>
+            <dependency>
+                <!-- Googles bibliotek for håndtering av JSon -->
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.8.2</version>
+            </dependency>
+            <dependency>
+                <!-- Googles kjernebiblioteker for Java -->
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>27.0.1-jre</version>
+            </dependency>
+            <dependency>
+                <!-- Java Monitoring API. Brukes til å se etter hotspots for ytelsestuning -->
+                <groupId>com.jamonapi</groupId>
+                <artifactId>jamon</artifactId>
+                <version>2.81</version>
+            </dependency>
+            <dependency>
+                <!-- Assertions for JSon-strukturer -->
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path-assert</artifactId>
+                <version>2.4.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- Støtte for kommandolinjeverktøy -->
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>1.4</version>
+            </dependency>
+            <dependency>
+                <!-- Collections-verktøy. Burde muligens oppgraderes til versjon 4 -->
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+            <dependency>
+                <!-- IO/fil-håndtering -->
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.5</version>
+            </dependency>
+            <dependency>
+                <!-- Brukes kun i itests-prosjektet som er litt utdatert, så den kan muligens tas bort -->
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.2</version>
+            </dependency>
+            <dependency>
+                <!-- XML-rammeverk -->
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- Fake SMTP server -->
+                <groupId>dumbster</groupId>
+                <artifactId>dumbster</artifactId>
+                <version>1.6</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- Java EE 8 spesifikasjons-API -->
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <!-- Oracles implementasjon av JSF 2.3 -->
+                <groupId>javax.faces</groupId>
+                <artifactId>javax.faces-api</artifactId>
+                <version>2.3</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- Dato-bibliotek. Ble brukt fordi pre-java-8-biblioteket ikke var bra. Kan byttes tilbake til nytt bibliotek i Java nå -->
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.9.9</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+            </dependency>
+            <dependency>
+                <!-- Kjernemodulen til ehcache. Versjonen er tilpasset versjonen av wildfly vi kjører -->
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-core</artifactId>
+                <version>2.4.3</version>
+            </dependency>
+            <dependency>
+                <!-- User agent detector. Brukes for browser-identifisering -->
+                <groupId>net.sf.uadetector</groupId>
+                <artifactId>uadetector-resources</artifactId>
+                <version>2014.10</version>
+            </dependency>
+            <dependency>
+                <!-- API for å aksessere Microsoft Office-dokumenter -->
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Hjelpeklasser for java.lang -->
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.6</version>
+            </dependency>
+            <dependency>
+                <!-- Matematikkbibliotek. Brukes til fordeling av roder -->
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>3.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.3</version>
+            </dependency>
+            <dependency>
+                <!-- POI-biblioteket for OpenXML4J -->
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>dom4j</groupId>
+                        <artifactId>dom4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <!-- Brukes ikke -->
+                        <groupId>stax</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.santuario</groupId>
+                <artifactId>xmlsec</artifactId>
+                <version>2.1.2</version>
+            </dependency>
+            <dependency>
+                <!-- "Fluent assertions" for tester -->
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.8.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- Java-implementasjon av krypto-algoritmer -->
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bc-jdk15on.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- Diverse APIer til BouncyCastle, blant annet CMS, PKCS og sertifikatgenerering -->
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bc-jdk15on.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- Språket Groovy - bygd oppå JVM -->
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>2.4.12</version>
+            </dependency>
+            <dependency>
+                <!-- HTTP-klient-rammeverk -->
+                <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+                <artifactId>http-builder</artifactId>
+                <version>0.7.1</version>
+            </dependency>
+            <dependency>
+                <!-- Flyway - rammeverk for databasemigreringshåndtering -->
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>5.1.4</version>
+            </dependency>
+            <dependency>
+                <!-- Kommandolinestøtte for kjøring av Flyway. Brukes i byggingen av RPM-fil for admin-db -->
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-commandline</artifactId>
+                <version>5.1.4</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.pivotal.jdbc</groupId>
+                        <artifactId>greenplumdriver</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <!-- Brukes ikke -->
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <!-- Brukes ikke -->
+                        <groupId>net.sourceforge.jtds</groupId>
+                        <artifactId>jtds</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <!-- Brukes ikke -->
+                        <groupId>org.xerial</groupId>
+                        <artifactId>sqlite-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- JBoss EJB3 api for Bean Providers -->
+                <groupId>org.jboss.ejb3</groupId>
+                <artifactId>jboss-ejb3-ext-api</artifactId>
+                <version>2.2.0.Final</version>
+            </dependency>
+            <dependency>
+                <!-- Brukes til JSON-parsing av auditlogging-rammeverket. Default provider for Javas JSON-prosesserings-API -->
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <dependency>
+                <!-- "Matchers" - brukes i enhetstester med mock-rammeverk -->
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <!-- Kjernefunksjonaliteten til Hibernate -->
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.0.10.Final</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>dom4j</groupId>
+                        <artifactId>dom4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- Hibernates implementasjon av JPA. Skal fjernes når vi oppgraderer til Hibernate 5.2+ -->
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>5.0.10.Final</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.hibernate.javax.persistence</groupId>
+                        <artifactId>hibernate-jpa-2.1-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>dom4j</groupId>
+                        <artifactId>dom4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- Ehcache-bruk i Hibernate -->
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-ehcache</artifactId>
+                <version>5.0.10.Final</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>net.sf.ehcache</groupId>
+                        <artifactId>ehcache</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- Verktøy til Hibernate. Brukes ikke i selve admin-applikasjonen, men i admin-tools -->
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-tools</artifactId>
+                <version>5.0.6.Final</version>
+            </dependency>
+            <dependency>
+                <!-- Hibernates implementasjon av Bean Validation -->
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.2.4.Final</version>
+            </dependency>
+            <dependency>
+                <!-- Hibernate-support for joda time. Kan sannsynligvis fjernes når vi slutter å bruke joda time -->
+                <groupId>org.jadira.usertype</groupId>
+                <artifactId>usertype.core</artifactId>
+                <version>5.0.0.GA</version> <!-- Venter med nyere versjon til vi går til Hibernate 5.2 -->
+            </dependency>
+            <dependency>
+                <!-- RESTEasy på toppen av Javas enkle native http-server. Brukes ifbm grensesnittet mot EVA Resultat -->
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jdk-http</artifactId>
+                <version>3.1.4.Final</version>
+            </dependency>
+            <dependency>
+                <!-- XML-rammeverk -->
+                <groupId>org.jdom</groupId>
+                <artifactId>jdom</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.22.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- Verktøy for å rense HTML -->
+                <groupId>org.owasp.antisamy</groupId>
+                <artifactId>antisamy</artifactId>
+                <version>1.5.7</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis-ext</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- Transient dependency av org.owasp.antisamy. Settes eksplisitt for å få oppdatert versjon. -->
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-css</artifactId>
+                <version>1.10</version>
+            </dependency>
+            <dependency>
+                <!-- Postgresql driver -->
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- PrimeFaces - GUI-rammeverket vi bruker i frontend. Holder oss på v5.3 pga legacy custom frontend styling -->
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>5.3</version>
+            </dependency>
+            <dependency>
+                <!-- Browsertestingsrammeverk. Er kun i bruk i admin-frontend-itests, og kan sannsynligvis tas bort etterhvert -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>3.6.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- API til selenium. Er kun i bruk i admin-frontend-itests, og kan sannsynligvis tas bort etterhvert -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>2.7.0</version>
+            </dependency>
+            <dependency>
+                <!-- Driver for selenium-tester. Er kun i bruk i admin-frontend-itests, og kan sannsynligvis tas bort etterhvert -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-htmlunit-driver</artifactId>
+                <version>2.7.0</version>
+            </dependency>
+            <dependency>
+                <!-- SLF4J er en "logg wrapper", som gir et implementasjons-uavhengig logg-api -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Spock er et enhetstestrammeverk for Groovy. Brukes av enhetstestene for Jenkins-koden -->
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>1.1-groovy-2.4</version>
+            </dependency>
+            <dependency>
+                <!-- Enhetstestrammeverk -->
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>6.11</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <!-- Denne inneholder alle versjonene som brukes ifbm Wildfly, og skal være med (selv om den ikke er referert direkte -->
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-spec-api</artifactId>
+                <version>10.1.0.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Konvertering av koordinater mellom f.eks. lat long og UTM -->
+                <groupId>uk.org.mygrid.resources.jcoord</groupId>
+                <artifactId>jcoord</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <!-- Serialisering til XML/HTML -->
+                <groupId>xalan</groupId>
+                <artifactId>serializer</artifactId>
+                <version>2.7.2</version>
+            </dependency>
+            <dependency>
+                <!-- XML-parser -->
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.12.0</version>
+            </dependency>
+            <dependency>
+                <!-- Brukes av Xerces -->
+                <groupId>xml-apis</groupId>
+                <artifactId>xml-apis</artifactId>
+                <version>1.4.01</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Lombok er med her fordi vi ønsker å bruke det i hele prosjektet -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Hensikten med denne delen er å ha felles styring på versjoner av plugins som er brukt.
+             Versjoner skal ikke spesifiseres i sub-moduler (med mindre det er en god grunn for det, og dette er eksplisitt forklart der det brukes)
+             I er konfigurasjon spesifisert her når det skal være delt for alle modulene -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!-- Kobling mot SonarQube vha Maven -->
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.2</version>
+                </plugin>
+                <plugin>
+                    <!-- Lager "assemblies" av kildekode, klasser etc -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <!-- Pluging som gjør kompileringen -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.7.0</version>
+                    <configuration>
+                        <encoding>utf-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <!-- Håndterer (kopierer, analyserer osv) avhengigheter -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <!-- For kjøring av integrasjonstester. Brukes kun av admin-backend-itests. Kan sannsynligvis tas bort etter opprydning der -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.20.1</version>
+                </plugin>
+                <plugin>
+                    <!-- Bygger JAR-filer -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <!-- Genererer standard-rapporter, feks ved å kjøre "mvn site" -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+                <plugin>
+                    <!-- Kopierer ressursfiler -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <!-- Lager JAR-fil av kildekoden -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <!-- Kjører enhetstestene -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20.1</version>
+                    <configuration>
+                        <argLine>${jacoco.agent.argLine} -Xmx1024m</argLine>
+                        <systemProperties>
+                            <property>
+                                <name>derby.stream.error.file</name>
+                                <value>target/derby.log</value>
+                            </property>
+                        </systemProperties>
+                        <systemPropertyVariables>
+                            <testDatabaseHost>${testDatabaseHost}</testDatabaseHost>
+                            <testDatabasePort>${testDatabasePort}</testDatabasePort>
+                            <testDatabaseName>${testDatabaseName}</testDatabaseName>
+                        </systemPropertyVariables>
+                        <!-- Default kjøres "fast tests" -->
+                        <excludedGroups>repository,slow,erasesTestData,resources</excludedGroups>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <!-- Lager en web-side med testresultatene fra surefire-plugin -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>2.20.1</version>
+                    <configuration>
+                        <argLine>-XX:-UseSplitVerifier -Xmx1024m</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <!-- Bygger WAR-fil -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <!-- Brukes av Groovy-prosjekter -->
+                    <groupId>org.codehaus.gmavenplus</groupId>
+                    <artifactId>gmavenplus-plugin</artifactId>
+                    <version>1.6</version>
+                </plugin>
+                <plugin>
+                    <!-- Småverktøy. Brukes kun av admin-frontend-itests, og kan muligens tas bort etter opprydning -->
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <!-- Tillater eksekvering av kommandoer -->
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                </plugin>
+                <plugin>
+                    <!-- Bruk av Flyway gjennom Maven -->
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>4.2.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>${postgresql.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <!-- Code coverage -->
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.2</version>
+                </plugin>
+                <plugin>
+                    <!-- Gjør git-info tilgjengelig i bygget. Brukes i kontinuerlig leveranse-prosessen -->
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>2.2.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- Faktiske plugins som vil kjøres for alle submoduler -->
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <propertyName>jacoco.agent.argLine</propertyName>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <append>true</append>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- De to neste profilene brukes for å skru av/på secure cookies, se EVA-2458 og EVA-2368 -->
+        <profile>
+            <id>secureCookies</id>
+            <properties>
+                <session.cookie.secure>true</session.cookie.secure>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/web.xml</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
+                            <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                            <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>insecureCookies</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <session.cookie.secure>false</session.cookie.secure>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/web.xml</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
+                            <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                            <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- De neste profilene brukes for å styre hvilke automatiske tester som kjøres. Standard kjøres bare "raske tester" -->
+        <profile>
+            <id>slowTests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <groups>repository,slow</groups>
+                            <excludedGroups>erasesTestData</excludedGroups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>erasingTests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <groups>erasesTestData</groups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>allTests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludedGroups>erasesTestData</excludedGroups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>jsf-development</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jsf.projectStage>Development</jsf.projectStage>
+            </properties>
+        </profile>
+        <profile>
+            <id>jsf-custom</id>
+            <activation>
+                <property>
+                    <name>jsf.projectStage</name>
+                </property>
+            </activation>
+            <properties>
+                <jsf.projectStage>${jsf.projectStage}</jsf.projectStage>
+            </properties>
+        </profile>
+        <profile>
+            <!-- Denne gir mulighet for å overstyre properties for databasetilkobling.
+                 Er spesielt nyttig hvis du ikke bruker Docker, og trenger å kjøre
+                 integrasjonstester. Se forøvrig: https://confluence.valg.no/pages/viewpage.action?pageId=12879353 -->
+            <id>localPostgresDb</id>
+            <properties>
+                <testDatabaseHost>localhost</testDatabaseHost>
+                <testDatabasePort>5432</testDatabasePort>
+                <testDatabaseName>evote_test</testDatabaseName>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

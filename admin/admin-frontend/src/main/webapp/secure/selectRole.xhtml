@@ -1,0 +1,72 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core" contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+
+        <ui:param name="helpId" value="@help.selectRole"/>
+        <ui:param name="hideMainPageLink" value="yes"/>
+
+        <ui:define name="content">
+
+            <div id="page-select-role" class="page">
+                <h:form id="fwMainContentForm" action="" styleClass="selectRole" prependId="true">
+                    <p:messages/>
+                    <c:forEach var="electionEvent"
+                               items="#{selectRoleController.electionEvents}">
+                                                
+                        <h1>#{electionEvent.name} <small>#{electionEvent.id}</small></h1>
+                        <div id="event#{electionEvent.id}">
+                            <p:dataTable
+                                    var="operatorRole"
+                                    value="#{selectRoleController.getOperatorRoles(electionEvent)}"
+                                    styleClass="cb_ee_#{electionEvent.id}"
+                                    tableStyleClass="table table-striped">
+                                <p:column style="width: 40%">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['@rbac.role']}"/>
+                                    </f:facet>
+                                    <p:tooltip for="selectRole"
+                                               value="#{msgs['@rbac.operator.status.userIsNotActive']}"
+                                               rendered="#{!operatorRole.operator.isActive()}"/>
+                                    <h:commandLink id="selectRole"
+                                                   action="#{selectRoleController.selectRole(operatorRole)}"
+                                                   disabled="#{!selectRoleController.isOperatorRoleEnabled(operatorRole)}"
+												   onclick="$(this).attr('disabled', 'disabled');return true;"
+                                                   class="cb_or_#{operatorRole.role.id} cb_area_#{operatorRole.mvArea.id()}">
+                                        <h:outputText
+                                                value="(#{msgs['@rbac.role.secLevel']} #{selectRoleController.getAccumulatedSecLevel(operatorRole.role)}) "
+                                                rendered="#{selectRoleController.getAccumulatedSecLevel(operatorRole.role) > userDataController.userData.securityLevel}"/>
+                                        <h:outputText
+                                                value="#{msgs.getByElectionEvent(operatorRole.role.name, operatorRole.role.electionEvent.pk)}"/>
+                                    </h:commandLink>
+                                </p:column>
+								<p:column style="width: 20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Sted"/>
+                                    </f:facet>
+                                    <h:outputText value="#{selectRoleController.getAreaName(operatorRole)}"/>
+                                </p:column>
+								<p:column style="width: 20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Kommune/fylke"/>
+                                    </f:facet>
+                                    <h:outputText value="#{selectRoleController.getBaseAreaName(operatorRole)}"/>
+                                </p:column>
+								<p:column style="width: 20%">
+									<f:facet name="header">
+										<h:outputText value=""/>
+									</f:facet>
+									<h:outputText value="#{selectRoleController.getContestName(operatorRole)}"/>
+								</p:column>
+                            </p:dataTable>
+                        </div>
+                    </c:forEach>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

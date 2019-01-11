@@ -1,0 +1,287 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.configuration.local"/>
+
+		<ui:define name="content">
+			<div class="page" id="page-central-configuration-overview">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.config.central_overview']}"/>
+				</h1>
+
+				<h:form id="form" prependId="false">
+					<div class="row">
+						<div class="col-md-12">
+							<span class="bold">#{msgs['@common.status']}:</span>
+							<h:outputText value="#{msgs[centralConfigController.configurationStatus]}"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="col-md-12 overview">
+								<h3>#{msgs['@config.area']}</h3>
+								<ui:fragment rendered="#{centralConfigController.hasLocalConfiguration()}">
+									<h4>#{msgs['@config.configured_centrally']}</h4>
+								</ui:fragment>
+								<widget:configOverviewElementList
+									id="countries"
+									list="#{centralConfigController.summary.getCountriesWithoutCounties()}"
+									label="#{msgs['@config.countries.without_counties']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="counties"
+									list="#{centralConfigController.summary.getCountiesWithoutMunicipalities()}"
+									label="#{msgs['@config.counties.without_municipalities']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="municipalities"
+									list="#{centralConfigController.summary.getMunicipalitiesWithoutBoroughs()}"
+									label="#{msgs['@config.municipalities.without_boroughs']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="municipalitiesWOboroughs"
+									list="#{centralConfigController.summary.getMunicipalitiesWithoutEncompassingBoroughs()}"
+									label="#{msgs['@config.municipalities.without_encompassing_boroughs']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="municipalitiesWOdistricts"
+									list="#{centralConfigController.summary.getMunicipalitiesWithoutEncompassingPollingDistricts()}"
+									label="#{msgs['@config.municipalities.without_encompassing_polling_districts']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="boroughs"
+									list="#{centralConfigController.summary.getBoroughsWithoutPollingDistricts()}"
+									label="#{msgs['@config.boroughs.without_polling_districts']}"
+									required="false"/>
+								<ui:fragment rendered="#{centralConfigController.hasLocalConfiguration()}">
+									<h4>#{msgs['@config.configured_locally']}</h4>
+									<widget:configOverviewElementList
+										id="countiesUnderConfig"
+										list="#{centralConfigController.summary.getCountiesUnderConfiguration()}"
+										label="#{msgs['@config.counties.under_configuration']}"
+										required="false"/>
+
+									<div class="form-group row">
+										<h:panelGroup styleClass="eva-icon-checkmark col-md-2"
+													  rendered="#{centralConfigController.summary.allCountiesHaveApprovedConfiguration()}"/>
+										<h:panelGroup styleClass="eva-icon-warning col-md-2"
+													  rendered="#{not centralConfigController.summary.allCountiesHaveApprovedConfiguration()}"/>
+										<ui:fragment rendered="#{centralConfigController.summary.getCountiesApprovedConfiguration().size() == 0}">
+											<label class="col-md-6">#{msgs['@config.counties.approved_configuration']}</label>
+										</ui:fragment>
+										<ui:fragment rendered="#{centralConfigController.summary.getCountiesApprovedConfiguration().size() > 0}">
+											<a class="col-md-6" onclick="PF('countiesApprovedConfigModal').show(); return false;" href="#"><h:outputText
+												value="#{msgs['@config.counties.approved_configuration']}"/></a>
+										</ui:fragment>
+										<h:outputText value="#{centralConfigController.summary.getCountiesApprovedConfiguration().size()}" styleClass="badge"/>
+									</div>
+
+									<widget:configOverviewElementList
+										id="municipalitiesUnderConfig"
+										list="#{centralConfigController.summary.getMunicipalitiesUnderConfiguration()}"
+										label="#{msgs['@config.municipalities.under_configuration']}"
+										required="false"/>
+
+									<div class="form-group row">
+										<h:panelGroup styleClass="eva-icon-checkmark col-md-2"
+													  rendered="#{centralConfigController.summary.allMunicipalitiesHaveApprovedConfiguration()}"/>
+										<h:panelGroup styleClass="eva-icon-warning col-md-2"
+													  rendered="#{not centralConfigController.summary.allMunicipalitiesHaveApprovedConfiguration()}"/>
+										<ui:fragment rendered="#{centralConfigController.summary.getMunicipalitiesApprovedConfiguration().size() == 0}">
+											<label class="col-md-6">#{msgs['@config.municipalities.approved_configuration']}</label>
+										</ui:fragment>
+										<ui:fragment rendered="#{centralConfigController.summary.getMunicipalitiesApprovedConfiguration().size() > 0}">
+											<a class="col-md-6" onclick="PF('municipalitiesApprovedConfigModal').show(); return false;" href="#"><h:outputText
+												value="#{msgs['@config.municipalities.approved_configuration']}"/></a>
+										</ui:fragment>
+										<h:outputText value="#{centralConfigController.summary.getMunicipalitiesApprovedConfiguration().size()}" styleClass="badge"/>
+									</div>
+
+									<c:if test="${centralConfigController.summary.hasAnyMunicipalitiesWithNonElectronicMarkOffs}">
+										<widget:configOverviewElementList
+											id="pollingStations"
+											list="${centralConfigController.summary.municipalitiesWithPollingPlacesWithoutPollingStations}"
+											label="#{msgs['@config.polling_stations.overview.MunicipalitiesWithPollingPlacesWithoutPollingStations']}"
+											required="false"/>
+									</c:if>
+								</ui:fragment>
+							</div>
+							<div class="col-md-12 overview">
+								<h3>#{msgs['@config.reporting_units']}</h3>
+								<ui:fragment rendered="#{not centralConfigController.summary.reportingUnitsConfigured}">
+									<h:outputText value="#{msgs['@config.reporting_units.none']}"/>
+								</ui:fragment>
+								<ui:fragment rendered="#{centralConfigController.summary.reportingUnitsConfigured}">
+									<ui:repeat var="reportingUnitTypeDto" value="#{centralConfigController.summary.reportingUnitTypeDtoList}">
+										<widget:configOverviewElementBoolean
+											id="pollingStations"
+											isOK="#{not reportingUnitTypeDto.selectedElections.isEmpty()}"
+											label="#{msgs[reportingUnitTypeDto.name]} #{msgs[reportingUnitTypeDto.mvElectionNameString]}"
+											required="false"/>
+									</ui:repeat>
+								</ui:fragment>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-12 overview">
+								<h3>#{msgs['@config.electoral_roll']}</h3>
+								<widget:configOverviewElementBoolean
+									id="voterNumbersGenerated"
+									isOK="#{centralConfigController.summary.voterNumbersHaveBeenGenerated}"
+									label="#{centralConfigController.summary.voterNumbersHaveBeenGenerated ? msgs['@config.electoralRoll.voter_numbers_generated'] : 
+									msgs['@config.electoralRoll.voter_numbers_not_generated']}"
+									required="false"/>
+								<widget:configOverviewElementList
+									id="pollingDistricts"
+									list="#{centralConfigController.summary.getPollingDistrictsWithoutVoters()}"
+									label="#{msgs['@config.polling_districts.without_voters']}"
+									required="false"/>
+								<widget:configOverviewElementList
+									id="votersWithoutPollingDistricts"
+									list="#{centralConfigController.summary.getVotersWithoutPollingDistricts()}"
+									label="#{msgs['@config.voters.without_polling_districts']}"
+									kretser="true"
+									required="false"/>
+							</div>
+							<div class="col-md-12 overview">
+								<h3>#{msgs['@config.election']}</h3>
+								<ui:fragment rendered="#{centralConfigController.hasLocalConfiguration()}">
+									<h4>#{msgs['@config.configured_centrally']}</h4>
+								</ui:fragment>
+								<widget:configOverviewElementList
+									id="eventWoGroup"
+									list="#{centralConfigController.summary.getElectionEventWithoutGroups()}"
+									label="#{msgs['@config.election_event.without_group']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="groupWoElection"
+									list="#{centralConfigController.summary.getGroupsWithoutElections()}"
+									label="#{msgs['@config.group.without_election']}"
+									required="false"/>
+
+								<widget:configOverviewElementList
+									id="electionWoContest"
+									list="#{centralConfigController.summary.getElectionsWithoutContests()}"
+									label="#{msgs['@config.election.without_contests']}"
+									required="false"/>
+								<ui:fragment rendered="#{centralConfigController.hasLocalConfiguration()}">
+									<h4>#{msgs['@config.configured_locally']}</h4>
+									<widget:configOverviewElementList
+										id="contestsUnderConfig"
+										list="#{centralConfigController.summary.contestsUnderConfiguration}"
+										label="#{msgs['@config.contests.under_configuration']}"
+										required="false"/>
+									<widget:configOverviewElementList
+										id="contestsFinishedConfig"
+										list="#{centralConfigController.summary.contestsFinishedConfiguration}"
+										label="#{msgs['@config.contests.finished_configuration']}"
+										required="false"/>
+
+									<div class="form-group row">
+										<h:panelGroup styleClass="eva-icon-checkmark col-md-2"
+													  rendered="#{centralConfigController.summary.allContestsHaveApprovedConfiguration()}"/>
+										<h:panelGroup styleClass="eva-icon-warning col-md-2"
+													  rendered="#{not centralConfigController.summary.allContestsHaveApprovedConfiguration()}"/>
+										<ui:fragment rendered="#{centralConfigController.summary.contestsApprovedConfiguration.size() == 0}">
+											<label class="col-md-6">#{msgs['@config.contests.approved_configuration']}</label>
+										</ui:fragment>
+										<ui:fragment rendered="#{centralConfigController.summary.contestsApprovedConfiguration.size() > 0}">
+											<a class="col-md-6" onclick="PF('contestsApprovedConfigModal').show(); return false;" href="#"><h:outputText
+												value="#{msgs['@config.contests.approved_configuration']}"/></a>
+										</ui:fragment>
+										<h:outputText value="#{centralConfigController.summary.contestsApprovedConfiguration.size()}" styleClass="badge"/>
+									</div>
+								</ui:fragment>
+							</div>
+						</div>
+					</div>
+
+					<p:dialog modal="true" styleClass="scrollable"
+							  header="#{msgs['@config.contests.approved_configuration']}"
+							  id="contestsApprovedConfig"
+							  widgetVar="contestsApprovedConfigModal" height="500"
+							  width="700">
+
+						<h:dataTable id="contestsApprovedConfigdataTable"
+									 value="#{centralConfigController.summary.contestsApprovedConfiguration}"
+									 var="elem">
+							<h:column>
+								<f:facet name="header">ID</f:facet>
+								<h:outputText value="#{elem.id}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Name</f:facet>
+								<h:outputText value="#{elem.name}"/>
+							</h:column>
+						</h:dataTable>
+					</p:dialog>
+					<p:dialog styleClass="scrollable"
+							  header="#{msgs['@config.counties.approved_configuration']}"
+							  id="countiesApproved" modal="true"
+							  widgetVar="countiesApprovedConfigModal" height="500"
+							  width="700">
+						<h:dataTable
+							value="#{centralConfigController.summary.getCountiesApprovedConfiguration()}"
+							var="elem"
+							id="countiesApprovedConfigdataTable"
+							styleClass="table table-striped col-md-12">
+							<h:column>
+								<f:facet name="header">ID</f:facet>
+								<h:outputText value="#{elem.id}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">#{msgs['@common.name']}</f:facet>
+								<h:outputText value="#{elem.name}"/>
+							</h:column>
+						</h:dataTable>
+					</p:dialog>
+					<p:dialog styleClass="scrollable"
+							  header="#{msgs['@config.municipalities.approved_configuration']}"
+							  id="municipalitiesApproved" modal="true"
+							  widgetVar="municipalitiesApprovedConfigModal" height="500"
+							  width="700">
+
+						<h:dataTable
+							value="#{centralConfigController.summary.getMunicipalitiesApprovedConfiguration()}"
+							var="elem"
+							id="municipalitiesApprovedConfigdataTable"
+							styleClass="table table-striped col-md-12">
+							<h:column>
+								<f:facet name="header">ID</f:facet>
+								<h:outputText value="#{elem.id}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">#{msgs['@common.name']}</f:facet>
+								<h:outputText value="#{elem.name}"/>
+							</h:column>
+						</h:dataTable>
+					</p:dialog>
+					<p:confirmDialog
+						message="#{msgs['@menu.config.central_overview.show_msg']}"
+						severity="info" widgetVar="centralConfirmDialog">
+						<p:commandButton value="#{msgs['@common.yes']}"
+										 styleClass="btn btn-primary"
+										 onclick="PF('centralConfirmDialog').hide(); window.location = 'centralConfigurationOverview.xhtml';"/>
+						<p:commandButton value="#{msgs['@common.cancel']}"
+										 styleClass="btn btn-link"
+										 onclick="PF('centralConfirmDialog').hide();return false;" type="button"/>
+					</p:confirmDialog>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

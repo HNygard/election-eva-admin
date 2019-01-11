@@ -1,0 +1,13 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		contentType="text/html">
+
+	<ui:composition template="/templates/simpleLayout.xhtml">
+		<ui:define name="content">
+			<h1>#{msgs['@common.wait']}</h1>
+			<input type="hidden" name="accessToken" value="#{scanningLoginSuccessfulController.accessTokenAsUtf8Xml}"/>
+			<input type="hidden" name="signature" value="#{scanningLoginSuccessfulController.signatureBase64Encoded}"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

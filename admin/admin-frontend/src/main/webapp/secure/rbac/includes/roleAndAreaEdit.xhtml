@@ -1,0 +1,70 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		contentType="text/html">
+
+	<h:outputLabel value="#{msgs['@rbac.operator.roleAndLocation']}"/>
+
+	<p:outputPanel rendered="#{empty operatorEditController.editRoleAssociations}" styleClass="ui-state-highlight">
+		<p:panel>
+			<span class="eva-icon-warning orange"/>
+			<h:outputText value="#{msgs['@rbac.info.saving.operator.requires.at.least.one.role']}"/>
+		</p:panel>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{operatorEditController.erRedigeringAvEgenBruker()}" styleClass="ui-state-highlight">
+		<p:panel>
+			<span class="eva-icon-warning orange"/>
+			<h:outputText value="#{msgs['@rbac.role.kanIkkeEndreEgneRoller']}"/>
+		</p:panel>
+	</p:outputPanel>
+
+	<div class="operator-role-list">
+
+		<ui:repeat id="roleAssociations"
+				   value="#{operatorEditController.editRoleAssociations}"
+				   var="roleAssociation">
+
+			<div class="operator-role">
+
+				<h:panelGroup styleClass="delete-role" layout="block">
+					<p:commandLink
+						id="deleteOperatorRole"
+						ajax="true"
+						styleClass="eva-icon-cancel"
+						update="@form:roleList @form:editButtons @form:newButtons"
+						immediate="true"
+						disabled="#{operatorEditController.erRedigeringAvEgenBruker()}"
+						action="#{operatorEditController.deleteSelectedRoleAssociation(roleAssociation)}"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="role-name" layout="block">
+					<h:outputText value="#{msgs.getByElectionEvent(roleAssociation.role.roleName, userDataController.userData.electionEventPk)}"/>
+				</h:panelGroup>
+				<h:panelGroup styleClass="area-name" layout="block" rendered="#{not empty roleAssociation.contest}">
+					<h:outputText value="#{roleAssociation.contest.name}"/>
+				</h:panelGroup>
+				<h:panelGroup styleClass="area-name" layout="block" rendered="#{empty roleAssociation.contest}">
+					<h:outputText
+						value="#{roleAssociation.area.getLeafIdForAreaLevels(['POLLING_DISTRICT', 'POLLING_PLACE'])} #{roleAssociation.area.name}"/>
+				</h:panelGroup>
+
+			</div>
+		</ui:repeat>
+	</div>
+
+	<div class="btn-group">
+		<p:commandLink id="addOperatorRole"
+					   pt:data-aft="addOperatorRole"
+					   ajax="true"
+					   immediate="true"
+					   styleClass="btn btn-link addOperatorRoleLink"
+					   disabled="#{operatorEditController.erRedigeringAvEgenBruker()}"
+					   onclick="EVA.Application.getInstance().getView().initializeMode();PF('createRoleAndLocationWidget').show();"
+					   value="#{msgs['@rbac.operator.add.roleAndLocation']}">
+		</p:commandLink>
+	</div>
+
+</f:view>

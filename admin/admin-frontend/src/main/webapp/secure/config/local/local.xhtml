@@ -1,0 +1,167 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:config="http://java.sun.com/jsf/composite/config"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.legg_inn_grunnlagsdata"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[localConfigurationController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{localConfigurationController.initiellKontekstvelgerURL}"
+                        rendered="#{localConfigurationController.context}"/>
+            <p:menuitem value="#{msgs['@menu.config.local']}" url="#{localConfigurationController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-local-configuration" class="page" data-view="LocalConfigurationNew">
+
+				<h1 class="page-title"><h:outputText value="#{msgs['@menu.config.local']}"/></h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<widget:pageTitleMetaTemplate models="#{localConfigurationController.pageTitleMeta}"/>
+					</div>
+					<div class="col-md-12">
+						<p:messages id="main-messages" redisplay="false" for="main-messages"/>
+					</div>
+				</div>
+
+				<p:accordionPanel
+					id="configurationPanel"
+					styleClass="ui-accordion-default onStateChanged"
+					dynamic="true"
+					activeIndex="#{localConfigurationController.activeControllerIndex}"
+					value="#{localConfigurationController.controllers}"
+					widgetVar="localConfigurationAccordionPanel"
+					var="itemController">
+
+					<p:ajax event="tabChange" listener="#{localConfigurationController.onTabChange}" update="breadCrumbForm"/>
+
+					<p:tab id="tab"
+						   titleStyleClass="#{itemController.icon}"
+						   ariaLabel="#{itemController.id}">
+                        <f:facet name="title">
+                            <h:outputText value="#{msgs[itemController.name]}"/>
+                            <h:outputText
+                                    value=""
+                                    styleClass="h3 #{localConfigurationController.lock}"
+                                    rendered="#{itemController.requiresDone and not localConfigurationController.electionCardCtrl.opptellingsvalgstyret}"/>
+                        </f:facet>
+
+						<ui:fragment rendered="#{itemController.view == 'LANGUAGE'}">
+							<config:language id="language"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'ELECTRONIC_MARKOFFS'}">
+							<config:electronicMarkoffs id="electronicMarkoffs"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'LIST_PROPOSAL'}">
+							<config:listProposal id="listProposal"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'BOROUGHS_LIST_PROPOSAL'}">
+							<config:listProposalTree id="listProposalTree"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'ELECTION_CARD'}">
+							<config:electionCard id="electionCard"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'BOROUGHS_ELECTION_CARD'}">
+							<config:electionCard id="electionCardTree"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'COUNT'}">
+							<config:count id="count"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'SCANNING'}">
+							<config:scanning id="scanning"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'ADVANCE_POLLING_PLACES'}">
+							<config:advancePollingPlace id="advancePollingPlace"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'TECHNICAL_POLLING_DISTRICT'}">
+							<config:technicalPollingDistrict id="technicalPollingDistrict"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'ELECTION_DAY_POLLING_PLACES'}">
+							<config:electionDayPollingPlaceView id="electionDayPollingPlaceView"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'POLLING_STATION'}">
+							<config:pollingStation id="pollingStation"/>
+						</ui:fragment>
+
+						<ui:fragment rendered="#{itemController.view == 'PARENT_POLLING_DISTRICT'}">
+							<config:parentPollingDistrict id="parentPollingDistrict"/>
+						</ui:fragment>
+
+                        <ui:fragment rendered="#{itemController.view == 'FYLKESVALGSTYRE'}">
+                            <config:fylkesvalgstyre id="fylkesvalgstyre"/>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{itemController.view == 'VALGSTYRE'}">
+                            <config:valgstyre id="valgstyre"/>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{itemController.view == 'OPPTELLINGSVALGSTYRE'}">
+                            <config:opptellingsvalgstyre id="opptellingsvalgstyre"/>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{itemController.view == 'STEMMESTYRE'}">
+                            <config:stemmestyre id="stemmestyre"/>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{itemController.view == 'BOROUGHS_STEMMESTYRE'}">
+                            <config:stemmestyreBorough id="stemmestyreBorough"/>
+                        </ui:fragment>
+
+                    </p:tab>
+
+				</p:accordionPanel>
+
+				<h:form id="approve-form" styleClass="onStateChanged">
+					<div class="row">
+						<div class="col-md-12">
+							<h:panelGroup id="actions" styleClass="form-group form-actions" layout="block">
+								<p:commandButton
+									id="approve"
+									pt:data-aft="godkjennGrunnlagsdataKnapp"
+									ajax="false"
+									styleClass="btn btn-primary"
+									rendered="#{localConfigurationController.button('APPROVE').rendered}"
+									disabled="#{localConfigurationController.button('APPROVE').disabled}"
+									action="#{localConfigurationController.approve()}"
+									icon="eva-icon-checkmark"
+									value="#{msgs['@config.local.approve']}"/>
+
+								<p:commandButton
+									id="reject"
+									ajax="false"
+									styleClass="btn btn-danger"
+									icon="eva-icon-notification"
+									rendered="#{localConfigurationController.button('REJECT').rendered}"
+									disabled="#{localConfigurationController.button('REJECT').disabled}"
+									action="#{localConfigurationController.reject()}"
+									value="Lås opp for endringer"/>
+							</h:panelGroup>
+						</div>
+					</div>
+				</h:form>
+
+			</div>
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+

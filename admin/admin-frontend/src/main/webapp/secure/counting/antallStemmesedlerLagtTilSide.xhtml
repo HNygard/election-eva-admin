@@ -1,0 +1,76 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.antall-stemmesedler-lagt-til-side"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[antallStemmesedlerLagtTilSideController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{antallStemmesedlerLagtTilSideController.initiellKontekstvelgerURL}"
+                        rendered="#{antallStemmesedlerLagtTilSideController.context}"/>
+            <p:menuitem value="#{msgs['@menu.opptelling.antallStemmesedlerLagtTilSide']}" url="#{antallStemmesedlerLagtTilSideController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-counting" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.opptelling.antallStemmesedlerLagtTilSide']}"/>
+				</h1>
+
+				<h:form id="antallStemmesedlerLagtTilSideForm">
+					<p:messages globalOnly="true" id="messages" autoUpdate="true"/>
+
+					<p:remoteCommand name="refreshFooter" update="antallStemmesedlerModel:antallStemmesedlerLagtTilSideTotal"/>
+
+					<!--@elvariable id="row" type="no.valg.eva.admin.frontend.counting.view.ballotcount.BallotCountRow"-->
+					<p:dataTable value="#{antallStemmesedlerLagtTilSideController.antallStemmesedlerModel}" var="row" id="antallStemmesedlerModel"
+								 tableStyleClass="table table-striped #{antallStemmesedlerLagtTilSideController.headerFooterStyle}" style="width: 50%;"
+								 rowStyleClass="#{row.rowStyleClass}">
+						<p:column headerText="">
+							<h:outputText value="#{msgs[row.title]}"/>
+							<f:facet name="footer">
+								<h:outputText
+									styleClass="bold"
+									value="#{msgs['@common.total']}"/>
+							</f:facet>
+						</p:column>
+						<p:column headerText="#{msgs['@opptelling.antallStemmesedlerLagtTilSide.antall']}">
+							<h:inputText
+								id="antallStemmesedlerLagtTilSide"
+								pt:data-aft="#{row.aft}"
+								value="#{row.count}"
+								size="4"
+								styleClass="form-control"
+								disabled="#{antallStemmesedlerLagtTilSideController.lagreAntallStemmesedlerDisabled}">
+								<p:ajax event="keyup"
+										delay="200"
+										process="@this"
+										oncomplete="refreshFooter()"/>
+							</h:inputText>
+							<f:facet name="footer">
+								<h:outputText
+									id="antallStemmesedlerLagtTilSideTotal"
+									styleClass="bold"
+									value="#{antallStemmesedlerLagtTilSideController.totaltAntallStemmesedler}"/>
+							</f:facet>
+						</p:column>
+					</p:dataTable>
+					<p:commandButton
+						action="#{antallStemmesedlerLagtTilSideController.lagreAntallStemmesedler}"
+						value="#{msgs['@opptelling.antallStemmesedlerLagtTilSide.lagre']}"
+						pt:data-aft="lagreAntallStemmesedlerLagtTilSide"
+						update="@form"
+						styleClass="btn btn-primary"
+						icon="eva-icon-download"
+						disabled="#{antallStemmesedlerLagtTilSideController.lagreAntallStemmesedlerDisabled}"/>
+				</h:form>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+
+</f:view>

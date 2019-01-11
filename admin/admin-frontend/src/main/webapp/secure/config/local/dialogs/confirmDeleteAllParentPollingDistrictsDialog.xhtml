@@ -1,0 +1,37 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<p><h:outputText value="#{msgs['@config.local.parent_polling_district.confirmDeleteAll_info']}:" /></p>
+
+			<p:dataTable
+				id="parentTable"
+				var="child"
+				value="#{parentPollingDistrictConfigurationController.parentPollingDistrictsTree.children}"
+				tableStyle="width: 400px;">
+				<p:column headerText="#{msgs['@common.number']}">
+					<h:outputText value="#{child.data.id}"/>
+				</p:column>
+				<p:column headerText="#{msgs['@common.name']}">
+					<h:outputText value="#{child.data.name}"/>
+				</p:column>
+			</p:dataTable>
+		</div>
+		<div class="form-actions col-md-12">
+			<p:commandButton id="confirmButton"
+							 process="@this"
+							 update=""
+							 action="#{parentPollingDistrictConfigurationController.confirmSaveDone}"
+							 value="#{msgs['@common.done']}"
+							 styleClass="btn btn-primary"/>
+			<p:commandLink id="cancelLink"
+						   onclick="#{parentPollingDistrictConfigurationController.confirmDeleteAllParentPollingDistrictsDialog.closeJS};return false;" 
+						   value="#{msgs['@common.cancel']}"
+						   styleClass="btn btn-link"/>
+		</div>
+	</div>
+</f:view>

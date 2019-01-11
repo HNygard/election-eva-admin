@@ -1,0 +1,59 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="content">
+			<div class="page" id="page-import-area-hierarchy">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.config.area_import']}"/>
+				</h1>
+				<h:form prependId="false" enctype="multipart/form-data">
+					<p:messages id="msgs" globalOnly="true"/>
+
+					<div>
+						<p:fileUpload
+							id="fileUpload"
+							widgetVar="fileUploadWidget"
+							allowTypes="/(\.|\/)(csv|txt)$/"
+							invalidFileMessage="#{msgs.get('@common.import.from.excel.invalid_filetype', 'csv, txt')}"
+							fileUploadListener="#{importAreaHierarchyController.fileUpload}"
+							fileLimit="1"
+							mode="advanced"
+							process="@form"
+							update="msgs"
+							oncomplete="EVA.Application.getInstance().hideLoader();PF('fileUploadWidget').uploadedFileCount = 0;"
+							onstart="EVA.Application.getInstance().showLoader()"
+							label="#{msgs['@common.Select.file']}"
+							uploadLabel="#{msgs['@config.area.import']}"
+							fileLimitMessage="#{msgs['@common.upload.fileLimitMessage']}"
+							cancelLabel="#{msgs['@common.upload.cancelLabel']}">
+						</p:fileUpload>
+					</div>
+
+					<p:confirmDialog
+						id="confirmation"
+						widgetVar="confirmationWidget"
+						message="#{msgs['@config.area.import_warning']}"
+						header="#{msgs['@menu.config.area_import']}"
+						severity="alert">
+						<p:commandButton id="downloadLogFileLink"
+										 value="#{msgs['@common.yes']}"
+										 actionListener="#{importAreaHierarchyController.importUploadedFile()}"
+										 onclick="EVA.Application.getInstance().nonAjaxButtonClicked(this);return true;"
+										 styleClass="btn btn-primary"
+										 ajax="false"/>
+						<p:commandLink value="#{msgs['@common.no']}"
+									   onclick="PF('confirmationWidget').hide();return false;"
+									   styleClass="btn btn-link"/>
+					</p:confirmDialog>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

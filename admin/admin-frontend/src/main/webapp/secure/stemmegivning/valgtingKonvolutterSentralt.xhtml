@@ -1,0 +1,69 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.searchElectionDay.central"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[valgtingKonvolutterSentraltController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{valgtingKonvolutterSentraltController.initiellKontekstvelgerURL}"
+                        rendered="#{valgtingKonvolutterSentraltController.context}"/>
+			<p:menuitem value="#{msgs['@voting.manntallsSok.breadcrumb']}"
+						actionListener="#{valgtingKonvolutterSentraltController.manntallsSokVelger(null)}"
+						update="@(.onMainContentUpdate)"
+						rendered="#{valgtingKonvolutterSentraltController.harVelger}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div class="page" data-view="SearchElectoralRoll">
+
+				<h1 class="page-title"><h:outputText value="#{msgs['@menu.electionDay.central_registration']}"/></h1>
+
+				<widget:pageTitleMetaTemplate models="#{valgtingKonvolutterSentraltController.pageTitleMeta}"/>
+
+				<h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+					<div class="#{valgtingKonvolutterSentraltController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+						<p:messages id="msgs" globalOnly="true"/>
+						<widget:meldinger id="statiskeMeldingerWidget" meldingerWidget="#{valgtingKonvolutterSentraltController.statiskeMeldinger}"/>
+					</div>
+				</h:panelGroup>
+
+				<widget:stemmegivningTittel id="stemmegivningTittelForhand"
+											tittel="@menu.electionDay.central_registration"
+											velger="#{valgtingKonvolutterSentraltController.velger}"
+											visOpprettFiktivVelgerLink="#{valgtingKonvolutterSentraltController.ingenVelgerFunnet}"
+											opprettFiktivVelger="${valgtingKonvolutterSentraltController.opprettFiktivVelger}"/>
+
+				<h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+					<manntall:manntallsSok id="manntallsSok"
+										   renderLopenummerTab="false"
+										   renderManntallsnummerTab="true"
+										   kommuneListe="#{valgtingKonvolutterSentraltController.kommuneListe}"
+										   visIMantallKolonne="true"
+										   rendered="#{not valgtingKonvolutterSentraltController.harVelger}"/>
+
+					<widget:stemmegivning id="stemmegivning"
+                                          ctrl="#{valgtingKonvolutterSentraltController}"
+                                          velger="#{valgtingKonvolutterSentraltController.velger}"
+                                          manntallsnummer="#{valgtingKonvolutterSentraltController.manntallsnummer}"
+                                          template="stemmegivningValgting.xhtml"
+                                          stemmetypeDisabled="#{not valgtingKonvolutterSentraltController.kanRegistrereStemmegivning}"
+                                          stemmetypeListe="#{valgtingKonvolutterSentraltController.stemmetypeListe}"
+                                          rendered="#{valgtingKonvolutterSentraltController.harVelger}"/>
+
+					<ui:fragment rendered="#{valgtingKonvolutterSentraltController.voteToOtherMunicipalityConfirmDialog}">
+						<ui:include src="includes/voteToOtherMunicipalityConfirmDialog.xhtml">
+							<ui:param name="ctrl" value="#{valgtingKonvolutterSentraltController}"/>
+						</ui:include>
+					</ui:fragment>
+
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

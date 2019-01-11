@@ -1,0 +1,110 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="form-group required">
+		<h:outputLabel value="#{msgs['@election.election.maxCandidateNameLength']}:" for="maxCandidateNameLength"/>
+		<p:inputText
+			id="maxCandidateNameLength"
+			pt:data-aft="maxCandidateNameLength"
+			value="#{electionController.currentElection.maxCandidateNameLength}"
+			label="#{msgs['@election.election.maxCandidateNameLength']}"
+			disabled="#{electionController.inputDisabled}"
+			required="true"
+			styleClass="form-control inline-label"/>
+		<span class="help">* #{msgs['@election.election.maxCandidateNameLength.info']}</span>
+	</div>
+	<div class="form-group required">
+		<h:outputLabel value="#{msgs['@election.election.maxCandidateResidenceProfessionLength']}:" for="maxCandidateResidenceProfessionLength"/>
+		<p:inputText
+			id="maxCandidateResidenceProfessionLength"
+			pt:data-aft="maxCandidateResidenceProfessionLength"
+			value="#{electionController.currentElection.maxCandidateResidenceProfessionLength}"
+			label="#{msgs['@election.election.maxCandidateResidenceProfessionLength']}"
+			disabled="#{electionController.inputDisabled}"
+			required="true"
+			styleClass="form-control inline-label"/>
+	</div>
+
+	<h:panelGroup id="maxCandidatesTypeContainer" styleClass="row" layout="block">
+		<div class="col-md-12 form-group required min-max-container">
+			<h:outputLabel value="#{msgs['@election.election.maxCandidates']}:" for="maxCandidatesType"/>
+			<h:selectOneListbox
+				id="maxCandidatesType"
+				pt:data-aft="maxCandidatesType"
+				label="#{msgs['@election.election.maxCandidates']}"
+				value="#{electionController.maxCandidatesType}"
+				size="1"
+				required="true"
+				disabled="#{electionController.inputDisabled}">
+				<f:selectItem itemLabel="--#{msgs['@common.choose']}--" noSelectionOption="true"/>
+				<f:selectItems value="#{electionController.minMaxCandidateTypes}" />
+				<p:ajax event="change" process="@this" update="maxCandidatesTypeContainer" />
+			</h:selectOneListbox>
+			<h:panelGroup id="maxCandidatesAdditionSign"
+						  rendered="#{electionController.maxCandidatesType == 'MIN_MAX_ADDITION'}"
+						  styleClass="addition-sign" >+</h:panelGroup>
+			<p:inputText
+				id="maxCandidatesAddition"
+				pt:data-aft="maxCandidatesAddition"
+				value="#{electionController.currentElection.maxCandidatesAddition}"
+				label="#{msgs['@election.election.minMaxCandidateType[MIN_MAX_ADDITION].name']}"
+				rendered="#{electionController.maxCandidatesType == 'MIN_MAX_ADDITION'}"
+				disabled="#{electionController.inputDisabled}"
+				required="true"
+				styleClass="form-control inline-label minmaxCandidatesAddition"/>
+			<p:inputText
+				id="maxCandidates"
+				pt:data-aft="maxCandidates"
+				value="#{electionController.currentElection.maxCandidates}"
+				label="#{msgs['@election.election.minMaxCandidateType[MIN_MAX].name']}"
+				rendered="#{electionController.maxCandidatesType == 'MIN_MAX'}"
+				disabled="#{electionController.inputDisabled}"
+				required="true"
+				styleClass="form-control inline-label"/>
+		</div>
+	</h:panelGroup>
+
+	<h:panelGroup id="minCandidatesTypeContainer" styleClass="row" layout="block">
+		<div class="col-md-12 form-group required min-max-container">
+			<h:outputLabel value="#{msgs['@election.election.minCandidates']}:" for="minCandidatesType"/>
+			<h:selectOneListbox
+				id="minCandidatesType"
+				pt:data-aft="minCandidatesType"
+				label="#{msgs['@election.election.minCandidates']}"
+				value="#{electionController.minCandidatesType}"
+				size="1"
+				required="true"
+				disabled="#{electionController.inputDisabled}">
+				<f:selectItem itemLabel="--#{msgs['@common.choose']}--" noSelectionOption="true"/>
+				<f:selectItems value="#{electionController.minMaxCandidateTypes}" />
+				<p:ajax event="change" process="@this" update="minCandidatesTypeContainer" />
+			</h:selectOneListbox>
+			<h:panelGroup id="minCandidatesAdditionSign"
+						  rendered="#{electionController.minCandidatesType == 'MIN_MAX_ADDITION'}"
+						  styleClass="addition-sign" >+</h:panelGroup>
+			<p:inputText
+				id="minCandidatesAddition"
+				pt:data-aft="minCandidatesAddition"
+				value="#{electionController.currentElection.minCandidatesAddition}"
+				label="#{msgs['@election.election.minMaxCandidateType[MIN_MAX_ADDITION].name']}"
+				rendered="#{electionController.minCandidatesType == 'MIN_MAX_ADDITION'}"
+				disabled="#{electionController.inputDisabled}"
+				required="true"
+				styleClass="form-control inline-label minmaxCandidatesAddition"/>
+			<p:inputText
+				id="minCandidates"
+				pt:data-aft="minCandidates"
+				value="#{electionController.currentElection.minCandidates}"
+				label="#{msgs['@election.election.minMaxCandidateType[MIN_MAX].name']}"
+				rendered="#{electionController.minCandidatesType == 'MIN_MAX'}"
+				disabled="#{electionController.inputDisabled}"
+				required="true"
+				styleClass="form-control inline-label"/>
+		</div>
+	</h:panelGroup>
+
+</f:view>

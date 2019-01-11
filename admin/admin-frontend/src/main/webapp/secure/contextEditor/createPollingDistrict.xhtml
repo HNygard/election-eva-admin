@@ -1,0 +1,131 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="level5CreateForm" role="form">
+		<ui:param name="helpId" value="@help.area.polling_district"/>
+
+		<p:dialog
+			header="#{msgs['@area.polling_district.create.header']}"
+			widgetVar="createAreaLevel5Widget"
+			fixedCenter="true"
+			modal="true"
+			visible="false"
+			resizable="false"
+			width="640">
+
+			<h:panelGroup styleClass="row" layout="block">
+
+				<div class="col-md-9 center-block">
+					<p:messages id="msg"/>
+				</div>
+
+				<h:panelGroup styleClass="form-group col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[3].name']}" for="municipalityName"/>
+					<h:inputText
+						id="municipalityName"
+						styleClass="form-control"
+						value="#{pollingDistrictController.parentMvArea.municipality.name}"
+						readonly="true"
+						disabled="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[4].name']}"/>
+					<h:inputText
+						id="boroughName"
+						styleClass="form-control"
+						value="#{pollingDistrictController.parentMvArea.borough.name}"
+						readonly="true"
+						disabled="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[5].nummer']}" for="pollingDistrictId"/>
+					<h:inputText
+						value="#{pollingDistrictController.pollingDistrict.id}"
+						id="pollingDistrictId"
+						pt:data-aft="stemmekretsId"
+						maxlength="4"
+						label="#{msgs['@area_level[5].nummer']}"
+						required="true"
+						styleClass="form-control"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@common.name']}" for="pollingDistrictName"/>
+					<h:inputText
+						value="#{pollingDistrictController.pollingDistrict.name}"
+						id="pollingDistrictName"
+						pt:data-aft="stemmekretsNavn"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="50"
+						required="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-12" layout="block">
+					<h:outputLabel value="#{msgs['@area.polling_district.polling_district_type_select.label']}" for="pollingDistrictType"/>
+					<h:selectOneRadio
+						value="#{pollingDistrictController.pollingDistrictType}"
+						id="pollingDistrictType"
+						pt:data-aft="radioStemmekretstype"
+						required="true"
+						binding="#{pollingDistrictTypeBinding}"
+						styleClass="ui-radio-group ui-radio-group-inline"
+						label="#{msgs['@area.polling_district.polling_district_type_select.label']}">
+						<f:selectItems value="#{pollingDistrictController.pollingDistrictTypes}"/>
+					</h:selectOneRadio>
+				</h:panelGroup>
+
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					id="create"
+					pt:data-aft="knappLagreStemmekrets"
+					action="#{pollingDistrictController.doCreatePollingDistrict}"
+					oncomplete="createPollingDistrictDialogBox(xhr, status, args)"
+					value="#{msgs['@area.polling_district.create.header']}"
+					update=":level5CreateForm:msg :hierarchyEditor"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+				<p:commandLink
+					id="backToAreaList"
+					onclick="PF('createAreaLevel5Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+
+			</f:facet>
+
+		</p:dialog>
+	</h:form>
+	<script type="text/javascript">
+		//<![CDATA[
+		function createPollingDistrictDialogBox(xhr, status, args) {
+			if (args.createPollingDistrictHideDialog) {
+				PF('createAreaLevel5Widget').hide();
+			}
+		}
+
+		function shouldRenderPollingDistrictTable(radioButtonContainer) {
+			radioButtonContainer = radioButtonContainer.replace(':', '\\:');
+			var pollingDistrictContainer = "level5CreateForm\\:pollingDistrictsPanel";
+			var panel = $("#" + pollingDistrictContainer);
+			var radioButton = $('#' + radioButtonContainer).find('input:checked').get(0);
+			if (radioButton.defaultValue == "2") {
+				panel.removeClass("hidden");
+			} else if (!panel.hasClass('hidden')) {
+				panel.addClass("hidden");
+			}
+			return true;
+		}
+		//]]>
+	</script>
+
+</ui:composition>

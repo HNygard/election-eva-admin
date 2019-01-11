@@ -1,0 +1,200 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:panelGroup id="dialogContent" layout="block">
+		<p:messages id="messageBox" autoUpdate="true" globalOnly="true"/>
+
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group required">
+					<h:outputLabel for="id" value="#{msgs['@common.id']}:"/>
+					<p:inputText
+						id="id"
+						value="#{listElectionEventsController.createForm.electionEvent.id}"
+						label="#{msgs['@common.id']}"
+						required="true"
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@common.id'])}"
+						maxlength="6"
+						styleClass="form-control"/>
+					<h:message for="id" id="idError" styleClass="inline-error"/>
+				</div>
+				<div class="form-group required">
+					<h:outputLabel for="name" value="#{msgs['@common.name']}:"/>
+					<p:inputText
+						id="name"
+						value="#{listElectionEventsController.createForm.electionEvent.name}"
+						label="#{msgs['@common.name']}"
+						required="true"
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@common.name'])}"
+						maxlength="100"
+						styleClass="form-control"/>
+					<h:message for="name" id="nameError" styleClass="inline-error"/>
+				</div>
+				<div class="form-group required">
+					<h:outputLabel for="theme" value="#{msgs['@theme.choose']}:"/>
+					<h:selectOneListbox id="theme"
+										value="#{listElectionEventsController.createForm.electionEvent.theme}"
+										label="#{msgs['@theme.choose']}"
+										size="1"
+										styleClass="form-control no-indent">
+						<f:selectItem itemLabel="#{msgs['@theme.default']}"/>
+						<f:selectItems value="#{listElectionEventsController.themes}"/>
+					</h:selectOneListbox>
+					<h:message for="theme" id="themeError" styleClass="inline-error"/>
+				</div>
+				<div class="form-group required">
+					<h:outputLabel for="electoralRollLinesPerPage"
+								   value="#{msgs['@election.election_event.electoral_roll_lines_per_page']}:"/>
+					<p:inputText
+						requiredMessage="#{msgs.get('@common.message.required', msgs['@election.election_event.electoral_roll_lines_per_page'])}"
+						value="#{listElectionEventsController.createForm.electionEvent.electoralRollLinesPerPage}"
+						id="electoralRollLinesPerPage" maxlength="4"
+						label="#{msgs['@election.election_event.electoral_roll_lines_per_page']}"
+						styleClass="form-control" required="true"/>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group required">
+					<h:outputLabel for="localeList" value="#{msgs['@common.locale']}:"/>
+					<h:selectManyListbox id="localeList"
+										 value="#{listElectionEventsController.createForm.selectedLocalePks}"
+										 valueChangeListener="#{listElectionEventsController.valueChangeSelectManyCheckbox}"
+										 label="#{msgs['@common.locale']}"
+										 required="true"
+										 size="3"
+										 styleClass="form-control">
+						<f:selectItems value="#{listElectionEventsController.locales}"
+									   var="locale" itemValue="#{locale.pk}"
+									   itemLabel="#{msgs[locale.name]}"/>
+						<p:ajax update="locale"/>
+					</h:selectManyListbox>
+					<h:message for="localeList" id="localeListError" styleClass="inline-error"/>
+				</div>
+				<div class="form-group required">
+					<h:outputLabel for="locale" value="#{msgs['@common.locale.default']}:"/>
+					<h:selectOneListbox id="locale"
+										value="#{listElectionEventsController.createForm.electionEvent.locale}"
+										label="#{msgs['@common.locale']}"
+										required="true"
+										size="1"
+										styleClass="form-control no-indent">
+						<f:selectItem itemLabel="#{msgs['@common.locale.preselect']}"/>
+						<f:selectItems value="#{listElectionEventsController.availableLocalesSet}"
+									   var="locale"
+									   itemLabel="#{msgs[locale.name]}"
+									   itemValue="#{locale}"/>
+						<f:converter converterId="localeConverter"/>
+					</h:selectOneListbox>
+					<h:message for="locale" id="localeError" styleClass="inline-error"/>
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div class="form-group">
+					<h:selectBooleanCheckbox
+						value="#{listElectionEventsController.createForm.allowCopying}" id="allowCopying"
+						label="#{msgs['@election.election_event.copy_event']}"/>
+					<h:outputLabel for="allowCopying" value="#{msgs['@election.election_event.copy_event']}"/>
+				</div>
+				<div id="copyContainer">
+					<div class="form-group required">
+						<h:outputLabel value="#{msgs['@common.electionEvent']}:" for="locale"/>
+						<h:selectOneListbox
+							id="electionEventSelect"
+							value="#{listElectionEventsController.createForm.copyFromEvent}" size="1"
+							styleClass="form-control">
+							<f:selectItems
+								value="#{listElectionEventsController.electionEventList}" var="ee"
+								itemValue="#{ee.pk}" itemLabel="#{ee.name}"/>
+						</h:selectOneListbox>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyRoles}" id="copyRoles"
+							label="#{msgs['@election.election_event.copy_role']}"/>
+						<h:outputLabel for="copyRoles" value="#{msgs['@election.election_event.copy_role']}"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyAreas}" id="copyAreas"
+							label="#{msgs['@election.election_event.copy_area']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_area']}" for="copyAreas"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyElections}" id="copyElections"
+							label="#{msgs['@election.election_event.copy_election']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_election']}" for="copyElections"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyElectionReportCountCategories}"
+							id="copyElectionReportCountCategories"
+							label="#{msgs['@election.election_event.copy_election_report_count_category']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_election_report_count_category']}" for="copyElectionReportCountCategories"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyElectoralRoll}"
+							id="copyElectoralRoll"
+							label="#{msgs['@election.election_event.copy_electoral_roll']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_electoral_roll']}" for="copyElectoralRoll"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyVotings}"
+							id="copyVotings"
+							label="#{msgs['@election.election_event.copy_voting']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_voting']}" for="copyVotings"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyProposerList}"
+							id="copyProposerList"
+							label="#{msgs['@election.election_event.copy_proposer_list']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_proposer_list']}" for="copyProposerList"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyReportCountCategories}"
+							id="copyReportCountCategories"
+							label="#{msgs['@election.election_event.copy_report_count_category']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_report_count_category']}" for="copyReportCountCategories"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyReportingUnits}"
+							id="copyReportingUnits"
+							label="#{msgs['@election.election_event.copy_reporting_units']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_reporting_units']}" for="copyReportingUnits"/>
+					</div>
+					<div class="form-group">
+						<h:selectBooleanCheckbox
+							value="#{listElectionEventsController.createForm.copyCountings}"
+							id="copyCountings"
+							label="#{msgs['@election.election_event.copy_countings']}"/>
+						<h:outputLabel value="#{msgs['@election.election_event.copy_countings']}" for="copyCountings"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 form-group action-buttons">
+				<p:commandButton id="create"
+								 pt:data-aft="createElectionEventButton"
+								 action="#{listElectionEventsController.doCreateElectionEvent}"
+								 update="@none"
+								 value="#{msgs['@common.save']}" styleClass="btn btn-primary"/>
+				<p:commandLink id="backToElectionList"
+							   onclick="PF('createElectionEventDialog').hide();return false;"
+							   value="#{msgs['@common.cancel']}"
+							   styleClass="btn btn-link"/>
+			</div>
+		</div>
+	</h:panelGroup>
+</ui:composition>

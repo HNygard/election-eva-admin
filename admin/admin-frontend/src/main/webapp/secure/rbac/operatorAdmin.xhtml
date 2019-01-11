@@ -1,0 +1,144 @@
+<f:view xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns="http://www.w3.org/1999/xhtml"
+		contentType="text/html"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://primefaces.org/ui ">
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@menu.operators']}" url="operatorAdmin.xhtml"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-operator-admin" class="page" data-view="OperatorAdmin">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.operators']}"/>
+				</h1>
+				<!--No need to guard pageTitleMeta here-->
+				<widget:pageTitleMetaTemplate models="#{operatorAdminController.pageTitleMeta}"/>
+				<h:form id="uploadAdvanceVotersForm"
+						prependId="false"
+						enctype="multipart/form-data">
+					<p:remoteCommand name="refreshAdvanceUsers" update="@(.operatorListTable)"/>
+					<p:fileUpload id="earlyVoterUpload"
+								  fileUploadListener="#{operatorAdminController.uploadAdvanceVoteReceivers}"
+								  auto="true"
+								  allowTypes="/(\.|\/)(xls|xlsx)$/"
+								  invalidFileMessage="#{msgs.get('@common.import.from.excel.invalid_filetype', 'xls, xlsx')}"
+								  oncomplete="refreshAdvanceUsers()"
+								  update=":content"/>
+
+				</h:form>
+				<h:form id="uploadPollingPlaceResponsibles"
+						prependId="false"
+						enctype="multipart/form-data">
+					<p:remoteCommand name="refreshUsers" update="@(.operatorListTable)"/>
+					<p:fileUpload id="pollingPlaceResponsibleUpload"
+								  fileUploadListener="#{operatorAdminController.uploadVoteReceiverAndPollingPlaceResponsibles}"
+								  auto="true"
+								  allowTypes="/(\.|\/)(xls|xlsx)$/"
+								  invalidFileMessage="#{msgs.get('@common.import.from.excel.invalid_filetype', 'xls, xlsx')}"
+								  styleClass="fileUpload"
+								  oncomplete="refreshUsers()"
+								  update=":content"/>
+				</h:form>
+				<h:form id="mainForm"
+						prependId="false"
+						role="form"
+						styleClass="form-inline">
+					<div class="row">
+						<p:messages id="msg" styleClass="col-md-12"/>
+					</div>
+					<div class="form-group">
+						<p:commandButton id="newOperator"
+										 pt:data-aft="newOperator"
+										 styleClass="btn btn-primary"
+										 action="#{operatorSearchController.init}"
+										 value="#{msgs['@rbac.operator.createNewOperator']}"
+										 icon="eva-icon-plus"
+										 update=":content"
+										 ajax="true"/>
+
+						<p:commandButton id="import-trigger"
+										 styleClass="btn btn-primary"
+										 value="#{msgs['@common.import.from.excel']}"
+										 icon="eva-icon-upload">
+						</p:commandButton>
+						<p:menu
+							overlay="true"
+							trigger="import-trigger"
+							my="left top"
+							at="left top"
+							styleClass="import-operators-menu">
+							<p:menuitem ajax="false"
+										icon="eva-icon-upload"
+										styleClass="ui-menu-header"
+										value="#{msgs['@common.import.from.excel']}"/>
+
+							<p:submenu label="#{msgs['@rbac.uploadAdvanceVoteReceivers.templateFileName']}">
+								<p:menuitem
+									icon="eva-icon-caret"
+									value="#{msgs['@rbac.upload.earlyVoteReceivers.panelHeader']}"
+									disabled="#{operatorAdminController.msieBelow10 or not userAccess.brukereImporterForhand}"
+									onclick="$('#earlyVoterUpload').find('input').click();"/>
+								<p:menuitem
+									icon="eva-icon-caret"
+									value="#{msgs['@common.download.template']}"
+									ajax="false">
+									<p:fileDownload value="#{operatorAdminController.advanceVoteReceiversTemplate}"/>
+								</p:menuitem>
+							</p:submenu>
+
+							<p:submenu label="#{msgs['@rbac.uploadVoteReceiversAndPollingPlaceResponsible.templateName']}">
+								<p:menuitem
+									icon="eva-icon-caret"
+									value="#{msgs['@rbac.upload.voteReceivers.panelHeader']}"
+									disabled="#{operatorAdminController.msieBelow10 or not userAccess.brukereImporterValgting}"
+									onclick="$('#pollingPlaceResponsibleUpload').find('input').click();"/>
+								<p:menuitem
+									icon="eva-icon-caret"
+									value="#{msgs['@common.download.template']}"
+									ajax="false">
+									<p:fileDownload value="#{operatorAdminController.voteReceiverAndPollingPlaceResponsibleTemplate}"/>
+								</p:menuitem>
+							</p:submenu>
+						</p:menu>
+
+						<div class="search-filter">
+                            <span class="has-feedback">
+							<input
+								id="searchField"
+								type="text"
+								placeholder="#{msgs['@rbac.operator.search.by.name']}"
+								class="form-control"
+								disabled="disabled"/>
+							
+								<span id="clearNameSearchField" class="eva-icon-cancel clear-filter form-control-feedback"/>
+                            </span>
+						</div>
+
+					</div>
+
+				</h:form>
+
+				<p:panel id="content">
+					<div class="row">
+						<div class="col-md-12">
+							<ui:include src="#{operatorAdminController.view.template}"/>
+						</div>
+					</div>
+				</p:panel>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

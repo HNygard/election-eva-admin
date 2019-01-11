@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+		<ui:define name="topinfoheader">
+			<h:outputText value="#{msgs['@menu.counting.heading']}"/>
+		</ui:define>
+		<ui:define name="content">
+			<f:event type="preRenderView" listener="#{modifiedBallotsNavigationController.onPageUpdate}"/>
+			<div id="page-show-modified-ballot" class="page">
+				<div class="row">
+					<div class="col-md-12">
+						<h:panelGroup id="content" layout="block">
+							<h1 data-ballot_number="#{modifiedBallotsNavigationController.currentModifiedBallot.serialNumber}" id="headLine">
+								#{msgs['@ballot.short']} ##{modifiedBallotsNavigationController.currentModifiedBallot.serialNumber} | #{msgs[modifiedBallotsNavigationController.currentModifiedBallot.affiliation]}
+							</h1>
+							<h:form role="form" styleClass="form-inline">
+								<p:panel styleClass="col-md-5">
+									<h2>#{msgs['@common.person.votes']}</h2>
+									<p:dataTable value="#{modifiedBallotsNavigationController.personVotes.candidatesVoteSet}"
+												 var="candidate"
+												 scrollable="true"
+												 scrollHeight="#{modifiedBallotsNavigationController.getScrollHeight(modifiedBallotsNavigationController.personVotes.candidatesForPersonVotes, 510)}"
+												 scrollWidth="100%"
+												 tableStyleClass="table table-striped person-votes-table hide-table-header" emptyMessage="">
+										<p:column style="width: 5%;white-space: nowrap;">
+											<h:outputText value="#{candidate.displayOrder}"/>
+										</p:column>
+                                        <p:column style="width: 5%;padding: 3px;" rendered="#{modifiedBallotsNavigationController.usePersonalVotes()}">
+											<h:selectBooleanCheckbox
+													value="#{candidate.personalVote}"
+													disabled="true"/>
+										</p:column>
+                                        <p:column style="width: 5%;" rendered="#{modifiedBallotsNavigationController.useRenumbering()}">
+                                            <h:inputText value="#{candidate.renumberPosition}" maxlength="2"
+                                                         disabled="true"/>
+                                        </p:column>
+										<p:column style="width: 90%;">
+											<h:outputText value="#{candidate.name}"/>
+										</p:column>
+                                        <p:column style="width: 5%;padding: 3px;" rendered="#{modifiedBallotsNavigationController.useStrikeOuts()}">
+                                            <h:selectBooleanCheckbox
+                                                    value="#{candidate.strikedOut}"
+                                                    disabled="true"/>
+                                        </p:column>
+									</p:dataTable>
+								</p:panel>
+
+                                <p:panel styleClass="col-md-7" rendered="#{modifiedBallotsNavigationController.useWriteIns()}">
+									<h2>#{msgs['@common.person.writeIns']}</h2>
+
+									<div id="place-holder"/>
+									<p:dataTable value="#{modifiedBallotsNavigationController.currentModifiedBallot.writeIns}" 
+												 var="writeInCandidate"
+												 scrollable="true"
+												 scrollHeight="#{modifiedBallotsNavigationController.getScrollHeight(writeInAutoComplete.wrappedWriteIns, 500)}"
+												 emptyMessage="">
+										<p:column>
+											<h:outputText value="#{writeInCandidate.name} (#{msgs[writeInCandidate.partyName]})"/>
+										</p:column>
+									</p:dataTable>
+								</p:panel>
+
+								<h:panelGroup styleClass="col-md-12">
+									<div class="col-md-2"/>
+									<p:panel styleClass="col-md-2 center">
+										<p:commandButton value="#{msgs['@common.previous']}"
+														 action="#{modifiedBallotsNavigationController.gotoPreviousBallot()}"
+														 update=":content"
+														 styleClass="btn btn-primary"
+														 disabled="#{modifiedBallotsNavigationController.currentModifiedBallotNumber == 0}">
+											<f:param name="cid" value="#{modifiedBallotsNavigationController.cid}"/>
+										</p:commandButton>
+									</p:panel>
+
+									<div class="col-md-4 center" id="ballot-label">
+										#{msgs['@ballot.short']} #{modifiedBallotsNavigationController.currentModifiedBallotNumber + 1} #{msgs['@common.of']}  #{modifiedBallotsNavigationController.maxIndexForNoOfModifiedBallots() + 1}
+									</div>
+									<p:panel styleClass="col-md-2 center">
+										<p:commandButton value="#{msgs['@common.next']}"
+														 action="#{modifiedBallotsNavigationController.gotoNextBallot}"
+														 update=":content"
+														 styleClass="btn btn-primary"
+														 disabled="#{modifiedBallotsNavigationController.currentModifiedBallotNumber == modifiedBallotsNavigationController.maxIndexForNoOfModifiedBallots()}">
+											<f:param name="cid" value="#{modifiedBallotsNavigationController.cid}"/>
+										</p:commandButton>
+									</p:panel>
+									<p:panel styleClass="col-md-2">
+										<p:commandLink value="#{msgs['@common.back']}"
+														 action="#{modifiedBallotsNavigationController.finished}"
+														 styleClass="btn btn-link right">
+										</p:commandLink>
+									</p:panel>
+								</h:panelGroup>
+							</h:form>
+							<script type="text/javascript">
+								//<![CDATA[
+								$(document).ready(function () {
+									if (typeof window.history.replaceState != 'undefined') {
+										window.history.replaceState('', '', location.href.replace(/&ballotNumber=\d+/g, "") + "&ballotNumber=" + $('#headLine').data('ballot_number'));
+									} else {
+										window.onbeforeunload = confirmOnPageExit;
+									}
+								})
+								//]]>
+							</script>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

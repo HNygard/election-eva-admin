@@ -1,0 +1,78 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@electoralRoll.generateVoterNumber"/>
+
+		<ui:define name="content">
+
+			<div id="page-generate-voter-numbers" class="page">
+
+				<f:event type="preRenderView" listener="#{voterNumberController.preRenderView()}"/>
+
+				<p:messages id="msgs" globalOnly="true"/>
+
+				<h:form id="form">
+					<p:accordionPanel id="accordion" styleClass="ui-accordion-default">
+						<p:tab title="#{msgs['@electoralRoll.generateVoterNumber.header']}">
+							<div class="row bg-warning bg-warning-extra-margins">
+								<div class="col-md-12">
+									<h:outputText value="#{msgs['@electoralRoll.generateVoterNumber.ingress']}"/>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<p:commandButton id="create"
+													 action="#{voterNumberController.generateVoterNumbers}"
+													 value="#{msgs['@electoralRoll.generateVoterNumber.generate']}"
+													 update=":form :batchesForm :msgs"
+													 disabled="#{!voterNumberController.statusOk}"
+													 styleClass="btn btn-primary"/>
+								</div>
+							</div>
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+
+				<h4 class="page-title">
+					<h:outputText value="#{msgs['@electoralRoll.listVoterNumber.header']}"/>
+				</h4>
+
+				<h:form id="batchesForm">
+					<p:dataTable id="batchesTable"
+								 value="#{voterNumberController.batches}"
+								 var="batch"
+								 styleClass="table table-striped"
+								 emptyMessage="#{msgs['@pf.datatable.emptyMsg']}">
+						<p:column sortBy="#{batch.auditTimestamp}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.date']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.auditTimestamp}">
+								<f:converter converterId="localDateConverter"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.time']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.auditTimestamp}">
+								<f:converter converterId="localTimeConverter"/>
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{msgs[batch.batchStatus.name]}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.status']}"/>
+							</f:facet>
+							<h:outputText value="#{msgs[batch.batchStatus.name]}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

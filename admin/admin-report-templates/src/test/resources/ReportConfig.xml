@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportConfig>
+	<categories>
+		<category uri="010.configuration" name="@reporting.report.category.configuration" access="Aggregert_Rapport"/>
+		<category uri="020.users_and_roles" name="@reporting.report.category.users_and_roles" access="Aggregert_Rapport"/>
+		<category uri="030.list_proposal" name="@reporting.report.category.list_proposal" access="Aggregert_Rapport"/>
+		<category uri="040.electoral_roll" name="@reporting.report.category.electoral_roll" access="Aggregert_Rapport"/>
+		<category uri="050.votings" name="@reporting.report.category.votings" access="Aggregert_Rapport"/>
+		<category uri="060.protocols" name="@reporting.report.category.protocols" access="Aggregert_Rapport"/>
+		<category uri="070.counting_and_settlement" name="@reporting.report.category.counting_and_settlement" access="Aggregert_Rapport"/>
+		<category uri="090.misc" name="@reporting.report.category.misc" access="Aggregert_Rapport"/>
+		<category uri="095.special_purpose" name="Special Purpose" access="*"/>
+	</categories>
+	<templates>
+		<template path="Rapport 1/report_1/report_1.jrxml" replaceWithBlank="true">
+			<reportMetaData>
+				<async>true</async>
+				<areaLevel>municipality</areaLevel>
+				<description>@rapport.meta.Report_1.description</description>
+				<filenamePattern>@rapport.meta.Report_1.filename</filenamePattern>
+				<reportName>@rapport.meta.Report_1.name</reportName>
+				<reportUri>010.configuration/100.kretsstatistikk</reportUri>
+				<reportId>Report_1</reportId>
+			</reportMetaData>
+		</template>
+		<template path="Rapport 2/report_2/report_2.jrxml"/>
+		<template path="Rapport 4/report_4/report_4.jrxml"/>
+		<template path="Rapport 5_mun/report_5_mun/report_5_mun.jrxml"/>
+		<template path="Rapport 5_mun_sort/report_5_mun_sort/report_5_mun_sort.jrxml"/>
+		<template path="Rapport 10/report_10/report_10.jrxml"/>
+		<template path="Rapport 10_fylke/report_10_fylke/report_10_fylke.jrxml"/>
+		<template path="Rapport 18/report_18/report_18.jrxml"/>
+		<template path="Rapport 27/report_27/report_27.jrxml"/>
+		<template path="Rapport 29_mun/report_29_municipality/report_29_municipality.jrxml"/>
+		<template path="Rapport 29_list/report_29_list/report_29_list.jrxml"/>
+		<template path="Rapport 36/report_36/report_36.jrxml"/>
+		<template path="Rapport 37/report 37/report_37.jrxml"/>
+		<template path="Rapport 46_county/report_46/report_46.jrxml"/>
+		<template path="Rapport 46_municipality/report_46/report_46.jrxml"/>
+		<template path="Rapport 64/report_64/report_64.jrxml"/>
+		<template path="Rapport 65/report_65/report_65.jrxml"/>
+		<template path="Rapport 77/report_77/report_77.jrxml"/>
+		<template path="Rapport 80_municipality/report_80/report_80.jrxml"/>
+		<template path="Rapport 33/report_33/report_33.jrxml"/>
+		<template path="Rapport 35-A1/report_A1_35/report_A1_35.jrxml"/>
+		<template path="Rapport 35-A2/report_35_A2/report_35_A2.jrxml"/>
+		<template path="Rapport 35-A3/report_A3_35/report_A3_35.jrxml"/>
+		<template path="Rapport 35-E1/report_35_E1/report_35_E1.jrxml"/>
+		<template path="Rapport 42/report_42/report_42.jrxml"/>
+		<template path="Rapport 92/report_92/report_92.jrxml"/>
+		<template path="Rapport adresselisteAndreKommuner/report_addresslist_foreign_early_voting.jrxml"/>
+		<template path="Rapport opptellingsvalgstyrets motebok/rapport_opptellingsvalgstyrets_motebok.jrxml"/>
+		<template path="ScanningBoxSticker/ScanningBoxSticker.jrxml"/>
+		<template path="ElectionCard/electionCard.jrxml"/>
+		<template path="ElectoralRollAudit/changesInElectoralRoll.jrxml"/>
+		<template path="AvkrysningsmanntallMinus30Kommuner/AvkrysningsmanntallMinus30Kommuner.jrxml"/>
+	</templates>
+</reportConfig>

@@ -1,0 +1,107 @@
+<f:view xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns="http://www.w3.org/1999/xhtml"
+		contentType="text/html">
+
+	<div class="subpanel-header col-md-12"></div>
+	<h:form id="userSearchForm" name="userSearchForm" styleClass="subpanel-form search-operator-form" role="form">
+
+		<div class="row">
+			<div class="col-md-12">
+				<p:messages id="msg" styleClass="col-md-12"/>
+
+				<h2>
+					<h:outputText value="#{msgs['@rbac.add.operator']}"/>
+					<small><h:outputText value="#{msgs['@rbac.info.start.by.searching.electoral.roll']}"/></small>
+				</h2>
+
+				<p:selectOneRadio
+					id="searchCriteria"
+					value="#{operatorSearchController.operatorSearchCriteria}"
+					layout="custom"
+					widgetVar="searchCriteria">
+					<f:selectItem itemValue="fnr"/>
+					<f:selectItem itemValue="name"/>
+				</p:selectOneRadio>
+
+				<div class="row">
+					<div class="col-md-1">
+						<p:radioButton id="fnrRadio" for="searchCriteria" itemIndex="0" styleClass="search-ssn"/>
+					</div>
+
+					<div class="col-md-11">
+						<div class="form-group">
+							<h:outputLabel value="#{msgs['@person.id']}" for="fnr"/>
+							<p:inputText
+								id="fnr"
+								pt:data-aft="fnr"
+								name="fnr"
+								styleClass="form-control"
+								value="#{operatorSearchController.searchOperatorId}"
+								widgetVar="fnrField">
+								<f:validator binding="#{socialSecurityNumberValidator}"/>
+							</p:inputText>
+							<h:message for="fnr" errorClass="validation-error eva-icon-warning form-control-feedback"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-1">
+						<p:radioButton id="nameRadio" for="searchCriteria" itemIndex="1" styleClass="search-name"/>
+					</div>
+
+					<div class="col-md-11">
+						<div class="form-group">
+							<h:outputLabel for="name" value="#{msgs['@common.name']}"/>
+							<p:inputText
+								id="name"
+								pt:data-aft="name"
+								name="name"
+								styleClass="form-control"
+								value="#{operatorSearchController.searchOperatorName}"
+								widgetVar="nameField"/>
+							<h:outputText value="(etternavn, navn)" styleClass="help-block"/>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="form-actions form-group col-md-12">
+
+					<p:commandButton
+						id="searchButton"
+						pt:data-aft="searchButton"
+						action="#{operatorSearchController.searchOperator}"
+						value="#{msgs['@common.search']}"
+						update=":content"
+						icon="eva-icon-search"
+						styleClass="btn btn-primary"
+						ajax="true"/>
+
+					<p:commandLink
+						action="#{operatorSearchController.backToList}"
+						styleClass="btn btn-link"
+						value="#{msgs['@common.cancel']}"
+						ajax="true"
+						update=":content"
+						process="@this"/>
+
+				</div>
+			</div>
+		</div>
+
+		<h:outputScript>
+			/*<![CDATA[*/
+			EVA.Application.onViewReady(function () {
+				this.setMode('#{operatorAdminController.view.name()}');
+			});
+			/*]]>*/
+		</h:outputScript>
+
+
+	</h:form>
+</f:view>

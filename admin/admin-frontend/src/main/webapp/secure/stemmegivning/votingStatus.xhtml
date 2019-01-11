@@ -1,0 +1,67 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.evoting.count"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[evoteSummaryController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{evoteSummaryController.initiellKontekstvelgerURL}"
+                        rendered="#{evoteSummaryController.context}"/>
+            <p:menuitem value="#{msgs['@menu.voting.voting_status']}" url="#{evoteSummaryController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-voting-status" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.voting.voting_status']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{evoteSummaryController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="form">
+
+							<p:messages id="msgs" showSummary="true"/>
+
+							<p:dataTable id="summary" value="#{evoteSummaryController.summary}" var="data">
+								<p:column styleClass="icon-col">
+									<ui:fragment rendered="#{data.ok}">
+										<span class="eva-icon-checkmark"/>
+									</ui:fragment>
+
+									<ui:fragment rendered="#{not data.ok}">
+										<span class="eva-icon-warning"/>
+									</ui:fragment>
+								</p:column>
+
+								<p:column headerText="#{msgs['@voting.votingCategory']}">
+									<h:outputText value="#{msgs[data.name]}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@voting.evoting.votes_recieved']}">
+									<h:outputText value="#{data.recieved}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@voting.evoting.votes_handled']}">
+									<h:outputText value="#{data.approved}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@voting.evoting.votes_remaining']}">
+									<h:outputText value="#{data.remaining}"/>
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

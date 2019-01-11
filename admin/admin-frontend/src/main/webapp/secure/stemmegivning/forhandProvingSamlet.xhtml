@@ -1,0 +1,59 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.forhandProving"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[forhandProvingSamletController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{forhandProvingSamletController.initiellKontekstvelgerURL}"
+                        rendered="#{forhandProvingSamletController.context}"/>
+			<p:menuitem value="#{msgs['@common.search']}"
+						actionListener="#{forhandProvingSamletController.setVisResultat(false)}"
+						process="@this"
+						update="@(.onMainContentUpdate)"
+						rendered="#{forhandProvingSamletController.visResultat}"/>
+			<p:menuitem value="#{msgs['@menu.approveVoting.approveVotingNegative']}"
+						onclick="$('#form\\:hiddenPost').click();return false;"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-search-approve-negative-voting" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.approveVoting.approveVotingNegative']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{forhandProvingSamletController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages id="msgs" globalOnly="true" autoUpdate="true"/>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="form" class="onMainContentUpdate">
+							<widget:provingSamletSok
+								ctrl="#{forhandProvingSamletController}"
+								rendered="#{not forhandProvingSamletController.visResultat}"/>
+
+							<widget:provingSamletResultat
+								ctrl="#{forhandProvingSamletController}"
+								rendered="#{forhandProvingSamletController.visResultat}"/>
+
+							<p:commandButton id="hiddenPost" widgetVar="hiddenPost" process="@this" update="@(.onMainContentUpdate)" style="display: none;"/>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

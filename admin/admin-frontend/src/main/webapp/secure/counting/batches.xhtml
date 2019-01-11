@@ -1,0 +1,108 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.batches.import"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@menu.import.heading']}" url="/secure/counting/batches.xhtml"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-batches" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.import.heading']}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="importButtonForm">
+							<p:commandButton id="import"
+											 styleClass="btn btn-primary"
+											 value="#{msgs['@common.upload.import']}"
+											 onclick="#{batchController.uploadBatchesDialog.openJS};return false;"
+											 icon="eva-icon-upload"/>
+						</h:form>
+						<widget:dialog id="#{batchController.uploadBatchesDialog.id}" dialog="#{batchController.uploadBatchesDialog}"/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="batchForm">
+							<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+							<p:dataTable value="#{batchController.batches}" var="batch"
+										 id="batches" emptyMessage="#{msgs['@batch.list.emptyMessage']}"
+										 tableStyleClass="table table-striped"
+										 paginator="true" rows="10"
+										 paginatorAlwaysVisible="false">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.date']}"/>
+									</f:facet>
+									<h:outputText value="#{batch.auditTimestamp}">
+										<f:converter converterId="localDateConverter"/>
+									</h:outputText>
+									<h:outputText value=" "/>
+									<h:outputText value="#{batch.auditTimestamp}">
+										<f:converter converterId="localTimeConverter"/>
+									</h:outputText>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@rbac.role']}"/>
+									</f:facet>
+									<h:outputText value="#{msgs[batch.operatorRole.role.name]}"
+												  styleClass="bold"/> -
+									<h:outputText value="#{batch.operatorRole.mvElection}"/> -
+									<h:outputText value="#{batch.operatorRole.mvArea}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@batch.nr']}"/>
+									</f:facet>
+									<h:outputText value="#{batch.number}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.status']}"/>
+									</f:facet>
+									<h:outputText value="#{msgs[batch.batchStatus.name]}"/>
+								</p:column>
+								<p:column>
+									<div style="overflow: hidden"><h:outputText
+										value="#{msgs.getMultiple(batch.infoText)}"/> <h:outputText
+										value="#{batch.messageText}"/></div>
+								</p:column>
+								<p:column>
+									<p:commandButton ajax="false" image="download" title="#{msgs['@common.Download']}"
+													 action="#{batchController.getFile(batch)}"
+													 rendered="#{batchController.readyForDownload(batch)}"
+													 icon="eva-icon-download"
+													 value="#{msgs['@common.Download']}"
+													 styleClass="btn btn-primary"/>
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+				<div class="row">
+					<h:form>
+						<div class="col-md-2 col-md-offset-10 right">
+							<p:commandButton value="#{msgs['@common.refresh']}"
+											 action="#{batchController.updateBatches}"
+											 ajax="true" styleClass="btn btn-primary"
+											 update=":batchForm:batches"/>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</f:view>

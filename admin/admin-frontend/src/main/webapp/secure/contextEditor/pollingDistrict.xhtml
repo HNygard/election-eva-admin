@@ -1,0 +1,193 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="level5Form" role="form">
+		<ui:param name="helpId" value="@help.area.polling_district"/>
+		<p:dialog
+			id="level5Dialog"
+			header="#{pollingDistrictController.level5DialogHeader}"
+			widgetVar="editAreaLevel5Widget"
+			fixedCenter="true"
+			modal="true"
+			visible="false"
+			resizable="false"
+			height="#{pollingDistrictController.pollingDistrict.parentPollingDistrict ? '500' : ''}"
+			width="640">
+
+			<h:panelGroup styleClass="row" layout="block">
+
+				<p:messages id="msg"/>
+
+				<h:panelGroup styleClass="form-group col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[3].name']}" for="municipalityName"/>
+					<h:inputText
+						id="municipalityName"
+						value="#{pollingDistrictController.currentMvArea.municipality.name}"
+						styleClass="form-control"
+						disabled="true"
+						readonly="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[4].name']}" for="boroughName"/>
+					<h:inputText
+						id="boroughName"
+						value="#{pollingDistrictController.currentMvArea.borough.name}"
+						styleClass="form-control"
+						readonly="true"
+						disabled="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group required col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[5].nummer']}" for="pollingDistrictId"/>
+					<h:inputText
+						value="#{pollingDistrictController.pollingDistrict.id}"
+						maxlength="4"
+						id="pollingDistrictId"
+						label="#{msgs['@area_level[5].nummer']}"
+						required="true"
+						styleClass="form-control"
+						disabled="#{pollingDistrictController.readOnly or isElectionEventDisabled}"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group required col-md-6" layout="block">
+					<h:outputLabel value="#{msgs['@common.name']}" for="pollingDistrictName"/>
+					<h:inputText
+						value="#{pollingDistrictController.pollingDistrict.name}"
+						id="pollingDistrictName"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="50"
+						required="true"
+						disabled="#{pollingDistrictController.readOnly or isElectionEventDisabled}"/>
+				</h:panelGroup>
+
+				<h:panelGroup id="param5" layout="block" styleClass="form-group col-md-12">
+
+					<h:outputLabel value="#{msgs['@area.polling_district.polling_district_type_select.label']}"/>
+
+					<h:inputText
+						value="#{pollingDistrictController.getPollingDistrictTypeText(pollingDistrictController.pollingDistrict)}"
+						styleClass="form-control"
+						disabled="true"/>
+
+				</h:panelGroup>
+
+				<!-- List of polling districts for parent -->
+				<h:panelGroup
+					id="param6"
+					styleClass="form-group col-md-12"
+					layout="block"
+					rendered="#{pollingDistrictController.pollingDistrict.parentPollingDistrict}">
+
+					<h:outputText value="#{msgs['@area.polling_district.panelheader.polling_districts_for_parent_list']}" for="listTable"/>
+					<p:dataTable
+						id="listTable"
+						var="pollingDistrict"
+						value="#{pollingDistrictController.pollingDistrictsForParentList}"
+						border="1"
+						tableStyleClass="table table-striped"
+						paginator="true"
+						paginatorAlwaysVisible="false"
+						rows="10"
+						emptyMessage="#{msgs['@area.polling_district.polling_district_parent.empty_message']}">
+
+						<!-- Polling district id -->
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@area_level[5].nummer']}"/>
+							</f:facet>
+							<h:outputText value="#{pollingDistrict.id}"/>
+						</p:column>
+
+						<!-- Polling district name -->
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.name']}"/>
+							</f:facet>
+							<h:outputText value="#{pollingDistrict.name}"/>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					action="#{pollingDistrictController.doUpdatePollingDistrict}"
+					id="update"
+					update=":level5Form:msg :hierarchyEditor"
+					oncomplete="editPollingDistrictDialogBox(xhr, status, args)"
+					value="#{msgs['@common.save']}"
+					disabled="#{pollingDistrictController.readOnly or isElectionEventDisabled}"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+				<p:commandButton
+					id="deleteButton"
+					pt:data-aft="deleteButton"
+					onclick="PF('level5Confirmation').show()"
+					update=":level5DialogForm:dialogMessage"
+					value="#{msgs['@common.delete']}"
+					disabled="#{!pollingDistrictController.currentRemovable or pollingDistrictController.readOnly or isElectionEventDisabled}"
+					icon="eva-icon-close"
+					styleClass="btn btn-danger"/>
+
+				<p:commandLink
+					id="backToAreaList"
+					onclick="PF('editAreaLevel5Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+			</f:facet>
+
+		</p:dialog>
+	</h:form>
+
+	<h:form id="level5DialogForm" role="form">
+		<p:confirmDialog
+			header="#{msgs['@common.delete']} #{msgs['@area_level[5].name']}"
+			severity="alert"
+			widgetVar="level5Confirmation"
+			modal="true">
+
+			<f:facet name="message">
+				<h:outputText id="dialogMessage"
+							  value="#{msgs.get('@common.delete.confirmation', msgs['@area_level[5].name'], pollingDistrictController.pollingDistrict.name)}"/>
+			</f:facet>
+
+			<!-- Command buttons -->
+			<h:panelGroup styleClass="form-group form-actions col-md-7 center-block" layout="block">
+				<p:commandButton
+					id="YesButton"
+					pt:data-aft="doDeletePollingDistrict"
+					value="#{msgs['@common.yes']}"
+					immediate="true"
+					update="@(.context-picker-form) :hierarchyEditor"
+					oncomplete="PF('editAreaLevel5Widget').hide();"
+					action="#{pollingDistrictController.doDeletePollingDistrict(pollingDistrictController.pollingDistrict)}"
+					onclick="PF('level5Confirmation').hide();"
+					styleClass="btn btn-primary"/>
+
+				<p:commandLink
+					styleClass="btn btn-default"
+					value="#{msgs['@common.no']}"
+					id="NoButton"
+					onclick="PF('level5Confirmation').hide()"
+					update="level5DialogForm:NoButton"/>
+
+			</h:panelGroup>
+		</p:confirmDialog>
+	</h:form>
+	<script type="text/javascript">
+		//<![CDATA[
+		function editPollingDistrictDialogBox(xhr, status, args) {
+			if (args.editPollingDistrictHideDialog) {
+				PF('editAreaLevel5Widget').hide();
+			}
+		}
+		//]]>
+	</script>
+</ui:composition>

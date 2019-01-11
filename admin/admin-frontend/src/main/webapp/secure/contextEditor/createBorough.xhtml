@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+    <h:form id="level4CreateForm" role="form">
+        <ui:param name="helpId" value="@help.area.borough"/>
+        <p:dialog
+                header="#{msgs['@area.borough.create.header']}"
+                widgetVar="createAreaLevel4Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="640">
+            <h:panelGroup styleClass="row" layout="block">
+                
+                <div class="col-md-9 center-block">
+                	<p:messages id="msg"/>
+                </div>
+                
+                <!-- Municipality name -->
+                <h:panelGroup styleClass="form-group col-md-12" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[3].name']}" for="municipalityName"/>
+                    <h:inputText
+                            id="municipalityName"
+                            value="#{boroughController.parentMvArea.municipality.name}"
+                            styleClass="form-control"
+                            readonly="true"
+                            disabled="true"/>
+                </h:panelGroup>
+
+                <!-- boroughId -->
+                <h:panelGroup styleClass="form-group required col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[4].nummer']}" for="boroughId"/>
+                    <h:inputText
+                            id="boroughId"
+                            pt:data-aft="bydelId"
+                            value="#{boroughController.newBorough.id}"
+                            label="#{msgs['@area_level[4].nummer']}"
+                            required="true"
+                            maxlength="6"
+                            styleClass="form-control"/>
+                </h:panelGroup>
+
+                <!-- boroughName -->
+                <h:panelGroup styleClass="form-group required col-md-6" layout="block">
+
+                    <h:outputLabel value="#{msgs['@common.name']}" for="boroughName"/>
+                    <h:inputText
+                            id="boroughName"
+                            pt:data-aft="bydelNavn"
+                            value="#{boroughController.newBorough.name}"
+                            label="#{msgs['@common.name']}"
+                            styleClass="form-control"
+                            maxlength="50"
+                            required="true"/>
+                </h:panelGroup>
+
+                <!-- Municipality1 -->
+                <h:panelGroup styleClass="form-group required col-md-12" layout="block">
+                    <div class="checkbox">
+                        <h:outputLabel for="currentBoroughMunicipality">
+                            <h:selectBooleanCheckbox
+                                    value="#{boroughController.newBorough.municipality1}"
+                                    id="currentBoroughMunicipality"
+									pt:data-aft="gjelderHeleKommunen"
+									required="true"
+                                    label="#{msgs['@area.borough.municipality1']}"
+                                    styleClass="form-control"/>
+                            #{msgs['@area.borough.municipality1']}
+                        </h:outputLabel>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+			
+			<f:facet name="footer">
+				<p:commandButton
+						id="create"
+                        pt:data-aft="knappLagreBydel"
+						action="#{boroughController.doCreateBorough(boroughController.newBorough)}"
+						oncomplete="createBoroughDialogBox(xhr, status, args)"
+						update=":level4CreateForm:msg :hierarchyEditor"
+						value="#{msgs['@area.borough.create.button.create']}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+
+				<p:commandLink
+						id="backToAreaList"
+						onclick="PF('createAreaLevel4Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+			</f:facet>
+			
+        </p:dialog>
+    </h:form>
+    <script type="text/javascript">
+        //<![CDATA[
+        function createBoroughDialogBox(xhr, status, args) {
+            if (args.createBoroughHideDialog) {
+                PF('createAreaLevel4Widget').hide();
+            }
+        }
+        //]]>
+    </script>
+</ui:composition>

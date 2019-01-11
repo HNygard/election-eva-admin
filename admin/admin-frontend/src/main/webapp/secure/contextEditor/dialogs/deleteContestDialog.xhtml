@@ -1,0 +1,33 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+	
+	<p:confirmDialog
+		id="deleteContestDialog"
+		widgetVar="deleteContestDialog"
+		header="#{msgs['@common.delete']} #{msgs['@election_level[3].name']}"
+		severity="alert"
+		modal="true">
+		<f:facet name="message">
+			<h:outputText id="deleteContestDialogMsg"
+						  styleClass="deleteContestDialogMsg"
+						  value="#{msgs.get('@common.delete.confirmation', msgs['@election_level[3].name'], contestController.currentContest.name)}"/>
+		</f:facet>
+
+		<p:commandButton id="deleteContestButton"
+						 onclick="PF('deleteContestDialog').hide();"
+						 action="#{contestController.deleteContest}"
+						 process="@this"
+						 update=":hierarchyEditor"
+						 oncomplete="EVA.Application.getInstance().getView().ajaxOnComplete(xhr, status, args)"
+						 value="#{msgs['@common.yes']}"
+						 icon="eva-icon-notification"
+						 styleClass="btn btn-danger"/>
+		<p:commandLink id="cancelDeleteContest"
+					   onclick="PF('deleteContestDialog').hide(); return false;" 
+					   value="#{msgs['@common.cancel']}" 
+					   styleClass="btn btn-link"/>
+	</p:confirmDialog>
+</f:view>

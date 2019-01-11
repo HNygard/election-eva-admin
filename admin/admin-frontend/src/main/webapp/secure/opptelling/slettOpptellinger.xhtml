@@ -1,0 +1,93 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[slettOpptellingerController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{slettOpptellingerController.initiellKontekstvelgerURL}"
+                        rendered="#{slettOpptellingerController.context}"/>
+			<p:menuitem value="#{msgs['@delete.vote_counts.header']}" url="#{slettOpptellingerController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-delete-vote-counts" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@delete.vote_counts.header']}"/>
+				</h1>
+
+				<h:form id="form" name="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msgs" globalOnly="true"/>
+						</div>
+					</div>
+
+					<ui:fragment rendered="#{not slettOpptellingerController.slettetOpptellinger}">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="ui-messages-info ui-corner-all"><span class="ui-messages-info-icon"></span>
+									<ul>
+										<li>
+											<span class="ui-messages-info-summary">
+												<h:outputText value="#{msgs.get('@delete.vote_counts.confirmText',
+													slettOpptellingerController.valghierakiNavn,
+													slettOpptellingerController.valggeografiNavn)}"/>
+											</span>
+										</li>
+										<li>
+											<span class="ui-messages-info-summary">
+												<h:outputText value="#{msgs['@common.message.choose_category']}"/>
+											</span>
+										</li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<h:selectManyListbox id="selectedVotingCategory"
+													 value="#{slettOpptellingerController.valgteCountCategories}"
+													 size="10"
+													 style="float: left"
+													 styleClass="form-control">
+									<f:selectItems value="#{slettOpptellingerController.countCategories}"
+												   var="countCategory" itemLabel="#{countCategory} - #{msgs[countCategory.messageProperty()]}"
+												   itemValue="#{countCategory}"/>
+								</h:selectManyListbox>
+								<h:selectManyListbox id="selectedReportingUnitTypeCategory"
+													 value="#{slettOpptellingerController.valgteStyretyper}"
+													 size="10"
+													 style="float: left"
+													 styleClass="form-control">
+									<f:selectItems value="#{slettOpptellingerController.styretyper}"
+												   var="styretype" itemLabel="#{msgs[styretype.navn()]}"
+												   itemValue="#{styretype}"/>
+								</h:selectManyListbox>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 form-actions">
+								<p:commandButton value="#{msgs['@common.delete']}"
+												 action="#{slettOpptellingerController.slettOpptellinger()}"
+												 update="form"
+												 icon="eva-icon-close"
+												 styleClass="btn btn-danger"/>
+							</div>
+						</div>
+					</ui:fragment>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,84 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h4><h:outputText value="#{msgs[tab.title]}"/></h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<p:dataTable
+				rendered="#{preliminaryCountController.renderMultipleProtocolCountsView()}"
+				value="#{preliminaryCountController.protocolCounts}"
+				var="protocolCount"
+				rowIndexVar="index"
+				id="protocolCounts">
+		
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['@reports.all.pollingdistrict']}"/>
+					</f:facet>
+					<h:commandLink id="areaName" immediate="true"
+								   action="#{preliminaryCountController.selectProtocolCount(index)}"
+								   value="#{preliminaryCountController.getAreaName(protocolCount)}"/>
+					<h:outputText rendered="#{protocolCount.approved}" value="" styleClass="eva-icon-checkmark"/>
+					<f:facet name="footer">
+						<h:outputText value="Totalt" styleClass="bold"/>
+					</f:facet>
+				</p:column>
+		
+				<p:column styleClass="align-right">
+					<f:facet name="header">
+						<h:outputText value="#{msgs['@reports.all.ercheck']}"/>
+					</f:facet>
+					<h:outputText value="#{protocolCount.dailyMarkOffCounts.getMarkOffCount()}"/>
+					<f:facet name="footer">
+						<h:outputText value="#{preliminaryCountController.counts.markOffCount}" styleClass="bold"/>
+					</f:facet>
+				</p:column>
+		
+				<p:column styleClass="align-right">
+					<f:facet name="header">
+						<h:outputText value="#{msgs['@count.votes.totalInPolls']}"/>
+					</f:facet>
+					<h:outputText value="#{protocolCount.totalBallotCount}"/>
+					<f:facet name="footer">
+						<h:outputText value="#{preliminaryCountController.counts.totalBallotCountForProtocolCounts}" styleClass="bold"/>
+					</f:facet>
+				</p:column>
+		
+				<p:column styleClass="align-right">
+					<f:facet name="header">
+						<h:outputText value="#{msgs['@count.votes.ordinary']}"/>
+					</f:facet>
+					<h:outputText value="#{protocolCount.ordinaryBallotCount}"/>
+					<f:facet name="footer">
+						<h:outputText value="#{preliminaryCountController.counts.ordinaryBallotCountForProtocolCounts}" styleClass="bold"/>
+					</f:facet>
+				</p:column>
+		
+				<p:column styleClass="align-right">
+					<f:facet name="header">
+						<h:outputText value="#{msgs['@count.votes.questionable']}"/>
+					</f:facet>
+					<h:outputText value="#{protocolCount.questionableBallotCount}"/>
+					<f:facet name="footer">
+						<h:outputText value="#{preliminaryCountController.counts.questionableBallotCountForProtocolCounts}" styleClass="bold"/>
+					</f:facet>
+				</p:column>
+			</p:dataTable>
+		</div>
+	</div>
+
+	<ui:fragment rendered="#{preliminaryCountController.renderSingleProtocolCountView()}">
+		<ui:include src="protocolCount.xhtml">
+			<ui:param name="ctrl" value="#{protocolCountController}"/>
+		</ui:include>
+	</ui:fragment>
+
+</f:view>

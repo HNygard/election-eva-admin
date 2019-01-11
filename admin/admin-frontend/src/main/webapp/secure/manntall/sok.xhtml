@@ -1,0 +1,55 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.electoralRoll.search"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[sokManntallController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{sokManntallController.initiellKontekstvelgerURL}"
+                        rendered="#{sokManntallController.context}"/>
+			<p:menuitem value="#{msgs['@menu.electoralRoll.search']}"
+						actionListener="#{sokManntallController.manntallsSokVelger(null)}"
+						update="@(.onMainContentUpdate)"
+						rendered="#{sokManntallController.harVelger}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div class="page" id="page-search-electoral-roll" data-view="SearchElectoralRoll">
+				<h:panelGroup id="title" layout="block" styleClass="onMainContentUpdate">
+					<h1 class="page-title">
+						<h:outputText value="#{msgs['@menu.electoralRoll.search']}" rendered="#{not sokManntallController.harVelger}"/>
+						<h:outputText value="#{msgs['@electoralRoll.maintain.menu']}" rendered="#{sokManntallController.harVelger}"/>
+					</h1>
+				</h:panelGroup>
+
+				<widget:pageTitleMetaTemplate models="#{sokManntallController.pageTitleMeta}"/>
+
+				<h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+					<div class="#{sokManntallController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+						<p:messages id="msgs" globalOnly="true"/>
+						<widget:message severity="warn" message="@electoralRoll.editer_utilgjengelig.endre"
+										rendered="#{not sokManntallController.editerManntallTilgjengelig and sokManntallController.harVelger}"/>
+                        <widget:message message="@electoralRoll.eligigbleInSamiElection"
+                                        rendered="#{sokManntallController.harVelger and sokManntallController.velger.stemmerettOgsaVedSametingsvalg}"/>
+					</div>
+				</h:panelGroup>
+
+				<h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+					<manntall:manntallsSok id="manntallsSok"
+                                           renderLopenummerTab="false"
+                                           renderManntallsnummerTab="false"
+                                           kommuneListe="#{sokManntallController.kommuneListe}"
+                                           rendered="#{not sokManntallController.harVelger}"/>
+
+					<manntall:endreVelgerManntall id="endreVelgerManntall" rendered="#{sokManntallController.harVelger}"/>
+
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,75 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.searchAdvance"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[forhandSentInnkommetController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{forhandSentInnkommetController.initiellKontekstvelgerURL}"
+                        rendered="#{forhandSentInnkommetController.context}"/>
+			<p:menuitem value="#{msgs['@voting.manntallsSok.breadcrumb']}"
+						actionListener="#{forhandSentInnkommetController.manntallsSokVelger(null)}"
+						update="@(.onMainContentUpdate)"
+						rendered="#{forhandSentInnkommetController.harVelger}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div class="page" data-view="SearchElectoralRoll">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.earlyVoting.lateValidations']}"/>
+				</h1>
+
+				<widget:pageTitleMetaTemplate models="#{forhandSentInnkommetController.pageTitleMeta}"/>
+
+				<h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+					<div class="#{forhandSentInnkommetController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+						<p:messages id="msgs" globalOnly="true"/>
+						<widget:meldinger id="statiskeMeldingerWidget" meldingerWidget="#{forhandSentInnkommetController.statiskeMeldinger}"/>
+					</div>
+				</h:panelGroup>
+
+				<widget:stemmegivningTittel id="stemmegivningTittelForhand"
+											tittel="@voting.searchAdvanceLateValidation.header"
+											velger="#{forhandSentInnkommetController.velger}"
+											visOpprettFiktivVelgerLink="${forhandSentInnkommetController.visOpprettFiktivVelgerLink}"
+											opprettFiktivVelger="${forhandSentInnkommetController.opprettFiktivVelger}"
+											visSlettForhandsstemmeLink="${forhandSentInnkommetController.visSlettForhandsstemmeLink}"
+											slettForhandsstemme="#{forhandSentInnkommetController.slettForhandsstemme}"/>
+
+				<h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+					<manntall:manntallsSok id="manntallsSok"
+										   renderLopenummerTab="false"
+										   renderManntallsnummerTab="true"
+										   kommuneListe="#{forhandSentInnkommetController.kommuneListe}"
+										   visIMantallKolonne="true"
+										   rendered="#{not forhandSentInnkommetController.harVelger}"/>
+
+					<widget:stemmegivning id="stemmegivning"
+                                          ctrl="#{forhandSentInnkommetController}"
+                                          velger="#{forhandSentInnkommetController.velger}"
+                                          manntallsnummer="#{forhandSentInnkommetController.manntallsnummer}"
+                                          template="stemmegivningForhand.xhtml"
+                                          stemmetypeDisabled="#{forhandSentInnkommetController.stemmetypeDisabled}"
+                                          stemmetypeListe="#{forhandSentInnkommetController.stemmetypeListe}"
+                                          rendered="#{forhandSentInnkommetController.harVelger}"/>
+
+					<ui:fragment rendered="#{forhandSentInnkommetController.voteToOtherMunicipalityConfirmDialog}">
+						<ui:include src="includes/voteToOtherMunicipalityConfirmDialog.xhtml">
+							<ui:param name="ctrl" value="#{forhandSentInnkommetController}"/>
+						</ui:include>
+					</ui:fragment>
+
+				</h:panelGroup>
+			</div>
+
+			<ui:include src="includes/confirmLateValidationSearchDialog.xhtml"/>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

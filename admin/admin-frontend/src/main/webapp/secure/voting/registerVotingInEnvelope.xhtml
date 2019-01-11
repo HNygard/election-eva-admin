@@ -1,0 +1,65 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:voting="http://java.sun.com/jsf/composite/voting"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:param name="helpId" value="@help.searchAdvance"/>
+        <ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[registerVotingInEnvelopeController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{registerVotingInEnvelopeController.initiellKontekstvelgerURL}"
+                        rendered="#{registerVotingInEnvelopeController.context}"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="page" id="page-register-voting-in-envelope" data-view="RegisterVotingInEnvelope">
+                <h1 class="page-title">
+                    <h:outputText value="#{msgs['@voting.registrationInEnvelope.page.header']}"/>
+                </h1>
+                <div style="height: 12px;">
+                    <widget:pageTitleMetaTemplate models="#{registerVotingInEnvelopeController.pageTitleMeta}"/>
+                </div>
+                <p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+                <p:accordionPanel
+                        id="registerVotesInEnvelopePanel"
+                        styleClass="ui-accordion-default onStateChanged registerVotesInEnvelopesMenu"
+                        dynamic="true"
+                        activeIndex="#{registerVotingInEnvelopeController.activeTabIndex}"
+                        value="#{registerVotingInEnvelopeController.menuItems}"
+                        widgetVar="registerVotesInEnvelopeAccordionPanel"
+                        cache="false"
+                        var="menuItem">
+
+                    <p:ajax event="tabChange" listener="#{registerVotingInEnvelopeController.onTabChange}" update="registerVotesInEnvelopePanel" oncomplete="EVA.Application.getInstance().getView().onAccordionChange()"/>
+
+                    <p:tab id="tab"
+                           titleStyleClass="#{menuItem.backgroundCss}">
+
+                        <f:facet name="title">
+                            <h:outputText
+                                    pt:data-aft="#{menuItem.dataAftId}"
+                                    styleClass="menu-item-label"
+                                    value="#{menuItem.menuLabel}"/>
+                            <h:outputText
+                                    value=""
+                                    styleClass="h3 #{menuItem.iconCss}"
+                                    rendered="true"/>
+                        </f:facet>
+                        <h:outputText rendered="#{menuItem.notOpenForRegistration}" style="font-weight: bold;" value="#{menuItem.notOpenForRegistrationMessage}"/>
+
+                        <ui:fragment rendered="#{registerVotingInEnvelopeController.renderCurrentMenuItem(menuItem)}">
+                            <voting:registerEnvelopeVotingTabContent controller="#{registerVotingInEnvelopeController.votingController}"
+                                                                     voter="#{registerVotingInEnvelopeController.voter}"
+                                                                     showRegisterFictitiousVoterLink="#{registerVotingInEnvelopeController.showRegisterFictitiousVoterLink}"/>
+                        </ui:fragment>
+                    </p:tab>
+                </p:accordionPanel>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

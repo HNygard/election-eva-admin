@@ -1,0 +1,17 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h:outputText value="${msgs['@voting.searchAdvanceLateValidation.dialog.text']}"/>
+		</div>
+		<div class="form-actions col-md-12">
+			<p:commandButton onclick="#{forhandSentInnkommetController.confirmLateValidationSearchModal.closeJS};return false;"
+							 value="#{msgs['@common.ok']}"
+							 styleClass="btn btn-primary"/>
+		</div>
+	</div>
+</f:view>

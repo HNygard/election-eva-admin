@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				contentType="text/html">
+
+	<ui:fragment rendered="#{userAccess.resultatRapporter}">
+		<h2><h:outputText value="#{msgs['@statistic.reporting.overskrift']}"/></h2>
+		<ui:fragment
+			rendered="#{statisticReportingController.ferdigRapportert}">
+			<h3 class="ok bottom-spacing"><h:outputText value="#{msgs['@statistic.reporting.ferdig']}"/></h3>
+		</ui:fragment>
+		<ui:fragment
+			rendered="#{statisticReportingController.rapporteringerForStemmeskjema != null and not empty statisticReportingController.rapporteringerForStemmeskjemaForhand}">
+			<h3><h:outputText value="#{msgs['@statistic.reporting.forhandsstemmer']}"/></h3>
+			<ui:include src="forhandStemmetallDataTable.xhtml"/>
+		</ui:fragment>
+		<ui:fragment
+			rendered="#{statisticReportingController.rapporteringerForStemmeskjema != null and not empty statisticReportingController.rapporteringerForStemmeskjemaValgting}">
+			<h3><h:outputText value="#{msgs['@statistic.reporting.valgtingsstemmer']}"/></h3>
+			<ui:include src="valgtingsStemmetallDataTable.xhtml"/>
+		</ui:fragment>
+	</ui:fragment>
+
+	<!-- SFV01 -->
+	<ui:fragment rendered="#{statisticReportingController.renderCorrectedResult}">
+		<h3><h:outputText value="#{msgs['@statistic.reporting.correctedResults']}"/></h3>
+		<ui:include src="oppgjorDataTable.xhtml"/>
+	</ui:fragment>
+
+	<!--Logg-->
+	<ui:fragment rendered="#{not empty statisticReportingController.loggForOppgjorsskjema}">
+		<h3><h:outputText value="#{msgs['@statistic.reporting.loggoppgjorsskjema']}"/></h3>
+		<ui:include src="loggOppgjorskjema.xhtml"/>
+	</ui:fragment>
+	<ui:fragment rendered="#{not empty statisticReportingController.loggForStemmeskjema}">
+		<h3><h:outputText value="#{msgs['@statistic.reporting.loggstemmeskjema']}"/></h3>
+		<ui:include src="loggStemmeskjema.xhtml"/>
+	</ui:fragment>
+
+</ui:composition>

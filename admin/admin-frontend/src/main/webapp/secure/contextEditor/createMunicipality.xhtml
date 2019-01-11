@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                contentType="text/html">
+
+    <h:form id="level3CreateForm">
+        <ui:param name="helpId" value="@help.area.municipality"/>
+        <p:dialog
+                header="#{msgs['@area.municipality.create.header']}"
+                widgetVar="createAreaLevel3Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="640">
+            <h:panelGroup styleClass="row" layout="block">
+                <div class="col-md-9 center-block">
+                    <p:messages id="msg"/>
+                </div>
+
+                <!-- County -->
+                <h:panelGroup styleClass="form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[2].name']}" for="countyName"/>
+                    <h:inputText
+                            id="countyName"
+                            value="#{municipalityController.parentMvArea.county.name}"
+                            readonly="true"
+                            disabled="true"
+                            styleClass="form-control"
+                            />
+                </h:panelGroup>
+
+                <!-- municipalityId -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[3].nummer']}" for="municipalityId"/>
+                    <h:inputText
+                            id="municipalityId"
+							pt:data-aft="municipalityId"
+							value="#{municipalityController.newMunicipality.id}"
+                            required="true"
+                            label="#{msgs['@area_level[3].nummer']}"
+                            styleClass="form-control"
+                            maxlength="4"/>
+                </h:panelGroup>
+
+                <!-- Name -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@common.name']}" for="municipalityName"/>
+                    <h:inputText
+						id="municipalityName"
+						pt:data-aft="municipalityName"
+						value="#{municipalityController.newMunicipality.name}"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="50"
+						required="true"/>
+                </h:panelGroup>
+
+                <!-- Electronic or manual voter markoff -->
+                <h:panelGroup styleClass="required form-group col-md-12" layout="block">
+                    <!-- Allowed to use technical polling districts -->
+                    <div class="checkbox">
+                        <label for="technicalPollingDistrictsAllowed">
+                            <h:selectBooleanCheckbox
+                                    id="technicalPollingDistrictsAllowed"
+									pt:data-aft="technicalPollingDistrictsAllowed"
+									value="#{municipalityController.newMunicipality.technicalPollingDistrictsAllowed}"
+                                    styleClass="form-control"
+                                    disabled="#{isElectionEventDisabled or municipalityController.readOnly}"/>
+                            #{msgs['@area.municipality.technicalPollingDistrictsAllowed']}
+                        </label>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton id="create"
+								 pt:data-aft="doCreateMunicipality"
+								 action="#{municipalityController.doCreateMunicipality(municipalityController.newMunicipality)}"
+								 oncomplete="createMunicipalityDialogBox(xhr, status, args)"
+								 update=":level3CreateForm:msg :hierarchyEditor"
+								 value="#{msgs['@area.municipality.create.button.create']}"
+								 styleClass="btn btn-primary"/>
+
+				<p:commandLink id="backToAreaList"
+							   onclick="PF('createAreaLevel3Widget').hide(); return false;"
+							   value="#{msgs['@common.cancel']}"
+							   styleClass="btn btn-link"/>
+			</f:facet>
+
+        </p:dialog>
+    </h:form>
+    <script type="text/javascript">
+        //<![CDATA[
+        function createMunicipalityDialogBox(xhr, status, args) {
+            if (args.createMunicipalityHideDialog) {
+                PF('createAreaLevel3Widget').hide();
+            }
+        }
+        //]]>
+    </script>
+</ui:composition>

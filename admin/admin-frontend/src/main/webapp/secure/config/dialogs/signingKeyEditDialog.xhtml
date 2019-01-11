@@ -1,0 +1,62 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<p:dialog id="signingKeyEditDialog"
+			  widgetVar="signingKeyEditDialog"
+			  header="#{msgs['@config.certificate_management.add_file_to_key']}"
+			  width="500"
+			  closable="false"
+			  draggable="true"
+			  modal="true"
+			  resizable="false">
+
+		<h:panelGroup id="signingKeyEditDialogContent" layout="block" styleClass="signingKeyEditDialogContent">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<h:outputLabel styleClass="bold" for="electionEventName" value="#{msgs['@common.electionEvent']}: "/>
+						<h:outputText id="electionEventName" value="#{signingKeyController.electionEvent.name}"/>
+					</div>
+					<div class="form-group">
+						<h:outputLabel styleClass="bold" for="keyDomainName" value="#{msgs['@config.certificate_management.key']}: "/>
+						<h:outputText id="keyDomainName" value="#{msgs[signingKeyController.keyDomain.name]}"/>
+					</div>
+					<div class="form-group required">
+						<h:outputLabel styleClass="bold" for="file" value="#{msgs['@common.file']}:"/>
+						<p:fileUpload id="file"
+									  value="#{signingKeyController.file}"
+									  mode="simple"/>
+						<h:message for="file" id="fileError" styleClass="inline-error"/>
+					</div>
+					<div class="form-group required">
+						<h:outputLabel styleClass="bold" for="password" value="#{msgs['@rbac.exportSecurityToken.password']}:"
+									   rendered="#{!signingKeyController.keyDomain.publicKey}"/>
+						<h:inputSecret id="password" value="#{signingKeyController.password}" rendered="#{!signingKeyController.keyDomain.publicKey}"/>
+						<h:message for="password" id="passwordError" styleClass="inline-error"/>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 form-group action-buttons">
+					<p:commandButton
+						pt:data-aft="lagreKnapp"
+						action="#{signingKeyController.save}"
+						value="#{msgs['@config.certificate_management.add_file']}"
+						onclick="EVA.Application.getInstance().nonAjaxButtonClicked(this);return true;"
+						ajax="false"
+						styleClass="btn btn-primary"/>
+					<p:commandLink id="cancel"
+								   onclick="PF('signingKeyEditDialog').hide();return false;"
+								   value="#{msgs['@common.cancel']}"
+								   styleClass="btn btn-link"/>
+				</div>
+			</div>
+		</h:panelGroup>
+		
+	</p:dialog>
+
+</f:view>

@@ -1,0 +1,36 @@
+<f:view
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:c="http://java.sun.com/jsp/jstl/core"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<c:set target="#{batchController}" value="#{param.cid}" property="cid"/>
+	<h:inputHidden id="cid" value="#{batchController.cid}"/>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<p:fileUpload
+						fileUploadListener="#{batchController.fileImport}"
+						process="@form"
+						update="@form"
+						label="#{msgs['@common.Select.file']}"
+						uploadLabel="#{msgs['@common.upload.file']}"
+						fileLimitMessage="#{msgs['@common.upload.fileLimitMessage']}"
+						invalidFileMessage="#{msgs['@counting.import.upload.invalidFileMessage']}"
+						oncomplete="EVA.Application.getInstance().hideLoader(); PF('batchAjaxUploadWidget').uploadedFileCount = 0;"
+						onstart="EVA.Application.getInstance().showLoader()"
+						cancelLabel="#{msgs['@common.upload.cancelLabel']}"
+						widgetVar="batchAjaxUploadWidget"
+						fileLimit="1"
+						allowTypes="/(\.|\/)(zip)$/"
+						id="uploadBatch"
+						mode="advanced">
+				</p:fileUpload>
+			</div>
+		</div>
+	</div>
+
+</f:view>

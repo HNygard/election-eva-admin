@@ -1,0 +1,59 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@rbac.inspect.inspectTitle']}" url="accessOverview.xhtml"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-access-overview" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@rbac.inspect.inspectTitle']}"/>
+				</h1>
+
+				<h:form id="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msg" globalOnly="true"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<p:tree id="accessTree"
+									pt:data-aft="accessTree"
+									var="node"
+									highlight="true"
+									selectionMode="single"
+									value="#{accessOverviewController.treeRoot}"
+									selection="#{accessOverviewController.selectedNode}">
+								<p:treeNode>
+									<h:outputText value="#{msgs[node.name]}"/>
+								</p:treeNode>
+							</p:tree>
+						</div>
+						<div class="form-actions col-md-12">
+							<p:commandButton id="viewOperators"
+											 pt:data-aft="viewOperators"
+											 value="#{msgs['@rbac.inspect.viewOperators']}"
+											 action="#{accessOverviewController.viewOperators}"
+											 ajax="false"
+											 icon="eva-icon-search"
+											 styleClass="btn btn-primary"/>
+						</div>
+
+					</div>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

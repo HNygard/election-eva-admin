@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+				contentType="text/html">
+
+    <h:form id="level1CreateForm" role="form">
+        <ui:param name="helpId" value="@help.area.country"/>
+        <p:dialog
+                header="#{msgs['@area.country.create.header']}"
+                widgetVar="createAreaLevel1Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="540">
+
+            <h:panelGroup styleClass="row" layout="block">
+
+                <div class="col-md-9 center-block">
+                    <p:messages id="msg"/>
+                </div>
+
+                <!-- Election event -->
+                <h:panelGroup styleClass="form-group col-md-12" layout="block">
+                    <h:outputLabel value="#{msgs['@election_level[0].name']}" for="electionEventName"/>
+                    <h:inputText
+                            id="electionEventName"
+                            name="electionEventName"
+                            styleClass="form-control"
+                            disabled="true"
+                            value="#{countryController.parentMvArea.electionEvent.name}"/>
+                </h:panelGroup>
+
+                <!-- Country ID -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[1].nummer']}" for="countryId"/>
+                    <h:inputText
+                            id="countryId"
+                            value="#{countryController.newCountry.id}"
+                            required="true"
+                            maxlength="2"
+                            label="#{msgs['@area_level[1].nummer']}"
+                            styleClass="form-control"/>
+                    <h:message for="countryId" id="idError"/>
+                </h:panelGroup>
+
+                <!-- Country Name -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@common.name']}" for="countryName"/>
+                    <h:inputText
+                            id="countryName"
+                            value="#{countryController.newCountry.name}"
+                            required="true"
+                            label="#{msgs['@common.name']}"
+                            maxlength="50"
+                            styleClass="form-control"/>
+                    <h:message for="countryName" id="nameError"/>
+                </h:panelGroup>
+            </h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton id="create"
+								 action="#{countryController.doCreateCountry(countryController.newCountry)}"
+								 oncomplete="createCountryDialogBox(xhr, status, args)"
+								 update=":level1CreateForm:msg :hierarchyEditor"
+								 value="#{msgs['@area.country.create.button.create']}"
+								 icon="eva-icon-checkmark"
+								 styleClass="btn btn-primary"/>
+
+				<p:commandLink
+						id="backToAreaList"
+						onclick="PF('createAreaLevel1Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+			</f:facet>
+			
+        </p:dialog>
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            function createCountryDialogBox(xhr, status, args) {
+                if (args.createCountryHideDialog) {
+                    PF('createAreaLevel1Widget').hide();
+                }
+            }
+            /*]]>*/
+        </script>
+    </h:form>
+</ui:composition>

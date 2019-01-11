@@ -1,0 +1,98 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.config.generate_download_EML"/>
+
+		<ui:define name="content">
+			<div class="page" id="page-generate-eml" data-view="GenerateEML">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.config.generate_download_EML']}"/>
+				</h1>
+
+				<f:event type="preRenderView" listener="#{emlExportController.canGenerateEML()}"/>
+
+				<h:form id="form" prependId="false">
+					<p:messages id="msgs" globalOnly="true"/>
+
+					<div class="row">
+						<div class="col-md-12">
+							<span class="bold">#{msgs['@election.election_event.election_event_status']}:</span>
+							<h:outputText value=" #{msgs[userDataController.electionEvent.electionEventStatus.name]}"/>
+						</div>
+					</div>
+					
+					<ui:fragment rendered="#{emlExportController.canGenerateEML()}">
+						<div class="row">
+							<div class="col-md-12 form-actions">
+								<p:commandButton id="generateEML"
+												 action="#{emlExportController.generateEML()}"
+												 process="@this"
+												 update="@form"
+												 styleClass="btn btn-primary"
+												 value="#{msgs['@menu.config.generate_EML']}"
+												 async="true"
+												 rendered="#{emlExportController.konfigurasjonEmlBehandle}"/>
+							</div>
+						</div>
+
+						<p:dataTable id="batchTable"
+									 var="batchInfo"
+									 rendered="#{not empty emlExportController.generatedEMLBatches}"
+									 value="#{emlExportController.generatedEMLBatches}">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msgs['@election.election_event.eml_generated_date']}"/>
+								</f:facet>
+								<h:outputText value="#{batchInfo.timestamp}">
+									<f:converter converterId="dateTimeConverter"/>
+								</h:outputText>
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msgs['@common.status']}"/>
+								</f:facet>
+								<h:outputText value="#{msgs[emlExportController.getBatchStatusMessage(batchInfo.status)]}"/>
+							</p:column>
+
+							<p:column>
+								<p:commandButton
+									action="#{emlExportController.download(batchInfo)}"
+									value="#{msgs['@menu.config.download_EML']}"
+									ajax="false"
+									icon="eva-icon-download"
+									styleClass="btn btn-primary"
+									disabled="#{!emlExportController.readyForDownload(batchInfo)}">
+								</p:commandButton>
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msgs['@election.election_event.eml_validate']}"/>
+								</f:facet>
+								<h:panelGroup layout="block" styleClass="btn-group context-actions" rendered="#{emlExportController.hasBeenValidated(batchInfo)}">
+									<h:outputText styleClass="eva-icon-checkmark" rendered="#{emlExportController.isValid(batchInfo)}"/>
+									<h:outputText styleClass="eva-icon-error" rendered="#{not emlExportController.isValid(batchInfo)}"/>
+								</h:panelGroup>
+								<ui:fragment rendered="#{not emlExportController.hasBeenValidated(batchInfo)}">
+									<p:commandButton
+										value="#{msgs['@election.election_event.eml_validate']}"
+										styleClass="btn btn-primary"
+										icon="eva-icon-checkmark"
+										action="#{emlExportController.validateBatch(batchInfo)}"
+										disabled="#{!emlExportController.readyForDownload(batchInfo)}"
+										async="true" update="batchTable"/>
+								</ui:fragment>
+							</p:column>
+						</p:dataTable>
+					</ui:fragment>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

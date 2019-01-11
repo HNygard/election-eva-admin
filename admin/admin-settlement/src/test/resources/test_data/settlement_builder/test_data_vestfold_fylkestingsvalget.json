@@ -1,0 +1,1031 @@
+{
+  "election": {
+    "id": "01",
+    "settlementConfig": "PERSONAL",
+    "candidateRankVoteShareThreshold": "0.08",
+    "settlementFirstDivisor": "1.40",
+    "contest": {
+      "id": "000007",
+      "numberOfPositions": 50,
+      "ballots": [
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "SAMF"
+            },
+            "candidates": [
+              {
+                "id": "03060900000"
+              },
+              {
+                "id": "03110500000"
+              },
+              {
+                "id": "04040400000"
+              },
+              {
+                "id": "06030800000"
+              },
+              {
+                "id": "06051000000"
+              },
+              {
+                "id": "14110100000"
+              },
+              {
+                "id": "14110200000"
+              },
+              {
+                "id": "16050000000"
+              },
+              {
+                "id": "20120000000"
+              },
+              {
+                "id": "21010200000"
+              },
+              {
+                "id": "21040700000"
+              },
+              {
+                "id": "21060900000"
+              },
+              {
+                "id": "23040500000"
+              },
+              {
+                "id": "23090900000"
+              },
+              {
+                "id": "31010400000"
+              },
+              {
+                "id": "31011200000"
+              },
+              {
+                "id": "25099300000"
+              },
+              {
+                "id": "01074600000"
+              },
+              {
+                "id": "01122300000"
+              },
+              {
+                "id": "05035600000"
+              },
+              {
+                "id": "20025200000"
+              },
+              {
+                "id": "20113300000"
+              },
+              {
+                "id": "21042800000"
+              },
+              {
+                "id": "21084500000"
+              },
+              {
+                "id": "30046400000"
+              },
+              {
+                "id": "30053300000"
+              }
+            ]
+          }
+        },
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "V"
+            },
+            "candidates": [
+              {
+                "id": "01051000000"
+              },
+              {
+                "id": "02020500000"
+              },
+              {
+                "id": "03010100000"
+              },
+              {
+                "id": "03010500000"
+              },
+              {
+                "id": "03070400000"
+              },
+              {
+                "id": "04040300000"
+              },
+              {
+                "id": "06010900000"
+              },
+              {
+                "id": "07090500000"
+              },
+              {
+                "id": "14080300000"
+              },
+              {
+                "id": "16010300000"
+              },
+              {
+                "id": "16071000000"
+              },
+              {
+                "id": "20100200000"
+              },
+              {
+                "id": "21030100000"
+              },
+              {
+                "id": "21070000000"
+              },
+              {
+                "id": "23040300000"
+              },
+              {
+                "id": "23110500000"
+              },
+              {
+                "id": "30080300000"
+              },
+              {
+                "id": "31100500000"
+              },
+              {
+                "id": "16048700000"
+              },
+              {
+                "id": "18049200000"
+              },
+              {
+                "id": "25029000000"
+              },
+              {
+                "id": "25079000000"
+              },
+              {
+                "id": "25118200000"
+              },
+              {
+                "id": "26019100000"
+              },
+              {
+                "id": "31018700000"
+              },
+              {
+                "id": "01024700000"
+              },
+              {
+                "id": "02029300000"
+              },
+              {
+                "id": "29044400000"
+              },
+              {
+                "id": "30053400000"
+              }
+            ]
+          }
+        },
+        {
+          "affiliation": {
+            "approved": true,
+            "party": {
+              "id": "BLANK"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "contestReports": [
+    {
+      "voteCounts": [
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "FO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "FS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "VF",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0003",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 3,
+              "castBallots": [
+                {
+                  "candidateVotes": [
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "23110500000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "03010100000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "31100500000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "21070000000"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "ballotId": "BLANK",
+              "unmodifiedBallots": 1
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0004",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0701.070100.0000",
+          "countCategory": "VS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0711.071100.0000",
+          "countCategory": "FO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0711.071100.0000",
+          "countCategory": "FS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 3
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0711.071100.0000",
+          "countCategory": "VB",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0711.071100.0000",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 4
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0711.071100.0000",
+          "countCategory": "VS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 2
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0714.071400.0000",
+          "countCategory": "FO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 2,
+              "castBallots": [
+                {
+                  "candidateVotes": [
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "23110500000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "03010100000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "31100500000"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0714.071400.0000",
+          "countCategory": "FS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0714.071400.0000",
+          "countCategory": "VF",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0714.071400.0000",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0714.071400.0000",
+          "countCategory": "VS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 2
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0723.072300.0000",
+          "countCategory": "FO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1,
+              "castBallots": [
+                {
+                  "candidateVotes": [
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "23110500000"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0723.072300.0000",
+          "countCategory": "FS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0723.072300.0000",
+          "countCategory": "VB",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0723.072300.0000",
+          "countCategory": "VO",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1,
+              "castBallots": [
+                {
+                  "candidateVotes": [
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "23110500000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "03010100000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "31100500000"
+                    },
+                    {
+                      "voteCategoryId": "personal",
+                      "candidateId": "21070000000"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        },
+        {
+          "areaPath": "0723.072300.0000",
+          "countCategory": "VS",
+          "ballotCounts": [
+            {
+              "ballotId": "SAMF",
+              "unmodifiedBallots": 15
+            },
+            {
+              "ballotId": "V",
+              "unmodifiedBallots": 1
+            },
+            {
+              "ballotId": "BLANK"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedAffiliationVoteCounts": [
+    {
+      "affiliationId": "SAMF",
+      "earlyVotingBallots": 120,
+      "electionDayVotingBallots": 195,
+      "baselineVotes": 315
+    },
+    {
+      "affiliationId": "V",
+      "earlyVotingBallots": 13,
+      "earlyVotingModifiedBallots": 2,
+      "electionDayVotingBallots": 22,
+      "electionDayVotingModifiedBallots": 2,
+      "baselineVotes": 35
+    },
+    {
+      "affiliationId": "BLANK",
+      "electionDayVotingBallots": 1,
+      "baselineVotes": 1
+    }
+  ],
+  "expectedCandidateVoteCounts": [
+    {
+      "affiliationId": "V",
+      "candidateId": "23110500000",
+      "voteCategoryId": "personal",
+      "earlyVotingVotes": "2",
+      "electionDayVotes": "2"
+    },
+    {
+      "affiliationId": "V",
+      "candidateId": "03010100000",
+      "voteCategoryId": "personal",
+      "earlyVotingVotes": "1",
+      "electionDayVotes": "2"
+    },
+    {
+      "affiliationId": "V",
+      "candidateId": "31100500000",
+      "voteCategoryId": "personal",
+      "earlyVotingVotes": "1",
+      "electionDayVotes": "2"
+    },
+    {
+      "affiliationId": "V",
+      "candidateId": "21070000000",
+      "voteCategoryId": "personal",
+      "electionDayVotes": "2"
+    }
+  ],
+  "expectedCandidateRanks": [
+    {
+      "candidateId": "23110500000",
+      "votes": "4"
+    },
+    {
+      "candidateId": "03010100000",
+      "votes": "3"
+    },
+    {
+      "candidateId": "31100500000",
+      "votes": "3"
+    },
+    {
+      "candidateId": "01051000000"
+    },
+    {
+      "candidateId": "02020500000"
+    },
+    {
+      "candidateId": "03010500000"
+    },
+    {
+      "candidateId": "03070400000"
+    },
+    {
+      "candidateId": "04040300000"
+    },
+    {
+      "candidateId": "06010900000"
+    },
+    {
+      "candidateId": "07090500000"
+    },
+    {
+      "candidateId": "14080300000"
+    },
+    {
+      "candidateId": "16010300000"
+    },
+    {
+      "candidateId": "16071000000"
+    },
+    {
+      "candidateId": "20100200000"
+    },
+    {
+      "candidateId": "21030100000"
+    },
+    {
+      "candidateId": "21070000000",
+      "votes": "2"
+    },
+    {
+      "candidateId": "23040300000"
+    },
+    {
+      "candidateId": "30080300000"
+    },
+    {
+      "candidateId": "16048700000"
+    },
+    {
+      "candidateId": "18049200000"
+    },
+    {
+      "candidateId": "25029000000"
+    },
+    {
+      "candidateId": "25079000000"
+    },
+    {
+      "candidateId": "25118200000"
+    },
+    {
+      "candidateId": "26019100000"
+    },
+    {
+      "candidateId": "31018700000"
+    },
+    {
+      "candidateId": "01024700000"
+    },
+    {
+      "candidateId": "02029300000"
+    },
+    {
+      "candidateId": "29044400000"
+    },
+    {
+      "candidateId": "30053400000"
+    },
+    {
+      "candidateId": "03060900000"
+    },
+    {
+      "candidateId": "03110500000"
+    },
+    {
+      "candidateId": "04040400000"
+    },
+    {
+      "candidateId": "06030800000"
+    },
+    {
+      "candidateId": "06051000000"
+    },
+    {
+      "candidateId": "14110100000"
+    },
+    {
+      "candidateId": "14110200000"
+    },
+    {
+      "candidateId": "16050000000"
+    },
+    {
+      "candidateId": "20120000000"
+    },
+    {
+      "candidateId": "21010200000"
+    },
+    {
+      "candidateId": "21040700000"
+    },
+    {
+      "candidateId": "21060900000"
+    },
+    {
+      "candidateId": "23040500000"
+    },
+    {
+      "candidateId": "23090900000"
+    },
+    {
+      "candidateId": "31010400000"
+    },
+    {
+      "candidateId": "31011200000"
+    },
+    {
+      "candidateId": "25099300000"
+    },
+    {
+      "candidateId": "01074600000"
+    },
+    {
+      "candidateId": "01122300000"
+    },
+    {
+      "candidateId": "05035600000"
+    },
+    {
+      "candidateId": "20025200000"
+    },
+    {
+      "candidateId": "20113300000"
+    },
+    {
+      "candidateId": "21042800000"
+    },
+    {
+      "candidateId": "21084500000"
+    },
+    {
+      "candidateId": "30046400000"
+    },
+    {
+      "candidateId": "30053300000"
+    }
+  ],
+  "expectedCandidateSeats": [
+    {
+      "candidateId": "03060900000"
+    },
+    {
+      "candidateId": "03110500000"
+    },
+    {
+      "candidateId": "04040400000"
+    },
+    {
+      "candidateId": "06030800000"
+    },
+    {
+      "candidateId": "06051000000"
+    },
+    {
+      "candidateId": "14110100000"
+    },
+    {
+      "candidateId": "23110500000"
+    },
+    {
+      "candidateId": "14110200000"
+    },
+    {
+      "candidateId": "16050000000"
+    },
+    {
+      "candidateId": "20120000000"
+    },
+    {
+      "candidateId": "21010200000"
+    },
+    {
+      "candidateId": "21040700000"
+    },
+    {
+      "candidateId": "21060900000"
+    },
+    {
+      "candidateId": "23040500000"
+    },
+    {
+      "candidateId": "23090900000"
+    },
+    {
+      "candidateId": "03010100000"
+    },
+    {
+      "candidateId": "31010400000"
+    },
+    {
+      "candidateId": "31011200000"
+    },
+    {
+      "candidateId": "25099300000"
+    },
+    {
+      "candidateId": "01074600000"
+    },
+    {
+      "candidateId": "01122300000"
+    },
+    {
+      "candidateId": "05035600000"
+    },
+    {
+      "candidateId": "20025200000"
+    },
+    {
+      "candidateId": "20113300000"
+    },
+    {
+      "candidateId": "21042800000"
+    },
+    {
+      "candidateId": "31100500000"
+    },
+    {
+      "candidateId": "21084500000"
+    },
+    {
+      "candidateId": "30046400000"
+    },
+    {
+      "candidateId": "30053300000"
+    },
+    {
+      "candidateId": "01051000000"
+    },
+    {
+      "candidateId": "02020500000"
+    },
+    {
+      "candidateId": "03010500000"
+    },
+    {
+      "candidateId": "03070400000"
+    },
+    {
+      "candidateId": "04040300000"
+    },
+    {
+      "candidateId": "06010900000"
+    },
+    {
+      "candidateId": "07090500000"
+    },
+    {
+      "candidateId": "14080300000"
+    },
+    {
+      "candidateId": "16010300000"
+    },
+    {
+      "candidateId": "16071000000"
+    },
+    {
+      "candidateId": "20100200000"
+    },
+    {
+      "candidateId": "21030100000"
+    },
+    {
+      "candidateId": "21070000000"
+    },
+    {
+      "candidateId": "23040300000"
+    },
+    {
+      "candidateId": "30080300000"
+    },
+    {
+      "candidateId": "16048700000"
+    },
+    {
+      "candidateId": "18049200000"
+    },
+    {
+      "candidateId": "25029000000"
+    },
+    {
+      "candidateId": "25079000000"
+    },
+    {
+      "candidateId": "25118200000"
+    },
+    {
+      "candidateId": "26019100000"
+    },
+    {
+      "candidateId": "31018700000"
+    },
+    {
+      "candidateId": "01024700000"
+    },
+    {
+      "candidateId": "02029300000"
+    },
+    {
+      "candidateId": "29044400000"
+    },
+    {
+      "candidateId": "30053400000"
+    }
+  ]
+}

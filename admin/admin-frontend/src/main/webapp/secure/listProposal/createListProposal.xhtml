@@ -1,0 +1,51 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.listproposal"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[opprettListeforslagController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{opprettListeforslagController.initiellKontekstvelgerURL}"
+                        rendered="#{opprettListeforslagController.context}"/>
+            <p:menuitem value="#{msgs['@menu.listProposal.create']}" url="#{opprettListeforslagController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-create-list-proposal" class="page">
+				<span style="display: none">#{opprettListeforslagController.contest.name}"</span>
+				<h1 class="page-title">
+					<h:outputText
+						value="#{msgs['@menu.listProposal.create']} #{opprettListeforslagController.contestLocked ? msgs['@common.locked'] : ''}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{opprettListeforslagController.pageTitleMeta}"/>
+
+				<h:form id="createListProposalForm">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msg"/>
+						</div>
+					</div>
+
+					<p:tabView id="createListProposalTabView" activeIndex="#{opprettListeforslagController.tabActiveIndex}" pt:data-aft="createListProposalTabView">
+						<p:tab title="#{msgs['@listProposal.newListProposal']}">
+							<ui:include src="includes/createListProposalExistingParty.xhtml"/>
+						</p:tab>
+						<p:tab title="#{msgs['@listProposal.newPartyListProposal']}">
+							<ui:include src="includes/createListProposalNewParty.xhtml"/>
+						</p:tab>
+					</p:tabView>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

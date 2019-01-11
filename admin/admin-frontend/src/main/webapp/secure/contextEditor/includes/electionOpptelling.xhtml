@@ -1,0 +1,81 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="electionPenultimateRecount">
+					<h:selectBooleanCheckbox
+						id="electionPenultimateRecount"
+						pt:data-aft="electionPenultimateRecount"
+						value="#{electionController.currentElection.penultimateRecount}"
+						disabled="#{electionController.inputDisabled}"/>
+					#{msgs['@election.election.penultimateRecount']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+		<div class="col-md-12">
+			<span class="form-group">
+				<h:outputLabel value="#{msgs['@election.election.settlement_first_divisor']}:" styleClass="full-width" for="electionSettlementFirstDivisor"/>
+				<p:spinner
+					id="electionSettlementFirstDivisor"
+					pt:data-aft="electionSettlementFirstDivisor"
+					value="#{electionController.currentElection.settlementFirstDivisor}"
+					min="1"
+					max="2"
+					stepFactor="0.1"
+					disabled="#{electionController.inputDisabled}"/>
+			</span>
+		</div>
+		<div class="col-md-12">
+			<div class="form-group pull-left">
+				<h:outputLabel value="#{msgs['@election.election.candidate_rank_vote_share_threshold']}:" for="electionCandidateRankVoteShareThreshold" 
+							   styleClass="pull-left full-width"/>
+				<span class="has-feedback pull-left">
+					<p:inputText
+						id="electionCandidateRankVoteShareThreshold"
+						pt:data-aft="electionCandidateRankVoteShareThreshold"
+						value="#{electionController.currentElection.candidateRankVoteShareThreshold}" 
+						disabled="#{electionController.inputDisabled}" 
+						styleClass="form-control" 
+						converter="percentageConverter"/>
+					<span class="form-control-feedback grey">%</span>
+				</span>
+			</div>
+		</div>
+		<div class="col-md-4">
+				<div class="form-group">
+					<h:outputLabel value="#{msgs['@election.election.leveling_seats']}:" for="electionLevelingSeats"/>
+					<p:inputText
+						id="electionLevelingSeats"
+						pt:data-aft="electionLevelingSeats"
+						styleClass="form-control"
+						value="#{electionController.currentElection.levelingSeats}"
+						disabled="#{isElectionEventDisabled or electionController.readOnly}"/>
+				</div>
+		</div>
+		<div class="col-md-8">
+			<div class="form-group pull-left">
+				<h:outputLabel for="electionLevelingSeatsVoteShareThreshold" value="#{msgs['@election.election.leveling_seats_vote_share_threshold']}:"
+							   styleClass="full-width"/>
+					   <span class="has-feedback pull-left">
+						<p:inputText
+							id="electionLevelingSeatsVoteShareThreshold"
+							pt:data-aft="electionLevelingSeatsVoteShareThreshold"
+							styleClass="form-control"
+							value="#{electionController.currentElection.levelingSeatsVoteShareThreshold}"
+							disabled="#{isElectionEventDisabled or electionController.readOnly}"
+							converter="percentageConverter"/>
+						<span class="form-control-feedback grey">%</span>
+					   </span>
+			</div>
+		</div>
+
+		
+	</div>
+	
+</f:view>

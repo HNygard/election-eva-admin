@@ -1,0 +1,60 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.deleteVotersBatches"/>
+		
+		<ui:define name="content">
+			<div id="page-delete-voters-batches" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@delete.listDeleteVoters.header']}"/>
+				</h1>
+
+				<h:form>
+					<p:messages/>
+					<p:dataTable value="#{deleteVotersBatchController.batches}"
+								 tableStyleClass="table table-striped"
+								 var="batch" id="batches"
+								 emptyMessage="#{msgs['@pf.datatable.emptyMsg']}">
+						<p:column sortBy="#{batch.auditTimestamp}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.date']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.auditTimestamp}">
+								<f:converter converterId="localDateConverter"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.time']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.auditTimestamp}">
+								<f:converter converterId="localTimeConverter"/>
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{msgs[batch.batchStatus.name]}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['@common.status']}"/>
+							</f:facet>
+							<h:outputText value="#{msgs[batch.batchStatus.name]}"/>
+						</p:column>
+						<p:column sortBy="#{batch.messageText}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{msgs['@common.area']}"/>
+							</f:facet>
+							<h:outputText value="#{batch.messageText}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

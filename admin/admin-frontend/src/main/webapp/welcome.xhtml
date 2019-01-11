@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>
+		EVA - Elektronisk Valgadministrasjonssystem
+	</title>
+
+</h:head>
+<h:body id="page-welcome">
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="all.css"/>
+	</f:facet>
+
+	<div class="container-fluid">
+		<div class="line black"></div>
+		<div class="container">
+			<div class="line yellow"></div>
+			<div class="row">
+				<div class="col-md-12 pull-left">
+					<a class="col-md-1  eva-icon-logo" id="logo"></a>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="content">
+				<div class="row">
+					<div class="col-md-12">
+						<h:graphicImage url="#{resource['images:velkommen.png']}" width="472" height="262" styleClass="center-block"/>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<noscript>
+							<p class="bg-warning">
+								<h:outputText value="#{msgs['@global.error.no_javascript']}"/>
+							</p>
+						</noscript>
+
+						<p class="bg-danger" id="no_cookies_msg" style="display: none;">
+							<h:outputText value="#{msgs['@global.error.no_cookies']}"/>
+						</p>
+
+						<c:if test="#{param.type == 'error'}">
+							<p class="bg-danger">
+								<h:outputText value="#{msgs['@welcome.login_failed']}"/>
+							</p>
+						</c:if>
+
+						<c:if test="#{param.type == 'logout'}">
+							<p class="bg-info">
+								<h:outputText value="#{msgs['@welcome.logged_out']}"/>
+							</p>
+						</c:if>
+
+						<c:if test="#{param.type == 'timeout'}">
+							<p class="bg-info">
+								<h:outputText value="#{msgs['@welcome.automatically_logged_o']}"/>
+							</p>
+						</c:if>
+
+						<div class="panel-body">
+							<div class="center-block btn-group">
+								<a class="btn btn-lg btn-primary" href="#{welcomePageController.loginUrl}">
+									<h:outputText value="#{msgs['@welcome.button_text']}"/>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid footer">
+
+			<div class="page-footer">
+
+				<div class="col-xs-8 left">
+					<h:outputText value="#{msgs['@footer.text']}" escape="false"/>
+				</div>
+
+				<div class="col-xs-4 right">
+					EVA - v#{versionController.version} - #{versionController.hostId}
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<h:outputScript library="primefaces" name="jquery/jquery.js"/>
+	<h:outputScript name="javascript/checkCookies.js"/>
+</h:body>
+</html>
+

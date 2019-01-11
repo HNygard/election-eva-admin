@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+			 xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="evotePU">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>no.valg.eva.admin.configuration.domain.model.Affiliation</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Ballot</class>
+		<class>no.valg.eva.admin.configuration.domain.model.BallotStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Borough</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Candidate</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Country</class>
+		<class>no.valg.eva.admin.configuration.domain.model.County</class>
+		<class>no.valg.eva.admin.configuration.domain.model.CountyLocalConfigStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Contest</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ContestArea</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ContestStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Election</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ElectionDay</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ElectionGroup</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ElectionEvent</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ElectionEventStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ElectionType</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Locale</class>
+		<class>no.valg.eva.admin.configuration.domain.model.MaritalStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.MvArea</class>
+		<class>no.valg.eva.admin.configuration.domain.model.MvElection</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Municipality</class>
+		<class>no.valg.eva.admin.backend.configuration.local.domain.model.MunicipalityOpeningHour</class>
+		<class>no.valg.eva.admin.configuration.domain.model.MunicipalityStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.CountyStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.MunicipalityLocalConfigStatus</class>
+		<class>no.valg.eva.admin.configuration.domain.model.OpeningHours</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Party</class>
+		<class>no.valg.eva.admin.configuration.domain.model.PartyContestArea</class>
+		<class>no.valg.eva.admin.configuration.domain.model.PartyCategory</class>
+		<class>no.valg.eva.admin.configuration.domain.model.PollingDistrict</class>
+		<class>no.valg.eva.admin.configuration.domain.model.PollingPlace</class>
+		<class>no.valg.eva.admin.configuration.domain.model.PollingStation</class>
+		<class>no.valg.eva.admin.configuration.domain.model.ScanningConfig</class>
+		<class>no.valg.eva.admin.configuration.domain.model.Voter</class>
+		<class>no.valg.eva.admin.configuration.domain.model.VoteCategory</class>
+		<class>no.valg.eva.admin.voting.domain.model.Voting</class>
+		<class>no.valg.eva.admin.configuration.domain.model.VotingCategory</class>
+		<class>no.valg.eva.admin.counting.domain.model.ManualContestVoting</class>
+		<class>no.valg.eva.admin.configuration.domain.model.VotingRejection</class>
+        <class>no.valg.eva.admin.rbac.domain.model.Operator</class>
+        <class>no.valg.eva.admin.rbac.domain.model.OperatorRole</class>
+        <class>no.valg.eva.admin.rbac.domain.model.Role</class>
+        <class>no.valg.eva.admin.rbac.domain.model.Access</class>
+        <class>no.valg.eva.admin.rbac.domain.model.RoleAccess</class>
+        <class>no.valg.eva.admin.rbac.domain.model.RoleAreaLevel</class>
+        <class>no.valg.eva.admin.rbac.domain.model.RoleInclude</class>
+        <class>no.valg.eva.admin.configuration.domain.model.AreaLevel</class>
+		
+		<class>no.valg.eva.admin.valgnatt.domain.model.valgnattrapport.Valgnattrapport</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://${testDatabaseHost}:${testDatabasePort}/${testDatabaseName}"/>
+			<property name="javax.persistence.jdbc.user" value="admin"/>
+			<property name="javax.persistence.jdbc.password" value="admin"/>
+			<property name="hibernate.show_sql" value="false"/>
+			<property name="hibernate.jdbc.batch_size" value="1000"/>
+			<property name="hibernate.order_inserts" value="true"/>
+			<property name="hibernate.order_updates" value="true"/>
+			<property name="hibernate.cache.use_second_level_cache" value="false"/>
+		</properties>
+	</persistence-unit>
+
+</persistence>

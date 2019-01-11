@@ -1,0 +1,280 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<ui:param name="isBallotPending" value="#{redigerListeforslagController.isBallotStatus('PENDING')}"/>
+	<ui:param name="isBallotUnderConstruction" value="#{redigerListeforslagController.isBallotStatus('UNDERCONSTRUCTION')}"/>
+	<ui:param name="isBallotApproved" value="#{redigerListeforslagController.isBallotStatus('APPROVED')}"/>
+	<ui:param name="isBallotRejected" value="#{redigerListeforslagController.isBallotStatus('REJECTED')}"/>
+	<ui:param name="isBallotWithDrawn" value="#{redigerListeforslagController.isBallotStatus('WITHDRAWN')}"/>
+
+	<div class="row">
+
+		<div class="list-proposal-actions form-actions form-group col-md-9">
+
+			<ui:fragment rendered="#{!redigerListeforslagController.listLocked}">
+
+				<ui:fragment rendered="#{userAccess.listeforslagRediger}">
+					<ui:include src="setListProposalStatus.xhtml"/>
+				</ui:fragment>
+
+				<p:commandButton
+					id="createCandidate"
+					action="#{candidateController.showCreateCandidateDialog}"
+					process="@this"
+					partialSubmit="true"
+					value="#{msgs['@listProposal.edit.candidate.add']}"
+					icon="eva-icon-plus"
+					styleClass="btn btn-sm btn-primary pull-left"/>
+
+				<p:commandButton
+					id="uploadCandidates"
+					value="#{msgs['@listProposal.edit.upload']}"
+					icon="eva-icon-upload"
+					styleClass="btn btn-sm btn-primary pull-left"
+					action="#{candidateController.showUploadCandidatesDialog}"
+					process="@this"
+					partialSubmit="true">
+					<f:setPropertyActionListener
+						target="#{candidateUploadController.affiliationPk}"
+						value="#{redigerListeforslagController.affiliation.pk}"/>
+				</p:commandButton>
+
+
+				<ui:fragment rendered="#{redigerListeforslagController.contest.election.baselineVoteFactor > 0}">
+
+					<div class="affiliation-votes pull-left">
+
+						<label>#{msgs['@listProposal.numBaselineVotes']}:</label>
+						<p:spinner
+							styleClass="form-control"
+							value="#{candidateController.currentBaseLineCount}"
+							min="0"
+							max="#{candidateController.maximumBaselineVotes}">
+							<p:ajax update="@namingcontainer @form:msg" event="change" delay="1"/>
+						</p:spinner>
+					</div>
+				</ui:fragment>
+
+			</ui:fragment>
+
+		</div>
+
+		<div class="col-md-3 candidate-list-meta">
+
+			<div class="col-md-4 text-center">
+				<label class="font-normal">#{msgs['@listProposal.candidates']}</label>
+				<h:outputText styleClass="font-bold text-center"
+							  value="#{redigerListeforslagController.contest.minCandidates} - #{redigerListeforslagController.contest.maxCandidates}"/>
+			</div>
+
+			<div class="col-md-4 text-center">
+				<label class="font-normal">#{msgs['@listProposal.females']}</label><br/>
+				<h:outputText id="femalePercentage" styleClass="font-bold text-center percentage" value=" #{candidateController.femalePercentage} %"/>
+			</div>
+
+			<div class="col-md-4 text-center">
+				<label class="font-normal">#{msgs['@listProposal.males']}</label><br/>
+				<h:outputText id="malePercentage" styleClass="font-bold text-center percentage" value=" #{candidateController.malePercentage} %"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<p:dataTable
+				id="candidatesDataTable"
+				value="#{candidateController.candidateList}"
+				emptyMessage="#{msgs['@listProposal.candidate.empty']}"
+				var="candidate"
+				draggableRows="#{!redigerListeforslagController.listLocked}"
+				tableStyleClass="table table-striped">
+
+				<p:ajax event="rowReorder" listener="#{candidateController.onRowReorder}" update="candidatesDataTable"/>
+
+				<p:column styleClass="draggable" rendered="#{!redigerListeforslagController.listLocked}" style="width: 40px;">
+
+					<f:facet name="header">
+						<i class="eva-icon-directional-sort"/>
+					</f:facet>
+
+					<i class="eva-icon-sort"/>
+
+				</p:column>
+
+				<p:column headerText="#" styleClass="displayOrder" style="width: 50px;">
+					<h:outputText value="#{candidate.displayOrder}" styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.name.first']}" styleClass="firstname">
+					<h:outputText value="#{candidate.firstName}" styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.name.middle']}" styleClass="middlename">
+					<h:outputText value="#{candidate.middleName}" styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.name.last']}" styleClass="surname">
+					<h:outputText value="#{candidate.lastName}" styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.birthdate']}" styleClass="birthdate">
+					<h:outputText
+						id="birthdate"
+						value="#{candidate.formattedDateOfBirth}"
+						styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.profession']}" styleClass="profession"
+						  rendered="#{redigerListeforslagController.affiliation.showCandidateProfession}">
+					<h:outputText value="#{candidate.profession}" styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@person.residence']}" styleClass="residence"
+						  rendered="#{redigerListeforslagController.affiliation.showCandidateResidence}">
+					<h:outputText value="#{candidate.residence}" styleClass="#{candidate.baselineVotes ? 'bold' : null}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@listProposal.approve.inRoll']}">
+					<h:outputText
+						id="candidateStatus"
+						value="#{candidate.idSet ? candidate.id : ''}"
+						styleClass="#{candidate.baselineVotes ? 'bold' : ''}"/>
+					<ui:fragment rendered="#{candidate.invalid}">
+						<i class="eva-icon-warning"/>
+					</ui:fragment>
+				</p:column>
+
+				<p:column headerText="#{msgs['@listProposal.candidate.gender']}" styleClass="gender">
+					<h:outputText styleClass="eva-icon-female" rendered="#{candidate.isFemale()}" title="#{msgs['@common.gender.female']}"/>
+					<h:outputText styleClass="eva-icon-male" rendered="#{candidate.isMale()}" title="#{msgs['@common.gender.male']}"/>
+				</p:column>
+
+				<p:column headerText="#{msgs['@common.actions']}" rendered="#{!redigerListeforslagController.listLocked}">
+
+					<p:commandLink
+						id="editCandidate"
+						value="#{msgs['@common.redact']}"
+						action="#{candidateController.editCandidate(candidate)}"
+						icon="eva-icon-pen"
+						process="@this"
+						partialSubmit="true"
+						styleClass="btn btn-link"/>
+
+					<p:commandLink
+						id="deleteCandidate"
+						value="#{msgs['@common.delete']}"
+						action="#{candidateController.promptDeleteCandidate(candidate)}"
+						async="true"
+						icon="eva-icon-delete"
+						process="@this"
+						partialSubmit="true"
+						styleClass="btn btn-link"/>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<h:panelGroup id="candidateActions" styleClass="form-group form-actions pull-right" layout="block">
+
+				<ui:fragment rendered="#{isBallotPending and !redigerListeforslagController.listLocked}">
+
+					<p:commandButton
+						id="withdrawPendingListProposal"
+						value="#{msgs['@listProposal.status.action.withdraw']}"
+						icon="eva-icon-error"
+						action="#{redigerListeforslagController.setStatusWithdraw()}"
+						update="@(.election-meta) @namingcontainer @form:msg"
+						oncomplete="window.scrollTo(0,0);"
+						styleClass="btn btn-sm btn-warning"/>
+
+					<p:commandButton
+						id="rejectListProposal"
+						value="#{msgs['@listProposal.status.rejected']}"
+						action="#{redigerListeforslagController.setStatusReject()}"
+						styleClass="btn btn-sm btn-warning"
+						icon="eva-icon-warning"
+						oncomplete="window.scrollTo(0,0);"
+						update="@(.election-meta) @namingcontainer @form:msg"/>
+
+					<p:commandButton
+						id="approveListProposal"
+						pt:data-aft="godkjennListeforslagKnapp"
+						value="#{msgs['@listProposal.status.approved']}"
+						action="#{redigerListeforslagController.setStatusApproved()}"
+						process="@this"
+						partialSubmit="true"
+						styleClass="btn btn-sm btn-success"
+						oncomplete="window.scrollTo(0,0);"
+						icon="eva-icon-checkmark"/>
+
+				</ui:fragment>
+
+				<ui:fragment rendered="#{(isBallotApproved or isBallotWithDrawn or isBallotRejected) and !redigerListeforslagController.contestLocked}">
+					<p:commandButton
+						id="revertToStatusPending"
+						styleClass="btn btn-sm btn-primary"
+						oncomplete="window.scrollTo(0,0);"
+						update="@(.election-meta) @namingcontainer @form:msg"
+						icon="eva-icon-cancel"
+						value="#{msgs['@listProposal.status.pending']}"
+						action="#{redigerListeforslagController.revertStatusPending()}"/>
+
+				</ui:fragment>
+
+				<ui:fragment rendered="#{isBallotUnderConstruction and !redigerListeforslagController.listLocked}">
+
+					<p:commandButton
+						id="deleteListProposal"
+						onclick="PF('confirmation').show()"
+						value="#{msgs['@listProposal.status.action.delete']}"
+						icon="eva-icon-close"
+						styleClass="btn btn-sm btn-danger"
+						immediate="true"/>
+
+					<p:commandButton
+						id="setStatusWithdraw"
+						value="#{msgs['@listProposal.status.action.withdraw']}"
+						icon="eva-icon-error"
+						action="#{redigerListeforslagController.setStatusWithdraw()}"
+						oncomplete="window.scrollTo(0,0);"
+						update="@(.election-meta) @namingcontainer @form:msg"
+						styleClass="btn btn-sm btn-warning"/>
+
+					<p:commandButton
+						id="setStatusPending"
+						value="#{msgs['@listProposal.status.pending.proposer']}"
+						action="#{redigerListeforslagController.setStatusPending()}"
+						oncomplete="window.scrollTo(0,0);"
+						update="@(.election-meta) @namingcontainer @form:msg"
+						icon="eva-icon-arrow-right"
+						styleClass="btn btn-sm btn-primary"/>
+
+				</ui:fragment>
+
+			</h:panelGroup>
+		</div>
+	</div>
+
+	<p:confirmDialog
+		header="#{msgs['@common.message.delete.confirm']}"
+		message="#{msgs['@listProposal.status.action.delete']}?"
+		severity="alert"
+		widgetVar="confirmation"
+		modal="true">
+		<p:commandButton value="#{msgs['@common.yes']}" id="YesButton"
+						 action="#{redigerListeforslagController.deleteListProposal()}"
+						 styleClass="btn btn-danger"
+						 process="@this"/>
+		<p:commandButton value="#{msgs['@common.no']}" id="NoButton"
+						 styleClass="btn btn-default"
+						 style="margin-left: 0px;"
+						 onclick="PF('confirmation').hide();"/>
+	</p:confirmDialog>
+
+</f:view>

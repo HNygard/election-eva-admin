@@ -1,0 +1,115 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@rbac.inspect.inspectTitle']}" url="accessOverview.xhtml"/>
+			<p:menuitem value="#{msgs['@rbac.inspect.viewOperators']}" url="accessOverviewOperators.xhtml?access=#{request.getParameter('access')}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div id="page-access-overview-operators" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@rbac.inspect.viewOperators']}"/>
+				</h1>
+
+				<h:form id="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<h4><h:outputText value="#{msgs['@rbac.inspect.operators.title']}"/> - <h:outputText style="font-size: 1rem" value="#{accessOverviewOperatorsController.accessPathName}"/></h4>
+							<!--@elvariable id="operator" type="no.valg.eva.admin.rbac.domain.model.Operator"-->
+							<p:dataTable id="operatorTable"
+										 var="operator"
+										 pt:data-aft="operatorTable"
+										 value="#{accessOverviewOperatorsController.operators}"
+										 selectionMode="single"
+										 selection="#{accessOverviewOperatorsController.selectedOperator}"
+										 rowKey="#{operator.id}"
+										 paginator="true"
+										 paginatorAlwaysVisible="false"
+										 paginatorPosition="bottom"
+										 rows="10"
+										 emptyMessage=""
+										 tableStyleClass="table table-striped"
+										 rowStyleClass="operator-#{operator.id}">
+
+								<p:ajax event="rowSelect" listener="#{accessOverviewOperatorsController.onOperatorSelect}" update=":form:rolesTable"/>
+
+								<p:column sortBy="#{operator.id}">
+									<f:facet name="header"><h:outputText value="#{msgs['@person.id']}"/></f:facet>
+									<h:outputText value="#{operator.id}"/>
+								</p:column>
+								<p:column sortBy="#{operator.firstName}">
+									<f:facet name="header"><h:outputText value="#{msgs['@person.name.first']}"/></f:facet>
+									<h:outputText value="#{operator.firstName}"/>
+								</p:column>
+								<p:column sortBy="#{operator.lastName}">
+									<f:facet name="header"><h:outputText value="#{msgs['@person.name.last']}"/></f:facet>
+									<h:outputText value="#{operator.lastName}"/>
+								</p:column>
+								<p:column sortBy="#{operator.addressLine1}">
+									<f:facet name="header"><h:outputText value="#{msgs['@person.address']}"/></f:facet>
+									<h:outputText value="#{operator.addressLine1}"/>
+								</p:column>
+								<p:column sortBy="#{operator.postalCode}">
+									<f:facet name="header"><h:outputText value="#{msgs['@person.postal.code.short']}"/></f:facet>
+									<h:outputText value="#{operator.postalCode}"/>
+								</p:column>
+								<p:column sortBy="#{operator.postTown}">
+									<f:facet name="header"><h:outputText value="#{msgs['@person.postal.town']}"/></f:facet>
+									<h:outputText value="#{operator.postTown}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<h4><h:outputText value="#{msgs['@rbac.inspect.roles.title']}"/></h4>
+							<!--@elvariable id="operatorRole" type="no.valg.eva.admin.rbac.domain.model.OperatorRole"-->
+							<p:dataTable id="rolesTable"
+										 var="operatorRole"
+										 value="#{accessOverviewOperatorsController.operatorRoles}"
+										 paginator="true"
+										 paginatorAlwaysVisible="false"
+										 paginatorPosition="bottom"
+										 rows="10"
+										 emptyMessage=""
+										 tableStyleClass="table table-striped">
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.role']}"/></f:facet>
+									<h:outputText value="#{msgs[operatorRole.role.name]}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.areaLevel']}"/></f:facet>
+									<h:outputText value="#{msgs[operatorRole.mvArea.areaLevelString]}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.area']}"/></f:facet>
+									<h:outputText value="#{operatorRole.mvArea}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.electionLevel']}"/></f:facet>
+									<h:outputText value="#{msgs[operatorRole.mvElection.electionLevelString]}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header"><h:outputText value="#{msgs['@rbac.electionContext']}"/></f:facet>
+									<h:outputText value="#{operatorRole.mvElection}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,84 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        contentType="text/html">
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:param name="helpId" value="@help.rediger_listeforslag"/>
+
+        <ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[redigerListeforslagController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{redigerListeforslagController.swapURL(redigerListeforslagController.initiellKontekstvelgerURL)}"
+                        rendered="#{redigerListeforslagController.context}"/>
+            <p:menuitem value="#{msgs['@menu.listProposal.edit']}" url="#{redigerListeforslagController.swapURL(redigerListeforslagController.pageURL)}"/>
+            <p:menuitem value="#{msgs['@listProposal.listProposal']}"/>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <div id="page-edit-list-proposal" class="page" data-view="ListProposal">
+
+                <h1 class="page-title">
+                    #{msgs['@listProposal.listProposal']} #{redigerListeforslagController.contest.name} - #{msgs[redigerListeforslagController.affiliation.party.name]}
+                </h1>
+
+                <h:panelGroup id="electionMeta" styleClass="row election-meta" layout="block">
+                    <div class="col-md-12">
+                        <ul class="list-inline">
+                            <li>
+                                <strong>#{msgs['@common.election']}:</strong> #{redigerListeforslagController.contest.election.name}
+                            </li>
+                            <li>
+                                <strong>#{msgs['@election_level[3].name']}:</strong> #{redigerListeforslagController.contest.name}
+                            </li>
+                            <li>
+                                <strong>#{msgs['@common.status']}:</strong>
+                                <ui:fragment rendered="#{redigerListeforslagController.contestLocked}">
+                                    <span class="label label-warning">#{msgs['@common.locked']}</span>
+                                </ui:fragment>
+                                <span
+                                        class="label label-primary">#{msgs[redigerListeforslagController.affiliation.ballot.ballotStatus.name]}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </h:panelGroup>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h:form id="editListProposalForm">
+
+                            <p:messages id="msg"/>
+
+                            <p:tabView cache="true" id="tabs">
+                                <p:tab title="#{msgs['@candidates']}" id="candidateTab">
+                                    <ui:include src="includes/editCandidateList.xhtml"/>
+                                </p:tab>
+                                <p:tab title="#{msgs['@proposers']}" id="proposerTab">
+                                    <ui:include src="includes/editProposerList.xhtml"/>
+                                </p:tab>
+                            </p:tabView>
+
+                            <widget:roleConflictDialog id="roleConflictWidget" handler="#{candidateController}"/>
+
+                        </h:form>
+                        <widget:dialog id="#{candidateController.auditCandidateDialog.id}" dialog="#{candidateController.auditCandidateDialog}"/>
+                        <widget:dialog id="#{redigerListeforslagController.showCandidateProfessionResidenceDialog.id}"
+                                       dialog="#{redigerListeforslagController.showCandidateProfessionResidenceDialog}"/>
+                        <widget:dialog id="#{candidateController.confirmDeleteAllCandidatesDialog.id}" dialog="#{candidateController.confirmDeleteAllCandidatesDialog}"/>
+                        <widget:dialog id="#{redigerListeforslagController.confirmApproveListProposal.id}"
+                                       dialog="#{redigerListeforslagController.confirmApproveListProposal}"/>
+                        <widget:dialog id="#{candidateController.confirmDeleteCandidateDialog.id}" dialog="#{candidateController.confirmDeleteCandidateDialog}"/>
+                        <widget:dialog id="#{proposerController.confirmDeleteProposer.id}" dialog="#{proposerController.confirmDeleteProposer}"/>
+                        <widget:dialog id="#{candidateController.editCandidateDialog.id}" dialog="#{candidateController.editCandidateDialog}"/>
+                        <widget:dialog id="#{proposerController.editProposerDialog.id}" dialog="#{proposerController.editProposerDialog}"/>
+                        <widget:dialog id="#{candidateController.uploadCandidatesDialog.id}" dialog="#{candidateController.uploadCandidatesDialog}"/>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>

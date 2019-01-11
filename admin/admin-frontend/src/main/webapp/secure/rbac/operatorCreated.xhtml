@@ -1,0 +1,52 @@
+<f:view xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns="http://www.w3.org/1999/xhtml"
+		contentType="text/html">
+
+	<div class="subpanel-header col-md-12"></div>
+	<h:form id="anotherOperatorForm" name="form" styleClass="subpanel-form">
+		<p:panel>
+			<div class="row">
+				<p:messages id="msg" styleClass="col-md-12"/>
+			</div>
+			<h2>
+				<h:commandLink
+					value="#{operatorCreatedController.operator.lastName},  #{operatorCreatedController.operator.firstName}"
+					action="#{operatorCreatedController.openEditMode}"/>
+				<h:outputText value=" #{msgs['@rbac.was.created']}"/>
+			</h2>
+
+			<div class="btn-toolbar" role="toolbar">
+				<div class="btn-group">
+					<p:commandButton
+						id="oneMoreOperator"
+						styleClass="btn btn-primary"
+						action="#{operatorCreatedController.createAnother}"
+						value="#{msgs['@rbac.create.another.operator']}"
+						icon="eva-icon-plus"
+						update=":content"
+						ajax="true"
+						/>
+
+					<p:commandLink
+						id="cancelCreateOperator"
+						styleClass="btn btn-link"
+						action="#{operatorCreatedController.goToList}"
+						value="#{msgs['@common.cancel']}"
+						update=":content">
+					</p:commandLink>
+				</div>
+			</div>
+		</p:panel>
+
+		<h:outputScript>
+			/*<![CDATA[*/
+			EVA.Application.onViewReady(function () {
+				this.setMode('#{operatorAdminController.view.name()}');
+			});
+			/*]]>*/
+		</h:outputScript>
+
+	</h:form>
+</f:view>

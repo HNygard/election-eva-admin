@@ -1,0 +1,133 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:counting="http://java.sun.com/jsf/composite/counting"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@menu.counting.overview']}" url="#{startCountingController.getCountingOverviewURL()}"
+						rendered="#{modifiedBallotsStatusController.doRenderCountingBreadCrumb() and startCountingController.isBreadCrumbRendered()}"/>
+			<p:menuitem value="#{modifiedBallotsStatusController.breadCrumbText}"
+						ajax="false"
+						action="#{modifiedBallotsStatusController.getBreadCrumbAction()}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<f:event type="preRenderView" listener="#{modifiedBallotsStatusController.preRender}"/>
+
+
+			<div id="page-modified-ballots-status" class="page" data-view="ModifiedBallotStatus">
+
+				<counting:topInfo topInfoProvider="#{modifiedBallotsStatusController}"/>
+
+				<h3>
+					<h:outputText
+						value="#{msgs['@count.ballot.register.changes']}"
+						rendered="#{not modifiedBallotsStatusController.finalCount.modifiedBallotsProcessed}"/>
+					<h:outputText
+						value="#{msgs['@count.ballot.review.changes']}"
+						rendered="#{modifiedBallotsStatusController.finalCount.modifiedBallotsProcessed}"/>
+				</h3>
+
+				<p:messages id="msg" autoUpdate="true"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h:form id="registerCorrectedBallotsForm">
+							<p:poll interval="#{modifiedBallotsStatusController.pollInterval}" update="countTable" global="false" widgetVar="poller"/>
+							<ui:param name="status" value="#{modifiedBallotsStatusController.registerModifiedBallotCountStatus}"/>
+							<p:dataTable id="countTable" var="modifiedBallotCount"
+										 value="#{status.modifiedBallotsStatusList}"
+										 rowIndexVar="i" tableStyleClass="table table-striped">
+								<p:column rendered="true" styleClass="party-name-column">
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.party']}"/>
+									</f:facet>
+									<ui:param name="showCreateBatchLink" value="#{modifiedBallotsStatusController.showCreateBatchLink(modifiedBallotCount)}"/>
+									<ui:param name="showGotoReviewLink"
+											  value="#{modifiedBallotsStatusController.showGotoReviewLink(modifiedBallotCount)}"/>
+									<ui:param name="showResumeBatchLink" value="#{modifiedBallotCount.mustFinishOngoingBatch}"/>
+									<p:commandLink
+										pt:data-aft="createBatchLink_#{modifiedBallotCount.ballotId}"
+										rendered="#{showCreateBatchLink}"
+										value="#{modifiedBallotCount.ballotId}"
+										action="#{createModifiedBallotBatchController.showModifiedBallotBatchDialog(modifiedBallotCount.ballotCount)}"
+										process="@this"
+										partialSubmit="true"
+										onclick="PF('poller').stop();"/>
+									<p:commandLink
+										rendered="#{showGotoReviewLink}"
+										value="#{modifiedBallotCount.ballotId}"
+										action="#{createModifiedBallotBatchController.goToShowModifiedBallot(modifiedBallotCount.ballotCount, modifiedBallotsStatusController.finalCount)}"
+										onclick="PF('poller').stop();"/>
+									<h:link
+										rendered="#{showResumeBatchLink}"
+										value="#{modifiedBallotCount.ballotId}"
+										outcome="registerModifiedBallotBatch.xhtml"
+										onclick="PF('poller').stop();" styleClass="unfinishedBatchMarkerHere">
+										<f:param name="modifiedBallotBatchId" value="#{modifiedBallotCount.incompleteBatchId}"/>
+										<f:param name="cid" value="#{modifiedBallotsStatusController.cid}"/>
+									</h:link>
+									<h:outputText
+										rendered="#{not (showResumeBatchLink or showGotoReviewLink or showCreateBatchLink)}"
+										value="#{modifiedBallotCount.ballotId}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@count.ballot.register.change.remaining']}">
+									<h:outputText value="#{modifiedBallotCount.remaining}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@count.ballot.register.change.in.progress']}">
+									<h:outputText value="#{modifiedBallotCount.inProgress}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@count.ballot.register.change.registered']}">
+									<h:outputText value="#{modifiedBallotCount.completed}"/>
+								</p:column>
+
+								<p:column headerText="#{msgs['@count.ballot.register.change.totalRegistration']}">
+									<h:outputText value="#{modifiedBallotCount.total}"/>
+								</p:column>
+							</p:dataTable>
+
+							<div class="form-group form-actions pull-right">
+								<p:commandButton id="done"
+												 pt:data-aft="registrationCompleted"
+												 action="#{modifiedBallotsStatusController.registrationCompleted()}"
+												 value="#{msgs['@count.ballot.register_corrected_done']}"
+												 update="@form"
+												 rendered="#{not modifiedBallotsStatusController.finalCount.modifiedBallotsProcessed}"
+												 disabled="#{!status.registrationOfAllModifiedBallotsCompleted}"
+												 styleClass="btn btn-danger"
+												 icon="eva-icon-caret"/>
+								<p:commandLink id="back"
+											   action="#{modifiedBallotsStatusController.registrationCompleted()}"
+											   value="#{msgs['@common.back']}"
+											   rendered="#{modifiedBallotsStatusController.finalCount.modifiedBallotsProcessed}"
+											   styleClass="btn btn-link"/>
+							</div>
+							<h:panelGroup styleClass="done-message" layout="block" rendered="#{status.registrationOfAllModifiedBallotsCompleted and not 
+									modifiedBallotsStatusController.finalCount.modifiedBallotsProcessed}">
+								<h:outputText value="#{msgs.get('@count.ballot.register_corrected_done_message')}"/>
+							</h:panelGroup>
+						</h:form>
+					</div>
+				</div>
+				<div id="unfinishedBatchMarker" class="unfinishedBatchMarker">
+					<div>
+						<h:outputText escape="false" value="#{msgs['@modified.ballots.must.complete.these']}"/>
+					</div>
+				</div>
+			</div>
+			<widget:dialog id="#{createModifiedBallotBatchController.createModifiedBatchDialog.id}"
+						   dialog="#{createModifiedBallotBatchController.createModifiedBatchDialog}"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

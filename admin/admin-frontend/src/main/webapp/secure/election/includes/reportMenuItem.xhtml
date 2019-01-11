@@ -1,0 +1,22 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<!--@elvariable id="menuItem" type="no.valg.eva.admin.frontend.common.menu.Menu"-->
+
+	<span style="white-space: nowrap;">
+		<h:selectBooleanCheckbox
+			id="report"
+			pt:data-aft="report_#{menuItem.source.rapportId}"
+			value="#{menuItem.source.synlig}"
+			label="#{msgs[menuItem.text]}"
+			style="margin-right: 5px;"/>
+		<h:outputLabel
+			style="font-weight: normal;"
+			value="#{msgs[menuItem.text]}"/>
+	</span>
+
+
+</f:view>

@@ -1,0 +1,57 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-12">
+					<p:dataTable var="candidateAudit"
+								 value="#{candidateController.candidateAuditList}"
+								 emptyMessage="#{msgs['@listProposal.noEvents']}"
+								 paginator="true"
+								 paginatorAlwaysVisible="false"
+								 rows="10"
+								 loadingMessage="#{msgs['@pf.datatable.loadingMsg']}"
+								 errorMessage="#{msgs['@pf.datatable.errMsg']}"
+								 firstPageLinkLabel="#{msgs['@pf.datatable.first']}"
+								 nextPageLinkLabel="#{msgs['@pf.datatable.next']}"
+								 previousPageLinkLabel="#{msgs['@pf.datatable.prev']}"
+								 lastPageLinkLabel="#{msgs['@pf.datatable.last']}"
+								 styleClass="multiLineHeader"
+								 tableStyleClass="table table-striped">
+
+						<p:column id="operation" headerText="#{msgs['@operation']}">
+							<h:outputText value="#{msgs[candidateAudit.auditOperationText]}"/>
+						</p:column>
+
+						<p:column id="index" headerText="#">
+							<h:outputText value="#{candidateAudit.displayOrder}"/>
+						</p:column>
+
+						<p:column filterBy="#{candidateAudit.firstName}" headerText="#{msgs['@person.name.first']}">
+							<h:outputText value="#{candidateAudit.firstName}"/>
+						</p:column>
+
+						<p:column filterBy="#{candidateAudit.lastName}" headerText="#{msgs['@person.name.last']}">
+							<h:outputText value="#{candidateAudit.lastName}"/>
+						</p:column>
+
+						<p:column headerText="#{msgs['@person.birthdate']}">
+							<h:outputText value="#{candidateAudit.formattedDateOfBirth}"/>
+						</p:column>
+
+						<p:column styleClass="last" headerText="#{msgs['@common.time']}">
+							<h:outputText value="#{candidateAudit.id.auditTimestamp}">
+								<f:converter converterId="dateTimeConverter"/>
+							</h:outputText>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</f:view>

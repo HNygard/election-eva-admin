@@ -1,0 +1,101 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<span class="isCommentRequired" style="display: none">#{protocolCountController.commentRequired}</span>
+	<div class="ui-grid bold">
+		<ui:fragment rendered="#{protocolCountController.protocolCount.includeMarkOffsFromOtherContests}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">
+					<h:outputText value="#{msgs['@area_level[4].name'].concat(' ').concat(protocolCountController.counts.contestName)}"/>
+				</div>
+			</div>
+		</ui:fragment>
+
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-3">
+				<p:spacer rendered="#{protocolCountController.protocolCount.includeMarkOffsFromOtherContests}" width="15"/>
+				<h:outputText value="#{msgs['@count.votes.total']}"/>
+			</div>
+			<div class="ui-grid-col-1">
+				<h:outputText value="#{protocolCountController.protocolCount.dailyMarkOffCounts.getMarkOffCount()}"/>
+			</div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-3">
+				<p:spacer rendered="#{protocolCountController.protocolCount.includeMarkOffsFromOtherContests}" width="15"/>
+				<h:outputText value="#{msgs['@count.votes.totalInPolls']}"/>
+			</div>
+			<div class="ui-grid-col-1">
+				<h:outputText value="#{protocolCountController.protocolCount.totalBallotCount}"/>
+			</div>
+		</div>
+		<ui:fragment rendered="#{protocolCountController.protocolCount.includeMarkOffsFromOtherContests}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">
+					<h:outputText value="#{msgs['@config.boroughs.other']}"/>
+				</div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-3">
+					<p:spacer rendered="#{protocolCountController.protocolCount.includeMarkOffsFromOtherContests}" width="15"/>
+					<h:outputText value="#{msgs['@count.votes.total']}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{protocolCountController.protocolCount.dailyMarkOffCountsForOtherContests.getMarkOffCount()}"/>
+				</div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-3">
+					<p:spacer rendered="#{protocolCountController.protocolCount.includeMarkOffsFromOtherContests}" width="15"/>
+					<h:outputText value="#{msgs['@count.votes.totalInPolls']}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{protocolCountController.protocolCount.ballotCountForOtherContests}"/>
+				</div>
+			</div>
+		</ui:fragment>
+
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-12">#{msgs['@common.comment']}<span class="reminder">(#{protocolCountController.reminderComment})</span></div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-12">
+				<p:inputTextarea id="comment"
+								 pt:data-aft="dialogComment"
+								 value="#{protocolCountController.count.comment}"
+								 maxlength="150"
+								 disabled="#{!protocolCountController.isCountEditable()}"
+								 style="width:100%" />
+			</div>
+		</div>
+		<ui:fragment rendered="#{protocolCountController.commentRequired}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">
+					<h:outputText value="#{msgs['@count.error.validation.missing_comment']}" style="color: red"/>
+				</div>
+			</div>
+		</ui:fragment>
+	</div>
+	<div class="ui-grid-row">
+		<div class="ui-grid-col-12 form-actions form-actions-comment">
+			<p:commandButton id="confirmButton"
+							 pt:data-aft="confirmButton"
+							 action="#{protocolCountController.approveCount}"
+							 process="@form"
+							 update="@form"
+							 value="#{msgs['@common.yes']}"
+							 styleClass="btn btn-primary"
+							 icon="eva-icon-checkmark"
+							 onsuccess="window.scrollTo(0,0);"
+							 disabled="#{!protocolCountController.isCountEditable()}"/>
+			<widget:dialogClose dialog="#{protocolCountController.approveDialog}" />
+		</div>
+	</div>
+
+</f:view>

@@ -1,0 +1,79 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		contentType="text/html">
+
+	<!-- create operator -->
+	<ui:fragment rendered="#{operatorEditController.newMode}">
+
+		<h:panelGroup id="newButtons" styleClass="form-actions form-group">
+
+			<p:commandButton
+				id="createOperatorButton"
+				pt:data-aft="createOperatorButton"
+				widgetVar="createOperatorButton"
+				action="#{operatorEditController.createOperator}"
+				value="#{msgs['@common.action.create']}"
+				styleClass="btn btn-primary"
+				icon="eva-icon-plus"
+				process="@all"
+				disabled="#{empty operatorEditController.editRoleAssociations}"
+				title="#{empty operatorEditController.editRoleAssociations ? msgs['@rbac.info.saving.operator.requires.at.least.one.role'] : msgs['@rbac.operator.createOperator']}"
+				update=":content">
+			</p:commandButton>
+
+			<p:commandLink
+				action="#{operatorEditController.cancelEdit}"
+				id="cancelCreateOperator"
+				pt:data-aft="cancelCreateOperator"
+				styleClass="btn btn-link"
+				value="#{msgs['@common.cancel']}"
+				update=":content" process="@this">
+			</p:commandLink>
+
+		</h:panelGroup>
+
+	</ui:fragment>
+
+	<!-- delete/update operator -->
+	<ui:fragment rendered="#{operatorEditController.editMode}">
+		<h:panelGroup id="editButtons" styleClass="form-group form-actions" layout="block">
+
+			<p:commandButton
+				id="save"
+				pt:data-aft="saveButton"
+				action="#{operatorEditController.saveOperator}"
+				widgetVar="saveOperatorButton"
+				value="#{msgs['@common.button.saveChanges']}"
+				icon="eva-icon-checkmark"
+				styleClass="btn btn-primary"
+				disabled="#{empty operatorEditController.editRoleAssociations}"
+				title="#{empty operatorEditController.editRoleAssociations ? msgs['@rbac.info.saving.operator.requires.at.least.one.role'] : msgs['@rbac.operator.createOperator']}"
+				update=":content"/>
+
+			<p:commandButton
+				id="delete"
+				pt:data-aft="deleteButton"
+				onclick="PF('confirmation').show()"
+				value="#{msgs['@rbac.operator.deleteOperator']}"
+				icon="eva-icon-close"
+				styleClass="btn btn-danger"
+				disabled="#{operatorEditController.erRedigeringAvEgenBruker()}"
+				immediate="true"/>
+
+			<p:commandLink
+				id="cancel"
+				pt:data-aft="cancelLink"
+				styleClass="btn btn-link"
+				action="#{operatorEditController.cancelEdit}"
+				value="#{msgs['@common.cancel']}"
+				update=":content"
+				immediate="true"/>
+
+		</h:panelGroup>
+	</ui:fragment>
+
+</f:view>

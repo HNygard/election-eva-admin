@@ -1,0 +1,142 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c="http://java.sun.com/jsp/jstl/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rediger_listeforslag"/>
+
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[velgRedigerListeforslagController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+						url="#{velgRedigerListeforslagController.initiellKontekstvelgerURL}"
+						rendered="#{velgRedigerListeforslagController.context}"/>
+            <p:menuitem value="#{msgs['@menu.listProposal.edit']}" url="#{velgRedigerListeforslagController.pageURL}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-choose-edit-list-proposal" class="page">
+
+				<h1 class="page-title">
+					#{msgs['@menu.listProposal.edit']}
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{velgRedigerListeforslagController.pageTitleMeta}"/>
+
+				<h2>#{msgs['@listProposal.affiliation.choose.header']}</h2>
+				<span style="display: none">#{velgRedigerListeforslagController.contest.name}"</span>
+				<div class="row">
+					<div class="col-md-12">
+
+						<h:form id="chooseEditListProposalForm">
+
+							<p:messages id="msg"/>
+
+							<div class="row">
+
+								<div class="col-md-12">
+
+									<div class="form-group form-actions">
+
+										<p:commandButton id="export-trigger"
+														 styleClass="btn btn-primary"
+														 value="#{msgs['@listProposal.mergeFile']}"
+														 disabled="#{!userAccess.listeforslagLastNedFlettefil}"
+														 icon="eva-icon-download"/>
+										<p:menu
+											overlay="true"
+											trigger="export-trigger"
+											my="left top"
+											at="left bottom"
+											styleClass="export-list-proposal-menu">
+											<p:menuitem
+												icon="eva-icon-caret"
+												value="CSV"
+												ajax="false"
+												action="#{velgRedigerListeforslagController.candidateMergeFile('CSV')}"/>
+											<p:menuitem
+												icon="eva-icon-caret"
+												value="XLS"
+												ajax="false"
+												action="#{velgRedigerListeforslagController.candidateMergeFile('XLS')}"/>
+											<p:menuitem
+												icon="eva-icon-caret"
+												value="XLSX"
+												ajax="false"
+												action="#{velgRedigerListeforslagController.candidateMergeFile('XLSX')}"/>
+
+										</p:menu>
+
+									</div>
+
+									<!--@elvariable id="affiliation" type="no.valg.eva.admin.configuration.domain.model.Affiliation"-->
+									<p:dataTable
+										id="affiliationTable"
+										update="form"
+										value="#{velgRedigerListeforslagController.affiliationList}"
+										var="affiliation"
+										tableStyleClass="table table-striped"
+										draggableRows="#{!velgRedigerListeforslagController.contestCountBegun}"
+										emptyMessage="Ingen listeforslag funnet"
+										rowIndexVar="i"
+										rowKey="#{affiliation.pk}">
+
+										<p:ajax event="rowReorder" listener="#{velgRedigerListeforslagController.onRowReorder}"
+												update="affiliationTable @(.ui-messages)"/>
+
+										<p:column styleClass="draggable">
+
+											<f:facet name="header">
+												<i class="eva-icon-directional-sort"/>
+											</f:facet>
+
+											<i class="eva-icon-sort"/>
+
+										</p:column>
+
+										<p:column headerText="#" styleClass="displayOrder">
+											<h:outputText value="#{affiliation.displayOrder}"/>
+										</p:column>
+
+										<p:column headerText="#{msgs['@party.name']}" styleClass="partyName">
+
+											<c:choose>
+												<c:when test="#{affiliation.party.id eq 'BLANK'}">
+													<h:outputText value="#{msgs[affiliation.party.name]}"
+																  styleClass="label label-default"/>
+												</c:when>
+
+												<c:otherwise>
+													<p:commandLink
+														pt:data-aft="#{affiliation.party.id}"
+														styleClass="btn btn-link"
+														ajax="false"
+														value="#{msgs[affiliation.party.name]}"
+														action="#{velgRedigerListeforslagController.editListProposal(affiliation)}"/>
+												</c:otherwise>
+											</c:choose>
+
+										</p:column>
+
+										<p:column headerText="#{msgs['@party.id']}" styleClass="partyId">
+											<h:outputText value="#{affiliation.party.id}"/>
+										</p:column>
+
+										<p:column headerText="#{msgs['@ballot.status']}" styleClass="status">
+											<h:outputText rendered="#{affiliation.party.id ne 'BLANK'}" value="#{msgs[affiliation.ballot.ballotStatus.name]}"/>
+										</p:column>
+									</p:dataTable>
+
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

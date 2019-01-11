@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<h:panelGroup layout="block" rendered="#{roleController.self}">
+		<widget:message severity="error" message="@rbac.operator.CantChangeRightsOnSelfError" />
+	</h:panelGroup>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h:outputText value="#{msgs['@rbac.role.deleteRoleQuestion']}" />
+		</div>
+		<div class="form-actions col-md-12">
+			<p:commandButton id="deleteRoleButton"
+							 pt:data-aft="deleteRoleButton"
+							 value="#{msgs['@common.yes']}" 
+							 disabled="#{roleController.isSelf()}"
+							 action="#{roleController.deleteRole}"
+							 process="@this"
+							 update="@none"
+							 icon="eva-icon-close"
+							 styleClass="btn btn-danger"/>
+			<p:commandLink id="deleteRoleCancelButton"
+						   pt:data-aft="deleteRoleCancelButton"
+						   value="#{msgs['@common.cancel']}"
+						   onclick="#{roleController.confirmDeleteRoleDialog.closeJS}"
+						   styleClass="btn btn-link"/>
+		</div>
+	</div>
+	
+</f:view>

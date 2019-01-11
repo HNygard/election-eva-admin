@@ -1,0 +1,171 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+	
+	<h:panelGroup id="contestAreaTableContainer" styleClass="contestAreaTableContainer" layout="block" rendered="#{!contestController.singleArea}">
+
+		<h3>#{msgs['@election.contest.panelheader.contest_area_list']}</h3>
+
+		<div class="row" id="contestAreaTableMsg">
+			<div class="col-md-12 center-block">
+				<p:messages id="msg" globalOnly="true" />
+			</div>
+		</div>
+
+		<p:dataTable
+			id="contestAreaTable"
+			var="contestArea"
+			value="#{contestController.currentContestAreaList}"
+			border="1"
+			tableStyle="margin-bottom: 0px;"
+			tableStyleClass="table table-striped">
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs['@area.common.area_level']}"/>
+				</f:facet>
+				<h:outputText
+					value="#{mvAreaMultipleController.areaLevelMap[contestArea.mvArea.areaLevel]}"/>
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs['@area.common.area_id']}"/>
+				</f:facet>
+				<h:outputText value="#{contestArea.mvArea.areaId}"/>
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs['@area.common.area_name']}"/>
+				</f:facet>
+				<h:outputText value="#{contestArea.mvArea.areaName}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs['@common.type']}"/>
+				</f:facet>
+				<h:outputText value="#{msgs.get(contestController.getContestAreaType(contestArea).label)}"
+							  rendered="#{not contestController.isEdited(contestArea)}"/>
+				<h:panelGroup layout="block" rendered="#{contestController.isEdited(contestArea)}">
+					<h:selectOneListbox
+						id="contestAreaType-#{contestArea.mvArea.areaId}"
+						pt:data-aft="contestAreaType-#{contestArea.mvArea.areaId}"
+						label="#{msgs['@common.type']}"
+						value="#{contestController.selectedContestAreaType}"
+						size="1"
+						styleClass="form-control no-indent">
+						<f:selectItems var="contestAreaType" value="#{contestController.contestAreaTypes}" itemLabel="#{msgs[contestAreaType.label]}"/>
+					</h:selectOneListbox>
+				</h:panelGroup>
+			</p:column>
+
+			<p:column>
+				<h:panelGroup layout="block" rendered="#{empty contestController.selectedContestArea}">
+					<p:commandLink id="updateContestAreaLink-#{contestArea.mvArea.areaId}"
+								   pt:data-aft="updateContestAreaLink-#{contestArea.mvArea.areaId}"
+								   action="#{contestController.setSelectedContestArea(contestArea)}"
+								   process="@this"
+								   update="@(.contestAreaTableContainer) @(.contestDialogFooter)"
+								   value="#{msgs['@common.redact']}"
+								   rendered="#{contestArea.mvArea.areaLevel == 3 and empty contestAreaMultipleController.currentContest}"
+								   disabled="#{contestController.disabled}"
+								   styleClass="btn btn-link" />
+					<p:commandLink id="deleteContestAreaDialogLink-#{contestArea.mvArea.areaId}"
+								   pt:data-aft="deleteContestAreaDialogLink-#{contestArea.mvArea.areaId}"
+								   action="#{contestController.setSelectedContestArea(contestArea)}"
+								   process="@this"
+								   update="@(.deleteContestAreaDialog)"
+								   oncomplete="PF('deleteContestAreaDialog').show()"
+								   value="#{msgs['@common.delete']}"
+								   rendered="#{contestController.currentContestAreaList.size() gt 1 and empty contestAreaMultipleController.currentContest}"
+								   disabled="#{contestController.disabled}"
+								   styleClass="btn btn-link" />
+				</h:panelGroup>
+				<h:panelGroup layout="block" rendered="#{contestController.isEdited(contestArea)}">
+					<p:commandLink id="updateContestAreaButton-#{contestArea.mvArea.areaId}"
+								   pt:data-aft="updateContestAreaButton-#{contestArea.mvArea.areaId}"
+								   action="#{contestController.updateContestArea}"
+								   process="@form"
+								   update="@(.contestAreaTableContainer) @(.contestDialogFooter)"
+								   oncomplete="EVA.Application.getInstance().getView().scrollToNonSingleContestAreas();"
+								   rendered="#{contestArea.mvArea.areaLevel == 3}"
+								   value="#{msgs['@common.save']}"
+								   styleClass="btn btn-link" />
+					<p:commandLink id="cancelUpdateContestAreaButton-#{contestArea.mvArea.areaId}"
+								   pt:data-aft="cancelUpdateContestAreaButton-#{contestArea.mvArea.areaId}"
+								   action="#{contestController.setSelectedContestArea(null)}"
+								   process="@this"
+								   update="@(.contestAreaTableContainer) @(.contestDialogFooter)"
+								   value="#{msgs['@common.cancel']}"
+								   styleClass="btn btn-link" />
+				</h:panelGroup>
+				
+			</p:column>
+		</p:dataTable>
+
+		<h:panelGroup styleClass="row" layout="block" style="padding: 5px;" rendered="#{not empty contestAreaMultipleController.currentContest}">
+			<div class="col-md-3 form-group">
+				<h:outputLabel for="county" value="#{msgs['@area_level[2].name']}:" />
+				<h:selectOneListbox id="county"
+									pt:data-aft="county"
+									size="1"
+									value="#{mvAreaMultipleController.countyId}"
+									styleClass="form-control no-indent">
+					<f:selectItem itemLabel="#{msgs['@area_level[2].preselect']}" />
+					<f:selectItems value="#{contestController.countyItems}" />
+					<p:ajax update="municipality @(.doCreateContestAreaButton)" process="county" event="change" listener="#{mvAreaMultipleController.changeCounty}" />
+				</h:selectOneListbox>
+			</div>
+			<div class="col-md-3 form-group">
+				<h:outputLabel for="municipality" value="#{msgs['@area_level[3].name']}:" />
+				<h:selectOneListbox id="municipality"
+									pt:data-aft="municipality"
+									size="1"
+									value="#{mvAreaMultipleController.municipalityId}" 
+									styleClass="form-control no-indent">
+					<f:selectItem itemLabel="#{msgs['@area_level[3].preselect']}" />
+					<f:selectItems value="#{contestController.municipalityItems}" />
+					<p:ajax update="@(.doCreateContestAreaButton)" process="municipality" event="change" listener="#{mvAreaMultipleController.changeMunicipality}" />
+				</h:selectOneListbox>
+			</div>
+			<div class="col-md-6">
+				<p:commandButton id="doCreateContestAreaButton"
+								 pt:data-aft="doCreateContestAreaButton"
+								 action="#{contestController.doCreateContestArea}"
+								 process="@form"
+								 update="@(.contestAreaTableContainer) @(.contestDialogFooter)"
+								 oncomplete="EVA.Application.getInstance().getView().scrollToNonSingleContestAreas();"
+								 value="#{msgs['@common.action.create']}"
+								 disabled="#{contestController.disabled or empty mvAreaMultipleController.countyId}" 
+								 styleClass="btn-sm btn-primary doCreateContestAreaButton"/>
+				<p:commandLink id="cancelDoCreateContestAreaButton"
+							   pt:data-aft="cancelDoCreateContestAreaButton"
+							   action="#{contestAreaMultipleController.setCurrentContest(null)}"
+							   process="@this"
+							   update="@(.contestAreaTableContainer) @(.contestDialogFooter)"
+							   styleClass="btn btn-link"
+							   value="#{msgs['@common.cancel']}"/>
+			</div>
+		</h:panelGroup>
+	
+		<div class="row">
+			<h:panelGroup styleClass="col-md-12 form-actions" layout="block">
+				<p:commandButton
+					id="doGetCreateContestArea"
+					pt:data-aft="doGetCreateContestArea"
+					action="#{contestController.doGetCreateContestArea}"
+					process="@this"
+					update="@(.contestAreaTableContainer) @(.contestDialogFooter)"
+					value="#{msgs['@election.contest.details.button.contest_area_create']}"
+					disabled="#{contestController.disabled or not empty contestController.selectedContestArea}"
+					rendered="#{empty contestAreaMultipleController.currentContest}"
+					styleClass="btn btn-sm btn-primary"/>
+			</h:panelGroup>
+		</div>
+	</h:panelGroup>
+</f:view>

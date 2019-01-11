@@ -1,0 +1,244 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.listProposal"/>
+		<ui:define name="content">
+
+			<div id="page-edit-party-list" class="page" data-view="EditPartyList">
+
+				<h1 class="page-title"><h:outputText value="#{msgs['@common.partyList']}"/></h1>
+				<h4><h:outputText value="#{msgs['@party.edit']}"/></h4>
+
+				<div class="row">
+					<div class="col-md-12">
+
+						<h:form id="editPartyForm">
+
+							<div class="row">
+								<div class="col-md-12">
+									<p:messages id="msg"/>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<p:dataTable
+										id="partyTable"
+										value="#{partyController.parties}"
+										var="party"
+										emptyMessage=""
+										paginator="true"
+										paginatorAlwaysVisible="false"
+										rows="10"
+										rowKey="#{party.id}"
+										loadingMessage="#{msgs['@pf.datatable.loadingMsg']}"
+										errorMessage="#{msgs['@pf.datatable.errMsg']}"
+										firstPageLinkLabel="#{msgs['@pf.datatable.first']}"
+										nextPageLinkLabel="#{msgs['@pf.datatable.next']}"
+										previousPageLinkLabel="#{msgs['@pf.datatable.prev']}"
+										lastPageLinkLabel="#{msgs['@pf.datatable.last']}"
+										widgetVar="parytTableWidget">
+
+										<p:column styleClass="party-name" filterBy="#{party.oversattNavn}" headerText="#{msgs['@party.name']}" style="width: 200px;">
+											<h:outputText value="#{party.oversattNavn}"/>
+										</p:column>
+
+										<p:column styleClass="party-areas" headerText="#{msgs['@party.areas']}" style="width: 200px;">
+											<ui:repeat value="#{party.omrader}" var="omraade">
+												<h:outputText value="#{omraade.name}" styleClass="party-area"/>
+											</ui:repeat>
+										</p:column>
+
+										<p:column id="party-id" styleClass="party-id" filterBy="#{party.id}" headerText="#{msgs['@party.id']}">
+											<h:outputText value="#{party.id}" pt:data-aft="#{party.id}"/>
+										</p:column>
+
+										<p:column headerText="#{msgs['@party.shortCode']}">
+											<h:outputText value="#{party.partikode}"/>
+										</p:column>
+
+										<p:column headerText="#{msgs['@party.category']}">
+											<h:outputText value="#{msgs[party.partikategori.name]}"/>
+										</p:column>
+
+										<p:column headerText="#{msgs['@party.forenklet_behandling']}" styleClass="center">
+											<h:selectBooleanCheckbox value="#{party.forenkletBehandling}" disabled="true"/>
+										</p:column>
+
+										<p:column headerText="#{msgs['@party.approved']}" styleClass="center">
+											<h:selectBooleanCheckbox value="#{party.godkjent}" disabled="true"/>
+										</p:column>
+
+										<p:column>
+											<p:commandLink
+												id="editParty"
+												pt:data-aft="editParty-#{party.id}"
+												value="#{msgs['@common.redact']}"
+												action="#{partyController.setSelectedParty(party)}"
+												oncomplete="PF('newPartyWidget').show();"
+												styleClass="btn btn-link"
+												update=":editPartyDialogForm"/>
+										</p:column>
+										<p:column>
+											<p:commandLink
+												id="deleteParty"
+												action="#{partyController.deleteParty(party)}"
+												update="@form"
+												value="Slett"
+												styleClass="btn btn-link"
+												oncomplete="PF('parytTableWidget').filter();"/>
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-actions col-md-12">
+									<p:commandButton
+										pt:data-aft="newParty"
+										styleClass="btn btn-primary"
+										icon="eva-icon-plus"
+										value="#{msgs['@party.create']}"
+										action="#{partyController.setNewSelectedParty}"
+										update=":editPartyDialogForm"
+										oncomplete="PF('newPartyWidget').show();"/>
+								</div>
+							</div>
+						</h:form>
+						<h:form id="editPartyDialogForm">
+							<p:dialog
+								id="newPartyDialog"
+								header="#{msgs['@party']}"
+								widgetVar="newPartyWidget"
+								fixedCenter="true"
+								modal="true"
+								resizable="false"
+								width="450"
+								onCloseUpdate="msg partyTable"
+								closeListener="#{partyController.dialogHandleClose}"
+								onHide="PF('parytTableWidget').filter();">
+
+								<h:panelGroup id="dialogContent" styleClass="row" layout="block">
+
+									<div class="col-md-12">
+										<p:messages id="msgDialog" globalOnly="true"/>
+									</div>
+
+
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group required">
+													<h:outputLabel value="#{msgs['@party.name']}"/>
+													<p:inputText
+														id="partyName"
+														pt:data-aft="partyName"
+														styleClass="form-control"
+														value="#{partyController.selectedPartyName}"
+														required="true"
+														maxlength="200"/>
+
+												</div>
+
+												<div class="form-group required">
+													<h:outputLabel value="#{msgs['@party.id']}"/>
+													<p:inputText
+														id="partyId"
+														pt:data-aft="partyId"
+														styleClass="form-control"
+														value="#{partyController.selectedParty.id}"
+														required="true"
+														maxlength="10"/>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<h:outputLabel value="#{msgs['@party.shortCode']}"/>
+													<p:inputText
+														id="partyNumber"
+														pt:data-aft="partyNumber"
+														styleClass="form-control"
+														value="#{partyController.selectedParty.partikode}"
+														maxlength="4"
+														disabled="true">
+														<f:convertNumber pattern="####"/>
+													</p:inputText>
+												</div>
+
+												<div class="form-group required">
+													<h:outputLabel value="#{msgs['@party.category']}"/>
+													<h:selectOneMenu
+														id="partyCategory"
+														pt:data-aft="partyCategory"
+														value="#{partyController.selectedParty.partikategori}"
+														required="true"
+														styleClass="form-control">
+														<f:selectItems
+															value="#{partyController.partyCategories}" var="pc"
+															itemValue="#{pc}" itemLabel="#{msgs[pc.name]}"/>
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<div class="checkbox checkbox-inline">
+														<h:outputLabel>
+															<h:selectBooleanCheckbox id="activeParty"
+																					 pt:data-aft="activeParty"
+																					 value="#{partyController.selectedParty.godkjent}"/>
+															#{msgs['@party.approved']}
+														</h:outputLabel>
+													</div>
+
+												</div>
+												<div class="form-group">
+													<div class="checkbox checkbox-inline">
+														<h:outputLabel>
+															<h:selectBooleanCheckbox id="forenkletBehandlingParty"
+																					 pt:data-aft="forenkletBehandlingParty"
+																					 value="#{partyController.selectedParty.forenkletBehandling}"/>
+															#{msgs['@party.forenklet_behandling']}
+														</h:outputLabel>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-actions col-md-12">
+
+											<p:commandButton
+												id="createParty"
+												pt:data-aft="createOrUpdateParty"
+												value="#{partyController.selectedParty.partyPk == null ? msgs['@common.add'] : msgs['@common.edit']}"
+												action="#{partyController.createOrUpdateParty}"
+												process="editPartyDialogForm"
+												update="editPartyDialogForm:dialogContent"
+												styleClass="btn btn-primary"
+												icon="#{partyController.selectedParty.partyPk == null ? 'eva-icon-plus' : 'eva-icon-checkmark'}"/>
+
+											<p:commandLink
+												id="cancelLink"
+												value="#{msgs['@common.cancel']}"
+												onclick="PF('newPartyWidget').hide();return false;"
+												styleClass="btn btn-link"/>
+
+										</div>
+									</div>
+								</h:panelGroup>
+							</p:dialog>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

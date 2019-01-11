@@ -1,0 +1,97 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+
+	<div class="col-md-4 ballot-counts">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-header base">
+					<ui:fragment rendered="#{compareCountsController.newFinalCountButton.rendered}">
+						<p:commandButton
+								pt:data-aft="newFinalCount"
+								action="#{compareCountsController.newFinalCount}"
+								value="#{msgs['@count.button.new_final_count']}"
+								styleClass="btn btn-primary"
+								icon="eva-icon-plus"
+								disabled="#{compareCountsController.newFinalCountButton.disabled}"
+								process="@form"
+								update="@form"/>
+					</ui:fragment>
+				</div>
+
+				<p:dataTable
+						id="baseCountBallotCounts"
+						value="#{compareCountsController.ballotCountViewsForBase}"
+						var="ballotCount"
+						tableStyleClass="table table-striped">
+
+					<p:column headerText="#{msgs['@common.party']}" styleClass="#{ballotCount.styleClass}">
+						<h:outputText value="#{msgs[ballotCount.nameKey]}" rendered="#{!ballotCount.rejectedBallotCountType}"/>
+						<h:outputText value="#{msgs[ballotCount.nameKey]} (#{ballotCount.id})" rendered="#{ballotCount.rejectedBallotCountType}"/>
+					</p:column>
+
+					<p:column headerText="#{msgs['@party.id']}" styleClass="#{ballotCount.styleClass}">
+						<h:outputText value="#{ballotCount.id}" rendered="#{ballotCount.id != null and !ballotCount.rejectedBallotCountType}"/>
+					</p:column>
+
+					<p:column headerText="#{msgs[compareCountsController.getBaseCountNameKey()]}" styleClass="#{ballotCount.styleClass}">
+						<h:outputText value="#{ballotCount.count}" rendered="#{ballotCount.count != null}"/>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:panel header="#{msgs.get('@count.label.comments_to', msgs[compareCountsController.baseCountNameKey])}" styleClass="ballot-count-comment">
+					<h:outputText id="comment" value="#{compareCountsController.baseCount.comment}" styleClass="full-width" />	
+				</p:panel>
+				
+			</div>
+		</div>
+
+	</div>
+
+	<div class="col-md-8 compare-ballot-counts">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="msg-row">
+					<div class="finalcounts-msg no-finalcounts-msg">
+						<h:outputText value="#{msgs['@count.msg.no_final_counts_to_compare']}" rendered="#{compareCountsController.noProcessed}"/>
+					</div>
+				</div>
+
+				<div class="row">
+
+					<h:panelGroup id="firstBlock" layout="block" styleClass="col-md-6 ballot-count #{compareCountsController.firstCountSelect.name}-ballot-count">
+						<widget:compareCountsSelect order="first" compareCount="#{compareCountsController.firstCountSelect}" ctrl="#{compareCountsController}"/>
+						<widget:ballotCounts ballotCountList="#{compareCountsController.ballotCountViewsForFirst}"/>
+						<widget:compareCountsComment compareCount="#{compareCountsController.firstCountSelect}" ctrl="#{compareCountsController}"/>
+					</h:panelGroup>
+
+
+					<h:panelGroup id="secondBlock" layout="block" styleClass="col-md-6 ballot-count #{compareCountsController.secondCountSelect.name}-ballot-count">
+						<div class="msg-row">
+							<div class="finalcounts-msg one-finalcount-msg">
+								<h:outputText value="#{msgs['@count.msg.only_one_final_count_to_compare']}" rendered="#{compareCountsController.oneProcessed}"/>
+							</div>
+						</div>
+
+						<widget:compareCountsSelect order="second" compareCount="#{compareCountsController.secondCountSelect}" ctrl="#{compareCountsController}"/>
+						<widget:ballotCounts ballotCountList="#{compareCountsController.ballotCountViewsForSecond}"/>
+						<widget:compareCountsComment compareCount="#{compareCountsController.secondCountSelect}" ctrl="#{compareCountsController}"/>
+					</h:panelGroup>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+</f:view>

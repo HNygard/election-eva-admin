@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="electionLevel3Form">
+		<ui:param name="helpId" value="@help.election.contest"/>
+
+		<p:dialog
+			id="editElectionLevel3Widget"
+			header="#{msgs['@common.redact']} #{msgs['@election_level[3].name']}"
+			widgetVar="editElectionLevel3Widget"
+			fixedCenter="true"
+			fitViewport="true"
+			modal="true"
+			visible="false"
+			resizable="false"
+			width="940"
+			height="500">
+
+			<ui:include src="contest/editContest.xhtml" />
+			<ui:include src="contest/contestAreaTable.xhtml" />
+
+			<f:facet name="footer">
+				<h:panelGroup id="contestDialogFooter" styleClass="contestDialogFooter" layout="block">
+					<p:commandButton
+						id="updateContestButton"
+						pt:data-aft="updateContestButton"
+						action="#{contestController.updateContest}"
+						process="@form"
+						update=":hierarchyEditor @(.editContestContainer)"
+						oncomplete="EVA.Application.getInstance().getView().ajaxOnComplete(xhr, status, args)"
+						value="#{msgs['@common.save']}"
+						disabled="#{contestController.updateContestButtonDisabled}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+					<p:commandButton
+						id="deleteContestButton"
+						pt:data-aft="deleteContestButton"
+						update="@(.deleteContestDialogMsg)"
+						oncomplete="PF('deleteContestDialog').show()"
+						value="#{msgs['@common.delete']}"
+						disabled="#{contestController.deleteContestButtonDisabled}"
+						icon="eva-icon-close"
+						styleClass="btn btn-danger"/>
+					<p:commandButton
+						id="cancelUpdateContestButton"
+						pt:data-aft="cancelUpdateContestButton"
+						onclick="PF('editElectionLevel3Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+				</h:panelGroup>
+			</f:facet>
+		</p:dialog>
+
+	</h:form>
+
+
+	<h:form id="level3DialogForm">
+		<ui:include src="dialogs/deleteContestAreaDialog.xhtml" />
+		<ui:include src="dialogs/deleteContestDialog.xhtml" />
+	</h:form>
+</ui:composition>

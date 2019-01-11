@@ -1,0 +1,27 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<h:outputLabel value="#{msgs['@election.election.election_code']}" for="valgtype"/>
+				<h:selectOneListbox
+					id="valgtype"
+					pt:data-aft="valgtype"
+					label="#{msgs['@election.election.election_type']}"
+					value="#{electionController.currentElection.valgtype}"
+					size="1"
+					required="false"
+					disabled="#{electionController.inputDisabled}"
+					styleClass="form-control no-indent">
+					<f:selectItem itemLabel="#{msgs['@election.election.election_type.preselect']}"/>
+					<f:selectItems value="#{electionController.valgtyper}"/>
+				</h:selectOneListbox>
+			</div>
+		</div>
+	</div>
+	
+</f:view>

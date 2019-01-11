@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				contentType="text/html">
+
+	<h:form id="electionLevel2Form">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<p:dialog
+			header="#{msgs['@common.redact']} #{msgs['@election_level[2].name']}"
+			widgetVar="editElectionLevel2Widget"
+			fixedCenter="true"
+			modal="true"
+			fitViewport="true"
+			visible="false"
+			resizable="false"
+			width="940"
+			height="500">
+
+			<h:panelGroup id="dialogContent" layout="block" styleClass="election">
+
+				<div class="row">
+					<div class="col-md-9 center-block">
+						<p:messages id="msg" />
+					</div>
+				</div>
+
+				<p:accordionPanel
+					id="panel"
+					activeIndex="#{electionController.activeIndex}"
+					styleClass="ui-accordion-default"
+					multiple="true"
+					dynamic="false"
+					cache="false">
+
+					<p:tab id="tab-basis" title="#{msgs['@config.central.election.tab.basis.title']}" titleStyleClass="tab-basis">
+						<ui:include src="includes/electionBasis.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-omraader" title="#{msgs['@config.central.election.tab.omraader.title']}" titleStyleClass="tab-omraader">
+						<ui:include src="includes/electionAreas.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-personvalgregler" title="#{msgs['@config.central.election.tab.personvalgregler.title']}" titleStyleClass="tab-personvalgregler">
+						<ui:include src="includes/electionPersonvalgregler.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-listeforslag" title="#{msgs['@config.central.election.tab.listeforslag.title']}" titleStyleClass="tab-listeforslag">
+						<ui:include src="includes/electionListeforslag.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-regler-opptelling" title="#{msgs['@config.central.election.tab.opptelling.title']}" titleStyleClass="tab-regler-opptelling">
+						<ui:include src="includes/electionOpptelling.xhtml"/>
+					</p:tab>
+
+					<p:tab id="tab-ovrig" title="#{msgs['@config.central.election.tab.ovrig.title']}" titleStyleClass="tab-ovrig">
+						<ui:include src="includes/electionOther.xhtml"/>
+					</p:tab>
+
+				</p:accordionPanel>
+
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					id="update"
+					action="#{electionController.doUpdateElection(electionController.currentElection)}"
+					update="dialogContent"
+					value="#{msgs['@common.save']}"
+					disabled="#{!userAccess.konfigurasjonValgValg or electionController.inputDisabled}"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+				<p:commandButton
+					id="deleteButton"
+					onclick="PF('level2Confirmation').show()"
+					update="@none"
+					value="#{msgs['@common.delete']}"
+					disabled="#{!userAccess.konfigurasjonValgValg or not electionController.currentRemovable or electionController.inputDisabled}"
+					icon="eva-icon-close"
+					styleClass="btn btn-danger"/>
+
+				<p:commandLink
+					id="backToElectionList"
+					onclick="PF('editElectionLevel2Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+			</f:facet>
+		</p:dialog>
+	</h:form>
+
+
+	<h:form id="level2DialogForm">
+		<p:confirmDialog
+			header="#{msgs['@common.delete']} #{msgs['@election_level[2].name']}"
+			severity="alert"
+			widgetVar="level2Confirmation"
+			modal="true">
+
+			<f:facet name="message">
+				<h:outputText id="dialogMessage"
+							  value="#{msgs.get('@common.delete.confirmation', msgs['@election_level[2].name'], electionController.currentElection.name)}"/>
+			</f:facet>
+
+
+			<p:commandButton
+				id="YesButton"
+				icon="eva-icon-close"
+				styleClass="btn btn-danger"
+				value="#{msgs['@common.yes']}"
+				immediate="true"
+				update=":hierarchyEditor"
+				oncomplete="PF('editElectionLevel2Widget').hide();"
+				action="#{electionController.doDeleteElection(electionController.currentElection)}"
+				onclick="PF('level2Confirmation').hide();"/>
+
+			<p:commandButton
+				id="NoButton"
+				styleClass="btn"
+				value="#{msgs['@common.no']}"
+				onclick="PF('level2Confirmation').hide()"
+				update="level2DialogForm:NoButton"/>
+
+		</p:confirmDialog>
+	</h:form>
+</ui:composition>

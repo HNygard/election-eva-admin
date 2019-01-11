@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				contentType="text/html">
+
+	<h:form id="level6Form" role="form">
+		<ui:param name="helpId" value="@help.area.polling_place"/>
+		<p:dialog
+			id="level6Dialog"
+			header="#{msgs['@common.redact']} #{msgs['@area_level[6].name']}"
+			widgetVar="editAreaLevel6Widget"
+			fixedCenter="true"
+			modal="true"
+			visible="false"
+			resizable="false"
+			width="800">
+
+			<h:panelGroup styleClass="row" layout="block">
+
+				<div class="col-md-9 center-block">
+					<p:messages id="msg"/>
+				</div>
+
+				<h:panelGroup styleClass="form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[5].name']}" for="pollingdistrictName"/>
+					<h:inputText
+						id="pollingdistrictName"
+						value="#{pollingPlaceController.currentMvArea.pollingDistrict.id} - #{pollingPlaceController.currentMvArea.pollingDistrict.name}"
+						styleClass="form-control"
+						readonly="true"
+						disabled="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@area_level[6].nummer']}:" for="pollingPlaceId"/>
+					<h:inputText
+						id="pollingPlaceId"
+						value="#{pollingPlaceController.pollingPlace.id}"
+						maxlength="4"
+						label="#{msgs['@area_level[6].nummer']}"
+						required="true"
+						styleClass="form-control"
+						disabled="#{isElectionEventDisabled or pollingPlaceController.readOnly}"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="required form-group col-md-4" layout="block">
+					<h:outputLabel value="#{msgs['@pollingplace.name']}" for="pollingPlaceName"/>
+					<h:inputText
+						id="pollingPlaceName"
+						value="#{pollingPlaceController.pollingPlace.name}"
+						label="#{msgs['@common.name']}"
+						styleClass="form-control"
+						maxlength="50"
+						required="true"
+						disabled="#{isElectionEventDisabled or pollingPlaceController.readOnly}"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group col-md-12" layout="block">
+					<h:outputLabel value="#{msgs['@area.polling_place.type']}" for="pollingPlaceType"/>
+					<h:inputText
+						id="pollingPlaceType"
+						styleClass="form-control"
+						value="#{pollingPlaceController.pollingPlace.electionDayVoting ? msgs['@area.polling_place.type_election_day_voting'] : msgs['@area.polling_place.type_advance_voting']}"
+						readonly="true"
+						disabled="true"/>
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="form-group col-md-12" layout="block"
+							  rendered="#{pollingPlaceController.isRenderBallotOrEnvelopeChoice(pollingPlaceController.pollingPlace)}">
+					<h:outputLabel value="#{msgs['@area.polling_place.advance_voting_type']}" for="ballotOrEnvelopeChoice"/>
+					<h:selectOneRadio
+						value="#{pollingPlaceController.pollingPlace.advanceVoteInBallotBox}"
+						id="ballotOrEnvelopeChoice"
+						pt:data-aft="radioRettIUrne"
+						label="#{msgs['@area.polling_place.advance_voting_type']}"
+						required="true"
+						disabled="#{isElectionEventDisabled or pollingPlaceController.readOnly}"
+						styleClass="ui-radio-group ui-radio-group-inline">
+						<f:selectItem
+							itemLabel="#{msgs['@area.polling_place.advance_voting_type.ballot']}"
+							itemValue="#{true}"/>
+						<f:selectItem
+							itemLabel="#{msgs['@area.polling_place.advance_voting_type.envelope']}"
+							itemValue="#{false}"/>
+					</h:selectOneRadio>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+					id="update"
+					pt:data-aft="knappLagreStemmested"
+					action="#{pollingPlaceController.doUpdatePollingPlace}"
+					update=":level6Form:msg :hierarchyEditor"
+					oncomplete="editPollingPlaceDialogBox(xhr, status, args)"
+					value="#{msgs['@common.save']}"
+					disabled="#{isElectionEventDisabled or pollingPlaceController.readOnly}"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+				<p:commandButton
+					id="deleteButton"
+					pt:data-aft="deleteButton"
+					onclick="PF('level6Confirmation').show()"
+					update=":level6DialogForm:dialogMessage"
+					value="#{msgs['@common.delete']}"
+					disabled="#{!pollingPlaceController.isCurrentRemovable or isElectionEventDisabled or pollingPlaceController.readOnly}"
+					icon="eva-icon-close"
+					styleClass="btn btn-danger"/>
+
+				<p:commandLink
+					id="backToAreaList"
+					onclick="PF('editAreaLevel6Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+
+			</f:facet>
+		</p:dialog>
+	</h:form>
+
+	<h:form id="level6DialogForm">
+		<p:confirmDialog
+			header="#{msgs['@common.delete']} #{msgs['@area_level[6].name']}"
+			severity="alert"
+			widgetVar="level6Confirmation"
+			modal="true">
+
+			<f:facet name="message">
+				<h:outputText id="dialogMessage"
+							  value="#{msgs.get('@common.delete.confirmation', msgs['@area_level[6].name'], pollingPlaceController.pollingPlace.name)}"/>
+			</f:facet>
+
+			<!-- Command buttons -->
+			<h:panelGroup styleClass="form-group form-actions col-md-12 center-block" layout="block">
+
+				<p:commandButton
+					id="YesButton"
+					pt:data-aft="doDeletePollingPlace"
+					value="#{msgs['@common.yes']}"
+					immediate="true"
+					styleClass="btn btn-primary"
+					update="@(.context-editor-form)"
+					oncomplete="PF('editAreaLevel6Widget').hide();"
+					action="#{pollingPlaceController.doDeletePollingPlace(pollingPlaceController.pollingPlace)}"
+					onclick="PF('level6Confirmation').hide();"/>
+				<p:commandButton
+					value="#{msgs['@common.no']}"
+					styleClass="btn"
+					id="NoButton"
+					onclick="PF('level6Confirmation').hide()"/>
+
+			</h:panelGroup>
+		</p:confirmDialog>
+	</h:form>
+	<script type="text/javascript">
+		//<![CDATA[
+		function editPollingPlaceDialogBox(xhr, status, args) {
+			if (args.editPollingPlaceHideDialog) {
+				PF('editAreaLevel6Widget').hide();
+			}
+		}
+		//]]>
+	</script>
+</ui:composition>

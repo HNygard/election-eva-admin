@@ -1,0 +1,72 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group required">
+				<h:outputLabel value="#{msgs['@election.election.area_level']}:" for="electionAreaLevel" style="margin-right: 10px;"/>
+				<h:selectOneListbox
+					id="electionAreaLevel"
+					pt:data-aft="electionAreaLevel"
+					label="#{msgs['@election.election.area_level']}"
+					value="#{electionController.selectedAreaLevel}"
+					size="1"
+					required="true"
+					disabled="#{electionController.inputDisabled or electionController.edit}">
+					<f:selectItems
+						value="#{electionController.areaLevelList}"
+						var="areaLevel"
+						itemLabel="#{msgs[areaLevel.name]}"
+						itemValue="#{areaLevel.id}"/>
+				</h:selectOneListbox>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="electionEventSingleArea">
+					<h:selectBooleanCheckbox
+						id="electionEventSingleArea"
+						pt:data-aft="electionEventSingleArea"
+						value="#{electionController.currentElection.singleArea}"
+						styleClass="ui-radio-group ui-radio-group-inline"
+						immediate="false"
+						valueChangeListener="#{electionController.valueChangeSingleArea}"
+						required="true"
+						disabled="#{electionController.inputDisabled or electionController.edit}">
+						<p:ajax update="electionAutoGenerateContestsContainer" process="@this" event="change"/>
+					</h:selectBooleanCheckbox>
+					#{msgs['@election.election.single_area']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+		<h:panelGroup id="electionAutoGenerateContestsContainer" styleClass="col-md-12" layout="block" rendered="#{not electionController.edit}">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="electionAutoGenerateContests" styleClass="#{electionController.currentElection.singleArea ? '' : 'parent-disabled'}">
+					<h:selectBooleanCheckbox
+						id="electionAutoGenerateContests"
+						pt:data-aft="electionAutoGenerateContests"
+						value="#{electionController.currentElection.autoGenerateContests}"
+						disabled="#{electionController.inputDisabled or not electionController.currentElection.singleArea}"/>
+					#{msgs['@election.election.auto_generate']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</h:panelGroup>
+		<div class="col-md-12">
+			<h:panelGroup styleClass="checkbox">
+				<h:outputLabel for="candidatesInContestArea">
+					<h:selectBooleanCheckbox
+						id="candidatesInContestArea"
+						pt:data-aft="candidatesInContestArea"
+						value="#{electionController.currentElection.candidatesInContestArea}"
+						disabled="#{electionController.inputDisabled}"/>
+					#{msgs['@election.election.candidatesInContestArea']}
+				</h:outputLabel>
+			</h:panelGroup>
+		</div>
+	</div>
+
+</f:view>

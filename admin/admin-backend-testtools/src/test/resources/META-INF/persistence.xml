@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+			 xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="evotePU">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>no.valg.eva.admin.configuration.domain.model.Aarsakskode</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://${testDatabaseHost}:${testDatabasePort}/${testDatabaseName}"/>
+			<property name="javax.persistence.jdbc.user" value="admin"/>
+			<property name="javax.persistence.jdbc.password" value="admin"/>
+			<property name="hibernate.show_sql" value="false"/>
+			<property name="hibernate.jdbc.batch_size" value="1000"/>
+			<property name="hibernate.order_inserts" value="true"/>
+			<property name="hibernate.order_updates" value="true"/>
+			<property name="hibernate.cache.use_second_level_cache" value="false"/>
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,172 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.settlement.status"/>
+		<ui:define name="topinfoheader"></ui:define>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs['@election_level[3].name']}"
+						rendered="#{!empty settlementStatusController.contestPath and settlementStatusController.contestList.size() gt 1}"
+						ajax="false"
+						action="#{settlementStatusController.backToSelectContest}"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-settlement-status" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.settlement.status']}"/>
+				</h1>
+				<widget:pageTitleMetaTemplate models="#{settlementStatusController.pageTitleMeta}"/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+					</div>
+				</div>
+
+				<widget:selectContest
+					id="selectContest"
+					rendered="#{empty settlementStatusController.contestPath and !empty settlementStatusController.contestList}"
+					selectContestProvider="#{settlementStatusController}"/>
+
+				<h:form id="settlementStatusForm" rendered="#{!empty settlementStatusController.contestPath and !empty settlementStatusController.settlementStatusList}">
+					<div class="row">
+						<div class="col-md-12">
+							<p:dataTable var="settlementStatus" value="#{settlementStatusController.settlementStatusList}" tableStyleClass="table table-striped">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@report_count_category.voting_count_category']}"/>
+									</f:facet>
+									<h:outputText value="#{msgs[settlementStatus.countCategory.messageProperty()]}"/>
+								</p:column>
+								<p:column rendered="#{settlementStatusController.renderCountingModeInSettlementStatus()}">
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.central_local']}"/>
+									</f:facet>
+									<h:outputText value="#{msgs['@settlement.central']}" rendered="#{settlementStatus.countingMode.centralPreliminaryCount}"/>
+									<h:outputText value="#{msgs['@settlement.local']}" rendered="#{!settlementStatus.countingMode.centralPreliminaryCount}"/>
+								</p:column>
+								<p:column rendered="#{settlementStatusController.renderCountingModeInSettlementStatus()}">
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.pollingDistrictCount']}"/>
+									</f:facet>
+									<h:outputText value="#{msgs['@common.yes']}" rendered="#{settlementStatus.countingMode.pollingDistrictCount}"/>
+									<h:outputText value="#{msgs['@common.no']}" rendered="#{!settlementStatus.countingMode.pollingDistrictCount}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@common.Total']}"/>
+									</f:facet>
+									<h:outputText value="#{settlementStatus.totalCountingAreaCount}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.counting_polling_districts']}"/>
+									</f:facet>
+									<p:commandLink action="#{settlementStatusController.selectSettlementStatusForCountingAreasNotReady(settlementStatus.countCategory)}"
+												   update=":settlementStatusForm:countingAreasDialog"
+												   oncomplete="PF('countingAreasWidget').show();"
+												   styleClass="btn btn-link"
+												   ajax="true"
+												   rendered="#{settlementStatus.countingAreaNotReadyForSettlementCount != 0}">
+										<h:outputText value="#{settlementStatus.countingAreaNotReadyForSettlementCount}"/>
+									</p:commandLink>
+									<h:outputText value="0" rendered="#{settlementStatus.countingAreaNotReadyForSettlementCount == 0}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.approved_polling_districts']}"/>
+									</f:facet>
+									<p:commandLink action="#{settlementStatusController.selectSettlementStatusForCountingAreasApproved(settlementStatus.countCategory)}"
+												   update=":settlementStatusForm:countingAreasDialog"
+												   oncomplete="PF('countingAreasWidget').show();"
+												   styleClass="btn btn-link"
+												   ajax="true"
+												   rendered="#{settlementStatus.countingAreaApprovedCount != 0}">
+										<h:outputText value="#{settlementStatus.countingAreaApprovedCount}"/>
+									</p:commandLink>
+									<h:outputText value="0" rendered="#{settlementStatus.countingAreaApprovedCount == 0}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@settlement.ready_polling_districts']}"/>
+									</f:facet>
+									<p:commandLink
+										action="#{settlementStatusController.selectSettlementStatusForCountingAreasReadyForSettlement(settlementStatus.countCategory)}"
+										update=":settlementStatusForm:countingAreasDialog"
+										oncomplete="PF('countingAreasWidget').show();"
+										styleClass="btn btn-link"
+										ajax="true"
+										rendered="#{settlementStatus.countingAreaReadyForSettlementCount != 0}">
+										<h:outputText value="#{settlementStatus.countingAreaReadyForSettlementCount}"/>
+									</p:commandLink>
+									<h:outputText value="0" rendered="#{settlementStatus.countingAreaReadyForSettlementCount == 0}"/>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs['@ballot.status']}"/>
+									</f:facet>
+									<ui:fragment rendered="#{settlementStatus.countingAreasNotReadyForSettlement}">
+										<span class="eva-icon-close"></span>
+									</ui:fragment>
+									<ui:fragment rendered="#{settlementStatus.countingAreasReadyForSettlement}">
+										<span class="eva-icon-checkmark"></span>
+									</ui:fragment>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-actions">
+							<p:commandButton value="#{msgs['@settlement.make_settlement']}"
+											 styleClass="btn btn-primary"
+											 icon="eva-icon-caret"
+											 action="#{settlementStatusController.makeSettlement}"
+											 disabled="#{!settlementStatusController.readyForSettlement or settlementStatusController.settlementDone}"
+											 rendered="#{userAccess.opptellingValgoppgjørGjennomføre}"
+											 ajax="false" />
+						</div>
+					</div>
+					<p:dialog
+						id="countingAreasDialog"
+						header="#{msgs['@count.overview.pollingdistricts']}"
+						widgetVar="countingAreasWidget"
+						fixedCenter="true"
+						modal="true"
+						resizable="false"
+						width="500">
+
+						<div class="row">
+							<div class="col-md-12">
+								<p:dataTable id="countingAreasDialogTable" var="countingArea" value="#{settlementStatusController.selectedCountingAreas}" 
+											 tableStyleClass="table table-striped dialog-table">
+									<p:column>
+										<h:outputText value="#{settlementStatusController.getName(countingArea)}"/>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 form-actions">
+								<p:commandLink
+									value="#{msgs['@common.cancel']}"
+									icon="eva-icon-close"
+									ajax="false"
+									onclick="PF('countingAreasWidget').hide(); return false;"
+									styleClass="btn btn-link"/>
+							</div>
+						</div>
+					</p:dialog>
+				</h:form>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+</f:view>

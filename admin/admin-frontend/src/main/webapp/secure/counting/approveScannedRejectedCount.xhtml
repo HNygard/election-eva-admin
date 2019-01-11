@@ -1,0 +1,63 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:param name="helpId" value="@help.approveScannedRejectedCount"/>
+
+		<ui:define name="breadCrumb">
+			<ui:include src="includes/approveRejectedCountBreadCrumb.xhtml"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<div id="page-approve-rejected-count" class="page" data-view="ApproveRejectedCount">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.counting.approve_rejected.scan']}"/>
+				</h1>
+				<ui:fragment rendered="#{not empty valgdistriktOpptellingskategoriOgValggeografiHolder.electionPageTitleMeta}">
+					<widget:pageTitleMetaTemplate models="#{valgdistriktOpptellingskategoriOgValggeografiHolder.electionPageTitleMeta}"/>
+				</ui:fragment>
+				<ui:fragment rendered="#{not empty approveScannedRejectedCountController.areaPageTitleMeta}">
+					<widget:pageTitleMetaTemplate models="#{approveScannedRejectedCountController.areaPageTitleMeta}"/>
+				</ui:fragment>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages id="messageBox" globalOnly="true" showSummary="true" showDetail="false" autoUpdate="true"/>
+					</div>
+				</div>
+
+				<h:form id="ballotApproveRejectedForm">
+					<ui:fragment rendered="#{not empty approveScannedRejectedCountController.finalCount}">
+						<div class="row">
+							<div class="col-md-5">
+								<widget:ballotApproveRejectedMainTable controller="#{approveScannedRejectedCountController}"/>
+							</div>
+							<div class="col-md-7">
+								<ui:include src="includes/approveScannedRejectedCountEditTable.xhtml" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<widget:ballotApproveRejectedBallotsTable controller="#{approveScannedRejectedCountController}"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-actions col-md-12">
+								<widget:ballotApproveRejectedButtons controller="#{approveScannedRejectedCountController}"/>
+							</div>
+						</div>
+					</ui:fragment>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

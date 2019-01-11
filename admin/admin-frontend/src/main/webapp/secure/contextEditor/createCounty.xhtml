@@ -1,0 +1,105 @@
+<ui:composition
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+
+    <h:form id="level2CreateForm" role="form">
+        <ui:param name="helpId" value="@help.area.county"/>
+        <p:dialog
+                header="#{msgs['@area.county.create.header']}"
+                widgetVar="createAreaLevel2Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="540">
+
+
+            <h:panelGroup styleClass="row" layout="block">
+
+                <div class="col-md-9 center-block">
+                    <p:messages id="msg"/>
+                </div>
+    
+                <!-- Country -->
+                <h:panelGroup styleClass="form-group col-md-12" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[1].name']}" for="countryName"/>
+                    <h:inputText
+                            id="countryName"
+                            value="#{countyController.parentMvArea.country.name}"
+                            styleClass="form-control"
+                            readonly="true"
+                            disabled="true"/>
+                </h:panelGroup>
+
+
+                <!-- County Id -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+
+                    <h:outputLabel value="#{msgs['@area_level[2].nummer']}" for="countyId"/>
+
+                    <h:inputText
+                            id="countyId"
+							pt:data-aft="countyId"
+                            value="#{countyController.newCounty.id}"
+                            required="true"
+                            label="#{msgs['@area_level[2].nummer']}"
+                            maxlength="2"
+                            styleClass="form-control"/>
+
+                    <h:message for="countyId" id="idError"/>
+                </h:panelGroup>
+
+                <!-- County Name -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@common.name']}" for="countyName"/>
+
+                    <h:inputText
+                            id="countyName"
+							pt:data-aft="countyName"
+							value="#{countyController.newCounty.name}"
+                            maxlength="50"
+                            required="true"
+                            label="#{msgs['@common.name']}"
+                            styleClass="form-control"/>
+
+                    <h:message
+                            for="countyName"
+                            id="nameError"/>
+                </h:panelGroup>
+            </h:panelGroup>
+			
+			<f:facet name="footer">
+				<p:commandButton
+						id="create"
+						pt:data-aft="doCreateCounty"
+						action="#{countyController.doCreateCounty(countyController.newCounty)}"
+						oncomplete="createCountyDialogBox(xhr, status, args)"
+						update=":level2CreateForm:msg :hierarchyEditor"
+						value="#{msgs['@area.county.create.button.create']}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+
+				<p:commandLink
+						id="backToAreaList"
+						onclick="PF('createAreaLevel2Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+			</f:facet>
+			
+        </p:dialog>
+
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            function createCountyDialogBox(xhr, status, args) {
+                if (args.createCountyHideDialog) {
+                    PF('createAreaLevel2Widget').hide();
+                }
+            }
+            /*]]>*/
+        </script>
+    </h:form>
+</ui:composition>

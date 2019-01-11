@@ -1,0 +1,15 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		contentType="text/html"
+		xmlns:counting="http://java.sun.com/jsf/composite/counting">
+
+	<span id="countStatus" data-aft="countStatus" style="display: none">#{finalCountController.finalCount.status.name()}</span>
+	<counting:ballotCountsWithSplit id="ballotCountsWithSplit"
+									disabled="#{!finalCountController.isManualCountAndEditable()}"
+									model="#{finalCountController.ballotCountsModel}" />
+	<div class="row">
+		<div class="col-md-12">
+			<counting:bottomButtons id="bottomButtons" countController="#{finalCountController}"/>
+		</div>
+	</div>
+</f:view>

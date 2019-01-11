@@ -1,0 +1,104 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<span class="isCommentRequired" style="display: none">#{preliminaryCountController.commentRequired}</span>
+	<div class="ui-grid bold">
+		<ui:fragment rendered="#{preliminaryCountController.includeMarkOffCount and not preliminaryCountController.includeExpectedBallotCount}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h:outputText value="#{msgs['@count.markOffs.count']}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{preliminaryCountController.totalMarkOffCount}"/>
+				</div>
+			</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{preliminaryCountController.includeExpectedBallotCount}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h:outputText value="#{msgs['@count.ballot.technicalVotings']}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{preliminaryCountController.expectedBallotCount}"/>
+				</div>
+			</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{preliminaryCountController.includeProtocolCount}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h:outputText value="#{msgs['@count.ballot.total']} - #{msgs['@count.protocol_count'].toLowerCase()}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{preliminaryCountController.counts.totalBallotCountForProtocolCounts}"/>
+				</div>
+			</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{preliminaryCountController.includeTotalBallotCount}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h:outputText value="#{msgs['@count.ballot.total']} - #{msgs['@count.preliminary_count'].toLowerCase()}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{preliminaryCountController.preliminaryCount.totalBallotCount}"/>
+				</div>
+			</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{preliminaryCountController.includeTotalBallotCountForAllPollingDistricts}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h:outputText value="#{msgs['@count.ballot.totalTechnicalVotings']}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{preliminaryCountController.preliminaryCount.totalBallotCountForAllPollingDistricts}"/>
+				</div>
+			</div>
+		</ui:fragment>
+
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-12">#{msgs['@common.comment']}<span class="reminder">(#{preliminaryCountController.reminderComment})</span></div>
+		</div>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-12">
+				<p:inputTextarea id="comment"
+								 pt:data-aft="dialogComment"
+								 value="#{preliminaryCountController.count.comment}"
+								 maxlength="150"
+								 disabled="#{!preliminaryCountController.isCountEditable()}"
+								 style="width:100%" />
+			</div>
+		</div>
+		<ui:fragment rendered="#{preliminaryCountController.commentRequired}">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">
+					<h:outputText rendered="#{not preliminaryCountController.includeProtocolCount}"
+								  value="#{msgs['@count.error.validation.missing_comment']}" 
+								  style="color: red"/>
+					<h:outputText rendered="#{preliminaryCountController.includeProtocolCount}"
+								  value="#{msgs['@count.error.validation.missing_comment.preliminary_count']}" 
+								  style="color: red"/>
+				</div>
+			</div>
+		</ui:fragment>
+	</div>
+	<div class="ui-grid-row">
+		<div class="ui-grid-col-12 form-actions form-actions-comment">
+			<p:commandButton id="confirmButton"
+							 pt:data-aft="confirmButton"
+							 action="#{preliminaryCountController.approveCount}"
+							 process="@form"
+							 update="@form"
+							 value="#{msgs['@common.yes']}"
+							 styleClass="btn btn-primary"
+							 icon="eva-icon-checkmark"
+							 onsuccess="window.scrollTo(0,0);"
+							 disabled="#{!preliminaryCountController.isCountEditable()}"/>
+			<widget:dialogClose dialog="#{preliminaryCountController.approveDialog}" />
+		</div>
+	</div>
+</f:view>

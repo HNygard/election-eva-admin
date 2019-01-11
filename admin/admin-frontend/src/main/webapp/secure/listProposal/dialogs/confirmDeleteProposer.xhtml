@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-9">
+			<p>
+				<h:outputText value="#{msgs['@listProposal.proposer.delete.prefix']} "/>
+				<h:outputText styleClass="font-bold font-italic" value="#{proposerController.proposerForEdit}"/>
+				<h:outputText value=" #{msgs['@listProposal.proposer.delete.postfix']}"/>
+			</p>
+
+			<p>
+				<h:outputText value="#{msgs['@listProposal.delete']}"/>
+			</p>
+
+		</div>
+
+		<div class="form-actions form-group col-md-9">
+
+			<p:commandButton
+				value="#{msgs['@listProposal.proposer.delete.yes']}"
+				process="@this"
+				update="@this"
+				action="#{proposerController.deleteProposer()}"
+				icon="eva-icon-checkmark"
+				styleClass="btn btn-danger"/>
+			<widget:dialogClose dialog="#{proposerController.confirmDeleteProposer}"/>
+
+		</div>
+	</div>
+</f:view>

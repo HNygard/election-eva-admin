@@ -1,0 +1,144 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                contentType="text/html">
+
+    <h:form id="level1Form" role="form">
+        <ui:param name="helpId" value="@help.area.country"/>
+
+        <p:dialog
+                id="level1Dialog"
+                header="#{msgs['@common.redact']} #{msgs['@area_level[1].name']}"
+                widgetVar="editAreaLevel1Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="540">
+
+            <h:panelGroup styleClass="row" layout="block">
+
+                <div class="col-md-9 center-block">
+                    <p:messages id="msg"/>
+                </div>
+
+
+                <!-- Election event -->
+                <h:panelGroup styleClass="form-group col-md-12" layout="block">
+                    <h:outputLabel value="#{msgs['@election_level[0].name']}" for="electionEventName"/>
+                    <h:inputText
+                            id="electionEventName"
+                            name="electionEventName"
+                            styleClass="form-control"
+                            label="#{msgs['@election_level[0].name']}"
+                            disabled="true"
+                            readonly="true"
+                            value="#{countryController.currentMvArea.electionEvent.name}"/>
+                </h:panelGroup>
+
+                <!-- Country ID -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[1].nummer']}:" for="countryId"/>
+                    <h:inputText
+                            id="countryId"
+                            value="#{countryController.currentCountry.id}"
+                            required="true"
+                            disabled="#{isElectionEventDisabled or countryController.readOnly}"
+                            maxlength="2"
+                            styleClass="form-control"/>
+                    <h:message for="countryId" id="idError"/>
+                </h:panelGroup>
+
+                <!-- Country Name -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@common.name']}" for="countryName"/>
+                    <h:inputText
+                            id="countryName"
+                            value="#{countryController.currentCountry.name}"
+                            required="true"
+                            label="#{msgs['@common.name']}"
+                            disabled="#{isElectionEventDisabled or countryController.readOnly}"
+                            maxlength="50"
+                            styleClass="form-control"/>
+                    <h:message for="countryName" id="nameError"/>
+                </h:panelGroup>
+            </h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton
+						id="update"
+						action="#{countryController.doUpdateCountry(countryController.currentCountry)}"
+						update=":level1Form:msg :hierarchyEditor"
+						oncomplete="editCountryDialogBox(xhr, status, args)"
+						value="#{msgs['@common.save']}"
+						disabled="#{!userAccess.konfigurasjonGeografi or countryController.readOnly}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+
+				<p:commandButton
+						id="deleteButton"
+						onclick="PF('level1Confirmation').show()"
+						update=":level1DialogForm:dialogMessage"
+						value="#{msgs['@common.delete']}"
+						disabled="#{!countryController.isCurrentRemovable or !userAccess.konfigurasjonGeografi or countryController.readOnly}"
+						icon="eva-icon-close"
+						styleClass="btn btn-danger"/>
+
+				<p:commandLink
+						id="backToAreaList"
+						onclick="PF('editAreaLevel1Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+
+			</f:facet>
+			
+        </p:dialog>
+    </h:form>
+
+    <h:form id="level1DialogForm">
+        <p:confirmDialog
+                header="#{msgs['@common.delete']} #{msgs['@area_level[1].name']}"
+                severity="alert"
+                widgetVar="level1Confirmation"
+                modal="true">
+
+            <f:facet name="message">
+                <h:outputText
+                        id="dialogMessage"
+                        value="#{msgs.get('@common.delete.confirmation', msgs['@area_level[1].name'], countryController.currentCountry.name)}"/>
+            </f:facet>
+
+            <h:panelGroup styleClass="form-group center-block form-actions col-md-7" layout="block">
+                <p:commandButton
+                        id="YesButton"
+                        styleClass="btn btn-primary"
+                        icon="eva-icon-close"
+                        value="#{msgs['@common.yes']}"
+						update=":hierarchyEditor"
+                        oncomplete="PF('editAreaLevel1Widget').hide();"
+                        action="#{countryController.doDeleteCountry(countryController.currentCountry)}"
+                        onclick="PF('level1Confirmation').hide();"/>
+
+                <p:commandLink
+                        id="NoButton"
+                        styleClass="btn"
+                        value="#{msgs['@common.no']}"
+                        onclick="PF('level1Confirmation').hide()"
+                        update="level1DialogForm:NoButton"/>
+            </h:panelGroup>
+
+        </p:confirmDialog>
+
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            function editCountryDialogBox(xhr, status, args) {
+                if (args.editCountryHideDialog) {
+                    PF('editAreaLevel1Widget').hide();
+                }
+            }
+            /*]]>*/
+        </script>
+    </h:form>
+</ui:composition>

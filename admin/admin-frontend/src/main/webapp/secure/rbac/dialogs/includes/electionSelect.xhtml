@@ -1,0 +1,65 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		contentType="text/html">
+
+	<h:panelGroup id="election_level" layout="block" rendered="#{operatorEditController.isRenderElectionLevel(roleSelectItem.value)}">
+		<h:panelGroup id="election_group" layout="block"
+					  rendered="#{operatorEditController.electionOptions.isRenderSelect('ELECTION_GROUP')}">
+			<h:outputLabel value="#{msgs['@election_level[1].name']}: *" style="margin-right: 5px;"/>
+			<h:selectOneMenu
+				id="selectElectionGroup"
+				pt:data-aft="selectElectionGroup_#{roleSelectItem.value}"
+				value="#{operatorEditController.electionOptions.selectedElectionGroup}"
+				required="true"
+				converter="#{operatorEditController.electionOptions}">
+				<f:selectItem itemLabel="#{msgs['@common.choose']}"/>
+				<f:selectItems
+					value="#{operatorEditController.electionOptions.electionGroups}"
+					var="electionGroup"
+					itemValue="#{electionGroup}"
+					itemLabel="#{electionGroup.name}"/>
+				<p:ajax event="change" process="@this" update="@(.select-containers)"/>
+			</h:selectOneMenu>
+		</h:panelGroup>
+		<h:panelGroup id="election" layout="block"
+					  rendered="#{operatorEditController.electionOptions.isRenderSelect('ELECTION')}">
+			<h:outputLabel value="#{msgs['@election_level[2].name']}: *" style="margin-right: 5px;"/>
+			<h:selectOneMenu
+				id="selectElection"
+				pt:data-aft="selectElection_#{roleSelectItem.value}"
+				value="#{operatorEditController.electionOptions.selectedElection}"
+				required="true"
+				converter="#{operatorEditController.electionOptions}">
+				<f:selectItem itemLabel="#{msgs['@common.choose']}"/>
+				<f:selectItems
+					value="#{operatorEditController.electionOptions.elections}"
+					var="election"
+					itemValue="#{election}"
+					itemLabel="#{election.name}"/>
+				<p:ajax event="change" process="@this" update="@(.select-containers)"/>
+			</h:selectOneMenu>
+		</h:panelGroup>
+		<h:panelGroup id="contest" layout="block"
+					  rendered="#{operatorEditController.electionOptions.isRenderSelect('CONTEST')}">
+			<h:outputLabel value="#{msgs['@election_level[3].name']}: *" style="margin-right: 5px;"/>
+			<h:selectOneMenu
+				id="selectContest"
+				pt:data-aft="selectContest_#{roleSelectItem.value}"
+				value="#{operatorEditController.electionOptions.selectedContest}"
+				required="true"
+				converter="#{operatorEditController.electionOptions}">
+				<f:selectItem itemLabel="#{msgs['@common.choose']}"/>
+				<f:selectItems
+					value="#{operatorEditController.electionOptions.contests}"
+					var="contest"
+					itemValue="#{contest}"
+					itemLabel="#{contest.name}"/>
+				<p:ajax event="change" process="@this" update="@(.select-containers)"/>
+			</h:selectOneMenu>
+		</h:panelGroup>
+	</h:panelGroup>
+
+</f:view>

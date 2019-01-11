@@ -1,0 +1,63 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.election.election_event.copy_roles"/>
+
+		<ui:define name="content">
+			<div id="page-copy-roles" class="page">
+
+				<h1 class="page-title">#{msgs['@menu.config.copy_roles']}</h1>
+
+				<h:form id="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msg" globalOnly="true"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4 form-group required">
+							<h:outputLabel for="fromSelect" value="#{msgs['@config.copy_roles.from']}:"/>
+							<h:selectOneListbox id="fromSelect"
+												value="#{copyRolesController.fromElectionEventPk}"
+												size="1"
+												required="true">
+								<f:selectItems value="#{copyRolesController.electionEvents}"
+											   var="ee"
+											   itemValue="#{ee.pk}"
+											   itemLabel="#{ee.id} #{ee.name}"/>
+							</h:selectOneListbox>
+						</div>
+						<div class="col-md-4 form-group required">
+							<h:outputLabel value="#{msgs['@config.copy_roles.to']}:"/>
+							<h:selectOneListbox id="toSelect"
+												value="#{copyRolesController.toElectionEventPk}"
+												size="1"
+												required="true">
+								<f:selectItems value="#{copyRolesController.electionEvents}"
+											   var="ee" itemValue="#{ee.pk}"
+											   itemLabel="#{ee.id} #{ee.name}"/>
+							</h:selectOneListbox>
+						</div>
+						<div class="col-md-12 form-actions">
+							<p:commandButton id="copyRolesButton"
+											 ajax="false"
+											 action="#{copyRolesController.copyRoles()}"
+											 value="#{msgs['@config.copy_roles']}"
+											 icon="eva-icon-cog"
+											 styleClass="btn btn-primary"/>
+						</div>
+					</div>
+				</h:form>
+
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

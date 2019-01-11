@@ -1,0 +1,36 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<p:dataTable id="loggOppgjorskjema"
+						 value="#{statisticReportingController.loggForOppgjorsskjema}"
+						 tableStyleClass="table table-striped"
+						 emptyMessage=""
+						 var="valgnattrapport">
+				<p:column>
+					<f:facet name="header">#{msgs['@count.Count']}</f:facet>
+					<h:outputText value="#{msgs['@statistic.corrected.final']}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs['@statistic.column.voteType']}</f:facet>
+					<h:outputText value="#{msgs['@statistic.corrected.all_votes']}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs['@statistic.column.settleMentStatus']}</f:facet>
+					<ui:fragment rendered="#{!valgnattrapport.klarForRapportering}">
+						<h:outputText value="#{msgs['@statistic.corrected.notReady']}"/>
+					</ui:fragment>
+					<ui:fragment rendered="#{valgnattrapport.klarForRapportering}">
+						<h:outputText value="#{msgs['@statistic.corrected.ready.settlement']}"/>
+					</ui:fragment>
+				</p:column>
+				<p:column>
+					<ui:include src="statusColumn.xhtml"/>
+				</p:column>
+			</p:dataTable>
+		</div>
+	</div>
+</f:view>

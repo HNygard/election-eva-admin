@@ -1,0 +1,21 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html">
+
+	<p:confirmDialog
+		message="#{msgs['@rbac.operator.deleteOperatorQuestion']}"
+		header="#{msgs['@common.message.delete.confirm']}" severity="alert"
+		widgetVar="confirmation" modal="true">
+		<p:commandButton value="#{msgs['@common.yes']}" id="YesButton"
+						 action="#{operatorEditController.deleteOperator}"
+						 styleClass="btn btn-danger"
+						 onclick="PF('confirmation').hide();" update=":content"
+						 process="@this"/>
+		<p:commandButton value="#{msgs['@common.no']}" id="NoButton"
+						 styleClass="btn btn-default"
+						 onclick="PF('confirmation').hide();"/>
+	</p:confirmDialog>
+
+
+</f:view>

@@ -1,0 +1,57 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget">
+
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:define name="content">
+			<div id="page-delete-voters" class="page">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@delete.voters.header']}"/>
+				</h1>
+
+				<h:form id="form" name="form">
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:messages id="msgs" globalOnly="true"/>
+						</div>
+					</div>
+
+					<ui:fragment rendered="#{not deleteVotersController.deleted}">
+
+						<div class="row">
+							<div class="col-md-12">
+								<widget:message message="#{msgs.get('@delete.voters.confirmText', deleteVotersController.mvArea)}"/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 form-actions">
+								<p:commandButton value="#{msgs['@common.delete']}"
+												 action="#{deleteVotersController.deleteVoters()}"
+												 update="form"
+												 icon="eva-icon-close"
+												 styleClass="btn btn-danger"/>
+							</div>
+						</div>
+					</ui:fragment>
+
+					<ui:fragment rendered="#{deleteVotersController.deleted}">
+						<div class="row">
+							<div class="col-md-6 form-actions">
+								<a href="deleteVotersBatches.xhtml" class="btn btn-link">#{msgs['@delete.listDeleteVoters.header']}</a>
+							</div>
+						</div>
+					</ui:fragment>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

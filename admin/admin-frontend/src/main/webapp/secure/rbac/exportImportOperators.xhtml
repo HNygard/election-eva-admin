@@ -1,0 +1,98 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		contentType="text/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.rbac"/>
+
+		<ui:define name="content">
+			<div id="page-export-import-operators" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.rbac.import_export']}"/>
+				</h1>
+
+				<div class="row">
+					<div class="col-md-12">
+						<p:messages id="msgs" globalOnly="true"/>
+					</div>
+				</div>
+
+				<h:form id="exportForm">
+					<p:accordionPanel id="exportAccordion" styleClass="ui-accordion-default">
+						<p:tab title="#{msgs['@menu.rbac.export_operators']}">
+							<div class="row">
+								<div class="form-actions col-md-12">
+									<p:commandButton id="exportButton"
+													 pt:data-aft="exportButton"
+													 value="#{msgs['@rbac.export']}"
+													 action="#{exportOperatorsController.export(false)}"
+													 ajax="false"
+													 icon="eva-icon-download"
+													 styleClass="btn btn-primary"/>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-actions col-md-12">
+									<p:accordionPanel id="valgansvarligeAccordion" styleClass="ui-accordion-default">
+										<p:tab title="#{msgs['@menu.rbac.export_valgansvarlig']}">
+											<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+												<p:outputLabel for="format" value="#{msgs['@menu.rbac.export_format']}"/>
+												<p:selectOneMenu id="format" value="#{exportOperatorsController.format}" style="width:75px">
+													<f:selectItem itemLabel="EVA" itemValue="EVA"/>
+													<f:selectItem itemLabel="CIM" itemValue="CIM"/>
+												</p:selectOneMenu>
+											</h:panelGrid>
+											<p:commandButton id="exportButton2"
+															 pt:data-aft="exportButton"
+															 value="#{msgs['@rbac.export_valgansvarlig']}"
+															 action="#{exportOperatorsController.export(true)}"
+															 ajax="false"
+															 icon="eva-icon-download"
+															 styleClass="btn btn-primary"/>
+										</p:tab>
+									</p:accordionPanel>
+								</div>
+							</div>
+
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+
+
+				<h:form id="importForm" enctype="multipart/form-data">
+					<p:accordionPanel id="importAccordion" styleClass="ui-accordion-default">
+						<p:tab title="#{msgs['@menu.rbac.import_operators']}">
+
+							<div>
+								<p:fileUpload
+									id="fileUpload"
+									widgetVar="fileUploadWidget"
+									allowTypes="/(\.|\/)(xls|xlsx)$/"
+									fileUploadListener="#{importOperatorsController.fileUpload}"
+									fileLimit="1"
+									mode="advanced"
+									process="@form"
+									update="msgs"
+									invalidFileMessage="#{msgs.get('@common.import.from.excel.invalid_filetype', 'xls, xlsx')}"
+									oncomplete="EVA.Application.getInstance().hideLoader();PF('fileUploadWidget').uploadedFileCount = 0;"
+									onstart="EVA.Application.getInstance().showLoader()"
+									label="#{msgs['@common.Select.file']}"
+									uploadLabel="#{msgs['@rbac.import']}"
+									fileLimitMessage="#{msgs['@common.upload.fileLimitMessage']}"
+									cancelLabel="#{msgs['@common.upload.cancelLabel']}">
+								</p:fileUpload>
+							</div>
+
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

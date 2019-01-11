@@ -1,0 +1,186 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		contentType="text/html"
+>
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.translation.edit"/>
+
+		<ui:define name="content">
+			<div id="page-translations-edit" class="page">
+
+				<h:form id="translationForm">
+					<div class="row indent"><p:messages/></div>
+
+					<h1 class="page-title">
+						<h:outputText value="#{msgs['@translation.edit.heading']}"/>
+					</h1>
+					<h:panelGroup id="searchPanel">
+						<div class="row extra-margin-bottom">
+							<div class="col-md-3">
+								<h:outputLabel for="selectFromLocale"
+											   value="#{msgs['@translation.edit.choose.fromLanguage']}: "/>
+								<h:selectOneMenu id="selectFromLocale"
+												 value="#{translationsEditController.fromLocale}">
+									<p:ajax update="showTranslations" process="selectFromLocale"
+											event="change"/>
+									<f:selectItem
+										itemLabel="#{msgs['@translation.choose.language']}"/>
+									<f:selectItems value="#{translationsEditController.locales}"
+												   var="from" itemValue="#{from}" itemLabel="#{msgs[from.name]}"/>
+									<f:converter converterId="localeConverter"/>
+								</h:selectOneMenu>
+							</div>
+							<div class="col-md-3">
+								<h:outputLabel for="selectToLocale"
+											   value="#{msgs['@translation.edit.choose.toLanguage']}: "/>
+								<h:selectOneMenu id="selectToLocale"
+												 value="#{translationsEditController.toLocale}">
+									<p:ajax update="showTranslations" process="selectToLocale"
+											event="change"/>
+									<f:selectItem
+										itemLabel="#{msgs['@translation.choose.language']}"/>
+									<f:selectItems value="#{translationsEditController.locales}" var="to"
+												   itemValue="#{to}" itemLabel="#{msgs[to.name]}"/>
+									<f:converter converterId="localeConverter"/>
+								</h:selectOneMenu>
+							</div>
+							<div class="col-md-2">
+								<h:outputLabel for="showOnlyMissingTranslations"
+											   value="#{msgs['@translation.edit.checkbox.showMissing']}: "/>
+								<h:selectBooleanCheckbox id="showOnlyMissingTranslations"
+														 value="#{translationsEditController.showOnlyMissingTranslations}"/>
+							</div>
+							<div class="col-md-2">
+								<p:commandButton styleClass="btn btn-primary"
+												 icon="eva-icon-search"
+												 id="showTranslations"
+												 value="#{msgs['@translation.edit.showTranslations']}"
+												 disabled="#{translationsEditController.fromLocale == null or translationsEditController.toLocale == null}"
+												 action="#{translationsEditController.loadTranslationsTable}"
+												 process="searchPanel filterGrid"
+												 update="translationForm">
+									<f:ajax event="click" render="translationForm"/>
+								</p:commandButton>
+							</div>
+							<div class="col-md-2">
+								<p:commandLink id="showFilter"
+											   action="#{translationsEditController.toggleFilter}"
+											   update="translationForm:filterGrid showFilter"
+											   value="#{translationsEditController.showFilter ? msgs['@translation.edit.hideOptions']: msgs['@translation.edit.showOptions']}"/>
+							</div>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup id="filterGrid">
+						<h:panelGroup rendered="#{translationsEditController.showFilter}">
+							<div class="row extra-margin-bottom">
+								<div class="col-md-6">
+									<h:outputLabel for="filter"
+												   value="#{msgs['@translation.edit.filter']}: "/>
+									<p:inputText id="filter" value="#{translationsEditController.filter}" size="50"/>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel for="filterType"
+												   value="#{msgs['@translation.edit.filterIn']}: "/>
+									<h:selectOneMenu id="filterType"
+													 value="#{translationsEditController.filterType}">
+										<f:selectItem
+											itemLabel="#{msgs['@translation.edit.allFields']}"
+											itemValue="4"/>
+										<f:selectItem
+											itemLabel="#{msgs['@translation.edit.column.header.textId']}"
+											itemValue="0"/>
+										<f:selectItem
+											itemLabel="#{msgs['@translation.edit.column.header.textIdDescription']}"
+											itemValue="1"/>
+										<f:selectItem
+											itemLabel="#{msgs['@translation.edit.choose.fromLanguage']}"
+											itemValue="2"/>
+										<f:selectItem
+											itemLabel="#{msgs['@translation.edit.choose.toLanguage']}"
+											itemValue="3"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</h:panelGroup>
+					</h:panelGroup>
+
+					<p:fragment id="translations" rendered="#{translationsEditController.translations != null}">
+						<p:dataTable tableStyleClass="table table-striped" id="translationTable"
+									 value="#{translationsEditController.translations}" var="translation"
+									 paginator="true" rows="10"
+									 paginatorAlwaysVisible="false"
+									 emptyMessage="#{msgs['@pf.datatable.emptyMsg']}"
+									 loadingMessage="#{msgs['@pf.datatable.loadingMsg']}"
+									 errorMessage="#{msgs['@pf.datatable.errMsg']}"
+									 firstPageLinkLabel="#{msgs['@pf.datatable.first']}"
+									 nextPageLinkLabel="#{msgs['@pf.datatable.next']}"
+									 previousPageLinkLabel="#{msgs['@pf.datatable.prev']}"
+									 lastPageLinkLabel="#{msgs['@pf.datatable.last']}">
+
+							<p:column sortBy="#{translation[0]}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{msgs['@translation.edit.column.header.textId']}"/>
+								</f:facet>
+								<h:outputText value="#{translation[0]}"/>
+							</p:column>
+							<p:column sortBy="#{translation[1]}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{msgs['@translation.edit.column.header.textIdDescription']}"/>
+								</f:facet>
+								<h:inputHidden value="#{translation[0]}"/>
+								<p:inputTextarea value="#{translation[1]}"
+												 valueChangeListener="#{translationsEditController.setTextIdDescription}"
+												 maxlength="32768">
+									<p:ajax update=":translationForm:saveTranslations"/>
+								</p:inputTextarea>
+							</p:column>
+							<p:column sortBy="#{translation[2]}">
+								<f:facet name="header">
+									<h:outputText value="#{msgs[translationsEditController.fromLocale.name]}"/>
+								</f:facet>
+								<h:outputText value="#{translation[2]}"/>
+							</p:column>
+							<p:column sortBy="#{translation[3]}">
+								<f:facet name="header">
+									<h:outputText value="#{msgs[translationsEditController.toLocale.name]}"/>
+								</f:facet>
+								<h:inputHidden value="#{translation[0]}"/>
+								<p:inputTextarea value="#{translation[3]}"
+												 valueChangeListener="#{translationsEditController.setTranslation}"
+												 maxlength="32768">
+									<p:ajax update=":translationForm:saveTranslations"/>
+								</p:inputTextarea>
+							</p:column>
+						</p:dataTable>
+						<div class="row">
+							<div class="col-md-6">
+								<p:commandButton ajax="false" id="exportTranslations"
+												 value="#{msgs['@translation.button.downloadTranslationsFile']}"
+												 action="#{translationsEditController.getTranslationFile}"
+												 icon="eva-icon-download"
+												 styleClass="btn btn-primary"/>
+							</div>
+							<div class="col-md-6">
+								<p:commandButton
+									id="saveTranslations"
+									value="#{translationsEditController.saveButtonText}"
+									action="#{translationsEditController.saveTranslations}"
+									update="@form"
+									process="@form"
+									disabled="#{(translationsEditController.disableSaveButton) ? 'disabled' : ''}"
+									icon="eva-icon-checkmark"
+									styleClass="btn btn-success pull-right"/>
+							</div>
+						</div>
+					</p:fragment>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

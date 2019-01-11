@@ -1,0 +1,40 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-12 center-block">
+					<p class="eva-icon-warning alert alert-warning">
+						<h:outputText value="#{msgs['@listProposal.missing.signatures.info']}"/>
+						<br/>
+						<br/>
+						<em>
+							<strong>
+								<h:outputText value="#{msgs['@listProposal.missing.signatures.info2']}"/>
+							</strong>
+						</em>
+					</p>
+				</div>
+
+				#{p.component('@form')}
+				<div class="form-actions col-md-8">
+
+					<p:commandButton
+						id="setStatusApprovedFromDialog"
+						process="@form"
+						update="@form"
+						value="#{msgs['@listProposal.status.approved']}"
+						action="#{redigerListeforslagController.setStatusApprovedFromDialog}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+					<widget:dialogClose dialog="#{redigerListeforslagController.confirmApproveListProposal}"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</f:view>

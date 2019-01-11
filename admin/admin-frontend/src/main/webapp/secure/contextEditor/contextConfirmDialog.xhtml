@@ -1,0 +1,25 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        contentType="text/html">
+
+    <h:form id="confirmationForm">
+        <!-- Confirmation dialog -->
+        <p:dialog id="confirmDialogElection"
+                  widgetVar="confirmationElectionWidget" fixedCenter="true"
+                  fitViewport="true" modal="true" visible="false" resizable="false"
+                  header="#{msgs['@common.message.delete.confirm']}" severity="alert">
+            <h:outputText
+                    value="#{msgs['@common.message.request.delete']} #{mvElectionPickerController.currentMvElection.name}?"/>
+            <h:panelGrid columns="2" width="250" style="margin-top: 25px; margin-left: 25px">
+                <p:commandButton value="#{msgs['@common.yes']}"
+                                 action="#{mvElectionPickerController.deleteMvElection(mvElectionPickerController.currentMvElection)}"
+                                 oncomplete="PF('confirmationElectionWidget').hide()"/>
+                <p:commandButton value="#{msgs['@common.no']}"
+                                 onclick="PF('confirmationElectionWidget').hide()" type="button"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+</ui:composition>

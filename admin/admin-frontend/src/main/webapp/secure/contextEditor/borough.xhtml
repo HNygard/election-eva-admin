@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                contentType="text/html">
+
+    <h:form id="level4Form" role="form">
+        <ui:param name="helpId" value="@help.area.borough"/>
+
+        <p:dialog
+                id="level2Dialog"
+                header="#{msgs['@common.redact']} #{msgs['@area_level[4].name']}"
+                widgetVar="editAreaLevel4Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="640">
+            <h:panelGroup styleClass="row" layout="block">
+                <div class="col-md-9 center-block">
+                    <p:messages id="msg"/>
+                </div>
+
+
+                <!-- Municipality name -->
+                <h:panelGroup styleClass="form-group col-md-12" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[3].name']}" for="municipalityName"/>
+                    <h:inputText
+                            id="municipalityName"
+                            value="#{boroughController.currentMvArea.municipality.name}"
+                            styleClass="form-control"
+                            readonly="true"
+                            disabled="true"/>
+                </h:panelGroup>
+
+                <!-- boroughId -->
+                <h:panelGroup styleClass="form-group required col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[4].nummer']}" for="boroughId"/>
+                    <h:inputText
+                            id="boroughId"
+                            value="#{boroughController.currentBorough.id}"
+                            required="true"
+                            maxlength="6"
+                            styleClass="form-control"
+                            disabled="#{isElectionEventDisabled or boroughController.readOnly}"/>
+                </h:panelGroup>
+
+                <!-- boroughName -->
+                <h:panelGroup styleClass="form-group required col-md-6" layout="block">
+
+                    <h:outputLabel value="#{msgs['@common.name']}" for="boroughName"/>
+                    <h:inputText
+                            value="#{boroughController.currentBorough.name}"
+                            id="boroughName"
+                            styleClass="form-control"
+                            maxlength="50"
+                            required="true"
+                            disabled="#{isElectionEventDisabled or boroughController.readOnly}"/>
+                </h:panelGroup>
+
+                <!-- Municipality1 -->
+                <h:panelGroup styleClass="form-group required col-md-12" layout="block">
+                    <div class="checkbox">
+                        <h:outputLabel for="currentBoroughMunicipality">
+                            <h:selectBooleanCheckbox
+                                    value="#{boroughController.currentBorough.municipality1}"
+                                    id="currentBoroughMunicipality"
+                                    required="true"
+                                    styleClass="form-control"
+                                    disabled="#{isElectionEventDisabled or boroughController.readOnly}"/>
+                            #{msgs['@area.borough.municipality1']}
+                        </h:outputLabel>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+			
+			<f:facet name="footer">
+				<p:commandButton
+						action="#{boroughController.doUpdateBorough(boroughController.currentBorough)}"
+						id="update"
+						update=":level4Form:msg :hierarchyEditor"
+						oncomplete="editBoroughDialogBox(xhr, status, args)"
+						value="#{msgs['@common.save']}"
+						disabled="#{!userAccess.konfigurasjonGeografi or boroughController.readOnly}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+
+				<p:commandButton
+						id="deleteButton"
+						pt:data-aft="deleteButton"
+						onclick="PF('level4Confirmation').show()"
+						update=":level4DialogForm:dialogMessage"
+						value="#{msgs['@common.delete']}"
+						disabled="#{!boroughController.isCurrentRemovable or !userAccess.konfigurasjonGeografi or boroughController.readOnly}"
+						icon="eva-icon-close"
+						styleClass="btn btn-danger"/>
+
+				<p:commandLink
+						id="backToAreaList"
+						onclick="PF('editAreaLevel4Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+			</f:facet>
+			
+        </p:dialog>
+    </h:form>
+    <h:form id="level4DialogForm" role="form">
+        <p:confirmDialog
+                header="#{msgs['@common.delete']} #{msgs['@area_level[4].name']}"
+                severity="alert"
+                widgetVar="level4Confirmation"
+                modal="true">
+
+            <f:facet name="message">
+                <h:outputText id="dialogMessage" value="#{msgs.get('@common.delete.confirmation', msgs['@area_level[4].name'], boroughController.currentBorough.name)}"/>
+            </f:facet>
+
+            <h:panelGroup styleClass="form-group form-actions col-md-7 center-block" layout="block">
+                <p:commandButton
+                        id="YesButton"
+						pt:data-aft="doDeleteBorough"
+						value="#{msgs['@common.yes']}"
+                        update=":hierarchyEditor"
+                        oncomplete="PF('editAreaLevel4Widget').hide();"
+                        action="#{boroughController.doDeleteBorough(boroughController.currentBorough)}"
+                        styleClass="btn btn-primary"
+                        onclick="PF('level4Confirmation').hide();"/>
+
+                <p:commandLink
+                        value="#{msgs['@common.no']}"
+                        id="NoButton"
+                        styleClass="btn"
+                        onclick="PF('level4Confirmation').hide()"
+                        update="level4DialogForm:NoButton"/>
+            </h:panelGroup>
+
+        </p:confirmDialog>
+    </h:form>
+    <script type="text/javascript">
+        //<![CDATA[
+        function editBoroughDialogBox(xhr, status, args) {
+            if (args.editBoroughHideDialog) {
+                PF('editAreaLevel4Widget').hide();
+            }
+        }
+        //]]>
+    </script>
+</ui:composition>

@@ -1,0 +1,124 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.report_count_category.list"/>
+
+		<ui:define name="content">
+
+			<div id="page-configure-central-count-categories" class="page">
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@election_vote_count_category.list.header']}"/>
+				</h1>
+
+				<ui:fragment rendered="#{electionVoteCountCategoryController.selectedElectionGroup != null}">
+
+					<div class="row">
+						<div class="col-md-12">
+							<widget:pageTitleMetaTemplate models="#{electionVoteCountCategoryController.pageTitleMeta}"/>
+						</div>
+					</div>
+
+					<h:form id="centralCountForm">
+
+						<div class="row">
+							<div class="col-md-12">
+								<p:messages id="msg" showSummary="true"/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<h:selectBooleanCheckbox
+									id="paramRequiredProtocolCount"
+									pt:data-aft="avkrysningsboksUrnetellingSkalUtfores"
+									value="#{electionVoteCountCategoryController.requiredProtocolCount}"
+									label="#{msgs['@report_count_category.municipality.required_protocol_count']}"
+									required="true"
+									disabled="#{!electionVoteCountCategoryController.isEditable()}"/>
+								<h:outputLabel
+									for="paramRequiredProtocolCount"
+									value="#{msgs['@report_count_category.municipality.required_protocol_count']}"/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<!--@elvariable id="cat" type="no.evote.presentation.config.counting.ElectionVoteCountCategoryElement"-->
+								<h3>#{msgs['@election_vote_count_category.list.panelheader.list_election_vote_count_categories']}</h3>
+								<p:dataTable id="CountCategory" var="cat"
+											 value="#{electionVoteCountCategoryController.elements}"
+											 rowStyleClass="category-#{cat.votingCountCategory.id}"
+											 tableStyleClass="table table-striped">
+
+									<!-- Voting count category name -->
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="#{msgs['@report_count_category.voting_count_category']}"/>
+										</f:facet>
+										<h:outputText
+											value="#{msgs[cat.votingCountCategory.name]}"
+											styleClass="#{cat.votingCountCategory.mandatoryCount ? 'semi-required ' : ''}bold left"/>
+										<h:selectOneRadio value="#{cat.countMode}"
+														  required="true" layout="lineDirection" border="0"
+														  id="radioButton"
+														  label="#{msgs[cat.votingCountCategory.name]}"
+														  valueChangeListener="#{cat.changeCountMode}"
+														  disabled="#{!electionVoteCountCategoryController.isEditable()}"
+														  styleClass="ui-radio-group ui-radio-group-inline"
+														  disabledClass="disabled">
+											<f:selectItems value="#{cat.getChoices(electionVoteCountCategoryController.isEditable())}"></f:selectItems>
+										</h:selectOneRadio>
+										<h:message for="radioButton" id="radioButtonError" errorClass="inline-error"/>
+										<div class="checkboxes">
+											<h:selectBooleanCheckbox id="cb_checkBoxEditCategory"
+																	 styleClass="cb_checkBoxEditCategory"
+																	 value="#{cat.electionVoteCountCategory.countCategoryEditable}"/>
+											<h:outputLabel value="#{msgs['@election_vote_count_category.list.editable']}"/>
+											
+											<h:selectBooleanCheckbox id="cb_checkBoxUseInElection"
+																	 styleClass="cb_checkBoxUseInElection"
+																	 value="#{cat.electionVoteCountCategory.countCategoryEnabled}" />
+											<h:outputLabel
+												value="#{msgs['@election_vote_count_category.list.enabled']}"/>
+											
+											<h:selectBooleanCheckbox id="cb_checkBoxUseTechPDCount"
+																	 styleClass="cb_checkBoxUseTechPDCount"
+																	 value="#{cat.electionVoteCountCategory.technicalPollingDistrictCountConfigurable}"/>
+											<h:outputLabel
+												value="#{msgs['@election_vote_count_category.list.technical_polling_district_configurable']}"/>
+										</div>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12 form-actions">
+								<p:commandButton id="save"
+												 rendered="#{electionVoteCountCategoryController.isEditable()}"
+												 action="#{electionVoteCountCategoryController.save}"
+												 value="#{msgs['@common.save']}"
+												 update="@form"
+												 oncomplete="window.scrollTo(0,0);"
+												 styleClass="btn btn-primary"/>
+								<h:outputLink id="backToIndex"
+											  value="/secure/index.xhtml"
+											  rendered="#{electionVoteCountCategoryController.isEditable()}"
+											  styleClass="btn btn-link">
+									<h:outputText value="#{msgs['@common.cancel']}"/>
+								</h:outputLink>
+							</div>
+						</div>
+					</h:form>
+				</ui:fragment>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

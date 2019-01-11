@@ -1,0 +1,79 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+		contentType="text/html">
+	
+	<ui:fragment rendered="#{not empty compareCountsController.currentCountsSelect}">
+		<span class="isCommentRequired" style="display: none">#{compareCountsController.commentRequired}</span>
+		<div class="ui-grid bold">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-7">
+					<h:outputText rendered="#{!compareCountsController.userOnCountyLevel}"
+								  value="#{msgs['@count.ballot.total']} - #{msgs['@count.preliminary_count'].toLowerCase()}"/>
+					<h:outputText rendered="#{compareCountsController.userOnCountyLevel}"
+								  value="#{msgs['@count.ballot.total']} - #{msgs['@count.municipality_count'].toLowerCase()}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{compareCountsController.baseCount.totalBallotCount}"/>
+				</div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-7">
+					<h:outputText rendered="#{!compareCountsController.userOnCountyLevel}"
+								  value="#{msgs['@count.ballot.total']} - #{msgs['@count.final_count'].toLowerCase()}"/>
+					<h:outputText rendered="#{compareCountsController.userOnCountyLevel}"
+								  value="#{msgs['@count.ballot.total']} - #{msgs['@count.final_count_county'].toLowerCase()}"/>
+				</div>
+				<div class="ui-grid-col-1">
+					<h:outputText value="#{compareCountsController.currentCountsSelect.finalCount.totalBallotCount}"/>
+				</div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">#{msgs['@common.comment']}<span class="reminder">(#{compareCountsController.reminderComment})</span></div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">
+					<p:inputTextarea id="comment"
+									 pt:data-aft="dialogComment"
+									 value="#{compareCountsController.currentCountsSelect.finalCount.comment}"
+									 disabled="#{!compareCountsController.countEditableForCurrentCountsSelect}"
+									 style="width:100%"
+									 maxlength="150" />
+				</div>
+			</div>
+			<ui:fragment rendered="#{compareCountsController.commentRequiredForCurrentCountsSelect}">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-12">
+						<h:outputText rendered="#{!compareCountsController.userOnCountyLevel}" 
+									  value="#{msgs['@count.error.validation.missing_comment.final_count']}"
+									  style="color: red"/>
+						<h:outputText rendered="#{compareCountsController.userOnCountyLevel}"
+									  value="#{msgs['@count.error.validation.missing_comment.county_final_count']}" 
+									  style="color: red"/>
+					</div>
+				</div>
+			</ui:fragment>
+		</div>
+
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-12 form-actions form-actions-comment">
+				<p:commandButton id="confirmButton"
+								 pt:data-aft="confirmButton"
+								 action="#{compareCountsController.currentCountsSelect.confirmConfirmApproveCountDialog}"
+								 process="@form"
+								 update="@form"
+								 value="#{msgs['@common.yes']}"
+								 styleClass="btn btn-primary"
+								 icon="eva-icon-checkmark"
+								 onsuccess="window.scrollTo(0,0);"
+								 disabled="#{!compareCountsController.countEditableForCurrentCountsSelect}"/>
+				<p:commandLink action="#{compareCountsController.currentCountsSelect.cancelConfirmApproveCountDialog}"
+							   value="#{msgs['@common.cancel']}"
+							   styleClass="btn btn-link"/>
+			</div>
+		</div>
+	</ui:fragment>
+</f:view>

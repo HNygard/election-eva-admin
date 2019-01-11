@@ -1,0 +1,142 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                contentType="text/html">
+
+    <h:form id="level2Form" role="form">
+        <ui:param name="helpId" value="@help.area.county"/>
+        <p:dialog
+                id="level2Dialog"
+                header="#{msgs['@common.redact']} #{msgs['@area_level[2].name']}"
+                widgetVar="editAreaLevel2Widget"
+                fixedCenter="true"
+                modal="true"
+                visible="false"
+                resizable="false"
+                width="540">
+
+            <h:panelGroup styleClass="row" layout="block">
+
+                <div class="col-md-9 center-block">
+                    <p:messages id="msg"/>
+                </div>
+
+
+                <!-- Country name -->
+                <h:panelGroup styleClass="form-group col-md-12" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[1].name']}" for="countryName"/>
+                    <h:inputText
+                            id="countryName"
+                            value="#{countyController.parentMvArea.country.name}"
+                            readonly="true"
+                            styleClass="form-control"
+                            disabled="true"/>
+                </h:panelGroup>
+
+                <!-- County Id -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                    <h:outputLabel value="#{msgs['@area_level[2].nummer']}" for="countyId"/>
+
+                    <h:inputText
+                            value="#{countyController.currentCounty.id}"
+                            id="countyId"
+                            required="true"
+                            maxlength="2"
+                            label="#{msgs['@area_level[2].nummer']}"
+                            styleClass="form-control"
+                            disabled="#{isElectionEventDisabled or countyController.readOnly}"/>
+                </h:panelGroup>
+
+                <!-- County Name -->
+                <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+
+                    <h:outputLabel value="#{msgs['@common.name']}" for="countyName"/>
+                    <h:inputText
+                            id="countyName"
+                            value="#{countyController.currentCounty.name}"
+                            required="true"
+                            maxlength="50"
+                            label="#{msgs['@common.name']}"
+                            styleClass="form-control"
+                            disabled="#{isElectionEventDisabled or countyController.readOnly}"/>
+
+                </h:panelGroup>
+            </h:panelGroup>
+			
+			<f:facet name="footer">
+				<p:commandButton
+						id="update"
+						action="#{countyController.doUpdateCounty(countyController.currentCounty)}"
+						update=":level2Form:msg :hierarchyEditor"
+						oncomplete="editCountyDialogBox(xhr, status, args)"
+						value="#{msgs['@common.save']}"
+						disabled="#{!userAccess.konfigurasjonGeografi or countyController.readOnly}"
+						icon="eva-icon-checkmark"
+						styleClass="btn btn-primary"/>
+
+				<p:commandButton
+						id="deleteButton"
+						pt:data-aft="deleteButton"
+						onclick="PF('level2Confirmation').show()"
+						update=":level2DialogForm:dialogMessage"
+						value="#{msgs['@common.delete']}"
+						disabled="#{!countyController.isCurrentRemovable or !userAccess.konfigurasjonGeografi or countyController.readOnly}"
+						styleClass="btn btn-danger"/>
+
+				<p:commandLink
+						id="backToAreaList"
+						onclick="PF('editAreaLevel2Widget').hide(); return false;"
+						value="#{msgs['@common.cancel']}"
+						styleClass="btn btn-link"/>
+			</f:facet>
+			
+        </p:dialog>
+    </h:form>
+
+
+    <h:form id="level2DialogForm">
+        <p:confirmDialog
+                header="#{msgs['@common.delete']} #{msgs['@area_level[2].name']}"
+                severity="alert"
+                widgetVar="level2Confirmation"
+                modal="true">
+
+            <f:facet name="message">
+                <h:outputText id="dialogMessage" value="#{msgs.get('@common.delete.confirmation', msgs['@area_level[2].name'], countyController.currentCounty.name)}"/>
+            </f:facet>
+
+            <!-- Command buttons -->
+            <h:panelGroup styleClass="form-group form-actions col-md-7 center-block" layout="block">
+                <p:commandButton id="YesButton"
+								 pt:data-aft="doDeleteCounty"
+								 styleClass="btn btn-primary"
+								 value="#{msgs['@common.yes']}"
+								 update=":hierarchyEditor"
+                                 oncomplete="PF('editAreaLevel2Widget').hide();"
+                                 action="#{countyController.doDeleteCounty(countyController.currentCounty)}"
+                                 onclick="PF('level2Confirmation').hide();"/>
+                <p:commandButton id="NoButton"
+								 styleClass="btn"
+								 value="#{msgs['@common.no']}"
+								 onclick="PF('level2Confirmation').hide()" 
+								 update="level2DialogForm:NoButton"/>
+
+            </h:panelGroup>
+
+        </p:confirmDialog>
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            function editCountyDialogBox(xhr, status, args) {
+
+                if (args.editCountyHideDialog) {
+                    PF('editAreaLevel2Widget').hide();
+                }
+            }
+            /*]]>*/
+        </script>
+    </h:form>
+
+</ui:composition>

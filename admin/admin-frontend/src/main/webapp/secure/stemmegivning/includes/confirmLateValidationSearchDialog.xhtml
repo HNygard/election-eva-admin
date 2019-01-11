@@ -1,0 +1,26 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:fragment rendered="#{forhandSentInnkommetController.showDialog}">
+		<h:form id="form">
+			<p:remoteCommand immediate="true"
+							 name="openDialog"
+							 action="#{forhandSentInnkommetController.openConfirmLateValidationSearchDialog}"
+							 process="@this"
+							 partialSubmit="true"/>
+			<script type="text/javascript">
+				EVA.Application.onViewReady(function () {
+					openDialog();
+				});
+			</script>
+		</h:form>
+	</ui:fragment>
+	<widget:dialog id="#{forhandSentInnkommetController.confirmLateValidationSearchModal.id}"
+				   dialog="#{forhandSentInnkommetController.confirmLateValidationSearchModal}"/>
+
+</f:view>

@@ -1,0 +1,21 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.count"/>
+		<ui:define name="topinfoheader">
+			<h:outputText value="#{msgs['@menu.counting.heading']}"/>
+		</ui:define>
+		<ui:define name="content">
+
+			<h1 class="page-title">
+				<h:outputText value="#{msgs[registrerOpptellingerController.sideTittel]}"/>
+			</h1>
+
+
+		</ui:define>
+	</ui:composition>
+</f:view>

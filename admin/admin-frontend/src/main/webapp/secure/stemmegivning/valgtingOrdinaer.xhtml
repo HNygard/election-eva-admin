@@ -1,0 +1,77 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		xmlns:manntall="http://java.sun.com/jsf/composite/manntall"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:param name="helpId" value="@help.searchElectionDay"/>
+		<ui:define name="breadCrumb">
+			<p:menuitem value="#{msgs['@common.choose']} #{msgs[valgtingOrdinaerController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{valgtingOrdinaerController.initiellKontekstvelgerURL}"
+                        rendered="#{valgtingOrdinaerController.context}"/>
+			<p:menuitem value="#{msgs['@voting.manntallsSok.breadcrumb']}"
+						actionListener="#{valgtingOrdinaerController.manntallsSokVelger(null)}"
+						update="@(.onMainContentUpdate)"
+						rendered="#{valgtingOrdinaerController.harVelger}"/>
+		</ui:define>
+
+		<ui:define name="content">
+			<div class="page" data-view="SearchElectoralRoll">
+
+				<h1 class="page-title"><h:outputText value="#{msgs['@menu.electionDay.register']}"/></h1>
+
+				<widget:pageTitleMetaTemplate models="#{valgtingOrdinaerController.pageTitleMeta}"/>
+
+				<h:panelGroup id="meldinger" layout="block" styleClass="row onMainContentUpdate">
+					<div class="#{valgtingOrdinaerController.harVelger ? 'col-md-offset-2 col-md-8' : 'col-md-12'}" style="margin-top: 0;">
+						<p:messages id="msgs" globalOnly="true" autoUpdate="true"/>
+						<widget:meldinger id="statiskeMeldingerWidget" meldingerWidget="#{valgtingOrdinaerController.statiskeMeldinger}"/>
+					</div>
+				</h:panelGroup>
+
+				<widget:stemmegivningTittel id="stemmegivningTittelForhand"
+											tittel="#{valgtingOrdinaerController.tittel}"
+											velger="#{valgtingOrdinaerController.velger}"
+                />
+
+				<h:panelGroup id="manntallsSokContainer" layout="block" styleClass="onMainContentUpdate">
+					<manntall:manntallsSok id="manntallsSok"
+										   renderLopenummerTab="false"
+										   renderManntallsnummerTab="true"
+										   kommuneListe="#{valgtingOrdinaerController.kommuneListe}"
+										   visIMantallKolonne="true"
+										   rendered="#{not valgtingOrdinaerController.harVelger}"/>
+
+					<widget:stemmegivning id="stemmegivning"
+										  ctrl="#{valgtingOrdinaerController}"
+										  velger="#{valgtingOrdinaerController.velger}"
+										  manntallsnummer="#{valgtingOrdinaerController.manntallsnummer}"
+										  template="stemmegivningValgting.xhtml"
+										  rendered="#{valgtingOrdinaerController.harVelger}"/>
+
+					<ui:fragment rendered="#{valgtingOrdinaerController.voteToOtherMunicipalityConfirmDialog}">
+						<ui:include src="includes/voteToOtherMunicipalityConfirmDialog.xhtml">
+							<ui:param name="ctrl" value="#{valgtingOrdinaerController}"/>
+						</ui:include>
+					</ui:fragment>
+					
+					<h:outputScript>
+						/*<![CDATA[*/
+						EVA.Application.initDontLeaveTheVotingProtocol(
+								'#{valgtingOrdinaerController.harVelger}',
+								'#{valgtingOrdinaerController.kanRegistrereStemmegivning}',
+								'#{msgs["@voting.registration.cancelWarning"]}',
+								'#{msgs["@voting.registration.timeoutWarning"]}'
+						);
+						/*]]>*/
+					</h:outputScript>
+				</h:panelGroup>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,174 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        contentType="text/html">
+
+<h:form id="level3Form" role="form">
+    <ui:param name="helpId" value="@help.area.municipality"/>
+
+    <p:dialog
+            id="level3Dialog"
+            header="#{msgs['@common.redact']} #{msgs['@area_level[3].name']}"
+            widgetVar="editAreaLevel3Widget"
+            fixedCenter="true"
+            modal="true"
+            visible="false"
+            resizable="false"
+            width="640">
+
+        <h:panelGroup styleClass="row" layout="block">
+            <div class="col-md-9 center-block">
+                <p:messages id="msg"/>
+            </div>
+
+            <!-- County -->
+            <h:panelGroup styleClass="form-group col-md-6" layout="block">
+                <h:outputLabel value="#{msgs['@area_level[2].name']}" for="countyName"/>
+                <h:inputText
+                        id="countyName"
+                        value="#{municipalityController.currentCounty.name}"
+                        styleClass="form-control"
+                        readonly="true"
+                        disabled="true"/>
+            </h:panelGroup>
+
+            <!-- Status -->
+            <h:panelGroup styleClass="form-group col-md-6" layout="block">
+                <h:outputLabel value="#{msgs['@common.status']}" for="status"/>
+                <h:inputText
+                        id="status"
+                        styleClass="form-control"
+                        disabled="true"
+                        value="#{msgs[municipalityController.currentMunicipality.municipalityStatus.name]}"/>
+
+            </h:panelGroup>
+
+            <!-- municipalityId -->
+            <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                <h:outputLabel value="#{msgs['@area_level[3].nummer']}" for="municipalityId"/>
+                <h:inputText
+                        value="#{municipalityController.currentMunicipality.id}"
+                        id="municipalityId"
+                        required="true"
+                        maxlength="4"
+                        styleClass="form-control"
+                        disabled="#{isElectionEventDisabled or municipalityController.readOnly}"/>
+            </h:panelGroup>
+
+            <!-- municipality Name -->
+            <h:panelGroup styleClass="required form-group col-md-6" layout="block">
+                <h:outputLabel value="#{msgs['@common.name']}" for="municipalityName"/>
+                <h:inputText
+                        value="#{municipalityController.currentMunicipality.name}"
+                        id="municipalityName"
+                        styleClass="form-control"
+                        maxlength="50"
+                        required="true"
+                        disabled="#{isElectionEventDisabled or municipalityController.readOnly}"/>
+            </h:panelGroup>
+
+            <!-- Electronic or manual voter markoff -->
+            <h:panelGroup styleClass="required form-group col-md-12" layout="block">
+                <!-- Allowed to use technical polling districts -->
+                <div class="checkbox">
+                    <label for="technicalPollingDistrictsAllowed">
+                        <h:selectBooleanCheckbox
+                                id="technicalPollingDistrictsAllowed"
+								pt:data-aft="technicalPollingDistrictsAllowed"
+								value="#{municipalityController.currentMunicipality.technicalPollingDistrictsAllowed}"
+                                styleClass="form-control"
+                                disabled="#{isElectionEventDisabled or municipalityController.readOnly}"/>
+                        #{msgs['@area.municipality.technicalPollingDistrictsAllowed']}
+                    </label>
+                </div>
+				<div class="checkbox">
+					<label for="avkrysningsmanntallKjort">
+						<h:selectBooleanCheckbox
+							value="#{municipalityController.currentMunicipality.avkrysningsmanntallKjort}"
+							id="avkrysningsmanntallKjort"
+							styleClass="form-control"
+							disabled="#{isElectionEventDisabled or municipalityController.readOnly}"/>
+						#{msgs['@area.municipality.avkrysningsmanntallKjort']}
+					</label>
+				</div>
+            </h:panelGroup>
+        </h:panelGroup>
+		
+		<f:facet name="footer">
+			<p:commandButton
+					id="update"
+					pt:data-aft="doUpdateMunicipality"
+					action="#{municipalityController.doUpdateMunicipality(municipalityController.currentMunicipality)}"
+					update=":level3Form:msg :hierarchyEditor"
+					oncomplete="editMunicipalityDialogBox(xhr, status, args)"
+					value="#{msgs['@common.save']}"
+					disabled="#{!userAccess.konfigurasjonGeografi or municipalityController.readOnly}"
+					icon="eva-icon-checkmark"
+					styleClass="btn btn-primary"/>
+
+			<p:commandButton
+					id="deleteButton"
+					pt:data-aft="deleteButton"
+					onclick="PF('level3Confirmation').show()"
+					update=":level3DialogForm:dialogMessage"
+					value="#{msgs['@common.delete']}"
+					disabled="#{!municipalityController.isCurrentRemovable or !userAccess.konfigurasjonGeografi or municipalityController.readOnly}"
+					icon="eva-icon-close"
+					styleClass="btn btn-danger"/>
+
+			<p:commandLink
+					id="backToAreaList"
+					onclick="PF('editAreaLevel3Widget').hide(); return false;"
+					value="#{msgs['@common.cancel']}"
+					styleClass="btn btn-link"/>
+		</f:facet>
+		
+    </p:dialog>
+</h:form>
+
+<h:form id="level3DialogForm">
+    <p:confirmDialog
+            header="#{msgs['@common.delete']} #{msgs['@area_level[3].name']}"
+            severity="alert"
+            widgetVar="level3Confirmation"
+            modal="true">
+
+        <f:facet name="message">
+            <h:outputText
+                    id="dialogMessage"
+                    value="#{msgs.get('@common.delete.confirmation', msgs['@area_level[3].name'], municipalityController.currentMunicipality.name)}"/>
+        </f:facet>
+
+        <h:panelGroup styleClass="form-group form-actions col-md-7 center-block" layout="block">
+            <p:commandButton
+                    id="YesButton"
+					pt:data-aft="doDeleteMunicipality"
+					value="#{msgs['@common.yes']}"
+                    styleClass="btn btn-primary"
+                    update=":hierarchyEditor"
+                    oncomplete="PF('editAreaLevel3Widget').hide();"
+                    action="#{municipalityController.doDeleteMunicipality(municipalityController.currentMunicipality)}"
+                    onclick="PF('level3Confirmation').hide();"/>
+            <p:commandLink
+                    value="#{msgs['@common.no']}"
+                    id="NoButton"
+                    styleClass="btn"
+                    onclick="PF('level3Confirmation').hide()"
+                    update="level3DialogForm:NoButton"/>
+        </h:panelGroup>
+    </p:confirmDialog>
+</h:form>
+<script type="text/javascript">
+    //<![CDATA[
+    function editMunicipalityDialogBox(xhr, status, args) {
+        if (args.editMunicipalityHideDialog) {
+            PF('editAreaLevel3Widget').hide();
+        }
+    }
+    //]]>
+</script>
+</ui:composition>

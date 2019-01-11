@@ -1,0 +1,28 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:widget="http://java.sun.com/jsf/composite/widget"
+		contentType="text/html">
+
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:define name="content">
+			<div class="page" id="page-adresseliste-valgstyrer">
+
+				<h1 class="page-title">
+					<h:outputText value="#{msgs['@menu.config.valgstyrer']}"/>
+				</h1>
+
+				<p:commandButton value="#{msgs['@rapport.lastned']}"
+								 id="asyncDownloadButton"
+								 styleClass="btn btn-primary button_asynch_download_#"
+								 icon="eva-icon-download"
+								 action="#{reportLinksController.selectReportAndOpenParameterDialog(reportLinksController.getValghendelsesRapportById('Adresseliste_valgstyrer'))}"
+								 ajax="true">
+				</p:commandButton>
+				<widget:dialog id="#{reportLinksController.reportParametersDialog.id}" dialog="#{reportLinksController.reportParametersDialog}"/>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

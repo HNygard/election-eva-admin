@@ -1,0 +1,79 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:widget="http://java.sun.com/jsf/composite/widget"
+        xmlns:votingConfirmation="http://java.sun.com/jsf/composite/voting/confirming"
+        xmlns:votingConfirmationDialog="http://java.sun.com/jsf/composite/voting/confirming/dialogs"
+        contentType="text/html"
+>
+
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define name="breadCrumb">
+            <p:menuitem value="#{msgs['@common.choose']} #{msgs[confirmVotingController.kontekstvelgerBrodstiTekst].toLowerCase()}"
+                        url="#{confirmVotingController.initiellKontekstvelgerURL}"
+                        rendered="#{confirmVotingController.context}"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="page onMainContentUpdate" id="page-voting-confirmation" data-view="VotingConfirmation">
+                <p:messages errorClass="errors" layout="table" showDetail="false" globalOnly="true" id="messages"/>
+
+                <h:form id="form" styleClass="votingConfirmationForm">
+                    <votingConfirmation:voterConfirmation rendered="#{confirmVotingController.renderVoterConfirmationComponent}"/>
+
+                    <h:panelGroup id="confirmVotingAccordionPanelGroup" rendered="#{confirmVotingController.renderConfirmVotingAccordion}">
+                        <votingConfirmationDialog:votingSuggestedRejectedDialog/>
+                        <votingConfirmationDialog:votingApprovalDialog/>
+                        <votingConfirmationDialog:votingRejectionDialog/>
+                        <votingConfirmationDialog:approveSuggestedApprovedDialog/>
+                        
+                        <h1 class="page-title">#{msgs['@voting.confirmation.heading']}</h1>
+
+                        <div style="height: 12px;">
+                            <widget:pageTitleMetaTemplate models="#{confirmVotingController.pageTitleMeta}"/>
+                        </div>
+
+                        <p:accordionPanel
+                                id="confirmVotingAccordionPanel"
+                                styleClass="ui-accordion-default ui-accordion-content onStateChanged confirmVotingAccordionPanel"
+                                dynamic="true"
+                                activeIndex="#{confirmVotingController.activeMenuItemIndex}"
+                                value="#{confirmVotingController.menuItems}"
+                                widgetVar="confirmVotingAccordionPanel"
+                                cache="false"
+                                var="menuItem">
+
+                            <p:ajax event="tabChange" listener="#{confirmVotingController.onAccordionChange}"/>
+
+                            <p:tab id="tab"
+                                   titleStyleClass="#{menuItem.backgroundCss}"
+                                   ariaLabel="#{menuItem.id}">
+
+                                <f:facet name="title">
+                                    <h:outputText
+                                            pt:data-aft="#{menuItem.dataAftId}"
+                                            styleClass="menu-item-label"
+                                            value="#{menuItem.menuLabel}"/>
+                                    <h:outputText
+                                            styleClass="h3 #{menuItem.iconCss}"
+                                            rendered="true"/>
+                                </f:facet>
+
+                                <h:panelGroup id="votingConfirmationContentContainer">
+
+                                    <div><p:messages id="main-messages" globalOnly="false" styleClass="msg-error" closable="true"/></div>
+                                    <votingConfirmation:votingConfirmationContent id="votingConfirmationContent"/>
+
+                                </h:panelGroup>
+                            </p:tab>
+                        </p:accordionPanel>
+
+                    </h:panelGroup>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>
