@@ -4,6 +4,10 @@
 - This was downloaded 08.06.2019 from:
 https://www.valg.no/valg-i-norge/valggjennomforing-i-norge/elektronisk-valgadministrasjonssystem/systemdokumentasjon-og-kildekode-i-eva
 
+- EVA Admin 2019 was git sha fd7009b544eecb4ac7789d3be08d985e86bbcc91 "admin-2019.22.7829"
+- This was downloaded 08.06.2019 from:
+https://www.valg.no/valg-i-norge/valggjennomforing-i-norge/elektronisk-valgadministrasjonssystem/systemdokumentasjon-og-kildekode-i-eva
+- Looks like no change at all basically.
 
 # EVA Admin
 
