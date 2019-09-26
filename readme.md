@@ -7,7 +7,12 @@ https://www.valg.no/valg-i-norge/valggjennomforing-i-norge/elektronisk-valgadmin
 - EVA Admin 2019 was git sha fd7009b544eecb4ac7789d3be08d985e86bbcc91 "admin-2019.22.7829"
 - This was downloaded 08.06.2019 from:
 https://www.valg.no/valg-i-norge/valggjennomforing-i-norge/elektronisk-valgadministrasjonssystem/systemdokumentasjon-og-kildekode-i-eva
-- Looks like no change at all basically.
+- Looks like no change at all basically. Adds jackson-jaxrs-json-provider as dependency.
+
+## Findings
+- 'admin-docker' missing
+- 'admin-testing' missing
+- 'admin-other' missing
 
 # EVA Admin
 
@@ -25,9 +30,9 @@ Følgende sider er gode inngangsporter:
 Kodebasen er delt opp i 3 hoveddeler:
 
 * admin - selve admin-applikasjonen
-* admin-docker - docker-oppsett for å enkelt kunne kjøre EVA Admin
-* admin-testing - integrasjonstester og funksjonelle tester
-* admin-other - verktøy og andre ting som ikke faller innenfor de to første kategoriene
+* MISSING FROM RELEASE CODE - admin-docker - docker-oppsett for å enkelt kunne kjøre EVA Admin
+* MISSING FROM RELEASE CODE - admin-testing - integrasjonstester og funksjonelle tester
+* MISSING FROM RELEASE CODE - admin-other - verktøy og andre ting som ikke faller innenfor de to første kategoriene
 
 # Lisens
 
@@ -37,7 +42,7 @@ Kildekoden til EVA Admin er lisensbelagt. Se lisens.md for mer informasjon
 
 EVA Admin bygges med Maven, etter standard konvensjoner.
 
-Merk at Docker-oppsettet håndterer bygging automatisk dersom man bruker dette.
+MISSING FROM RELEASE CODE - Merk at Docker-oppsettet håndterer bygging automatisk dersom man bruker dette.
 
 ## Organisering av Maven-konfigurasjon
 
