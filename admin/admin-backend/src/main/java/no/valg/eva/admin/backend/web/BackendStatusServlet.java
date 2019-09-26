@@ -19,6 +19,10 @@ public class BackendStatusServlet extends EvaAdminServlet {
 
 	private final StatusApplicationService statusApplicationService;
 
+	BackendStatusServlet() {
+		statusApplicationService = null;
+	}
+
 	@Inject
 	public BackendStatusServlet(StatusApplicationService statusApplicationService) {
 		this.statusApplicationService = statusApplicationService;

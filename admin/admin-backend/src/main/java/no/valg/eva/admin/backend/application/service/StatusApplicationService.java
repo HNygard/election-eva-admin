@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import no.evote.util.VersionResourceStreamProvider;
 
+import no.valg.eva.admin.backend.service.impl.DatabaseSchemaCheckerBean;
 import org.apache.log4j.Logger;
 
 public class StatusApplicationService {
@@ -32,9 +33,6 @@ public class StatusApplicationService {
 
 	@Inject
 	private VersionResourceStreamProvider versionResourceStreamProvider;
-
-	@Resource(lookup = "java:/jdbc/evote")
-	private DataSource dataSource;
 	
 	@Deprecated // Use getStatusAndConfiguredVersionProperties() instead
 	public String getStatus() {
@@ -50,7 +48,7 @@ public class StatusApplicationService {
 	}
 
 	private boolean databaseAvailable() {
-		try (Connection conn = dataSource.getConnection(); Statement statement = conn.createStatement()) {
+		try (Connection conn = DatabaseSchemaCheckerBean.evoteDatasource.getConnection(); Statement statement = conn.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(PING_SQL)) {
 				if (resultSet.next()) {
 					return "ping".equals(resultSet.getString(1));
