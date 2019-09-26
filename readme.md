@@ -1,3 +1,10 @@
+# CHANGES TO VALG.NO CODE
+
+- EVA Admin 2017 was git sha a7435cd0be89d03b4940eaf80792eb70dac24f4b "admin-2019.22.7829"
+- This was downloaded 08.06.2019 from:
+https://www.valg.no/valg-i-norge/valggjennomforing-i-norge/elektronisk-valgadministrasjonssystem/systemdokumentasjon-og-kildekode-i-eva
+
+
 # EVA Admin
 
 Dette er kildekoden til EVA Admin - applikasjonen som er "navet" i EVA.
