@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.TypedQuery;
 
 import no.evote.security.UserData;
@@ -9,6 +11,8 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.Country;
 import no.valg.eva.admin.configuration.domain.model.County;
 
+@Default
+@ApplicationScoped
 public class CountryRepository extends BaseRepository {
 	private static final String PARAM_ELECTION_EVENT_PK = "electionEventPk";
 	private static final String ID = "id";

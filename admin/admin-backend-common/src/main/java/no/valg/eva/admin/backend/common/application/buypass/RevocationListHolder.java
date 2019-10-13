@@ -3,6 +3,8 @@ package no.valg.eva.admin.backend.common.application.buypass;
 import java.security.cert.X509CRL;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.security.auth.x500.X500Principal;
 
@@ -13,11 +15,12 @@ import no.valg.eva.admin.backend.common.repository.CertificateRevocationListRepo
  * Original intention was to cache CRLs - this is changed to just proxy the call to the CRL repository too keep it simple in a multiserver environment.
  */
 @ApplicationScoped
+@Default
 public class RevocationListHolder {
 
+	@Inject
 	private CertificateRevocationListRepository certificateRevocationListRepository;
 
-	@Inject
 	public RevocationListHolder(CertificateRevocationListRepository certificateRevocationListRepository) {
 		this.certificateRevocationListRepository = certificateRevocationListRepository;
 	}

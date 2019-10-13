@@ -55,6 +55,8 @@ import no.valg.eva.admin.rbac.repository.RoleRepository;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
@@ -77,6 +79,8 @@ import static no.valg.eva.admin.util.TidtakingUtil.taTiden;
 
 /**
  */
+@Default
+@ApplicationScoped
 public class ElectionEventDomainService {
 
     private static final Logger LOGGER = Logger.getLogger(ElectionEventDomainService.class);

@@ -7,11 +7,14 @@ import no.valg.eva.admin.configuration.domain.service.ScanningConfigDomainServic
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Eksporter_ScanningConfig;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 
+@Default
 @Remote(ScanningConfigService.class)
 @Stateless(name = "ScanningConfigService")
 public class ScanningConfigApplicationService implements ScanningConfigService {

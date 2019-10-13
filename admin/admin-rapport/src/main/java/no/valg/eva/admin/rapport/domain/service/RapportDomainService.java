@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -31,6 +33,8 @@ import no.valg.eva.admin.rapport.repository.ElectionEventReportRepository;
 import no.valg.eva.admin.rapport.repository.ReportRepository;
 import no.valg.eva.admin.settlement.repository.SettlementRepository;
 
+@Default
+@ApplicationScoped
 public class RapportDomainService {
 
     // Injected

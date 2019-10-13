@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -16,6 +18,8 @@ import no.valg.eva.admin.configuration.domain.model.Voter;
 
 import org.joda.time.LocalDate;
 
+@Default
+@ApplicationScoped
 public class EligibilityRepository extends BaseRepository {
 	private static final String ELECTION_GROUP_PK = "electionGroupPk";
 	private static final String MV_AREA_PK = "mvAreaPk";

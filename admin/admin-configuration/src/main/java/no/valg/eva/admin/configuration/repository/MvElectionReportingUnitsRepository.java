@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -12,6 +14,8 @@ import no.valg.eva.admin.configuration.domain.model.MvElection;
 import no.valg.eva.admin.configuration.domain.model.MvElectionReportingUnits;
 import no.valg.eva.admin.configuration.domain.model.ReportingUnitType;
 
+@Default
+@ApplicationScoped
 public class MvElectionReportingUnitsRepository extends BaseRepository {
 	public MvElectionReportingUnitsRepository() {
 	}

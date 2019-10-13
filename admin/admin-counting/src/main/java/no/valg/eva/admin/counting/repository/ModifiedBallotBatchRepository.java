@@ -2,6 +2,8 @@ package no.valg.eva.admin.counting.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 
 import no.evote.security.UserData;
@@ -12,6 +14,8 @@ import no.valg.eva.admin.counting.domain.model.ModifiedBallotBatch;
 import no.valg.eva.admin.counting.domain.model.ModifiedBallotBatchProcess;
 import no.valg.eva.admin.rbac.domain.model.Operator;
 
+@Default
+@ApplicationScoped
 public class ModifiedBallotBatchRepository extends BaseRepository {
 
 	private static final String BALLOT_COUNT_PK = "ballotCountPk";

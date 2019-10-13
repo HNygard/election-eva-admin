@@ -25,6 +25,8 @@ import no.valg.eva.admin.voting.repository.VotingStatisticsSql;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import java.math.BigInteger;
@@ -49,6 +51,8 @@ import static no.valg.eva.admin.util.DateUtil.toDate;
  * "..interceptor class neither annotated @Interceptor nor registered through a portable extension
  */
 @NoArgsConstructor
+@Default
+@ApplicationScoped
 public class DefaultVotingRepository extends BaseRepository implements VotingRepository {
     protected static final String ELECTION_GROUP_PK = "electionGroupPk";
     protected static final String VOTER_PK = "voterPk";

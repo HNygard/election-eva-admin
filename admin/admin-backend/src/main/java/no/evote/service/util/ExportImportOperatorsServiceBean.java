@@ -29,6 +29,8 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,6 +54,8 @@ import static no.valg.eva.admin.common.rbac.OperatorExportFormat.VALGANSVARLIG_E
 import static no.valg.eva.admin.util.ExcelUtil.VALUES_FROM_PAIRS_F;
 
 @Log4j
+@Default
+@ApplicationScoped
 public class ExportImportOperatorsServiceBean {
 
     private static final int EXPORT_HEADER_COLUMNS = 16;
@@ -119,6 +123,10 @@ public class ExportImportOperatorsServiceBean {
     private LocaleTextRepository localeTextRepository;
     @Inject
     private MvAreaRepository mvAreaRepository;
+
+    public ExportImportOperatorsServiceBean() {
+
+    }
 
     private String evaOperators = "select o.operator_id, "
             + "  o.first_name, "

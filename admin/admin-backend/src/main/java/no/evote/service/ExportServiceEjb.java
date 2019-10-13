@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.ElectionLevelEnum;
@@ -24,6 +26,7 @@ import no.valg.eva.admin.common.rbac.Security;
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ExportService")
+@Default
 @Remote(ExportService.class)
 public class ExportServiceEjb implements ExportService {
 	@Inject

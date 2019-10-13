@@ -43,8 +43,12 @@ import no.valg.eva.admin.configuration.repository.ContestRepository;
 import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.counting.domain.service.settlement.CountCategoryDomainService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ReportCountCategoryService")
+
+@Default
 @Remote(ReportCountCategoryService.class)
 public class ReportCountCategoryApplicationService implements ReportCountCategoryService {
 

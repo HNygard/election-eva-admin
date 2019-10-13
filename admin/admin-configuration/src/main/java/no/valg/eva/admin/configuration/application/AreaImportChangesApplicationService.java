@@ -42,8 +42,13 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.PollingDistrictRepository;
 import no.valg.eva.admin.configuration.repository.PollingPlaceRepository;
 import no.valg.eva.admin.configuration.repository.VoterRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "AreaImportChangesService")
+
+
+@Default
 @Remote(AreaImportChangesService.class)
 public class AreaImportChangesApplicationService implements AreaImportChangesService {
 

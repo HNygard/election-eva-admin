@@ -14,8 +14,11 @@ import no.valg.eva.admin.common.counting.service.CountingConfigurationService;
 import no.valg.eva.admin.common.counting.service.configuration.CountingConfiguration;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.service.CountingConfigurationDomainService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "CountingConfigurationService")
+@Default
 @Remote(CountingConfigurationService.class)
 public class CountingConfigurationApplicationService implements CountingConfigurationService {
 	@Inject

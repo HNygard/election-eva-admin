@@ -2,6 +2,9 @@ package no.evote.service.configuration;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -19,6 +22,8 @@ import org.apache.log4j.Logger;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class AffiliationServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(AffiliationServiceBean.class);
 

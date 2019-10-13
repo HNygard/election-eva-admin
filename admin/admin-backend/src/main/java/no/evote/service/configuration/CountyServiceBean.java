@@ -3,6 +3,8 @@ package no.evote.service.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -16,6 +18,8 @@ import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
 
 /**
  */
+@Default
+@ApplicationScoped
 public class CountyServiceBean {
 	@Inject
 	private CountyRepository countyRepository;
@@ -23,6 +27,10 @@ public class CountyServiceBean {
 	private CountryRepository countryRepository;
 	@Inject
 	private MunicipalityRepository municipalityRepository;
+
+	public CountyServiceBean() {
+
+	}
 
 	public County create(UserData userData, County county) {
 		// Set correct countyStatus on new county. Either central or local, based on electionEvent.

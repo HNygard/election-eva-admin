@@ -5,6 +5,8 @@ import static no.valg.eva.admin.common.counting.constants.CountingMode.CENTRAL;
 import static no.valg.eva.admin.common.counting.constants.CountingMode.CENTRAL_AND_BY_POLLING_DISTRICT;
 import static no.valg.eva.admin.common.counting.model.CountCategory.VO;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -22,18 +24,25 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.configuration.repository.ReportCountCategoryRepository;
 
+@Default
+@ApplicationScoped
 public class CountingConfigurationDomainService {
 
+	@Inject
 	private MvAreaRepository mvAreaRepository;
+	@Inject
 	private MvElectionRepository mvElectionRepository;
+	@Inject
 	private ReportCountCategoryRepository reportCountCategoryRepository;
 
-	@Inject
 	public CountingConfigurationDomainService(MvAreaRepository mvAreaRepository, MvElectionRepository mvElectionRepository,
 											  ReportCountCategoryRepository reportCountCategoryRepository) {
 		this.mvAreaRepository = mvAreaRepository;
 		this.mvElectionRepository = mvElectionRepository;
 		this.reportCountCategoryRepository = reportCountCategoryRepository;
+	}
+	public CountingConfigurationDomainService() {
+
 	}
 
 	public CountingConfiguration getCountingConfiguration(CountContext countContext, AreaPath areaPath) {

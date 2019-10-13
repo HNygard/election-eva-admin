@@ -2,6 +2,8 @@ package no.valg.eva.admin.counting.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -12,6 +14,8 @@ import no.valg.eva.admin.counting.domain.model.BallotCount;
 import no.valg.eva.admin.counting.domain.model.ContestReport;
 import no.valg.eva.admin.counting.domain.model.VoteCount;
 
+@Default
+@ApplicationScoped
 public class BallotCountRepository extends BaseRepository {
 	public BallotCountRepository() {
 	}

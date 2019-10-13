@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -20,6 +22,8 @@ import no.valg.eva.admin.settlement.domain.model.AffiliationVoteCount;
 import no.valg.eva.admin.settlement.domain.model.CandidateSeat;
 import no.valg.eva.admin.settlement.domain.model.Settlement;
 
+@Default
+@ApplicationScoped
 public class SettlementRepository extends BaseRepository {
 	private static final String SETTLEMENT_PK_QUERY = "select settlement_pk from admin.settlement where contest_pk = ?1";
 

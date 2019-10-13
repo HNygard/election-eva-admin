@@ -20,9 +20,12 @@ import no.evote.exception.EvoteException;
 @ApplicationScoped
 public class CommitIdProducer {
 	private String commitId;
+	@Inject
 	private VersionResourceStreamProvider versionResourceStreamProvider;
 
-	@Inject
+	public CommitIdProducer() {
+	}
+
 	public CommitIdProducer(VersionResourceStreamProvider versionResourceStreamProvider) {
 		this.versionResourceStreamProvider = versionResourceStreamProvider;
 	}

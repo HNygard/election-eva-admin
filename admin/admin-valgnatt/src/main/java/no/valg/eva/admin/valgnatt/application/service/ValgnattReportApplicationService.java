@@ -56,8 +56,11 @@ import static no.valg.eva.admin.common.rbac.Accesses.Resultat_Konfigurasjon;
 import static no.valg.eva.admin.common.rbac.Accesses.Resultat_Rapporter;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ValgnattReportService")
+@Default
 @Remote(ValgnattReportService.class)
 @NoArgsConstructor
 @Log4j

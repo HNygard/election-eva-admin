@@ -4,6 +4,8 @@ import static java.lang.String.format;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -17,13 +19,21 @@ import no.valg.eva.admin.settlement.domain.builder.SettlementBuilderFactory;
 import no.valg.eva.admin.settlement.domain.model.Settlement;
 import no.valg.eva.admin.settlement.repository.SettlementRepository;
 
+@Default
+@ApplicationScoped
 public class SettlementDomainService {
+	@Inject
 	private ContestReportDomainService contestReportDomainService;
+	@Inject
 	private SettlementRepository settlementRepository;
+	@Inject
 	private VoteCategoryRepository voteCategoryRepository;
+	@Inject
 	private SettlementBuilderFactory settlementBuilderFactory;
 
-	@Inject
+	public SettlementDomainService(){
+
+	}
 	public SettlementDomainService(ContestReportDomainService contestReportDomainService, SettlementRepository settlementRepository,
 			VoteCategoryRepository voteCategoryRepository, SettlementBuilderFactory settlementBuilderFactory) {
 		this.contestReportDomainService = contestReportDomainService;

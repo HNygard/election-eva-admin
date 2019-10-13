@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.exception.ErrorCode;
@@ -63,6 +65,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+@Default
+@ApplicationScoped
 public class LegacyUserDataServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(LegacyUserDataService.class);
 	private static final Integer TOKEN_EXPIRATION_TIME_HOURS = Integer.valueOf(getProperty(EXPORT_TOKEN_EXPIRATION_TIME, "24"));
@@ -93,6 +97,10 @@ public class LegacyUserDataServiceBean {
 	private ContestRepository contestRepository;
 	@Inject
 	private LocaleTextRepository localeTextRepository;
+
+	public LegacyUserDataServiceBean() {
+
+	}
 
 	/**
 	 * Generated a role XML element with information in RBAC linked to the OperatorRole

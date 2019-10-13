@@ -2,16 +2,23 @@ package no.valg.eva.admin.configuration.domain.service;
 
 import java.util.Collection;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.ElectionPath;
 import no.valg.eva.admin.configuration.domain.model.ContestArea;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 
+@Default
+@ApplicationScoped
 public class ContestAreaDomainService {
-	private final MvElectionRepository mvElectionRepository;
-
 	@Inject
+	private MvElectionRepository mvElectionRepository;
+
+	public ContestAreaDomainService() {
+
+	}
 	public ContestAreaDomainService(MvElectionRepository mvElectionRepository) {
 		this.mvElectionRepository = mvElectionRepository;
 	}

@@ -2,6 +2,9 @@ package no.valg.eva.admin.backend.common.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.TypedQuery;
 
 import no.evote.model.Batch;
@@ -9,7 +12,13 @@ import no.evote.model.BatchStatus;
 import no.evote.security.UserData;
 import no.valg.eva.admin.felles.bakgrunnsjobb.domain.model.Jobbkategori;
 
+@Default
+@ApplicationScoped
 public class BatchRepository extends BaseRepository {
+	public BatchRepository() {
+
+	}
+
 	public Batch findByPk(Long pk) {
 		return super.findEntityByPk(Batch.class, pk);
 	}

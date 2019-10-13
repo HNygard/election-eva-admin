@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -34,16 +36,27 @@ import no.valg.eva.admin.valgnatt.domain.service.resultat.RapporteringsområdeDo
 import no.valg.eva.admin.valgnatt.domain.service.resultat.statistikk.ValgnattstatistikkDomainService;
 import no.valg.eva.admin.valgnatt.domain.service.resultat.stemmetall.StemmetallDomainService;
 
+@Default
+@ApplicationScoped
 public class StemmeskjemaDomainService {
 
+	@Inject
 	private ContestReportRepository contestReportRepository;
+	@Inject
 	private MvAreaRepository mvAreaRepository;
+	@Inject
 	private StemmetallDomainService stemmetallDS;
+	@Inject
 	private RapporteringsområdeDomainService rapporteringsområdeDS;
+	@Inject
 	private ValgnattstatistikkDomainService valgnattstatistikkDS;
+	@Inject
 	private VoteCountService voteCountService;
 
-	@Inject
+	public StemmeskjemaDomainService() {
+
+	}
+
 	public StemmeskjemaDomainService(ContestReportRepository contestReportRepository,
 									 MvAreaRepository mvAreaRepository,
 									 StemmetallDomainService stemmetallDS,

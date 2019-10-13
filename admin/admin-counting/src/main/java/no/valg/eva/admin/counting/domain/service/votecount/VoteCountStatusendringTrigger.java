@@ -1,6 +1,8 @@
 package no.valg.eva.admin.counting.domain.service.votecount;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.constants.ReportingUnitTypeId;
@@ -14,12 +16,18 @@ import no.valg.eva.admin.counting.domain.event.TellingEndrerStatus;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class VoteCountStatusendringTrigger {
 
 	private static final Logger LOGGER = Logger.getLogger(VoteCountStatusendringTrigger.class);
+	@Inject
 	private Event<TellingEndrerStatus> tellingEndrerStatusEvent;
 
-	@Inject
+	public VoteCountStatusendringTrigger() {
+
+	}
+
 	public VoteCountStatusendringTrigger(Event<TellingEndrerStatus> tellingEndrerStatusEvent) {
 		this.tellingEndrerStatusEvent = tellingEndrerStatusEvent;
 	}

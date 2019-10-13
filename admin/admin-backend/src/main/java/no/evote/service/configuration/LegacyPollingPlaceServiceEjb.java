@@ -26,11 +26,15 @@ import static no.valg.eva.admin.common.rbac.Accesses.Aggregert_Stemmegiving;
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Geografi;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "LegacyPollingPlaceService")
+
+
+@Default
 @Remote(LegacyPollingPlaceService.class)
 public class LegacyPollingPlaceServiceEjb implements LegacyPollingPlaceService {
 	@Inject

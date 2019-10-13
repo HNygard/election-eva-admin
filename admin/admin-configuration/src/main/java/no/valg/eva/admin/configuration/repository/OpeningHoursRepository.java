@@ -4,10 +4,14 @@ import no.evote.security.UserData;
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.OpeningHours;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class OpeningHoursRepository extends BaseRepository {
     public OpeningHoursRepository() {
     }

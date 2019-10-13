@@ -4,6 +4,8 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -15,12 +17,19 @@ import no.valg.eva.admin.settlement.domain.model.Settlement;
 import no.valg.eva.admin.settlement.repository.LevelingSeatSettlementRepository;
 import no.valg.eva.admin.settlement.repository.SettlementRepository;
 
+@Default
+@ApplicationScoped
 public class LevelingSeatSettlementDomainService {
+	@Inject
 	private LevelingSeatSettlementBuilderFactory levelingSeatSettlementBuilderFactory;
+	@Inject
 	private SettlementRepository settlementRepository;
+	@Inject
 	private LevelingSeatSettlementRepository levelingSeatSettlementRepository;
 
-	@Inject
+	public LevelingSeatSettlementDomainService() {
+
+	}
 	public LevelingSeatSettlementDomainService(
 			LevelingSeatSettlementBuilderFactory levelingSeatSettlementBuilderFactory, SettlementRepository settlementRepository,
 			LevelingSeatSettlementRepository levelingSeatSettlementRepository) {

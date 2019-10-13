@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.AccessCache;
@@ -17,9 +19,12 @@ import no.valg.eva.admin.common.rbac.Access;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.common.rbac.SecurityNone;
 import no.valg.eva.admin.common.rbac.service.AccessService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "AccessService")
 @Remote(AccessService.class)
+@Default
 public class AccessServiceEjb implements AccessService {
 	@Inject
 	private AccessServiceBean accessService;

@@ -10,19 +10,21 @@ import no.valg.eva.admin.common.rbac.SecurityNone;
 import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 /**
  * Helper class for getting election info related to elections with borough level
  */
+@Default
+@ApplicationScoped
 public class BoroughElectionDomainService {
 
+    @Inject
     private MvElectionRepository mvElectionRepository;
 
-
-    @Inject
-    public BoroughElectionDomainService(MvElectionRepository mvElectionRepository) {
-        this.mvElectionRepository = mvElectionRepository;
+    public BoroughElectionDomainService() {
     }
 
     /**

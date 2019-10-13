@@ -8,12 +8,17 @@ import no.valg.eva.admin.configuration.domain.model.Country;
 import no.valg.eva.admin.configuration.domain.model.County;
 import no.valg.eva.admin.configuration.domain.model.CountyStatus;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@NoArgsConstructor
+
+@ApplicationScoped
+@Default
 public class CountyRepository extends BaseRepository {
 	private static final String PARAM_COUNTRY_PK = "countryPk";
     private static final String PARAM_MUNICIPALITY_PK = "municipalityPk";
@@ -22,6 +27,10 @@ public class CountyRepository extends BaseRepository {
 
 	public CountyRepository(EntityManager entityManager) {
 		super(entityManager);
+	}
+
+	public CountyRepository() {
+
 	}
 	
 	public County create(UserData userData, County county) {

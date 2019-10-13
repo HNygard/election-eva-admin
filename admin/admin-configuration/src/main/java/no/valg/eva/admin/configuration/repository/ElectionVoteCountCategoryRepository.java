@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -15,6 +17,8 @@ import no.valg.eva.admin.common.counting.model.CountCategory;
 import no.valg.eva.admin.configuration.domain.model.ElectionGroup;
 import no.valg.eva.admin.configuration.domain.model.ElectionVoteCountCategory;
 
+@Default
+@ApplicationScoped
 public class ElectionVoteCountCategoryRepository extends BaseRepository {
 	public ElectionVoteCountCategoryRepository() {
 	}

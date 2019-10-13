@@ -5,6 +5,8 @@ import static no.evote.constants.AreaLevelEnum.MUNICIPALITY;
 import static no.evote.constants.AreaLevelEnum.POLLING_DISTRICT;
 import static no.evote.constants.AreaLevelEnum.POLLING_PLACE;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -18,14 +20,20 @@ import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class ReduserOpptellingerDomainService {
 
 	private static final Logger LOGGER = Logger.getLogger(ReduserOpptellingerDomainService.class);
 
+	@Inject
 	private ReduserGeografiDomainService reduserGeografiDomainService;
+	@Inject
 	private OpptellingDomainService opptellingDomainService;
 
-	@Inject
+	public ReduserOpptellingerDomainService() {
+
+	}
 	public ReduserOpptellingerDomainService(ReduserGeografiDomainService reduserGeografiDomainService, OpptellingDomainService opptellingDomainService) {
 		this.reduserGeografiDomainService = reduserGeografiDomainService;
 		this.opptellingDomainService = opptellingDomainService;

@@ -23,6 +23,9 @@ import no.valg.eva.admin.rbac.repository.OperatorRoleRepository;
 import no.valg.eva.admin.rbac.repository.RoleRepository;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,8 @@ import static no.valg.eva.admin.configuration.domain.model.ResponsibilityConflic
 import static no.valg.eva.admin.configuration.domain.model.ResponsibilityConflictType.ROLE_POLLING_PLACE;
 import static no.valg.eva.admin.util.StringUtil.joinOnlyNonNullAndNonEmpty;
 
+@Default
+@ApplicationScoped
 public class ResponsibilityValidationDomainService {
 
     @Inject
@@ -54,6 +59,10 @@ public class ResponsibilityValidationDomainService {
     private OperatorRoleRepository operatorRoleRepository;
     @Inject
     private RoleRepository roleRepository;
+
+    public ResponsibilityValidationDomainService() {
+
+    }
 
     public List<ResponsibilityConflict> checkIfCandidateHasBoardMemberOrRoleConflict(Candidate candidate, Affiliation affiliation) {
         List<ResponsibilityConflict> conflicts = new ArrayList<>();

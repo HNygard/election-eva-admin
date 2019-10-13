@@ -25,11 +25,15 @@ import no.valg.eva.admin.common.auditlog.auditevents.BoroughAuditEvent;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.Borough;
 import no.valg.eva.admin.configuration.repository.BoroughRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "BoroughService")
+
+
+@Default
 @Remote(BoroughService.class)
 public class BoroughServiceEjb implements BoroughService {
 	@Inject

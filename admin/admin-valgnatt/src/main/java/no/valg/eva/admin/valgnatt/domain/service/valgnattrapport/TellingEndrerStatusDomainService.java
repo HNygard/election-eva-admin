@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.event.Observes;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.model.CountCategory;
@@ -35,6 +37,8 @@ import org.apache.log4j.Logger;
  * Håndter oppdaterting av korresponderende Valgnattrapport når en telling blir godkjent.
  */
 @SuppressWarnings("unused")
+@Default
+@ApplicationScoped
 public class TellingEndrerStatusDomainService {
 
 	private static final Logger LOGGER = Logger.getLogger(TellingEndrerStatusDomainService.class);

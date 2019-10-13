@@ -21,9 +21,14 @@ import no.valg.eva.admin.counting.repository.VotingRepository;
 
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
 /**
  * Domain service for handling vote counts of type protocol count (urnetellinger).
  */
+@Default
+@ApplicationScoped
 public class ProtocolCountService extends BaseCountService {
 
 	public ProtocolCountService(ReportingUnitRepository reportingUnitRepository, ReportCountCategoryRepository reportCountCategoryRepository,

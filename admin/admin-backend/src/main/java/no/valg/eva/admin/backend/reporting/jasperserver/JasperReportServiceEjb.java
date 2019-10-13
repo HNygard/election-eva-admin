@@ -22,8 +22,13 @@ import no.valg.eva.admin.common.reporting.model.ReportParameter;
 import no.valg.eva.admin.common.reporting.model.ReportTemplate;
 import no.valg.eva.admin.common.reporting.model.SelectableReportParameterValue;
 import no.valg.eva.admin.common.reporting.service.JasperReportService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "JasperReportService")
+
+
+@Default
 @Remote(JasperReportService.class)
 public class JasperReportServiceEjb implements JasperReportService {
 	@Inject

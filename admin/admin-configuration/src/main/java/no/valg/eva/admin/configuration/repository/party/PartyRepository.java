@@ -8,12 +8,17 @@ import no.valg.eva.admin.common.ElectionPath;
 import no.valg.eva.admin.configuration.domain.model.Contest;
 import no.valg.eva.admin.configuration.domain.model.Party;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Default
+@ApplicationScoped
 public class PartyRepository extends BaseRepository {
 	protected static final String ELECTION_EVENT_PK = "electionEventPk";
 

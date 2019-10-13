@@ -1,10 +1,14 @@
 package no.valg.eva.admin.backend.common.repository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 
 import no.evote.model.BaseEntity;
 import no.evote.security.UserData;
 
+@Default
+@ApplicationScoped
 public class GenericRepository extends BaseRepository {
 	public GenericRepository() {
 	}

@@ -15,8 +15,13 @@ import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 import no.valg.eva.admin.felles.valggeografi.model.Fylkeskommune;
 import no.valg.eva.admin.felles.valggeografi.model.Kommune;
 import no.valg.eva.admin.felles.valggeografi.service.ValggeografiService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "LagNyttValgkortValggeografiService")
+
+
+@Default
 @Remote(ValggeografiService.class)
 public class LagNyttValgkortValggeografiApplicationService extends ValggeografiApplicationService implements ValggeografiService {
 	@Inject

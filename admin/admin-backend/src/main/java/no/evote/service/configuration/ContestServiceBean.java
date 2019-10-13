@@ -2,6 +2,8 @@ package no.evote.service.configuration;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.TransactionSynchronizationRegistry;
 
@@ -33,6 +35,8 @@ import no.valg.eva.admin.configuration.repository.party.PartyRepository;
 
 import org.apache.commons.lang3.StringUtils;
 
+@Default
+@ApplicationScoped
 public class ContestServiceBean {
 
 	@Inject
@@ -55,6 +59,10 @@ public class ContestServiceBean {
 	private PartyRepository partyRepository;
 	@Inject
 	private PartyCategoryRepository partyCategoryRepository;
+
+	public ContestServiceBean() {
+
+	}
 
 	public Contest create(UserData userData, Contest contest, MvArea area) {
 		return create(userData, contest, area, false, false);

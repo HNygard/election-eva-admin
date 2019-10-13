@@ -3,6 +3,9 @@ package no.valg.eva.admin.backend.common.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -13,6 +16,8 @@ import no.evote.security.UserData;
 import no.valg.eva.admin.common.configuration.model.SigningKeyData;
 import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 
+@Default
+@ApplicationScoped
 public class SigningKeyRepository extends BaseRepository {
 	public SigningKeyRepository() {
 	}

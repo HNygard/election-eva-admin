@@ -1,5 +1,7 @@
 package no.valg.eva.admin.configuration.application;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -10,12 +12,19 @@ import no.valg.eva.admin.common.configuration.status.ContestStatus;
 import no.valg.eva.admin.configuration.domain.model.Contest;
 import no.valg.eva.admin.counting.repository.ContestReportRepository;
 
+@Default
+@ApplicationScoped
 public class ContestMapper {
 
+	@Inject
 	private ElectionMapper electionMapper;
+	@Inject
 	private ContestReportRepository contestReportRepository;
 
-	@Inject
+	public ContestMapper() {
+
+	}
+
 	public ContestMapper(ContestReportRepository contestReportRepository, ElectionMapper electionMapper) {
 		this.contestReportRepository = contestReportRepository;
 		this.electionMapper = electionMapper;

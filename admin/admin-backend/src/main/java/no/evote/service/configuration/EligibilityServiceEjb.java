@@ -15,11 +15,16 @@ import no.evote.service.EligibilityService;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.Voter;
 import no.valg.eva.admin.configuration.repository.EligibilityRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "EligibilityService")
+
+
+@Default
 @Remote(EligibilityService.class)
 public class EligibilityServiceEjb implements EligibilityService {
 	@Inject

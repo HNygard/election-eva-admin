@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
@@ -21,6 +23,8 @@ import org.joda.time.DateTime;
 /**
  * Note: This class is currently located in the counting module. We should consider moving it to the voting module in the future
  */
+@Default
+@ApplicationScoped
 public class VotingRepository extends BaseRepository {
 
 	private static final String VOTING_CATEGORY_IDS = "votingCategoryIds";

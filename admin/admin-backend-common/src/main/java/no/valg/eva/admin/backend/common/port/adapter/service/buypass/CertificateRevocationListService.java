@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.security.auth.x500.X500Principal;
 
@@ -25,6 +27,8 @@ import org.apache.log4j.Logger;
 /**
  * Reads and verifies Certificate Revocation Lists (CRL) from Buypass for Class 3 CA 1 and CA 3.
  */
+@Default
+@ApplicationScoped
 public class CertificateRevocationListService {
 	private static final Logger LOGGER = Logger.getLogger(CertificateRevocationListService.class);
 
@@ -41,11 +45,13 @@ public class CertificateRevocationListService {
 
 	/* Buypass CA Issuer Certificates */
 	private final Map<X500Principal, X509Certificate> principalCaIssuerCertificateMap = new HashMap<>();
-	private final CertificateService certificateService;
-
 	@Inject
+	private CertificateService certificateService;
+
 	public CertificateRevocationListService(CertificateService certificateService) {
 		this.certificateService = certificateService;
+	}
+	public CertificateRevocationListService() {
 	}
 
 	@PostConstruct

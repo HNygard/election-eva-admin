@@ -9,6 +9,8 @@ import static no.valg.eva.admin.common.counting.constants.ReportingUnitTypeId.OP
 import static no.valg.eva.admin.common.counting.constants.ReportingUnitTypeId.STEMMESTYRET;
 import static no.valg.eva.admin.common.counting.constants.ReportingUnitTypeId.VALGSTYRET;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -23,13 +25,18 @@ import no.valg.eva.admin.configuration.repository.ReportingUnitRepository;
 /**
  * Contains domain logic related to reporting units for areas and count configurations.
  */
+@Default
+@ApplicationScoped
 public class ReportingUnitDomainService {
 
+	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
 
-	@Inject
 	public ReportingUnitDomainService(ReportingUnitRepository reportingUnitRepository) {
 		this.reportingUnitRepository = reportingUnitRepository;
+	}
+	public ReportingUnitDomainService() {
+
 	}
 
 	public ReportingUnit reportingUnitForCountyFinalCount(AreaPath operatorAreaPath, AreaPath countingAreaPath, MvElection mvElectionContest) {

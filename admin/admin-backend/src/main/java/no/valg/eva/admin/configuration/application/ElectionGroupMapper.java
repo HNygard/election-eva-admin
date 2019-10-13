@@ -6,15 +6,21 @@ import no.valg.eva.admin.common.configuration.model.election.ElectionGroup;
 import no.valg.eva.admin.common.counting.model.configuration.ElectionRef;
 import no.valg.eva.admin.configuration.domain.model.MvElection;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
-@NoArgsConstructor // For testing
+@Default
+@ApplicationScoped
 public class ElectionGroupMapper {
 
 	@Inject
 	private ElectionEventRepository electionEventRepository;
 
-	@Inject
+	public ElectionGroupMapper() {
+
+	}
+
 	public ElectionGroupMapper(ElectionEventRepository electionEventRepository) {
 		this.electionEventRepository = electionEventRepository;
 	}

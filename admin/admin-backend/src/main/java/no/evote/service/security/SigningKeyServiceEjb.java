@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import javax.ejb.Remote;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.model.KeyDomain;
@@ -27,6 +29,7 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "SigningKeyService")
+@Default
 @Remote(SigningKeyService.class)
 public class SigningKeyServiceEjb implements SigningKeyService {
 	@Inject

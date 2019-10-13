@@ -37,19 +37,31 @@ import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
 import no.valg.eva.admin.configuration.repository.PollingDistrictRepository;
 import no.valg.eva.admin.configuration.repository.ReportingUnitRepository;
 import no.valg.eva.admin.configuration.repository.ResponsibleOfficerRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "PollingDistrictService")
+
+
+@Default
 @Remote(PollingDistrictService.class)
 public class PollingDistrictApplicationService implements PollingDistrictService {
 
 	// Injected
+	@Inject
 	private MunicipalityRepository municipalityRepository;
+	@Inject
 	private ResponsibleOfficerRepository responsibleOfficerRepository;
+	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
+	@Inject
 	private PollingDistrictServiceBean pollingDistrictService;
+	@Inject
 	private PollingDistrictRepository pollingDistrictRepository;
 
-	@Inject
+	public PollingDistrictApplicationService() {
+
+	}
 	public PollingDistrictApplicationService(MunicipalityRepository municipalityRepository,
 			ResponsibleOfficerRepository responsibleOfficerRepository, ReportingUnitRepository reportingUnitRepository,
 			PollingDistrictServiceBean pollingDistrictService, PollingDistrictRepository pollingDistrictRepository) {

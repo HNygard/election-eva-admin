@@ -32,11 +32,16 @@ import no.valg.eva.admin.felles.sti.valghierarki.ValgdistriktSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 
 import com.google.common.base.Function;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "MvAreaService")
+
+
+@Default
 @Remote(MvAreaService.class)
 public class MvAreaServiceEjb implements MvAreaService {
 	public static final Function<MvArea, AreaPath> AREA_PATH_FUNCTION = new Function<MvArea, AreaPath>() {

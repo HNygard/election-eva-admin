@@ -35,6 +35,8 @@ import no.valg.eva.admin.voting.repository.VotingRepository;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -69,20 +71,31 @@ import static no.valg.eva.admin.voting.domain.model.VelgerMeldingType.VELGER_KAN
 import static no.valg.eva.admin.voting.domain.model.VelgerMeldingType.VELGER_KAN_STEMME_I_KONVOLUTT_FORHAND_URNE;
 import static org.joda.time.DateTime.now;
 
+@Default
+@ApplicationScoped
 public class VotingServiceBean {
     private static final String F0_INCORRECTLY_REGISTERED_VOTE = "F0";
     private static final String V0_INCORRECTLY_REGISTERED_VOTE = "V0";
     private static final int INDEKS_FOR_SENT_INNKOMMENDE = 3;
 
+    @Inject
     private MvAreaServiceBean mvAreaService;
+    @Inject
     private PollingDistrictRepository pollingDistrictRepository;
+    @Inject
     private VotingRepository votingRepository;
+    @Inject
     private PollingPlaceRepository pollingPlaceRepository;
+    @Inject
     private VoterRepository voterRepository;
+    @Inject
     private EligibilityRepository eligibilityRepository;
+    @Inject
     private MvElectionRepository mvElectionRepository;
 
-    @Inject
+    public VotingServiceBean() {
+
+    }
     public VotingServiceBean(MvAreaServiceBean mvAreaService,
             PollingDistrictRepository pollingDistrictRepository,
             PollingPlaceRepository pollingPlaceRepository,

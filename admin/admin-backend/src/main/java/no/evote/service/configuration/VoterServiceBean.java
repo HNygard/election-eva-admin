@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.EvoteConstants;
@@ -40,6 +42,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+@Default
+@ApplicationScoped
 public class VoterServiceBean {
 	private static final String ID_UNKNOWN = "???";
 	private static final Logger LOGGER = Logger.getLogger(VoterServiceBean.class);
@@ -62,6 +66,10 @@ public class VoterServiceBean {
 	private MvAreaRepository mvAreaRepository;
 	@Inject
 	private PollingPlaceRepository pollingPlaceRepository;
+
+	public VoterServiceBean() {
+
+	}
 
 	public Voter updateWithManualData(UserData userData, Voter updatedVoter) {
 		Voter oldVoter = voterRepository.findByPk(updatedVoter.getPk());

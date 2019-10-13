@@ -17,6 +17,8 @@ import no.valg.eva.admin.configuration.repository.CountryRepository;
 import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
 import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,8 @@ import java.util.Optional;
 import static no.evote.constants.AreaLevelEnum.MUNICIPALITY;
 import static no.valg.eva.admin.configuration.application.OpeningHoursSorter.toSortedMunicipalityOpeningHourList;
 
+@Default
+@ApplicationScoped
 public class MunicipalityDomainService {
 
     private static final int MAX_NUMBER_OF_OPENING_HOURS = 2;

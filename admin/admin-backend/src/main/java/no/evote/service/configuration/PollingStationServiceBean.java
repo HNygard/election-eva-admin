@@ -3,6 +3,8 @@ package no.evote.service.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.EvoteConstants;
@@ -16,11 +18,17 @@ import no.valg.eva.admin.configuration.domain.model.manntall.papir.Rodefordeler;
 import no.valg.eva.admin.configuration.repository.PollingPlaceRepository;
 import no.valg.eva.admin.configuration.repository.PollingStationRepository;
 
+@Default
+@ApplicationScoped
 public class PollingStationServiceBean {
 	@Inject
 	private PollingStationRepository pollingStationRepository;
 	@Inject
 	private PollingPlaceRepository pollingPlaceRepository;
+
+	public PollingStationServiceBean() {
+
+	}
 
 	/**
 	 * Calculates the number of voters and division characters on each polling station based on the number of polling stations

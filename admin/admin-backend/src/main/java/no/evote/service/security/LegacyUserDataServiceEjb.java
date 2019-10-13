@@ -11,6 +11,8 @@ import no.valg.eva.admin.rbac.service.AccessServiceBean;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.net.InetAddress;
 
@@ -21,6 +23,7 @@ import static no.valg.eva.admin.common.rbac.SecurityType.READ;
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "LegacyUserDataService")
+@Default
 @Remote(LegacyUserDataService.class)
 public class LegacyUserDataServiceEjb implements LegacyUserDataService {
 	@Inject

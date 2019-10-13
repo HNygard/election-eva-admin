@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.event.Observes;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -23,6 +25,8 @@ import no.valg.eva.admin.valgnatt.repository.ValgnattrapportRepository;
 /**
  * Håndter oppdatering av korresponderende oppgjørsrapport når et oppgjør blir slettet.
  */
+@Default
+@ApplicationScoped
 public class OppgjorEndrerStatusDomainService {
 
 	private MvElectionRepository mvElectionRepository;

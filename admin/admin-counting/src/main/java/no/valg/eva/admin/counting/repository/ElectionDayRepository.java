@@ -4,11 +4,15 @@ import lombok.NoArgsConstructor;
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.ElectionDay;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
 @NoArgsConstructor
+@Default
+@ApplicationScoped
 public class ElectionDayRepository extends BaseRepository {
 
     ElectionDayRepository(final EntityManager entityManager) {

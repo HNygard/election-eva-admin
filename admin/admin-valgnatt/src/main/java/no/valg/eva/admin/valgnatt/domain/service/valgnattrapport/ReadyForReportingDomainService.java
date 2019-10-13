@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.constants.CountingMode;
@@ -36,13 +38,21 @@ import no.valg.eva.admin.valgnatt.domain.service.resultat.RapporteringsområdeDo
 /**
  * Finner tellekategorier som er klare for rapportering.
  */
+@Default
+@ApplicationScoped
 public class ReadyForReportingDomainService {
 
+	@Inject
 	private ContestReportRepository contestReportRepository;
+	@Inject
 	private VoteCountService voteCountService;
+	@Inject
 	private RapporteringsområdeDomainService rapporteringsomraadeDomainService;
 
-	@Inject
+	public ReadyForReportingDomainService() {
+
+	}
+
 	public ReadyForReportingDomainService(ContestReportRepository contestReportRepository, VoteCountService voteCountService,
 			RapporteringsområdeDomainService rapporteringsomraadeDomainService) {
 		this.contestReportRepository = contestReportRepository;

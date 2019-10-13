@@ -22,11 +22,16 @@ import no.valg.eva.admin.common.auditlog.auditevents.CountryAuditEvent;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.Country;
 import no.valg.eva.admin.configuration.repository.CountryRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "CountryService")
+
+
+@Default
 @Remote(CountryService.class)
 public class CountryServiceEjb implements CountryService {
 	@Inject

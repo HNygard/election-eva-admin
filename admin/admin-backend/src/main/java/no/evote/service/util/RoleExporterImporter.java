@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.EvoteConstants;
@@ -29,6 +31,8 @@ import no.valg.eva.admin.rbac.repository.RoleRepository;
 
 import org.apache.commons.lang3.text.StrTokenizer;
 
+@Default
+@ApplicationScoped
 public class RoleExporterImporter {
 
 	@Inject
@@ -37,6 +41,10 @@ public class RoleExporterImporter {
 	private MvAreaRepository mvAreaRepository;
 	@Inject
 	private RoleRepository roleRepository;
+
+	public RoleExporterImporter() {
+
+	}
 
 	/**
 	 * Export the given roles to CSV format. Can optionally exclude default roles.

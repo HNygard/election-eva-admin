@@ -45,11 +45,16 @@ import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.domain.model.MvElection;
 import no.valg.eva.admin.configuration.domain.model.Voter;
 import no.valg.eva.admin.configuration.repository.VoterRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "VoterService")
+
+
+@Default
 @Remote(VoterService.class)
 public class VoterServiceEjb implements VoterService {
 	@Inject

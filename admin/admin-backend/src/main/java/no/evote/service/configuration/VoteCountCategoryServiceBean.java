@@ -6,15 +6,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.model.CountCategory;
 import no.valg.eva.admin.configuration.domain.model.VoteCountCategory;
 import no.valg.eva.admin.configuration.repository.VoteCountCategoryRepository;
 
+@Default
+@ApplicationScoped
 public class VoteCountCategoryServiceBean {
 	@Inject
 	private VoteCountCategoryRepository voteCountCategoryRepository;
+
+	public VoteCountCategoryServiceBean() {
+
+	}
 
 	public List<VoteCountCategory> findAll(CountCategory... excludedCategories) {
 		if (excludedCategories.length == 0) {

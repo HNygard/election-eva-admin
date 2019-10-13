@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -32,18 +35,24 @@ import no.valg.eva.admin.rbac.domain.model.Role;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class ReduserGeografiDomainService {
 
 	private static final Logger LOGGER = Logger.getLogger(ReduserGeografiDomainService.class);
 
+	@Inject
 	private MvAreaRepository mvAreaRepository;
+	@Inject
 	private CountyRepository countyRepository;
+	@Inject
 	private MunicipalityRepository municipalityRepository;
+	@Inject
 	private PollingDistrictRepository pollingDistrictRepository;
+	@Inject
 	private PollingPlaceRepository pollingPlaceRepository;
 	private UserData userData;
 
-	@Inject
 	public ReduserGeografiDomainService(MvAreaRepository mvAreaRepository, CountyRepository countyRepository, MunicipalityRepository municipalityRepository,
 										PollingDistrictRepository pollingDistrictRepository, PollingPlaceRepository pollingPlaceRepository) {
 		this.mvAreaRepository = mvAreaRepository;
@@ -51,6 +60,9 @@ public class ReduserGeografiDomainService {
 		this.municipalityRepository = municipalityRepository;
 		this.pollingDistrictRepository = pollingDistrictRepository;
 		this.pollingPlaceRepository = pollingPlaceRepository;
+		this.userData = createFakeUserData();
+	}
+	public ReduserGeografiDomainService() {
 		this.userData = createFakeUserData();
 	}
 

@@ -18,6 +18,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -30,10 +32,16 @@ import no.valg.eva.admin.common.counting.model.countingoverview.StatusType;
 import no.valg.eva.admin.configuration.domain.model.PollingDistrictType;
 import no.valg.eva.admin.counting.domain.model.VoteCountDigest;
 
+@Default
+@ApplicationScoped
 public class CountingOverviewStatusBuilder {
-	private final VoteCountDigestFilterBuilder voteCountDigestFilterBuilder;
-
 	@Inject
+	private VoteCountDigestFilterBuilder voteCountDigestFilterBuilder;
+
+	public CountingOverviewStatusBuilder() {
+
+	}
+
 	public CountingOverviewStatusBuilder(VoteCountDigestFilterBuilder voteCountDigestFilterBuilder) {
 		this.voteCountDigestFilterBuilder = voteCountDigestFilterBuilder;
 	}

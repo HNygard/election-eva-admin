@@ -11,12 +11,17 @@ import no.valg.eva.admin.rbac.domain.model.Operator;
 import no.valg.eva.admin.rbac.domain.model.OperatorRole;
 import no.valg.eva.admin.rbac.domain.model.Role;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class OperatorRoleRepository extends BaseRepository {
     private static final String OPERATOR = "operator";
     private static final String MV_AREA_PK = "mvAreaPk";

@@ -1,8 +1,11 @@
 package no.evote.service.security;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @ApplicationScoped
+@Default
 public class SystemPasswordStore {
 	private String password;
 

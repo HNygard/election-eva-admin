@@ -15,6 +15,8 @@ import no.valg.eva.admin.configuration.domain.model.ElectionGroup;
 import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.voting.domain.model.Voting;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import java.math.BigInteger;
@@ -30,6 +32,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Log4j
 @NoArgsConstructor
+@Default
+@ApplicationScoped
 public class PagingVotingRepository extends BaseRepository {
 
     private static final String ALIAS_SUGGESTED_VOTING_REJECTION_TABLE = "svr";

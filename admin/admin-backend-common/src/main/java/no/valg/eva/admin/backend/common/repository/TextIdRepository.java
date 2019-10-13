@@ -2,11 +2,16 @@ package no.valg.eva.admin.backend.common.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.NoResultException;
 
 import no.evote.security.UserData;
 import no.valg.eva.admin.configuration.domain.model.TextId;
 
+@Default
+@ApplicationScoped
 public class TextIdRepository extends BaseRepository {
 	private static final String ELECTION_EVENT_PK = "electionEventPk";
 	private static final String TEXT_ID = "textId";

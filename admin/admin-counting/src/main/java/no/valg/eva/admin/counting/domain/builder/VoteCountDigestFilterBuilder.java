@@ -9,7 +9,16 @@ import no.valg.eva.admin.common.counting.model.CountQualifier;
 import no.valg.eva.admin.common.counting.model.countingoverview.StatusType;
 import no.valg.eva.admin.counting.domain.model.VoteCountDigest;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class VoteCountDigestFilterBuilder {
+	public VoteCountDigestFilterBuilder() {
+
+	}
+
 	public Predicate<VoteCountDigest> voteCountDigestFilterFor(CountCategory countCategory, AreaPath areaPath, StatusType statusType) {
 		Predicate<VoteCountDigest> predicate = voteCountDigest -> hasCategoryAndAreaPath(countCategory, areaPath, voteCountDigest);
 		return predicate.and(voteCountDigestFilterFor(statusType));

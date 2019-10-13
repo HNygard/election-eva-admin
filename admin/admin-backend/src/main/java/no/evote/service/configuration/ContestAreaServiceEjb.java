@@ -30,11 +30,16 @@ import no.valg.eva.admin.configuration.domain.model.MvElection;
 import no.valg.eva.admin.configuration.repository.ContestAreaRepository;
 import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ContestAreaService")
+
+
+
+@Default
 @Remote(ContestAreaService.class)
 public class ContestAreaServiceEjb implements ContestAreaService {
 	@Inject

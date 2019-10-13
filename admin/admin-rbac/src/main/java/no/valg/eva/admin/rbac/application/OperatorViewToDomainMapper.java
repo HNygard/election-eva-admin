@@ -18,9 +18,14 @@ import no.valg.eva.admin.rbac.domain.model.OperatorRole;
 import no.valg.eva.admin.rbac.domain.model.Role;
 import no.valg.eva.admin.rbac.repository.RoleRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
 /**
  * Converts between domain model and view/API model.
  */
+@Default
+@ApplicationScoped
 public final class OperatorViewToDomainMapper extends OperatorMapper {
 
 	private MvAreaRepository mvAreaRepository;

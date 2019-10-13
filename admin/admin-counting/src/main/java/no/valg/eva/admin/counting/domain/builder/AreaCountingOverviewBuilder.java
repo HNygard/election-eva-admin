@@ -9,6 +9,8 @@ import static no.valg.eva.admin.configuration.domain.model.PollingDistrictType.C
 import java.util.Collection;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -26,10 +28,16 @@ import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.domain.model.PollingDistrict;
 import no.valg.eva.admin.counting.domain.model.VoteCountDigest;
 
+@Default
+@ApplicationScoped
 public class AreaCountingOverviewBuilder {
+	@Inject
 	private CountingOverviewStatusBuilder countingOverviewStatusBuilder;
 
-	@Inject
+	public AreaCountingOverviewBuilder() {
+
+	}
+
 	public AreaCountingOverviewBuilder(CountingOverviewStatusBuilder countingOverviewStatusBuilder) {
 		this.countingOverviewStatusBuilder = countingOverviewStatusBuilder;
 	}

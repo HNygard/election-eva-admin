@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.constants.CountingMode;
@@ -38,16 +40,27 @@ import no.valg.eva.admin.valgnatt.domain.service.resultat.stemmetall.StemmetallD
 /**
  * Lager oppgjørsskjema til valgnatt fra møtebøker og valgoppgjør.
  */
+@Default
+@ApplicationScoped
 public class OppgjørsskjemaDomainService {
 
+	@Inject
 	private ContestReportDomainService contestReportDS;
+	@Inject
 	private StemmetallDomainService stemmetallDS;
+	@Inject
 	private ListestemmerDomainService listestemmerDS;
+	@Inject
 	private RapporteringsområdeDomainService rapporteringsområdeDS;
+	@Inject
 	private ValgnattstatistikkDomainService valgnattstatistikkDS;
+	@Inject
 	private VoteCountService voteCountService;
 
-	@Inject
+	public OppgjørsskjemaDomainService() {
+
+	}
+
 	public OppgjørsskjemaDomainService(ContestReportDomainService contestReportDS,
 									   StemmetallDomainService stemmetallDS,
 									   ListestemmerDomainService listestemmerDS,

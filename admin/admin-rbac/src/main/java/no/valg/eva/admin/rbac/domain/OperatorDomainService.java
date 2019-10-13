@@ -5,6 +5,9 @@ import static no.valg.eva.admin.common.rbac.Accesses.Tilgang_Brukere_Administrer
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.exception.EvoteException;
@@ -21,15 +24,16 @@ import no.valg.eva.admin.rbac.repository.OperatorRoleRepository;
 /**
  * Domain service for handling domain logic related to relationship between {@link Operator} and {@link OperatorRole}.
  */
+@Default
+@ApplicationScoped
 public class OperatorDomainService {
 
+	@Inject
 	private OperatorRepository operatorRepository;
+	@Inject
 	private OperatorRoleRepository operatorRoleRepository;
 
-	@Inject
-	public OperatorDomainService(OperatorRepository operatorRepository, OperatorRoleRepository operatorRoleRepository) {
-		this.operatorRepository = operatorRepository;
-		this.operatorRoleRepository = operatorRoleRepository;
+	public OperatorDomainService() {
 	}
 
 	public Operator operatorByElectionEventAndId(ElectionEvent electionEvent, PersonId operatorId) {

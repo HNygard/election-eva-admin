@@ -31,8 +31,13 @@ import static no.valg.eva.admin.common.configuration.status.MunicipalityStatusEn
 import static no.valg.eva.admin.common.configuration.status.MunicipalityStatusEnum.LOCAL_CONFIGURATION;
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Oversikt;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "CentralConfigurationService")
+
+
+@Default
 @Remote(CentralConfigurationService.class)
 @NoArgsConstructor
 public class CentralConfigurationApplicationService implements CentralConfigurationService {

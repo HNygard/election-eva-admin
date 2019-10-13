@@ -13,11 +13,16 @@ import no.valg.eva.admin.common.ElectionPath;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.Contest;
 import no.valg.eva.admin.configuration.repository.ContestRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "LegacyContestService")
+
+
+@Default
 @Remote(LegacyContestService.class)
 public class ContestServiceEjb implements LegacyContestService {
 	@Inject

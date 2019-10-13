@@ -37,11 +37,16 @@ import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Grunnlagsdata
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Grunnlagsdata_Redigere;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "CountyService")
+
+
+
+@Default
 @Remote(CountyService.class)
 public class CountyServiceEjb implements CountyService {
 	@Inject

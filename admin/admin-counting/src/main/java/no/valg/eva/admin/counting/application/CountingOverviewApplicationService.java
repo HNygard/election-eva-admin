@@ -36,8 +36,11 @@ import no.valg.eva.admin.counting.domain.service.countingoverview.CountingOvervi
 import no.valg.eva.admin.felles.sti.valghierarki.ValgSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValgdistriktSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "CountingOverviewService")
+@Default
 @Remote(CountingOverviewService.class)
 public class CountingOverviewApplicationService implements CountingOverviewService {
 	private MvElectionRepository mvElectionRepository;

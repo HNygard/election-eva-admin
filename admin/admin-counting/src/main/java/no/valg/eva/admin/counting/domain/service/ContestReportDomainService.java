@@ -7,6 +7,8 @@ import static no.valg.eva.admin.common.counting.constants.ReportingUnitTypeId.VA
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.constants.ReportingUnitTypeId;
@@ -15,10 +17,16 @@ import no.valg.eva.admin.configuration.domain.model.ReportingUnit;
 import no.valg.eva.admin.counting.domain.model.ContestReport;
 import no.valg.eva.admin.counting.repository.ContestReportRepository;
 
+@Default
+@ApplicationScoped
 public class ContestReportDomainService {
+	@Inject
 	private ContestReportRepository contestReportRepository;
 
-	@Inject
+	public ContestReportDomainService() {
+
+	}
+
 	public ContestReportDomainService(ContestReportRepository contestReportRepository) {
 		this.contestReportRepository = contestReportRepository;
 	}

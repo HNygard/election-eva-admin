@@ -25,6 +25,8 @@ import no.valg.eva.admin.counting.repository.VotingRepository;
 import no.valg.eva.admin.voting.domain.model.Voting;
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,17 +37,29 @@ import java.util.stream.Collectors;
 import static com.google.common.collect.Lists.newArrayList;
 import static no.valg.eva.admin.common.counting.model.CountQualifier.PRELIMINARY;
 
+@Default
+@ApplicationScoped
 public class FindPreliminaryCountService {
+	@Inject
 	private VoteCountService voteCountService;
+	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
+	@Inject
 	private AffiliationRepository affiliationRepository;
+	@Inject
 	private ElectionDayRepository electionDayRepository;
+	@Inject
 	private ManualContestVotingRepository manualContestVotingRepository;
+	@Inject
 	private VotingRepository votingRepository;
+	@Inject
 	private ReportingUnitDomainService reportingUnitDomainService;
+	@Inject
 	private AntallStemmesedlerLagtTilSideDomainService antallStemmesedlerLagtTilSideDomainService;
 
-	@Inject
+	public FindPreliminaryCountService() {
+
+	}
 	public FindPreliminaryCountService(VoteCountService voteCountService, ReportingUnitRepository reportingUnitRepository,
 			AffiliationRepository affiliationRepository, ElectionDayRepository electionDayRepository,
 			ManualContestVotingRepository manualContestVotingRepository, VotingRepository votingRepository,

@@ -22,11 +22,16 @@ import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 
 import org.jboss.ejb3.annotation.TransactionTimeout;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ImportElectoralRollService")
+
+
+
+@Default
 @Remote(ImportElectoralRollService.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ImportElectoralRollServiceEjb implements ImportElectoralRollService {

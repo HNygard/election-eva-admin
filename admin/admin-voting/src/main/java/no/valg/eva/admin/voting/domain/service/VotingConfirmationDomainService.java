@@ -15,11 +15,15 @@ import no.valg.eva.admin.voting.repository.VotingRejectionRepository;
 import no.valg.eva.admin.voting.repository.VotingRepository;
 import org.joda.time.DateTime;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
 @Log4j
+@Default
+@ApplicationScoped
 public class VotingConfirmationDomainService {
 
     @Inject

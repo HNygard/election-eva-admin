@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -18,12 +20,19 @@ import no.valg.eva.admin.counting.repository.ContestInfoRepository;
 /**
  * Forretningsregler knyttet til hvilke contest-er som er relevante for et gitt område og valgnivå.
  */
+@Default
+@ApplicationScoped
 public class ContestInfoDomainService {
 
+	@Inject
 	private ContestInfoRepository contestInfoRepository;
+	@Inject
 	private MvElectionRepository mvElectionRepository;
 
-	@Inject
+	public ContestInfoDomainService() {
+
+	}
+
 	public ContestInfoDomainService(ContestInfoRepository contestInfoRepository, MvElectionRepository mvElectionRepository) {
 		this.contestInfoRepository = contestInfoRepository;
 		this.mvElectionRepository = mvElectionRepository;

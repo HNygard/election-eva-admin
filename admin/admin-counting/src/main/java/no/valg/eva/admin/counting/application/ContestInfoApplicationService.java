@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -28,12 +30,15 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.counting.domain.service.contestinfo.ContestInfoDomainService;
 import no.valg.eva.admin.counting.repository.ContestInfoRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * Service providing interface for getting contest info.
  */
 @Stateless(name = "ContestInfoService")
 @Remote(ContestInfoService.class)
+@Default
 public class ContestInfoApplicationService implements ContestInfoService {
 	@Inject
 	private ContestInfoRepository contestInfoRepository;

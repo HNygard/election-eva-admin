@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -43,6 +46,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 
+@ApplicationScoped
+@Default
 public class ProposerServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(ProposerServiceBean.class);
 	private static final String EMPTY = "";
@@ -62,6 +67,10 @@ public class ProposerServiceBean {
 	private AffiliationRepository affiliationRepository;
 	@Inject
 	private ProposerRepository proposerRepository;
+
+	public ProposerServiceBean() {
+
+	}
 
 	public List<Proposer> updateAll(UserData userData, List<Proposer> proposerList) {
 		List<Proposer> updatedProposers = new ArrayList<>();

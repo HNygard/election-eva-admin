@@ -14,6 +14,9 @@ import static no.valg.eva.admin.configuration.domain.model.mapper.Mapper.map;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.configuration.domain.model.MvAreaDigest;
@@ -48,14 +51,15 @@ import no.valg.eva.admin.felles.valggeografi.model.Stemmested;
 import no.valg.eva.admin.felles.valggeografi.model.Valggeografi;
 import no.valg.eva.admin.felles.valggeografi.model.Valghendelse;
 
+@Default
+@ApplicationScoped
 public class ValggeografiDomainService {
-	private final MvElectionRepository mvElectionRepository;
-	private final MvAreaRepository mvAreaRepository;
-
 	@Inject
-	public ValggeografiDomainService(MvElectionRepository mvElectionRepository, MvAreaRepository mvAreaRepository) {
-		this.mvElectionRepository = mvElectionRepository;
-		this.mvAreaRepository = mvAreaRepository;
+	private MvElectionRepository mvElectionRepository;
+	@Inject
+	private MvAreaRepository mvAreaRepository;
+
+	public ValggeografiDomainService() {
 	}
 
 	public Valghendelse valghendelse(ValghendelseSti sti) {

@@ -3,13 +3,17 @@ package no.valg.eva.admin.configuration.application;
 import no.valg.eva.admin.backend.configuration.local.domain.model.MunicipalityOpeningHour;
 import no.valg.eva.admin.common.configuration.model.OpeningHours;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
- 
+
+@Default
+@ApplicationScoped
 class MunicipalityOpeningHourMapper {
 
-    private MunicipalityOpeningHourMapper() {
+    public MunicipalityOpeningHourMapper() {
     }
 
     public static List<MunicipalityOpeningHour> toDomainModelList(List<OpeningHours> openingHours) {

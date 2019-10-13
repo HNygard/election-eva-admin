@@ -20,11 +20,16 @@ import no.valg.eva.admin.configuration.domain.model.Affiliation;
 import no.valg.eva.admin.configuration.domain.model.Ballot;
 import no.valg.eva.admin.configuration.domain.model.BallotStatus;
 import no.valg.eva.admin.configuration.repository.BallotRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "BallotService")
+
+
+@Default
 @Remote(BallotService.class)
 public class BallotServiceEjb implements BallotService {
 	@Inject

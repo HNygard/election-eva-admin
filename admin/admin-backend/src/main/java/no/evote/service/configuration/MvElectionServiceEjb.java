@@ -23,11 +23,16 @@ import no.valg.eva.admin.configuration.domain.model.ElectionType;
 import no.valg.eva.admin.configuration.domain.model.MvElection;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "MvElectionService")
+
+
+
+@Default
 @Remote(MvElectionService.class)
 public class MvElectionServiceEjb implements MvElectionService {
 	@Inject

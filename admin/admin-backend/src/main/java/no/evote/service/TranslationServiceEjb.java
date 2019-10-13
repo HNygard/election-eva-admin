@@ -24,6 +24,8 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 import no.valg.eva.admin.configuration.domain.model.Locale;
 import no.valg.eva.admin.configuration.domain.model.LocaleText;
 import no.valg.eva.admin.configuration.domain.model.TextId;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * Methods for fetching and maintaining translations. Entities are detached before returned. The reason for this is: We apply AntiSamy filtering on translations
@@ -33,6 +35,8 @@ import no.valg.eva.admin.configuration.domain.model.TextId;
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "TranslationService")
+
+@Default
 @Remote(TranslationService.class)
 public class TranslationServiceEjb implements TranslationService {
 	@Inject

@@ -3,6 +3,8 @@ package no.evote.service.rbac;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.rbac.domain.model.Access;
@@ -12,9 +14,15 @@ import no.valg.eva.admin.rbac.repository.AccessRepository;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class LegacyAccessServiceBean {
 	@Inject
 	private AccessRepository accessRepository;
+
+	public LegacyAccessServiceBean() {
+
+	}
 
 	/**
 	 * Returns the access with the corresponding id

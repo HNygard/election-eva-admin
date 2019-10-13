@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -18,6 +20,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
+@Default
+@ApplicationScoped
 public class ContestAreaRepository extends BaseRepository {
 	public static final String FIELD_CONTEST_PK = "contestPk";
 	public static final String FIELD_ELECTION_PK = "electionPk";

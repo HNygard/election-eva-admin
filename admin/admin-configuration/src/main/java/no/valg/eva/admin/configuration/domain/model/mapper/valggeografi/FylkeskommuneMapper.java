@@ -6,8 +6,13 @@ import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.domain.model.MvAreaDigest;
 import no.valg.eva.admin.felles.valggeografi.model.Fylkeskommune;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public final class FylkeskommuneMapper {
-	private FylkeskommuneMapper() {
+	public FylkeskommuneMapper() {
 	}
 
 	public static Fylkeskommune fylkeskommune(MvAreaDigest mvAreaDigest) {

@@ -25,22 +25,35 @@ import no.valg.eva.admin.counting.repository.ManualContestVotingRepository;
 import no.valg.eva.admin.counting.repository.VotingRepository;
 import no.valg.eva.admin.voting.domain.model.Voting;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class FindProtocolCountService {
 
+	@Inject
 	private MvAreaRepository mvAreaRepository;
+	@Inject
 	private VoteCountService voteCountService;
+	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
+	@Inject
 	private VotingRepository votingRepository;
+	@Inject
 	private ElectionDayRepository electionDayRepository;
+	@Inject
 	private ManualContestVotingRepository manualContestVotingRepository;
 
-	@Inject
+	public FindProtocolCountService() {
+
+	}
+
 	public FindProtocolCountService(MvAreaRepository mvAreaRepository, VoteCountService voteCountService, ReportingUnitRepository reportingUnitRepository,
 			VotingRepository votingRepository, ElectionDayRepository electionDayRepository, ManualContestVotingRepository manualContestVotingRepository) {
 		this.mvAreaRepository = mvAreaRepository;

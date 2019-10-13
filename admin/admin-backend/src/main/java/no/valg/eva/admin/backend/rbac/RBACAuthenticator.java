@@ -6,6 +6,8 @@ import static no.valg.eva.admin.common.auditlog.SimpleAuditEventType.AccessDenie
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.TransactionSynchronizationRegistry;
 
@@ -30,6 +32,8 @@ import no.valg.eva.admin.rbac.service.AccessServiceBean;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class RBACAuthenticator {
 	private static final Object CTX_SECURITY_CACHE = SecurityInterceptor.class.toString() + ".CTX_CACHE";
 	private static final String AREA_KEY_PREFIX = "a-";
@@ -44,6 +48,10 @@ public class RBACAuthenticator {
 	private AccessServiceBean accessService;
 	@Inject
 	private AuditLogServiceBean auditLogService;
+
+	public RBACAuthenticator() {
+
+	}
 
 	public boolean hasAccess(UserData userData, Accesses...accesses) {
 		if (userData.getOperatorRole() == null) {

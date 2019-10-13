@@ -21,8 +21,13 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.counting.domain.auditevents.AntallStemmesedlerLagtTilSideAuditEvent;
 import no.valg.eva.admin.counting.domain.service.AntallStemmesedlerLagtTilSideDomainService;
 import no.valg.eva.admin.felles.sti.valggeografi.KommuneSti;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "AntallStemmesedlerLagtTilSideService")
+
+
+@Default
 @Remote(AntallStemmesedlerLagtTilSideService.class)
 public class AntallStemmesedlerLagtTilSideApplicationService implements AntallStemmesedlerLagtTilSideService {
 	private MvAreaRepository mvAreaRepository;

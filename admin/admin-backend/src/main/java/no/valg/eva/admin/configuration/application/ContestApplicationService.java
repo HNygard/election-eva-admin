@@ -25,8 +25,13 @@ import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.repository.ContestRepository;
 import no.valg.eva.admin.configuration.repository.ElectionRepository;
 import no.valg.eva.admin.configuration.repository.MvAreaRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ContestService")
+
+
+@Default
 @Remote(ContestService.class)
 public class ContestApplicationService implements ContestService {
 

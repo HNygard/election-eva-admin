@@ -13,6 +13,8 @@ import no.valg.eva.admin.voting.domain.model.VotingCategoryStatus;
 import no.valg.eva.admin.voting.repository.VotingRepository;
 import org.joda.time.DateTime;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Default
+@ApplicationScoped
 public class ConfirmationCategoryStatusDomainService {
 
     private static final boolean CONSIDER_END_OF_ELECTION = true;

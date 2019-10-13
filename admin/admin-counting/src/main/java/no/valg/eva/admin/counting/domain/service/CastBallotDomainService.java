@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -35,6 +37,8 @@ import no.valg.eva.admin.counting.domain.model.ModifiedBallotBatchMember;
 import no.valg.eva.admin.counting.domain.model.VoteCount;
 import no.valg.eva.admin.counting.repository.ModifiedBallotBatchRepository;
 
+@Default
+@ApplicationScoped
 public class CastBallotDomainService {
 	@Inject
 	private VoteCountService voteCountService;

@@ -17,12 +17,16 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.ReportCountCategoryRepository;
 import org.apache.log4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 
 import static no.valg.eva.admin.common.counting.model.CountCategory.BF;
 import static no.valg.eva.admin.common.counting.model.CountCategory.VB;
 
+@Default
+@ApplicationScoped
 public class ReportCountCategoryServiceBean {
 
     private static final Logger LOGGER = Logger.getLogger(ReportCountCategoryServiceBean.class);
@@ -37,6 +41,10 @@ public class ReportCountCategoryServiceBean {
     private MvAreaRepository mvAreaRepository;
     @Inject
     private MunicipalityRepository municipalityRepository;
+
+    public ReportCountCategoryServiceBean() {
+
+    }
 
     public List<ReportCountCategory> findReportCountCategoryElementByArea(Municipality municipality, ElectionGroup electionGroup) {
 

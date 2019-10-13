@@ -11,6 +11,9 @@ import no.valg.eva.admin.configuration.domain.model.MvAreaDigest;
 import no.valg.eva.admin.felles.sti.valggeografi.FylkeskommuneSti;
 import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -22,6 +25,8 @@ import static no.evote.constants.AreaLevelEnum.MUNICIPALITY;
 
 /**
  */
+@Default
+@ApplicationScoped
 public class MvAreaRepository extends BaseRepository {
 	public MvAreaRepository(EntityManager entityManager) {
 		super(entityManager);

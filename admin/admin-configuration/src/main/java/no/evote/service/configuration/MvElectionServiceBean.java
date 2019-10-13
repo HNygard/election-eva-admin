@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.ElectionLevelEnum;
@@ -17,11 +19,17 @@ import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 
 import com.google.common.collect.Multimap;
 
+@Default
+@ApplicationScoped
 public class MvElectionServiceBean {
 	@Inject
 	private ContestAreaRepository contestAreaRepository;
 	@Inject
 	private MvElectionRepository mvElectionRepository;
+
+	public MvElectionServiceBean() {
+
+	}
 
 	public boolean hasElectionsWithElectionTypeMinimal(MvElectionMinimal mvElectionMinimal, ElectionType electionType) {
 		MvElection mvElection = mvElectionRepository.findByPk(mvElectionMinimal.getPk());

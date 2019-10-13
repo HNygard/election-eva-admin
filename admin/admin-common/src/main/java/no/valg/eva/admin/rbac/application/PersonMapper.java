@@ -8,9 +8,14 @@ import no.valg.eva.admin.rbac.domain.model.Operator;
 
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
 /**
  * Maps Voter to Person
  */
+@Default
+@ApplicationScoped
 public final class PersonMapper {
 
 	private PersonMapper() {

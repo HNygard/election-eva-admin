@@ -10,6 +10,9 @@ import no.valg.eva.admin.configuration.domain.model.PollingDistrict;
 import no.valg.eva.admin.configuration.domain.model.Voter;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -17,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.valueOf;
+
+@Default
+@ApplicationScoped
 
 public class VoterRepository extends BaseRepository {
 	private static final String ID = "id";

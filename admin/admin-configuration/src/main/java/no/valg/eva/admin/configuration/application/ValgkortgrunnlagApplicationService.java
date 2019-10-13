@@ -7,6 +7,8 @@ import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
 import javax.ejb.Asynchronous;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.GenererValgkortgrunnlagStatus;
@@ -16,6 +18,10 @@ import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.service.ValgkortgrunnlagDomainService;
 
 @Stateless(name = "ValgkortgrunnlagService")
+
+
+
+@Default
 @Remote(ValgkortgrunnlagService.class)
 public class ValgkortgrunnlagApplicationService implements ValgkortgrunnlagService {
 

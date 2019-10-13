@@ -2,6 +2,9 @@ package no.valg.eva.admin.backend.common.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -11,6 +14,8 @@ import no.valg.eva.admin.configuration.domain.model.LocaleText;
 
 import org.joda.time.DateTime;
 
+@Default
+@ApplicationScoped
 public class LocaleTextRepository extends BaseRepository {
 	private static final String ELECTION_EVENT_PK = "electionEventPk";
 	private static final String LOCALE_PK = "localePk";

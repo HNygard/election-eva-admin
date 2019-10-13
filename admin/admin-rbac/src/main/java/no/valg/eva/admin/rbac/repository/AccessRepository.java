@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -12,6 +14,8 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.rbac.domain.model.Access;
 import no.valg.eva.admin.rbac.domain.model.Role;
 
+@Default
+@ApplicationScoped
 public class AccessRepository extends BaseRepository {
 	public AccessRepository() {
 	}

@@ -6,6 +6,8 @@ import static no.valg.eva.admin.counting.domain.model.report.ReportType.PARTIER_
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.configuration.domain.model.Election;
@@ -25,15 +27,25 @@ import no.valg.eva.admin.valgnatt.repository.ValgnattrapportRepository;
 /**
  * Henter frem eller lager Valgnattrapport instanser som er metadata for rapporteringer.
  */
+@Default
+@ApplicationScoped
 public class ValgnattrapportDomainService {
 
+	@Inject
 	private ValgnattrapportRepository valgnattrapportRepository;
+	@Inject
 	private ValgnattElectoralRollRepository valgnattElectoralRollRepository;
+	@Inject
 	private MvAreaRepository mvAreaRepository;
+	@Inject
 	private ReadyForReportingDomainService readyForReportingDomainService;
+	@Inject
 	private SettlementRepository settlementRepository;
 
-	@Inject
+	public ValgnattrapportDomainService() {
+
+	}
+
 	public ValgnattrapportDomainService(ValgnattrapportRepository valgnattrapportRepository, ValgnattElectoralRollRepository valgnattElectoralRollRepository,
 			MvAreaRepository mvAreaRepository, ReadyForReportingDomainService readyForReportingDomainService, SettlementRepository settlementRepository) {
 		this.valgnattrapportRepository = valgnattrapportRepository;

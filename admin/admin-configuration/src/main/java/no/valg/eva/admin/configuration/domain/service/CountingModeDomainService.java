@@ -12,6 +12,8 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.configuration.repository.ReportCountCategoryRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +24,18 @@ import static no.valg.eva.admin.common.counting.constants.CountingMode.BY_POLLIN
 import static no.valg.eva.admin.common.counting.constants.CountingMode.CENTRAL;
 import static no.valg.eva.admin.common.counting.model.CountCategory.VO;
 
+@Default
+@ApplicationScoped
 public class CountingModeDomainService {
+    @Inject
 	private ReportCountCategoryRepository reportCountCategoryRepository;
+    @Inject
 	private MvAreaRepository mvAreaRepository;
+    @Inject
 	private MvElectionRepository mvElectionRepository;
+    @Inject
     private BoroughElectionDomainService boroughElectionDomainService;
 
-	@Inject
 	public CountingModeDomainService(ReportCountCategoryRepository reportCountCategoryRepository, MvAreaRepository mvAreaRepository,
                                      MvElectionRepository mvElectionRepository, BoroughElectionDomainService boroughElectionDomainService) {
 		this.reportCountCategoryRepository = reportCountCategoryRepository;
@@ -36,6 +43,9 @@ public class CountingModeDomainService {
 		this.mvElectionRepository = mvElectionRepository;
         this.boroughElectionDomainService = boroughElectionDomainService;
 	}
+    public CountingModeDomainService() {
+
+    }
 
 	public Function<CountCategory, CountingMode> countingModeMapper(Contest contest, Municipality municipality) {
 		if (contest.isOnBoroughLevel()) {

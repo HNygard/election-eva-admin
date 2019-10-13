@@ -6,6 +6,8 @@ import static java.util.Objects.requireNonNull;
 import java.io.Serializable;
 import java.net.InetAddress;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Typed;
 
 import no.evote.constants.AreaLevelEnum;
@@ -34,6 +36,8 @@ import org.apache.log4j.Logger;
  * split..?): - security check on server side - usability: only render menu items user has access to, navigate to correct page given from context without user
  * interaction
  */
+@Default
+@ApplicationScoped
 public class UserData implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(UserData.class);

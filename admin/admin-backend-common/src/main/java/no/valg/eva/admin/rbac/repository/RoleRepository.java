@@ -14,6 +14,9 @@ import no.valg.eva.admin.rbac.domain.model.Role;
 import no.valg.eva.admin.rbac.domain.model.RoleAccess;
 import no.valg.eva.admin.rbac.domain.model.RoleInclude;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -24,8 +27,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Default
+@ApplicationScoped
 public class RoleRepository extends BaseRepository {
-	private RoleRepository() {
+	public RoleRepository() {
 	}
 
 	/**

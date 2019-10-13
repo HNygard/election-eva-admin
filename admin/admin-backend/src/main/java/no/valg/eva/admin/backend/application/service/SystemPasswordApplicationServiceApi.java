@@ -6,6 +6,8 @@ import javax.inject.Inject;
 
 import no.evote.service.security.SystemPasswordService;
 import no.valg.eva.admin.common.rbac.SecurityNone;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * DEV-NOTE: Merk at denne klassen avviker fra vanlig navnestandard. Årsaken er at @Stateless-annotasjonen 
@@ -14,6 +16,9 @@ import no.valg.eva.admin.common.rbac.SecurityNone;
  *           ut i en egen klasse.
  */
 @Stateless(name = "SystemPasswordService")
+
+
+@Default
 @Remote(SystemPasswordService.class)
 public class SystemPasswordApplicationServiceApi implements SystemPasswordService {
 

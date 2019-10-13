@@ -1,6 +1,5 @@
 package no.valg.eva.admin.rbac.service;
 
-import lombok.NoArgsConstructor;
 import no.evote.constants.ElectionLevelEnum;
 import no.evote.exception.EvoteSecurityException;
 import no.evote.security.SecurityLevel;
@@ -14,11 +13,7 @@ import no.valg.eva.admin.common.rbac.Accesses;
 import no.valg.eva.admin.common.rbac.SecurityNone;
 import no.valg.eva.admin.common.rbac.UserMenuMetadata;
 import no.valg.eva.admin.common.rbac.service.UserDataService;
-import no.valg.eva.admin.configuration.domain.model.County;
-import no.valg.eva.admin.configuration.domain.model.ElectionType;
-import no.valg.eva.admin.configuration.domain.model.Locale;
-import no.valg.eva.admin.configuration.domain.model.Municipality;
-import no.valg.eva.admin.configuration.domain.model.MvElection;
+import no.valg.eva.admin.configuration.domain.model.*;
 import no.valg.eva.admin.configuration.domain.service.BoroughElectionDomainService;
 import no.valg.eva.admin.configuration.domain.service.OpptellingskategoriDomainService;
 import no.valg.eva.admin.configuration.repository.CountyRepository;
@@ -32,6 +27,7 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -43,7 +39,7 @@ import static no.valg.eva.admin.configuration.domain.model.ElectionType.TYPE_PRO
 
 @Stateless(name = "UserDataService")
 @Remote(UserDataService.class)
-@NoArgsConstructor
+@Default
 public class UserDataServiceEjb implements UserDataService {
     private static final String USER_PASSED_ID_PORTEN_LOGIN_BUT_DID_NOT_HAVE_AN_OPERATOR_IN_THE_SYSTEM =
             "User passed ID-porten login but did not have an operator in the system";
@@ -52,8 +48,9 @@ public class UserDataServiceEjb implements UserDataService {
 
     @Inject
     private LocaleRepository localeRepository;
-    @Inject
-    private AuditLogServiceBean auditLogService;
+    // TODO: The inject didnt work...
+    //@Inject
+    private AuditLogServiceBean auditLogService = null;
     @Inject
     private AccessServiceBean accessService;
     @Inject
@@ -70,9 +67,11 @@ public class UserDataServiceEjb implements UserDataService {
     private CountyRepository countyRepository;
     @Inject
     private OpptellingskategoriDomainService opptellingskategoriDomainService;
-
     @Inject
     private BoroughElectionDomainService boroughElectionDomainService;
+
+    public UserDataServiceEjb() {
+    }
 
     @Override
     @SecurityNone

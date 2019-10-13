@@ -2,6 +2,8 @@ package no.valg.eva.admin.counting.domain.service;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -22,6 +24,8 @@ import no.valg.eva.admin.counting.repository.VotingRepository;
 
 import org.joda.time.LocalDate;
 
+@Default
+@ApplicationScoped
 public abstract class BaseCountService {
 
 	protected static final int BLANK_MODIFIED_COUNT_ZERO = 0;

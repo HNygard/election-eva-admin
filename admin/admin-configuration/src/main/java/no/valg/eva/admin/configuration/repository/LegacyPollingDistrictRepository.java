@@ -5,10 +5,14 @@ import no.evote.security.UserData;
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.LegacyPollingDistrict;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import java.util.List;
 
 @NoArgsConstructor
+@Default
+@ApplicationScoped
 public class LegacyPollingDistrictRepository extends BaseRepository {
 
     LegacyPollingDistrictRepository(EntityManager entityManager) {

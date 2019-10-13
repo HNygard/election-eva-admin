@@ -15,9 +15,14 @@ import no.valg.eva.admin.counting.domain.model.BallotCount;
 import no.valg.eva.admin.settlement.domain.model.AffiliationVoteCount;
 import no.valg.eva.admin.valgnatt.domain.model.resultat.stemmetall.Stemmetall;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
 /**
  * Henter ut Stemmetall fra BallotCount.
  */
+@Default
+@ApplicationScoped
 public class StemmetallDomainService {
 
 	public List<Stemmetall> hentStemmetall(List<BallotCount> ballotCounts) {

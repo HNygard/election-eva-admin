@@ -14,6 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ import java.util.List;
 
 import static no.valg.eva.admin.common.ElectionPath.ROOT_ELECTION_EVENT_ID;
 import static no.valg.eva.admin.util.TidtakingUtil.taTiden;
+
+@Default
+@ApplicationScoped
 
 public class ElectionEventRepository extends BaseRepository {
     private static final Logger LOG = Logger.getLogger(ElectionEventRepository.class);

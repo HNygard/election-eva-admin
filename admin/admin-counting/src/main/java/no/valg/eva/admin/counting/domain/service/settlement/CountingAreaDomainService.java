@@ -13,6 +13,8 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.VoteCountCategoryRepository;
 import no.valg.eva.admin.counting.domain.service.VoteCountService;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,13 +38,21 @@ import static no.valg.eva.admin.configuration.domain.model.PollingDistrictType.T
 /**
  * Domain logic for finding counting areas related to settlement overview.
  */
+@Default
+@ApplicationScoped
 public class CountingAreaDomainService {
 
+	@Inject
 	private MvAreaRepository mvAreaRepository;
+	@Inject
 	private VoteCountService voteCountService;
+	@Inject
 	private VoteCountCategoryRepository voteCountCategoryRepository;
 
-	@Inject
+	public CountingAreaDomainService() {
+
+	}
+
 	public CountingAreaDomainService(MvAreaRepository mvAreaRepository, VoteCountService voteCountService,
 			VoteCountCategoryRepository voteCountCategoryRepository) {
 		this.mvAreaRepository = mvAreaRepository;

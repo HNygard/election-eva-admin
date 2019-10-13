@@ -1,5 +1,7 @@
 package no.valg.eva.admin.configuration.application;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.configuration.model.election.Election;
@@ -9,12 +11,19 @@ import no.valg.eva.admin.common.counting.model.configuration.ElectionRef;
 import no.valg.eva.admin.configuration.repository.ElectionRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 
+@Default
+@ApplicationScoped
 public class ElectionMapper {
 
+	@Inject
 	private MvElectionRepository mvElectionRepository;
+	@Inject
 	private ElectionRepository electionRepository;
 
-	@Inject
+	public ElectionMapper() {
+
+	}
+
 	public ElectionMapper(MvElectionRepository mvElectionRepository, ElectionRepository electionRepository) {
 		this.mvElectionRepository = mvElectionRepository;
 		this.electionRepository = electionRepository;

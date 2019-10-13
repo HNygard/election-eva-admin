@@ -33,6 +33,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,21 +62,34 @@ import static no.valg.eva.admin.common.auditlog.Outcome.Success;
  * - Denne tjenesten er på mange måter en eksport-funksjon, og slik sett passer den kanskje utenfor domenet?
  *   Det hadde kanskje vært riktigere om den lå i en integrasjonsmodul, eller en ports/adapters-sak
  */
+@Default
+@ApplicationScoped
 public class ValgkortgrunnlagDomainService {
 
 	private static final long MILLISEKUNDER_PER_SEKUND = 1000;
-	private static final Logger LOG = Logger.getLogger(ValgkortgrunnlagDomainService.class); 
-	
-	private VoterRepository voterRepository;
-	private BakgrunnsjobbDomainService bakgrunnsjobbDomainService;
-	private ManntallsnummerDomainService manntallsnummerDomainService;
-	private ReportingUnitRepository reportingUnitRepository;
-	private PollingPlaceRepository pollingPlaceRepository;
-	private ContestAreaRepository contestAreaRepository;
-	private ContestRepository contestRepository;
-	private AuditLogServiceBean auditLogServiceBean;
-	
+	private static final Logger LOG = Logger.getLogger(ValgkortgrunnlagDomainService.class);
+
 	@Inject
+	private VoterRepository voterRepository;
+	@Inject
+	private BakgrunnsjobbDomainService bakgrunnsjobbDomainService;
+	@Inject
+	private ManntallsnummerDomainService manntallsnummerDomainService;
+	@Inject
+	private ReportingUnitRepository reportingUnitRepository;
+	@Inject
+	private PollingPlaceRepository pollingPlaceRepository;
+	@Inject
+	private ContestAreaRepository contestAreaRepository;
+	@Inject
+	private ContestRepository contestRepository;
+	@Inject
+	private AuditLogServiceBean auditLogServiceBean;
+
+	public ValgkortgrunnlagDomainService() {
+
+	}
+
 	public ValgkortgrunnlagDomainService(VoterRepository voterRepository,
 										 BakgrunnsjobbDomainService bakgrunnsjobbDomainService,
 										 ManntallsnummerDomainService manntallsnummerDomainService,

@@ -24,8 +24,13 @@ import no.valg.eva.admin.felles.valghierarki.model.Valggruppe;
 import no.valg.eva.admin.felles.valghierarki.model.Valghendelse;
 import no.valg.eva.admin.felles.valghierarki.model.Valghierarki;
 import no.valg.eva.admin.felles.valghierarki.service.ValghierarkiService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ValghierarkiService")
+
+
+@Default
 @Remote(ValghierarkiService.class)
 public class ValghierarkiApplicationService implements ValghierarkiService {
 	@Inject

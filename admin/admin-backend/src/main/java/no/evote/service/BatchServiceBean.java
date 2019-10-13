@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.EvoteConstants;
@@ -30,7 +32,8 @@ import no.valg.eva.admin.felles.bakgrunnsjobb.domain.model.Jobbkategori;
 
 import org.apache.log4j.Logger;
 
-
+@Default
+@ApplicationScoped
 public class BatchServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(BatchServiceBean.class);
 	@Inject
@@ -43,6 +46,10 @@ public class BatchServiceBean {
 	private BatchRepository batchRepository;
 	@Inject
 	private BakgrunnsjobbDomainService bakgrunnsjobbService;
+
+	public BatchServiceBean() {
+
+	}
 
 	public Batch saveFile(UserData userData, byte[] file, String fileName, Jobbkategori category) {
 		if (file == null || file.length == 0) {

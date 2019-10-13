@@ -8,17 +8,22 @@ import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import no.evote.security.UserData;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.VotingRejection;
 import no.valg.eva.admin.voting.domain.model.Voting;
 import no.valg.eva.admin.voting.repository.VotingRejectionRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "VotingRejectionService")
+
+
+@Default
 @Remote(VotingRejectionService.class)
 public class VotingRejectionServiceEjb implements VotingRejectionService {
 	@Inject

@@ -4,9 +4,15 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.VotingRejection;
 import no.valg.eva.admin.voting.domain.model.Voting;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+
+@Default
+@ApplicationScoped
 
 public class VotingRejectionRepository extends BaseRepository {
 	public VotingRejectionRepository() {

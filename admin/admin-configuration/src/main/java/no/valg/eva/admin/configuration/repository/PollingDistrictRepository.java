@@ -11,6 +11,9 @@ import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.domain.model.PollingDistrict;
 import org.hibernate.Session;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.math.BigInteger;
@@ -19,6 +22,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class PollingDistrictRepository extends BaseRepository {
     private static final String ID = "id";
     private static final String MUNICIPALITY_PK_PARAMETER = "municipalityPk";

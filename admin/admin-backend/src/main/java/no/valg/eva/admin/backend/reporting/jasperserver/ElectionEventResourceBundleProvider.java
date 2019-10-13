@@ -17,6 +17,9 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.service.TranslationServiceBean;
@@ -29,6 +32,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 
+@ApplicationScoped
+@Default
 public class ElectionEventResourceBundleProvider {
 	private static final Logger LOG = Logger.getLogger(ReportTemplateUploader.class);
 	private static final String LOGO_FILE_NAME = "valglogo.jpg"; 

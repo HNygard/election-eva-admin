@@ -13,8 +13,13 @@ import no.valg.eva.admin.configuration.domain.service.ValghierarkiDomainService;
 import no.valg.eva.admin.felles.sti.valghierarki.ValggruppeSti;
 import no.valg.eva.admin.felles.valghierarki.model.Valg;
 import no.valg.eva.admin.felles.valghierarki.service.ValghierarkiService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "SlettValgoppgjoerValghierarkiService")
+
+
+@Default
 @Remote(ValghierarkiService.class)
 public class SlettValgoppgjoerValghierarkiApplicationService extends ValghierarkiApplicationService implements ValghierarkiService {
 	@Inject

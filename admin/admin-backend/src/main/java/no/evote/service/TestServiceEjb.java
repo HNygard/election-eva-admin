@@ -26,11 +26,16 @@ import no.valg.eva.admin.configuration.repository.VoterImportBatchRepository;
 import no.valg.eva.admin.configuration.repository.VoterRepository;
 import no.valg.eva.admin.rbac.domain.model.Role;
 import no.valg.eva.admin.rbac.repository.RoleRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * This class contains method that are only used by integration tests, mostly for cleanup after tests.
  */
 @Stateless(name = "TestService")
+
+
+@Default
 @Remote(TestService.class)
 public class TestServiceEjb implements TestService {
 	@Inject

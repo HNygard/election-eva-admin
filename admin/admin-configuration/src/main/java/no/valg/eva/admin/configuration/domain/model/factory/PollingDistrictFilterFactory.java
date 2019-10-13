@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.domain.model.factory;
 
 import static no.evote.constants.AreaLevelEnum.POLLING_DISTRICT;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -12,11 +14,17 @@ import no.valg.eva.admin.common.counting.model.CountCategory;
 import no.valg.eva.admin.configuration.domain.model.filter.PollingDistrictFilterEnum;
 import no.valg.eva.admin.configuration.domain.service.CountingModeDomainService;
 
+@Default
+@ApplicationScoped
 public class PollingDistrictFilterFactory {
 
+    @Inject
     private CountingModeDomainService countingModeDomainService;
 
-    @Inject
+    public PollingDistrictFilterFactory() {
+
+    }
+
     public PollingDistrictFilterFactory(CountingModeDomainService countingModeDomainService) {
         this.countingModeDomainService = countingModeDomainService;
     }

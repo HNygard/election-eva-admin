@@ -28,8 +28,13 @@ import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Opptellingsva
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Valg_Valggruppe;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ElectionGroupService")
+
+
+@Default
 @Remote(ElectionGroupService.class)
 public class ElectionGroupApplicationService implements ElectionGroupService {
 

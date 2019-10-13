@@ -99,8 +99,11 @@ import no.valg.eva.admin.counting.repository.BallotRejectionRepository;
 import no.valg.eva.admin.counting.repository.CountingCodeValueRepository;
 import no.valg.eva.admin.counting.repository.ManualContestVotingRepository;
 import no.valg.eva.admin.counting.repository.VotingRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "CountingService")
+@Default
 @Remote(CountingService.class)
 public class CountingApplicationService implements CountingService {
 	private static final RejectFinalCountValidator REJECT_FINAL_COUNT_VALIDATOR = new RejectFinalCountValidator();

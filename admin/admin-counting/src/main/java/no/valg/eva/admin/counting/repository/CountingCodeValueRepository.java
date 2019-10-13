@@ -1,5 +1,7 @@
 package no.valg.eva.admin.counting.repository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
@@ -13,6 +15,8 @@ import no.valg.eva.admin.counting.domain.model.VoteCountStatus;
  * Repo for finding different constant code value entities in the counting module like VoteCountStatus, CountQualifer etc. We intend to have one
  * CodeValueRepository per module in the system.
  */
+@Default
+@ApplicationScoped
 public class CountingCodeValueRepository extends BaseRepository {
 
 	public CountingCodeValueRepository() {

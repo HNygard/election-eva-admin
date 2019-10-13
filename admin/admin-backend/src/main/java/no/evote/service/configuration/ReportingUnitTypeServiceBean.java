@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.dto.ReportingUnitTypeDto;
@@ -18,6 +20,8 @@ import no.valg.eva.admin.configuration.repository.ReportingUnitRepository;
 /**
  * 
  */
+@Default
+@ApplicationScoped
 public class ReportingUnitTypeServiceBean {
 
 	@Inject
@@ -26,6 +30,10 @@ public class ReportingUnitTypeServiceBean {
 	private ReportingUnitRepository reportingUnitRepository;
 	@Inject
 	private MvElectionReportingUnitsRepository mvElectionReportingUnitsRepository;
+
+	public ReportingUnitTypeServiceBean() {
+
+	}
 
 	public List<ReportingUnitTypeDto> populateReportingUnitTypeDto(String electionEventId) {
 		List<ReportingUnitTypeDto> reportingUnitTypeDtoList = new ArrayList<>();

@@ -8,21 +8,31 @@ import no.valg.eva.admin.configuration.repository.CountyRepository;
 import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
 import no.valg.eva.admin.util.ExcelUtil;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
+
+@ApplicationScoped
+@Default
 public class ScanningConfigDomainService {
 
     private final List<String> scanningConfigHeader = new ArrayList<>();
-    
-    private MunicipalityRepository municipalityRepository;
-    private CountyRepository countyRepository;
-    
+
     @Inject
+    private MunicipalityRepository municipalityRepository;
+    @Inject
+    private CountyRepository countyRepository;
+
+    public ScanningConfigDomainService() {
+        initializeHeader();
+    }
+
     public ScanningConfigDomainService(MunicipalityRepository municipalityRepository, CountyRepository countyRepository) {
         this.municipalityRepository = municipalityRepository;
         this.countyRepository = countyRepository;

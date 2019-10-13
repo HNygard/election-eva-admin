@@ -1,5 +1,7 @@
 package no.valg.eva.admin.opptelling.domain.service;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.model.CountCategory;
@@ -10,6 +12,8 @@ import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 import no.valg.eva.admin.opptelling.repository.VoteCountRepository;
 
+@Default
+@ApplicationScoped
 public class OpptellingDomainService {
 	@Inject
 	private VoteCountRepository voteCountRepository;

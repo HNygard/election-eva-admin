@@ -6,11 +6,15 @@ import no.valg.eva.admin.common.counting.constants.ResponsibilityId;
 import no.valg.eva.admin.configuration.domain.model.Responsibility;
 import no.valg.eva.admin.configuration.domain.model.ResponsibleOfficer;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class ResponsibleOfficerRepository extends BaseRepository {
 	public ResponsibleOfficerRepository() {
 	}

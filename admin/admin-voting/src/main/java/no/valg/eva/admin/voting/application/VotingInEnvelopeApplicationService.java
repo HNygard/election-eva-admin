@@ -54,8 +54,11 @@ import static no.valg.eva.admin.common.voting.model.ProcessingType.SUGGESTED_APP
 import static no.valg.eva.admin.common.voting.model.ProcessingType.SUGGESTED_REJECTED;
 import static no.valg.eva.admin.voting.application.VoterMapper.toDtoList;
 import static no.valg.eva.admin.voting.application.VotingMapper.toDtoList;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "VotingInEnvelopeService")
+@Default
 @Remote(VotingInEnvelopeService.class)
 @NoArgsConstructor //CDI
 public class VotingInEnvelopeApplicationService implements VotingInEnvelopeService {

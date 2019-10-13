@@ -46,6 +46,8 @@ import no.valg.eva.admin.util.CSVUtil;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -66,9 +68,13 @@ import static no.valg.eva.admin.common.rbac.Accesses.Tilgang_Brukere_Administrer
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
 
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
 @Remote(AdminOperatorService.class)
 @Stateless(name = "AdminOperatorService")
-@NoArgsConstructor
+@Default
 public class AdminOperatorApplicationService implements AdminOperatorService {
     @Inject
     private OperatorRepository operatorRepository;
@@ -87,6 +93,10 @@ public class AdminOperatorApplicationService implements AdminOperatorService {
     @Inject
     private VoterRepository voterRepository;
     private Validator validator;
+
+    public AdminOperatorApplicationService() {
+
+    }
 
     private static final String BUYPASS_SERIAL_NUMBER_PATTERN = "[0-9]{4}-[0-9]{4}-[0-9]{9}";
     private Pattern pattern = Pattern.compile(BUYPASS_SERIAL_NUMBER_PATTERN);

@@ -71,6 +71,8 @@ import org.xml.sax.SAXException;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -105,6 +107,8 @@ import static no.valg.eva.admin.util.TidtakingUtil.taTiden;
 import static no.valg.eva.admin.util.XMLUtil.validateAgainstSchema;
 import static no.valg.eva.admin.util.XMLUtil.value;
 
+@Default
+@ApplicationScoped
 public class CountingImportServiceBean {
 	private static final String RENUMBER = "renumber";
 	private static final String STRIKEOUT = "strikeout";
@@ -114,6 +118,10 @@ public class CountingImportServiceBean {
 	private static final String ID = "Id";
 	private static final String AFFILIATION_IDENTIFIER = "AffiliationIdentifier";
 	private static final Logger LOGGER = Logger.getLogger(CountingImportServiceBean.class);
+
+	public CountingImportServiceBean() {
+
+	}
 
 	@Inject
 	private CryptoServiceBean cryptoService;

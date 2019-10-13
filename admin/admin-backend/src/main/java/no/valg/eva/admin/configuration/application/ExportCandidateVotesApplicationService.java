@@ -14,8 +14,12 @@ import javax.inject.Inject;
 
 import static no.valg.eva.admin.common.rbac.Accesses.Opptelling_Valgoppgjør_Se;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ExportCandidateVotesService")
+
+@Default
 @Remote(ExportCandidateVotesService.class)
 @NoArgsConstructor
 public class ExportCandidateVotesApplicationService implements ExportCandidateVotesService {

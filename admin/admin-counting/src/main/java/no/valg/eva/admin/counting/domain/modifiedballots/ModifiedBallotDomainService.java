@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.model.BallotCountRef;
@@ -23,6 +25,8 @@ import no.valg.eva.admin.rbac.domain.model.Operator;
 /**
  * Domain service for handling of modified ballots
  */
+@Default
+@ApplicationScoped
 public class ModifiedBallotDomainService {
 	@Inject
 	protected ModifiedBallotBatchRepository modifiedBallotBatchRepository;

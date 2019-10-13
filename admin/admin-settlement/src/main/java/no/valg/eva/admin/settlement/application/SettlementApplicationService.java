@@ -68,31 +68,44 @@ import static no.valg.eva.admin.common.rbac.Accesses.Opptelling_Valgoppgjør_Gje
 import static no.valg.eva.admin.common.rbac.Accesses.Opptelling_Valgoppgjør_Se;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "SettlementService")
+@Default
 @Remote(SettlementService.class)
 public class SettlementApplicationService implements SettlementService {
     private static final String ERROR_MSG_USER_NOT_AT_COUNTY_LEVEL = "Operator is not at county level.";
     private static final String ERROR_MSG_USER_NOT_MUNICIPALITY_USER = "Operator is not at municipality level.";
     private static final String ERROR_MSG_USER_NOT_ACCESS_TO_CONTEST_AREA = "Operator with area path %s has not access to contest area with path %s.";
 
+    @Inject
     private FindCountService findCountService;
+    @Inject
     private MvElectionRepository mvElectionRepository;
+    @Inject
     private VoteCountService voteCountService;
+    @Inject
     private ContestRepository contestRepository;
+    @Inject
     private SettlementDomainService settlementDomainService;
+    @Inject
     private SettlementRepository settlementRepository;
+    @Inject
     private CountCategoryDomainService countCategoryDomainService;
+    @Inject
     private CountingAreaDomainService countingAreaDomainService;
+    @Inject
     private AffiliationVoteCountMapper affiliationVoteCountMapper;
+    @Inject
     private CandidateSeatMapper candidateSeatMapper;
+    @Inject
     private OppgjorStatusendringTrigger oppgjorStatusendringTrigger;
 
     public SettlementApplicationService() {
         // CDI
     }
 
-    @Inject
     public SettlementApplicationService(
             FindCountService findCountService, MvElectionRepository mvElectionRepository, VoteCountService voteCountService,
             ContestRepository contestRepository, SettlementDomainService settlementDomainService, SettlementRepository settlementRepository,

@@ -10,6 +10,9 @@ import no.valg.eva.admin.rbac.domain.model.Operator;
 import no.valg.eva.admin.rbac.domain.model.Role;
 import org.hibernate.Session;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.sql.PreparedStatement;
@@ -17,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Set;
 
+@Default
+@ApplicationScoped
 public class OperatorRepository extends BaseRepository {
 
     private static final int PARAM_3 = 3;

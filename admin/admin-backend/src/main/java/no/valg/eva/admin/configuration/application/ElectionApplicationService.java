@@ -22,8 +22,13 @@ import no.valg.eva.admin.common.rbac.SecurityNone;
 import no.valg.eva.admin.configuration.SaveElectionResponse;
 import no.valg.eva.admin.configuration.domain.model.ElectionType;
 import no.valg.eva.admin.configuration.repository.ElectionRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ElectionService")
+
+
+@Default
 @Remote(ElectionService.class)
 public class ElectionApplicationService implements ElectionService {
 

@@ -8,11 +8,14 @@ import no.valg.eva.admin.application.map.LocationSearchResult;
 import no.valg.eva.admin.integration.kartverket.KartverketService;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 
 @Stateless(name = "MapService")
 @NoArgsConstructor
+@Default
 public class MapService {
 
     private KartverketService kartverketService;

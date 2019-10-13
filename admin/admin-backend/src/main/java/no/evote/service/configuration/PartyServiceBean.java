@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -26,6 +29,8 @@ import no.valg.eva.admin.configuration.repository.party.PartyRepository;
 
 /**
  */
+@ApplicationScoped
+@Default
 public class PartyServiceBean {
 	private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	@Inject

@@ -20,6 +20,8 @@ import no.valg.eva.admin.counting.repository.ContestReportRepository;
 import no.valg.eva.admin.felles.sti.valggeografi.KommuneSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValggruppeSti;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
@@ -33,19 +35,27 @@ import static no.evote.constants.ElectionLevelEnum.ELECTION_GROUP;
 import static no.valg.eva.admin.common.counting.model.CountCategory.FO;
 import static no.valg.eva.admin.common.counting.model.CountCategory.FS;
 
+@Default
+@ApplicationScoped
 public class AntallStemmesedlerLagtTilSideDomainService {
+    @Inject
     private AntallStemmesedlerLagtTilSideRepository repository;
+    @Inject
     private ContestReportRepository contestReportRepository;
+    @Inject
     private MvElectionRepository mvElectionRepository;
+    @Inject
     private MvAreaRepository mvAreaRepository;
 
-    @Inject
     public AntallStemmesedlerLagtTilSideDomainService(AntallStemmesedlerLagtTilSideRepository repository, ContestReportRepository contestReportRepository,
                                                       MvElectionRepository mvElectionRepository, MvAreaRepository mvAreaRepository) {
         this.repository = repository;
         this.contestReportRepository = contestReportRepository;
         this.mvElectionRepository = mvElectionRepository;
         this.mvAreaRepository = mvAreaRepository;
+    }
+    public AntallStemmesedlerLagtTilSideDomainService() {
+
     }
 
     public void lagreAntallStemmesedlerLagtTilSide(

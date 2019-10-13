@@ -26,11 +26,15 @@ import no.valg.eva.admin.configuration.domain.model.Contest;
 import no.valg.eva.admin.configuration.domain.model.Locale;
 import no.valg.eva.admin.configuration.repository.AffiliationRepository;
 import no.valg.eva.admin.configuration.repository.ContestRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "AffiliationService")
+
+@Default
 @Remote(AffiliationService.class)
 public class AffiliationServiceEjb implements AffiliationService {
 	@Inject

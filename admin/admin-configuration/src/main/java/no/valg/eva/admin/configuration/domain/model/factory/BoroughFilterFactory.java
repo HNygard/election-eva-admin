@@ -13,6 +13,8 @@ import static no.valg.eva.admin.configuration.domain.model.filter.BoroughFilterE
 import java.util.EnumSet;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -23,12 +25,18 @@ import no.valg.eva.admin.configuration.domain.model.filter.BoroughFilterEnum;
 import no.valg.eva.admin.configuration.domain.service.CountingModeDomainService;
 import no.valg.eva.admin.configuration.domain.service.ValghierarkiDomainService;
 
+@Default
+@ApplicationScoped
 public class BoroughFilterFactory {
-	
-	private CountingModeDomainService countingModeDomainService;
-	private ValghierarkiDomainService valghierarkiDomainService;
 
 	@Inject
+	private CountingModeDomainService countingModeDomainService;
+	@Inject
+	private ValghierarkiDomainService valghierarkiDomainService;
+
+	public BoroughFilterFactory() {
+
+	}
 	public BoroughFilterFactory(ValghierarkiDomainService valghierarkiDomainService, CountingModeDomainService countingModeDomainService) {
 		this.countingModeDomainService = countingModeDomainService;
 		this.valghierarkiDomainService = valghierarkiDomainService;

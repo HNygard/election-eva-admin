@@ -5,6 +5,9 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.model.CountCategory;
@@ -18,14 +21,20 @@ import no.valg.eva.admin.configuration.repository.VoteCountCategoryRepository;
 /**
  * Contains Counting domain logic related to Settlement.
  */
+@Default
+@ApplicationScoped
 public class CountCategoryDomainService {
-	private final VoteCountCategoryRepository voteCountCategoryRepository;
-	private final ReportCountCategoryRepository reportCountCategoryRepository;
-
 	@Inject
+	private VoteCountCategoryRepository voteCountCategoryRepository;
+	@Inject
+	private ReportCountCategoryRepository reportCountCategoryRepository;
+
 	public CountCategoryDomainService(VoteCountCategoryRepository voteCountCategoryRepository, ReportCountCategoryRepository reportCountCategoryRepository) {
 		this.voteCountCategoryRepository = voteCountCategoryRepository;
 		this.reportCountCategoryRepository = reportCountCategoryRepository;
+	}
+	public CountCategoryDomainService() {
+
 	}
 
 	public List<CountCategory> countCategories(Contest contest) {

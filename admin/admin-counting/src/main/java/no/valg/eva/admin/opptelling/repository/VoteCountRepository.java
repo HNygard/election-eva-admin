@@ -2,6 +2,8 @@ package no.valg.eva.admin.opptelling.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.Query;
 
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
@@ -13,6 +15,8 @@ import no.valg.eva.admin.felles.konfigurasjon.model.Styretype;
 import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 
+@Default
+@ApplicationScoped
 public class VoteCountRepository extends BaseRepository {
 	public void slettOpptellinger(ValghierarkiSti valghierarkiSti, ValggeografiSti valggeografiSti, Integer countCategoryPk, Styretype styretype) {
 		String queryString = "/* NO LOAD BALANCE */select delete_vote_counts(?, ?, ?, ?)";

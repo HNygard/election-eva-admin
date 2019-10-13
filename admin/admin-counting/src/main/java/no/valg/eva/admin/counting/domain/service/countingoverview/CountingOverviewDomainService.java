@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.counting.constants.CountingMode;
@@ -36,14 +38,20 @@ import no.valg.eva.admin.counting.domain.service.settlement.CountCategoryDomainS
 /**
  * Domain service for providing overview of counts.
  */
+@Default
+@ApplicationScoped
 public class CountingOverviewDomainService {
+    @Inject
 	private VoteCountService voteCountService;
+    @Inject
 	private CountingOverviewRootBuilder countingOverviewRootBuilder;
+    @Inject
 	private ReportCountCategoryRepository reportCountCategoryRepository;
+    @Inject
 	private CountCategoryDomainService countCategoryDomainService;
+    @Inject
 	private CountingModeDomainService countingModeDomainService;
 
-	@Inject
 	public CountingOverviewDomainService(
 			VoteCountService voteCountService, CountingOverviewRootBuilder countingOverviewRootBuilder,
 			ReportCountCategoryRepository reportCountCategoryRepository, CountCategoryDomainService countCategoryDomainService,
@@ -54,8 +62,11 @@ public class CountingOverviewDomainService {
 		this.countCategoryDomainService = countCategoryDomainService;
 		this.countingModeDomainService = countingModeDomainService;
 	}
+    public CountingOverviewDomainService() {
 
-	public CountingOverviewRoot countingOverviewForOpptellingsvalgstyret(ContestArea contestArea) {
+    }
+
+    public CountingOverviewRoot countingOverviewForOpptellingsvalgstyret(ContestArea contestArea) {
 		Contest contest = contestArea.getContest();
 		MvArea mvArea = contestArea.getMvArea();
 		List<StatusType> statusTypes = statusTypesForOpptellingsvalgstyret();
