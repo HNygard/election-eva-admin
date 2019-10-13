@@ -7,7 +7,7 @@ find /.m2/ |grep eva |grep war
 echo "-------------------------------"
 echo "Copy admin-backend and admin-frontend to JBoss deployment folder."
 cp /.m2/repository/no/valg/eva/admin-backend/2019.22-SNAPSHOT/admin-backend-2019.22-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/
-cp /.m2/repository/no/valg/eva/admin-frontend/2019.22-SNAPSHOT/admin-frontend-2019.22-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/
+#cp /.m2/repository/no/valg/eva/admin-frontend/2019.22-SNAPSHOT/admin-frontend-2019.22-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/
 echo "... copied"
 
 echo ""

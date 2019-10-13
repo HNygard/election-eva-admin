@@ -1,0 +1,6 @@
+admin/*/target/
+*.iml
+maven-repo
+
+log*.log
+idea-compiler-output

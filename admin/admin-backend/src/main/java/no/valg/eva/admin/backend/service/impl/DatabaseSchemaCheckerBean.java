@@ -30,9 +30,9 @@ public class DatabaseSchemaCheckerBean {
 		evoteDatasource = new PGSimpleDataSource();
 
 		//evoteDatasource.setDriverClassName("com.mysql.jdbc.Driver");
-		//evoteDatasource.setUsername("username");
-		evoteDatasource.setPassword("password");
-		evoteDatasource.setUrl("jdbc:postgresql://<host>:<port>/<database>");
+		evoteDatasource.setPassword("example");
+		// defined in docker-compose.yml
+		evoteDatasource.setUrl("jdbc:postgresql://eva-posgres-database/evaadmin");
 		//evoteDatasource.setMaxActive(10);
 		//evoteDatasource.setMaxIdle(5);
 		//evoteDatasource.setInitialSize(5);

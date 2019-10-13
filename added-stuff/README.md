@@ -1,12 +1,8 @@
 # Running EVA admin without Maven installed in a docker container
 
-Create common repo for Maven downloads. This volume will cache dependencies Maven downloads.
-
-`docker volume create --name maven-repo`
-
 Add the non-maven-central dependency (uk.org.mygrid.resources.jcoord:jcoord) to our maven repo. The JAR for this dependency is part of the EVA Admin release.
 ```
-docker run -it --rm --name eva-admin -v maven-repo:/root/.m2 --volume `pwd`:/usr/src/eva-admin -w /usr/src/eva-admin maven:3-jdk-8 mvn install:install-file \
+docker run -it --rm --name eva-admin --volume `pwd`/maven-repo:/root/.m2 --volume `pwd`:/usr/src/eva-admin -w /usr/src/eva-admin maven:3-jdk-8 mvn install:install-file \
    -Dfile=/usr/src/eva-admin/admin-maven-repository/uk/org/mygrid/resources/jcoord/jcoord/1.0/jcoord-1.0.jar \
    -DgroupId=uk.org.mygrid.resources.jcoord \
    -DartifactId=jcoord \
@@ -19,7 +15,7 @@ Running 'mvn clean install'
 
 ```
 docker run -it --rm --name eva-admin \
-    --volume maven-repo:/root/.m2 \
+    --volume `pwd`/maven-repo:/root/.m2 \
     --volume `pwd`:/usr/src/eva-admin \
     -w /usr/src/eva-admin maven:3-jdk-8 \
     mvn -Dmaven.test.skip clean install
@@ -33,12 +29,27 @@ docker run -it --rm --name eva-admin \
     find /root/.m2|grep eva
 ```
 
+Looking at dependencies
+```
+docker run -it --rm --name eva-admin \
+    --volume `pwd`/maven-repo:/root/.m2 \
+    --volume `pwd`:/usr/src/eva-admin \
+    -w /usr/src/eva-admin maven:3-jdk-8 \
+    mvn -Dmaven.test.skip dependency:list
+```
+
 Running the application server Wildfly (JBoss):
 ```
 docker build --tag=jboss/wildfly-eva-admin added-stuff/jboss
 docker run -p 8080:8080 -p 9990:9990 \
-    --volume maven-repo:/.m2 \
+    --volume `pwd`/maven-repo:/.m2 \
     -it jboss/wildfly-eva-admin
+```
+
+If you see network issues for database, you are not far from the goal. Let's move to `docker-compose`.
+
+```
+docker-compose --file added-stuff/docker-compose.yml up
 ```
 
 
