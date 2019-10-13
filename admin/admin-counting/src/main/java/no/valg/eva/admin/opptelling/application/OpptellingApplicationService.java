@@ -19,8 +19,11 @@ import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 import no.valg.eva.admin.opptelling.domain.auditevent.OpptellingerAuditEvent;
 import no.valg.eva.admin.opptelling.domain.service.OpptellingDomainService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "OpptellingService")
+@Default
 @Remote(OpptellingService.class)
 public class OpptellingApplicationService implements OpptellingService {
 	@Inject

@@ -8,6 +8,8 @@ import no.valg.eva.admin.configuration.domain.model.MvElection;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.settlement.repository.SettlementRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import static no.evote.constants.ElectionLevelEnum.ELECTION;
@@ -16,12 +18,19 @@ import static no.evote.constants.ElectionLevelEnum.ELECTION;
  * Forretningslogikk knyttet til hvilke skjema som skal brukes for å finne status på rapporteringene, om
  * fylket kan rapportere og hvor mange skjema fylket rapporterer (1).
  */
+@Default
+@ApplicationScoped
 public class RapporteringsstatusDomainService {
 
+	@Inject
 	private MvElectionRepository mvElectionRepository;
+	@Inject
 	private SettlementRepository settlementRepository;
 
-	@Inject
+	public RapporteringsstatusDomainService() {
+
+	}
+
 	public RapporteringsstatusDomainService(MvElectionRepository mvElectionRepository, SettlementRepository settlementRepository) {
 		this.mvElectionRepository = mvElectionRepository;
 		this.settlementRepository = settlementRepository;

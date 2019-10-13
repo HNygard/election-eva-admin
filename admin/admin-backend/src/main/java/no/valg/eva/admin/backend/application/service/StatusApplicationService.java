@@ -11,12 +11,19 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import no.evote.util.VersionResourceStreamProvider;
 
+import no.valg.eva.admin.backend.service.impl.DatabaseSchemaCheckerBean;
 import org.apache.log4j.Logger;
+
+@Default
+@ApplicationScoped
 
 public class StatusApplicationService {
 	private static final Logger LOG = Logger.getLogger(StatusApplicationService.class);
@@ -27,14 +34,15 @@ public class StatusApplicationService {
 	static final String DATABASE_UNAVAILABLE = "Database is unavailable";
 	private static final String PREFIX = "backend-";
 
+	public StatusApplicationService() {
+
+	}
+
 	@Inject
 	private SystemPasswordApplicationService systemPasswordService;
 
 	@Inject
 	private VersionResourceStreamProvider versionResourceStreamProvider;
-
-	@Resource(lookup = "java:/jdbc/evote")
-	private DataSource dataSource;
 	
 	@Deprecated // Use getStatusAndConfiguredVersionProperties() instead
 	public String getStatus() {
@@ -50,7 +58,7 @@ public class StatusApplicationService {
 	}
 
 	private boolean databaseAvailable() {
-		try (Connection conn = dataSource.getConnection(); Statement statement = conn.createStatement()) {
+		try (Connection conn = DatabaseSchemaCheckerBean.evoteDatasource.getConnection(); Statement statement = conn.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(PING_SQL)) {
 				if (resultSet.next()) {
 					return "ping".equals(resultSet.getString(1));

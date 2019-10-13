@@ -25,8 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Valghendelse_Rediger;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "RapportService")
+@Default
 @Remote(RapportService.class)
 public class RapportApplicationService implements RapportService {
 

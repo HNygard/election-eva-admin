@@ -3,6 +3,8 @@ package no.valg.eva.admin.counting.domain.builder;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -15,10 +17,15 @@ import no.valg.eva.admin.configuration.domain.model.Contest;
 import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.counting.domain.model.VoteCountDigest;
 
+@Default
+@ApplicationScoped
 public class CountingOverviewRootBuilder {
-	private final CategoryCountingOverviewBuilder categoryCountingOverviewBuilder;
-
 	@Inject
+	private CategoryCountingOverviewBuilder categoryCountingOverviewBuilder;
+
+	public CountingOverviewRootBuilder() {
+
+	}
 	public CountingOverviewRootBuilder(CategoryCountingOverviewBuilder categoryCountingOverviewBuilder) {
 		this.categoryCountingOverviewBuilder = categoryCountingOverviewBuilder;
 	}

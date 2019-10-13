@@ -1,5 +1,7 @@
 package no.evote.service.configuration;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -11,13 +13,21 @@ import no.valg.eva.admin.configuration.domain.model.ElectionGroup;
 import no.valg.eva.admin.configuration.repository.ElectionRepository;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 
+@Default
+@ApplicationScoped
 public class ElectionServiceBean {
+	@Inject
 	private ContestServiceBean contestService;
+	@Inject
 	private ElectionRepository electionRepository;
+	@Inject
 	private ElectionMapper electionMapper;
+	@Inject
 	private MvElectionRepository mvElectionRepository;
 
-	@Inject
+	public ElectionServiceBean() {
+
+	}
 	public ElectionServiceBean(ContestServiceBean contestService, ElectionRepository electionRepository,
 			ElectionMapper electionMapper, MvElectionRepository mvElectionRepository) {
 		this.contestService = contestService;

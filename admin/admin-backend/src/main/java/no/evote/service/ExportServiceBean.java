@@ -46,6 +46,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import javax.xml.parsers.DocumentBuilder;
@@ -95,6 +97,8 @@ import static no.valg.eva.admin.felles.bakgrunnsjobb.domain.model.Jobbkategori.E
 /**
  * Exports EML and electoral roll as zip files.
  */
+@Default
+@ApplicationScoped
 public class ExportServiceBean {
     private static final String ISO_DATE_FORMAT_W_TZ = "yyyy-MM-dd HH:mm:ssZ";
     private static final String BATCH_TABLE_FK = "batch_binary_data_pk";
@@ -309,6 +313,10 @@ public class ExportServiceBean {
     private VoteCountCategoryRepository voteCountCategoryRepository;
     @Inject
     private ReportingUnitRepository reportingUnitRepository;
+
+    public ExportServiceBean() {
+
+    }
 
     public void generateEML(UserData userData, Long electionEventPk) {
         ElectionEvent electionEvent = electionEventRepository.findByPk(electionEventPk);

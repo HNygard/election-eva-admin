@@ -3,6 +3,8 @@ package no.evote.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.exception.EvoteException;
@@ -19,6 +21,8 @@ import no.valg.eva.admin.configuration.domain.model.TextId;
 /**
  * Methods for fetching and and maintaining translations. Most of the translation functionality has been moved to TranslationService which has a rewritten api.
  */
+@Default
+@ApplicationScoped
 public class LocaleTextServiceBean {
 	@Inject
 	private TranslationServiceBean translationService;
@@ -30,6 +34,10 @@ public class LocaleTextServiceBean {
 	private TextIdRepository textIdRepository;
 	@Inject
 	private LocaleRepository localeRepository;
+
+	public LocaleTextServiceBean() {
+
+	}
 
 	/**
 	 * Create a locale text for all locales

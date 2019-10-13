@@ -6,6 +6,9 @@ import static no.valg.eva.admin.felles.bakgrunnsjobb.domain.model.Jobbkategori.V
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -20,11 +23,16 @@ import no.valg.eva.admin.felles.bakgrunnsjobb.domain.model.Jobbkategori;
  *           Begrunnelsen for dette er at bakgrunnsjobber er en mekanisme som applikasjonen EVA Admin har nytte av, mens
  *           valgdomenet er rennende likegyldig til de tekniske aspektene for hvordan eksekveringen av tjenester kjøres.
  */
+@Default
+@ApplicationScoped
 public class BakgrunnsjobbDomainService {
 
-	private BatchRepository batchRepository;
-
 	@Inject
+	private BatchRepository batchRepository;
+	public BakgrunnsjobbDomainService() {
+
+	}
+
 	public BakgrunnsjobbDomainService(BatchRepository batchRepository) {
 		this.batchRepository = batchRepository;
 	}

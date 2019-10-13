@@ -8,11 +8,16 @@ import no.valg.eva.admin.common.AreaPath;
 import no.valg.eva.admin.configuration.domain.model.Candidate;
 import no.valg.eva.admin.configuration.domain.model.MaritalStatus;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class CandidateRepository extends BaseRepository {
     private static final String BPK = "bpk";
 
@@ -21,7 +26,7 @@ public class CandidateRepository extends BaseRepository {
     }
 
     @SuppressWarnings("unused")
-    private CandidateRepository() {
+    public CandidateRepository() {
     }
 
     public void deleteCandidate(UserData userData, Long proposalPersonPk) {

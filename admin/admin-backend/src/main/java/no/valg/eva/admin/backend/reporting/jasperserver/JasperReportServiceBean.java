@@ -76,6 +76,8 @@ import org.apache.log4j.Logger;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Any;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -130,7 +132,8 @@ import static org.apache.log4j.Logger.getLogger;
 /**
  * Service that offers an adaptation of the JasperServer REST API and path-based report parameter handling.
  */
-
+@Default
+@ApplicationScoped
 public class JasperReportServiceBean implements Serializable {
 	public static final String ELECTION_EVENT = "EE1";
 	public static final String COUNTRY = "EE1.CO1";

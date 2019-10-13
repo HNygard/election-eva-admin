@@ -29,24 +29,29 @@ import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.settlement.application.mapper.LevelingSeatMapper;
 import no.valg.eva.admin.settlement.domain.LevelingSeatSettlementDomainService;
 import no.valg.eva.admin.settlement.repository.LevelingSeatSettlementRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "LevelingSeatSettlementService")
+@Default
 @Remote(LevelingSeatSettlementService.class)
 public class LevelingSeatSettlementApplicationService implements LevelingSeatSettlementService {
 
-	private LevelingSeatSettlementDomainService levelingSeatSettlementDomainService;
-	private LevelingSeatSettlementRepository levelingSeatSettlementRepository;
-	private MvElectionRepository mvElectionRepository;
-	private LevelingSeatMapper levelingSeatMapper;
-
 	@Inject
+	private LevelingSeatSettlementDomainService levelingSeatSettlementDomainService;
+	@Inject
+	private LevelingSeatSettlementRepository levelingSeatSettlementRepository;
+	@Inject
+	private MvElectionRepository mvElectionRepository;
+
 	public LevelingSeatSettlementApplicationService(LevelingSeatSettlementDomainService levelingSeatSettlementDomainService,
-			LevelingSeatSettlementRepository levelingSeatSettlementRepository, MvElectionRepository mvElectionRepository,
-			LevelingSeatMapper levelingSeatMapper) {
+													LevelingSeatSettlementRepository levelingSeatSettlementRepository, MvElectionRepository mvElectionRepository) {
 		this.levelingSeatSettlementDomainService = levelingSeatSettlementDomainService;
 		this.levelingSeatSettlementRepository = levelingSeatSettlementRepository;
 		this.mvElectionRepository = mvElectionRepository;
-		this.levelingSeatMapper = levelingSeatMapper;
+	}
+	public LevelingSeatSettlementApplicationService() {
+
 	}
 
 	@Override
@@ -96,7 +101,7 @@ public class LevelingSeatSettlementApplicationService implements LevelingSeatSet
 			}
 			return new LevelingSeatSettlementSummary(LevelingSeatSettlementSummary.Status.NOT_READY);
 		} else {
-			return new LevelingSeatSettlementSummary(LevelingSeatSettlementSummary.Status.DONE, levelingSeatMapper.levelingSeats(levelingSeats));
+			return new LevelingSeatSettlementSummary(LevelingSeatSettlementSummary.Status.DONE, LevelingSeatMapper.levelingSeats(levelingSeats));
 		}
 	}
 }

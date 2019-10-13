@@ -20,6 +20,8 @@ import no.valg.eva.admin.voting.repository.VotingRejectionRepository;
 import no.valg.eva.admin.voting.repository.VotingRepository;
 import org.joda.time.DateTime;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -32,6 +34,8 @@ import static no.valg.eva.admin.configuration.domain.model.VoterStatus.DECEASED;
 import static org.joda.time.DateTime.now;
 
 @Log4j
+@Default
+@ApplicationScoped
 public class VotingRegistrationDomainService {
 
     @Inject

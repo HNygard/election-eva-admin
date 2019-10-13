@@ -2,6 +2,8 @@ package no.evote.service.configuration;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -14,6 +16,8 @@ import no.valg.eva.admin.configuration.repository.BallotRepository;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class BallotServiceBean {
 	@Inject
 	private AffiliationRepository affiliationRepository;

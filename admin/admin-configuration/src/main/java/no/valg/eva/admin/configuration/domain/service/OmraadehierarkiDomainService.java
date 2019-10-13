@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -40,16 +42,27 @@ import no.valg.eva.admin.configuration.repository.ReportCountCategoryRepository;
 import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 
+@Default
+@ApplicationScoped
 public class OmraadehierarkiDomainService {
 
-	private MvAreaRepository mvAreaRepository;
-	private MvElectionRepository mvElectionRepository;
-	private ReportCountCategoryRepository reportCountCategoryRepository;
-	private ContestAreaDomainService contestAreaDomainService;
-	private BoroughFilterFactory boroughFilterFactory;
-	private PollingDistrictFilterFactory pollingDistrictFilterFactory;
-	
 	@Inject
+	private MvAreaRepository mvAreaRepository;
+	@Inject
+	private MvElectionRepository mvElectionRepository;
+	@Inject
+	private ReportCountCategoryRepository reportCountCategoryRepository;
+	@Inject
+	private ContestAreaDomainService contestAreaDomainService;
+	@Inject
+	private BoroughFilterFactory boroughFilterFactory;
+	@Inject
+	private PollingDistrictFilterFactory pollingDistrictFilterFactory;
+
+	public OmraadehierarkiDomainService() {
+
+	}
+
 	public OmraadehierarkiDomainService(MvAreaRepository mvAreaRepository, MvElectionRepository mvElectionRepository,
 										ReportCountCategoryRepository reportCountCategoryRepository, ContestAreaDomainService contestAreaDomainService,
 										BoroughFilterFactory filterFactoryProviderToBeRefactored, PollingDistrictFilterFactory pollingDistrictFilterFactory) {

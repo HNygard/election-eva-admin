@@ -20,11 +20,6 @@
 			<artifactId>admin-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.valg.eva</groupId>
-			<artifactId>admin-backend-testtools</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
 			<scope>compile</scope>

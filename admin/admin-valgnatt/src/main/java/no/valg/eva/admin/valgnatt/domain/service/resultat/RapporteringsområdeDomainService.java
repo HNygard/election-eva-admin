@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -29,12 +31,19 @@ import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 /**
  * Finner kommuner det skal rapporteres for.
  */
+@Default
+@ApplicationScoped
 public class RapporteringsområdeDomainService {
 
+	@Inject
 	private VoteCountService voteCountService;
+	@Inject
 	private MvAreaRepository mvAreaRepository;
 
-	@Inject
+	public RapporteringsområdeDomainService() {
+
+	}
+
 	public RapporteringsområdeDomainService(VoteCountService voteCountService, MvAreaRepository mvAreaRepository) {
 		this.voteCountService = voteCountService;
 		this.mvAreaRepository = mvAreaRepository;

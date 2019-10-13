@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -12,6 +14,8 @@ import no.valg.eva.admin.configuration.domain.model.PollingPlace;
 import no.valg.eva.admin.configuration.domain.model.PollingStation;
 import no.valg.eva.admin.configuration.domain.model.Voter;
 
+@Default
+@ApplicationScoped
 public class PollingStationRepository extends BaseRepository {
 	public PollingStationRepository() {
 	}

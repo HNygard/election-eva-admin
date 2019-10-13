@@ -31,9 +31,14 @@ import no.valg.eva.admin.counting.repository.CountingCodeValueRepository;
 import no.valg.eva.admin.counting.repository.ManualContestVotingRepository;
 import no.valg.eva.admin.counting.repository.VotingRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
 /**
  * Domain service for handling VoteCount instances.
  */
+@Default
+@ApplicationScoped
 public class VoteCountFactory extends BaseCountService {
 
 	private final CountingCodeValueRepository countingCodeValueRepository;

@@ -31,8 +31,13 @@ import static no.valg.eva.admin.common.auditlog.AuditEventTypes.Save;
 import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Grunnlagsdata_Redigere;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 @Stateless(name = "PollingPlaceService")
+
+
+
+@Default
 @Remote(PollingPlaceService.class)
 @NoArgsConstructor //CDI
 public class PollingPlaceApplicationService implements PollingPlaceService {

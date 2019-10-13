@@ -24,7 +24,16 @@ import no.valg.eva.admin.settlement.domain.model.factory.CandidateVoteCountFacto
 import no.valg.eva.admin.settlement.domain.model.strategy.ProcessCandidateRanksForElectionWithPersonalVotes;
 import no.valg.eva.admin.settlement.domain.model.strategy.ProcessCandidateRanksForElectionWithRenumbering;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class SettlementBuilderFactory {
+	public SettlementBuilderFactory() {
+
+	}
+
 	public SettlementBuilder settlementBuilderForRenumberingAndStrikeOuts(Contest contest, List<ContestReport> contestReports) {
 		// event factories
 		AffiliationVoteCountEventsFromCountingModel affiliationVoteCountEventsFromCountingModel = new AffiliationVoteCountEventsFromCountingModel(

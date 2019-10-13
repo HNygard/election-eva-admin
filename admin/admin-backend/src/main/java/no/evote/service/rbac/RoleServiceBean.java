@@ -19,6 +19,7 @@ import no.valg.eva.admin.rbac.domain.model.Role;
 import no.valg.eva.admin.rbac.repository.RoleRepository;
 import org.apache.log4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -33,6 +34,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@javax.enterprise.inject.Default
+@ApplicationScoped
 public class RoleServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(RoleServiceBean.class);
 	private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -53,6 +56,10 @@ public class RoleServiceBean {
 	private RoleExporterImporter roleExporterImporter;
 	@Inject
 	private RoleRepository roleRepository;
+
+	public RoleServiceBean() {
+
+	}
 
 	public List<no.valg.eva.admin.common.rbac.Role> findAllRolesWithoutAccessesForView(final UserData userData) {
 		ElectionEvent electionEvent = new ElectionEvent();

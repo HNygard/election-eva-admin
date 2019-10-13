@@ -41,12 +41,20 @@ public class ReduserGeografiServlet extends EvaAdminServlet {
 		+ " Denne funksjonaliteten er skrudd av så et kall på denne tjenesten tyder på et mulig forsøk på innbrudd i systemet";
 
 	private final boolean erTjenestenTilkoblet;
-	private final ReduserOpptellingerDomainService reduserOpptellingerDomainService;
-	private final ReduserGeografiDomainService reduserGeografiDomainService;
-	private final ReduserStemmegivningerDomainService reduserStemmegivningerDomainService;
-	private final ReduserVelgereDomainService reduserVelgereDomainService;
-
 	@Inject
+	private ReduserOpptellingerDomainService reduserOpptellingerDomainService;
+	@Inject
+	private ReduserGeografiDomainService reduserGeografiDomainService;
+	@Inject
+	private ReduserStemmegivningerDomainService reduserStemmegivningerDomainService;
+	@Inject
+	private ReduserVelgereDomainService reduserVelgereDomainService;
+
+	public ReduserGeografiServlet() {
+		// FIXME: Or true? Don't know. Just setting it to something.
+		erTjenestenTilkoblet = false;
+	}
+
 	public ReduserGeografiServlet(ReduserGeografiDomainService reduserGeografiDomainService,
 								  ReduserVelgereDomainService reduserVelgereDomainService,
 								  ReduserStemmegivningerDomainService reduserStemmegivningerDomainService,

@@ -23,11 +23,16 @@ import no.valg.eva.admin.common.configuration.model.party.Parti;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.application.party.PartyMapper;
 import no.valg.eva.admin.configuration.repository.party.PartyRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "PartyService")
+
+
+
+@Default
 @Remote(PartyService.class)
 public class PartyServiceEjb implements PartyService {
 	@Inject

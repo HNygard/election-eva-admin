@@ -18,7 +18,6 @@
         <module>admin-integration</module>
         <module>admin-voting</module>
         <module>admin-backend-common</module>
-        <module>admin-backend-testtools</module>
         <module>admin-backend</module>
         <module>admin-frontend</module>
         <module>admin-counting</module>

@@ -80,6 +80,7 @@ public final class EvoteProperties {
 	private EvoteProperties() {
 	}
 
+	/* USING DEFAULT VALUES FOR ALL VALUES
 	static {
 		readProperties();
 	}
@@ -99,6 +100,7 @@ public final class EvoteProperties {
 			throw new EvoteInitiationException("Failed to load evote properties", e);
 		}
 	}
+	*/
 
 	private static synchronized void loadPropertyFilePath() {
 		propertyFilePath = System.getenv(EVOTE_PROPERTIES_ENV_VARIABLE);
@@ -138,7 +140,8 @@ public final class EvoteProperties {
 	}
 	
 	public static String getProperty(final String key, final boolean allowNull) {
-		String value = (String) properties.get(key);
+		// String value = (String) properties.get(key);
+		String value = null;
 		if (value == null && !allowNull) {
 			throw new EvoteException("Property missing in evote.properties: " + key);
 		}

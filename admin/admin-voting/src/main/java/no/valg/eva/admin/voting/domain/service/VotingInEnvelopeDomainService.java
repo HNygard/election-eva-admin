@@ -21,6 +21,8 @@ import no.valg.eva.admin.voting.repository.PagingVotingRepository;
 import no.valg.eva.admin.voting.repository.VotingRepository;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,6 +38,8 @@ import static no.valg.eva.admin.util.StringUtil.isNotBlank;
 import static no.valg.eva.admin.voting.application.VotingMapper.toDto;
 
 @Log4j
+@Default
+@ApplicationScoped
 public class VotingInEnvelopeDomainService {
     
     private static final Locale NORWEGIAN_NB = new Locale("nb", "NO");

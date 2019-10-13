@@ -99,11 +99,6 @@
             </dependency>
             <dependency>
                 <groupId>no.valg.eva</groupId>
-                <artifactId>admin-backend-testtools</artifactId>
-                <version>2019.22-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>no.valg.eva</groupId>
                 <artifactId>admin-integration</artifactId>
                 <version>2019.22-SNAPSHOT</version>
             </dependency>
@@ -479,7 +474,6 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <!-- PrimeFaces - GUI-rammeverket vi bruker i frontend. Holder oss på v5.3 pga legacy custom frontend styling -->

@@ -40,11 +40,16 @@ import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
 import static no.valg.eva.admin.configuration.application.ElectionDayMapper.toDomainModel;
 import static no.valg.eva.admin.configuration.application.ElectionDayMapper.toDto;
 import static no.valg.eva.admin.configuration.application.ElectionDayMapper.toDtoList;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ElectionEventService")
+
+
+@Default
 @Remote(ElectionEventService.class)
 @NoArgsConstructor //For CDI
 public class ElectionEventApplicationService implements ElectionEventService {

@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -58,6 +60,8 @@ import no.valg.eva.admin.felles.valggeografi.model.Kommune;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class KlonEndeligeTellingerDomainService {
 	private static final Logger LOGGER = Logger.getLogger(KlonEndeligeTellingerDomainService.class);
 	private static final String ADVARSEL_IKKE_TILGANG = "Et forsøk på å nå tjenesten KlonEndeligeTellingerServlet ble registrert."

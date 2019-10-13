@@ -33,11 +33,16 @@ import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.PollingDistrictRepository;
 import no.valg.eva.admin.configuration.repository.VoterRepository;
 import no.valg.eva.admin.felles.sti.valggeografi.KommuneSti;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "LegacyPollingDistrictService")
+
+
+
+@Default
 @Remote(LegacyPollingDistrictService.class)
 public class LegacyPollingDistrictServiceEjb implements LegacyPollingDistrictService {
 

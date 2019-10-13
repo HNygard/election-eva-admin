@@ -46,6 +46,8 @@ import no.valg.eva.admin.counting.repository.VotingRepository;
 import no.valg.eva.admin.felles.sti.valghierarki.ValgdistriktSti;
 import no.valg.eva.admin.opptelling.repository.VoteCountRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,6 +75,8 @@ import static no.valg.eva.admin.common.counting.model.CountQualifier.PRELIMINARY
 /**
  * Domain service for handling VoteCount instances.
  */
+@Default
+@ApplicationScoped
 public class VoteCountService extends BaseCountService {
 
 	private CountingCodeValueRepository countingCodeValueRepository;

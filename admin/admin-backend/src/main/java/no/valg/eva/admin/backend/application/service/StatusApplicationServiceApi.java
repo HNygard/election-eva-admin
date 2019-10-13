@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 
 import no.valg.eva.admin.common.application.service.StatusService;
 import no.valg.eva.admin.common.rbac.SecurityNone;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * DEV-NOTE: Merk at denne klassen avviker fra vanlig navnestandard. Årsaken er at @Stateless-annotasjonen 
@@ -17,6 +19,9 @@ import no.valg.eva.admin.common.rbac.SecurityNone;
  *           ut i en egen klasse.
  */
 @Stateless(name = "StatusService")
+
+
+@Default
 @Remote(StatusService.class)
 @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
 public class StatusApplicationServiceApi implements StatusService {

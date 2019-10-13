@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -41,10 +44,16 @@ import no.valg.eva.admin.felles.valghierarki.model.Valgdistrikt;
 import no.valg.eva.admin.felles.valghierarki.model.Valggruppe;
 import no.valg.eva.admin.felles.valghierarki.model.Valghendelse;
 
+@Default
+@ApplicationScoped
 public class ValghierarkiDomainService {
-	private final MvElectionRepository mvElectionRepository;
-
 	@Inject
+	private MvElectionRepository mvElectionRepository;
+
+	public ValghierarkiDomainService() {
+
+	}
+
 	public ValghierarkiDomainService(MvElectionRepository mvElectionRepository) {
 		this.mvElectionRepository = mvElectionRepository;
 	}

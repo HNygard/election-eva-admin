@@ -15,8 +15,13 @@ import java.util.List;
 
 import static no.valg.eva.admin.common.rbac.Accesses.Manntall_Historikk;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "VoterAuditService")
+
+
+@Default
 @Remote(VoterAuditService.class)
 @NoArgsConstructor //CDI
 public class VoterAuditApplicationService implements VoterAuditService {

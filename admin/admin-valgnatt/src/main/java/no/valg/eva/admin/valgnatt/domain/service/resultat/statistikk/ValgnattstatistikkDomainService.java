@@ -13,17 +13,26 @@ import no.valg.eva.admin.valgnatt.domain.service.resultat.RapporteringsområdeDo
 import no.valg.eva.admin.valgnatt.repository.StemmegivningsstatistikkRepository;
 import no.valg.eva.admin.voting.domain.model.Stemmegivningsstatistikk;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+@Default
+@ApplicationScoped
 public class ValgnattstatistikkDomainService {
 
+	@Inject
 	private StemmegivningsstatistikkRepository stemmegivningsstatistikkRepository;
+	@Inject
 	private RapporteringsområdeDomainService rapporteringsområdeDomainService;
 
-	@Inject
+	public ValgnattstatistikkDomainService() {
+
+	}
+
 	public ValgnattstatistikkDomainService(StemmegivningsstatistikkRepository stemmegivningsstatistikkRepository,
 										   RapporteringsområdeDomainService rapporteringsområdeDomainService) {
 		this.stemmegivningsstatistikkRepository = stemmegivningsstatistikkRepository;

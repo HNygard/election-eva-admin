@@ -40,6 +40,11 @@ import no.valg.eva.admin.counting.domain.service.votecount.VoteCountStatusendrin
 import no.valg.eva.admin.counting.repository.BallotRejectionRepository;
 import no.valg.eva.admin.counting.repository.CountingCodeValueRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class FinalCountService extends BaseCountService {
 
 	private final Set<CountCategory> validCountCategoriesForBoroughElection;

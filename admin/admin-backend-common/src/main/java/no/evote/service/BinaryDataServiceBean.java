@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.activation.MimetypesFileTypeMap;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.model.BinaryData;
@@ -15,9 +17,15 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class BinaryDataServiceBean {
 	@Inject
 	private BinaryDataRepository binaryDataRepository;
+
+	public BinaryDataServiceBean() {
+
+	}
 
 	public BinaryData createBinaryData(UserData userData, byte[] bytes, String fileName, ElectionEvent electionEvent,
 			String tableName, String columnName, String mimeTypeParam) throws IOException {

@@ -19,6 +19,11 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class ManntallsimportMappingRepository {
 
 	private static final Logger LOG = Logger.getLogger(ManntallsimportMappingRepository.class);

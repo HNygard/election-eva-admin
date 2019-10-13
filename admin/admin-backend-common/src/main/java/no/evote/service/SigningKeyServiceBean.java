@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.EvoteConstants;
@@ -18,6 +20,8 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class SigningKeyServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(SigningKeyServiceBean.class);
 
@@ -29,6 +33,10 @@ public class SigningKeyServiceBean {
 	private BinaryDataRepository binaryDataRepository;
 	@Inject
 	private SigningKeyRepository signingKeyRepository;
+
+	public SigningKeyServiceBean() {
+
+	}
 
 	/**
 	 * Creates a signing key. If it already exist delete the binary data attached to it

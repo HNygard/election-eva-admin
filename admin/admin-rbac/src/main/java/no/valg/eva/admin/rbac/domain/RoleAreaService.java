@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -27,6 +30,8 @@ import no.valg.eva.admin.rbac.repository.RoleRepository;
 /**
  * Domain service handling logic related to role and area.
  */
+@Default
+@ApplicationScoped
 public class RoleAreaService {
 
 	static final boolean DO_NOT_INCLUDE_POLLING_DISTRICTS = false;
@@ -37,6 +42,10 @@ public class RoleAreaService {
 	private MvAreaRepository mvAreaRepository;
 	@Inject
 	private RoleRepository roleRepository;
+
+	public RoleAreaService(){
+
+	}
 
 	/**
 	 * If area path is path for a county, this county is returned.  If area path is path for a municipality,

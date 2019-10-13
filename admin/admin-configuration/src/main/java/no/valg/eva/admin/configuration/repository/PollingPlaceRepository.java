@@ -6,10 +6,15 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 import no.valg.eva.admin.configuration.domain.model.PollingPlace;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class PollingPlaceRepository extends BaseRepository {
     private static final String ID = "id";
     private static final String PARAM_POLLING_DISTRICT_PK = "pollingDistrictPk";
@@ -17,7 +22,7 @@ public class PollingPlaceRepository extends BaseRepository {
     private static final String PARAM_POLLING_PLACE_PK = "pollingPlacePk";
     private static final String ADVANCE_VOTE_IN_BALLOT_BOX = "advanceVoteInBallotBox";
     
-    PollingPlaceRepository() {
+    public PollingPlaceRepository() {
         // Brukes av CDI?
     }
 

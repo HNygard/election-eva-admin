@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -45,6 +48,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 
+@Default
+@ApplicationScoped
 public class CandidateServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(CandidateServiceBean.class);
 	private static final String EMPTY = "";

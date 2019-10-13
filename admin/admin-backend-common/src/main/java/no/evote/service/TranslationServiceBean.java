@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -28,6 +31,8 @@ import org.apache.log4j.Logger;
  * to and from the database. If this alters translations that have been retrieved from the database, Hibernate will try to update the database (unless we detach
  * them). And in some cases (e.g. in the list proposal apps) we don't have write access to the translation tables.
  */
+@Default
+@ApplicationScoped
 public class TranslationServiceBean {
 	private static final Logger LOGGER = Logger.getLogger(TranslationServiceBean.class);
 

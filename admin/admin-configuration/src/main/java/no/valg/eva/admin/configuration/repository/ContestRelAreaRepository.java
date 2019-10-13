@@ -3,6 +3,8 @@ package no.valg.eva.admin.configuration.repository;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -12,6 +14,8 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.domain.model.MvElection;
 
+@Default
+@ApplicationScoped
 public class ContestRelAreaRepository extends BaseRepository {
 	public ContestRelAreaRepository() {
 	}

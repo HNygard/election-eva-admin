@@ -3,6 +3,8 @@ package no.evote.service.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -15,6 +17,8 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 import no.valg.eva.admin.configuration.repository.ElectionGroupRepository;
 import no.valg.eva.admin.configuration.repository.ElectionRepository;
 
+@Default
+@ApplicationScoped
 public class ElectionGroupServiceBean {
 
 	@Inject
@@ -25,6 +29,10 @@ public class ElectionGroupServiceBean {
 	private ElectionEventRepository electionEventRepository;
 	@Inject
 	private ElectionGroupMapper electionGroupMapper;
+
+	public ElectionGroupServiceBean() {
+
+	}
 
 	public ElectionGroup get(ElectionPath electionGroupPath) {
 		return ElectionGroupMapper.toElectionGroup(electionGroupRepository.findSingleByPath(electionGroupPath));

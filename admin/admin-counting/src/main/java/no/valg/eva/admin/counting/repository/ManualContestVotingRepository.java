@@ -2,6 +2,8 @@ package no.valg.eva.admin.counting.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -9,6 +11,8 @@ import no.evote.security.UserData;
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.counting.domain.model.ManualContestVoting;
 
+@Default
+@ApplicationScoped
 public class ManualContestVotingRepository extends BaseRepository {
 
 	public static final String QUERY_FIND_FOR_VO_BY_CONTEST_AND_AREA =

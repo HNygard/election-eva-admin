@@ -3,6 +3,8 @@ package no.valg.eva.admin.counting.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -15,6 +17,8 @@ import no.valg.eva.admin.configuration.domain.model.MvArea;
 /**
  * Repo for finding info about contests that are accessible from a given area and election.
  */
+@Default
+@ApplicationScoped
 public class ContestInfoRepository extends BaseRepository {
 
 	private static final String CONTEST_INFO_QUERY_ON_ELECTION_PK =

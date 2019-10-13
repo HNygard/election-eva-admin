@@ -19,6 +19,8 @@ import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.UTMRef;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Stateless
 @NoArgsConstructor
 @Log4j
+@Default
 public class KartverketService {
 
     private static final int FIRST_PAGE = 0;

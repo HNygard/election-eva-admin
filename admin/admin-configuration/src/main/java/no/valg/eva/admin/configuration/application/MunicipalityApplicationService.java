@@ -65,8 +65,13 @@ import static no.valg.eva.admin.common.rbac.Accesses.Rapport_Manntall_Avkrysning
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
 import static no.valg.eva.admin.configuration.application.OpeningHoursMapper.toDomainModelList;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "MunicipalityService")
+
+
+@Default
 @Remote(MunicipalityService.class)
 public class MunicipalityApplicationService implements MunicipalityService {
 

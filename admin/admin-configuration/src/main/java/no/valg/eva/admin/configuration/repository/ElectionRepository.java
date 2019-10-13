@@ -3,6 +3,8 @@ package no.valg.eva.admin.configuration.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -15,6 +17,8 @@ import no.valg.eva.admin.configuration.domain.model.Election;
 import no.valg.eva.admin.configuration.domain.model.ElectionType;
 import no.valg.eva.admin.configuration.domain.model.MvElection;
 
+@Default
+@ApplicationScoped
 public class ElectionRepository extends BaseRepository {
 	private static final String FIELD_ELECTION_GROUP_PK = "electionGroupPk";
 	private static final String FIELD_ID = "id";

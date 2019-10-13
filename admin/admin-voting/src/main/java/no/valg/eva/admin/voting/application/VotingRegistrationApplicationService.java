@@ -28,8 +28,11 @@ import static no.valg.eva.admin.common.rbac.Accesses.Stemmegiving_Forhånd_Regis
 import static no.valg.eva.admin.common.rbac.Accesses.Stemmegiving_Forhånd_Registrer_Sentralt;
 import static no.valg.eva.admin.common.rbac.Accesses.Stemmegiving_Valgting_Registrer_Sentralt;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "VotingRegistrationService")
+@Default
 @Remote(VotingRegistrationService.class)
 @NoArgsConstructor //CDI
 public class VotingRegistrationApplicationService implements VotingRegistrationService {

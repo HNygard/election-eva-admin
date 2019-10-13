@@ -30,6 +30,9 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -62,6 +65,9 @@ import java.util.Set;
 import static java.lang.String.format;
 import static no.evote.constants.EvoteConstants.CHARACTER_SET;
 
+@Default
+
+@ApplicationScoped
 public class CryptoServiceBean {
 
 	private static final String BC = "BC";

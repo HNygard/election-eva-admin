@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -26,9 +28,14 @@ import no.valg.eva.admin.counting.domain.model.CastBallot;
 import no.valg.eva.admin.counting.domain.model.VoteCount;
 import no.valg.eva.admin.counting.domain.service.CastBallotDomainService;
 import no.valg.eva.admin.counting.domain.service.VoteCountService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "CastBallotService")
+
+
 @Remote(CastBallotService.class)
+@Default
 public class CastBallotApplicationService implements CastBallotService {
 	@Inject
 	private VoteCountService voteCountService;

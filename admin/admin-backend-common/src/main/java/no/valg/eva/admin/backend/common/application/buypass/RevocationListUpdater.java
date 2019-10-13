@@ -2,6 +2,8 @@ package no.valg.eva.admin.backend.common.application.buypass;
 
 import java.security.cert.X509CRL;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.security.auth.x500.X500Principal;
 
@@ -10,16 +12,23 @@ import no.valg.eva.admin.backend.common.port.adapter.service.buypass.Certificate
 
 import org.joda.time.DateTime;
 
+@Default
+@ApplicationScoped
 public class RevocationListUpdater {
+
+	public RevocationListUpdater() {
+
+	}
 
 	public static final int BUYPASS_UPDATE_FREQUENCY = 24;
 	private static final X500Principal[] PRINCIPALS = new X500Principal[] { CertificateRevocationListService.BUYPASS_CLASS_3_CA_1,
 			CertificateRevocationListService.BUYPASS_CLASS_3_CA_3 };
 
+	@Inject
 	private RevocationListHolder revocationListHolder;
+	@Inject
 	private CertificateRevocationListService certificateRevocationListService;
 
-	@Inject
 	public RevocationListUpdater(RevocationListHolder revocationListHolder, CertificateRevocationListService certificateRevocationListService) {
 		this.revocationListHolder = revocationListHolder;
 		this.certificateRevocationListService = certificateRevocationListService;

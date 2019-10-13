@@ -32,6 +32,8 @@ import no.valg.eva.admin.rbac.domain.model.Role;
 import no.valg.eva.admin.rbac.repository.RoleRepository;
 
 import org.apache.log4j.Logger;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * A convenience class for getting different entities by primary key. Makes it possible to create generic functionality.
@@ -39,6 +41,9 @@ import org.apache.log4j.Logger;
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "GenericService")
+
+
+@Default
 @Remote(GenericService.class)
 public class GenericServiceEjb implements GenericService {
 	private static final Logger LOGGER = Logger.getLogger(GenericServiceEjb.class);

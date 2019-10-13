@@ -24,8 +24,13 @@ import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.domain.model.PollingPlace;
 import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "PollingStationService")
+
+
+@Default
 @Remote(PollingStationService.class)
 public class PollingStationApplicationService implements PollingStationService {
 

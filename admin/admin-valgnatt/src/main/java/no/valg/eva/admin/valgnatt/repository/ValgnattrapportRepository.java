@@ -2,6 +2,8 @@ package no.valg.eva.admin.valgnatt.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -16,6 +18,8 @@ import no.valg.eva.admin.counting.domain.model.report.ReportType;
 import no.valg.eva.admin.valgnatt.domain.model.valgnattrapport.Valgnattrapport;
 import no.valg.eva.admin.valgnatt.domain.model.valgnattrapport.ValgnattrapportAntall;
 
+@Default
+@ApplicationScoped
 public class ValgnattrapportRepository extends BaseRepository {
 
 	public ValgnattrapportRepository() {

@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -17,6 +19,8 @@ import no.valg.eva.admin.configuration.domain.model.ElectionGroup;
 import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.domain.model.ReportCountCategory;
 
+@Default
+@ApplicationScoped
 public class ReportCountCategoryRepository extends BaseRepository {
 
 	public static final String QUERY_FIND_BY_MUNICIPALITY_ELECTION_GROUP_AND_VOTE_COUNT_CATEGORY = "SELECT rcc "

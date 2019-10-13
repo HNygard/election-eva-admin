@@ -9,6 +9,7 @@ import javax.ejb.TransactionManagementType;
 import javax.sql.DataSource;
 
 import org.flywaydb.core.Flyway;
+import org.postgresql.ds.PGSimpleDataSource;
 
 /**
  * This EJB verifies that the database schema is correct and has the latest database migrations
@@ -17,11 +18,28 @@ import org.flywaydb.core.Flyway;
 @Singleton
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DatabaseSchemaCheckerBean {
-	@Resource(mappedName = "java:/jdbc/evote")
-	private DataSource evoteDatasource;
+	public static PGSimpleDataSource evoteDatasource;
 
 	@PostConstruct
 	public void checkDatabaseMigrations() {
+
+        // <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+        // <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://${testDatabaseHost}:${testDatabasePort}/${testDatabaseName}"/>
+        // <property name="javax.persistence.jdbc.user" value="admin"/>
+        // <property name="javax.persistence.jdbc.password" value="admin"/>
+		evoteDatasource = new PGSimpleDataSource();
+
+		//evoteDatasource.setDriverClassName("com.mysql.jdbc.Driver");
+		evoteDatasource.setPassword("example");
+		// defined in docker-compose.yml
+		evoteDatasource.setUrl("jdbc:postgresql://eva-posgres-database/evaadmin");
+		//evoteDatasource.setMaxActive(10);
+		//evoteDatasource.setMaxIdle(5);
+		//evoteDatasource.setInitialSize(5);
+		//evoteDatasource.setValidationQuery("SELECT 1");
+
+
+
 		Flyway flyway = initFlyway();
 
 		int pendingMigrations = flyway.info().pending().length;

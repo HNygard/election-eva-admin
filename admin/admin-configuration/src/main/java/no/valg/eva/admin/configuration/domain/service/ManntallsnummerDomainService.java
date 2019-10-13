@@ -1,5 +1,7 @@
 package no.valg.eva.admin.configuration.domain.service;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.backend.configuration.repository.ElectionEventRepository;
@@ -8,12 +10,18 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 
 import org.joda.time.LocalDate;
 
+@Default
+@ApplicationScoped
 public class ManntallsnummerDomainService {
 	private static final int TITALLSYSTEMET_BASE = 10;
 
+	@Inject
 	private ElectionEventRepository electionEventRepository;
 
-	@Inject
+	public ManntallsnummerDomainService() {
+
+	}
+
 	public ManntallsnummerDomainService(ElectionEventRepository electionEventRepository) {
 		this.electionEventRepository = electionEventRepository;
 	}

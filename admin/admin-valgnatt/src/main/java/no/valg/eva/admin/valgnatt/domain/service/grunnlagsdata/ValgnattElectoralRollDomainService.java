@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.ElectionPath;
@@ -26,14 +28,21 @@ import org.apache.log4j.Logger;
  * Finds electoral roll per polling district and maps this to the geography of the report configuration (if reporting is done on municipality, voters from all
  * polling districts are aggregated on municipality, if parent polling district (tellekrets) voters are aggregated on parent.)
  */
+@Default
+@ApplicationScoped
 public class ValgnattElectoralRollDomainService {
 
 	private static final Logger LOG = Logger.getLogger(ValgnattElectoralRollDomainService.class);
 
-	private final ValgnattElectoralRollRepository valgnattElectoralRollRepository;
-	private final PollingDistrictRepository pollingDistrictRepository;
-
 	@Inject
+	private ValgnattElectoralRollRepository valgnattElectoralRollRepository;
+	@Inject
+	private PollingDistrictRepository pollingDistrictRepository;
+
+	public ValgnattElectoralRollDomainService() {
+
+	}
+
 	public ValgnattElectoralRollDomainService(ValgnattElectoralRollRepository valgnattElectoralRollRepository,
 											  PollingDistrictRepository pollingDistrictRepository) {
 		this.valgnattElectoralRollRepository = valgnattElectoralRollRepository;

@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -18,6 +20,8 @@ import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.domain.model.MvElection;
 
+@Default
+@ApplicationScoped
 public class ContestRepository extends BaseRepository {
 	private static final String ELECTION_EVENT_PK = "electionEventPk";
 	private static final String AREA_PATH = "areaPath";
@@ -31,7 +35,7 @@ public class ContestRepository extends BaseRepository {
 	}
 
 	@SuppressWarnings("unused")
-	private ContestRepository() {
+	public ContestRepository() {
 	}
 
 	public List<Contest> findBoroughContestsInMunicipality(Municipality municipality) {

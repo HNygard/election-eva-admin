@@ -3,6 +3,9 @@ package no.valg.eva.admin.configuration.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -12,6 +15,8 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.Proposer;
 import no.valg.eva.admin.configuration.domain.model.ProposerRole;
 
+@Default
+@ApplicationScoped
 public class ProposerRepository extends BaseRepository {
 
 	private static final String BPK = "bpk";
@@ -21,7 +26,7 @@ public class ProposerRepository extends BaseRepository {
 	}
 
 	@SuppressWarnings("unused")
-	private ProposerRepository() {
+	public ProposerRepository() {
 	}
 
 	public void deleteProposer(UserData userData, Long proposerPk) {

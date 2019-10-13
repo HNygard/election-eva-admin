@@ -21,6 +21,8 @@ import no.valg.eva.admin.counting.domain.service.ReportingUnitDomainService;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -31,7 +33,10 @@ import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Opptellingsva
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
 
+
 @Stateless(name = "ElectionCardConfigService")
+
+@Default
 @Remote(ElectionCardConfigService.class)
 @NoArgsConstructor
 public class ElectionCardConfigApplicationService implements ElectionCardConfigService {

@@ -2,6 +2,8 @@ package no.valg.eva.admin.configuration.repository.valgnatt;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -18,6 +20,8 @@ import no.valg.eva.admin.configuration.domain.model.valgnatt.ReportConfiguration
  * Finds electoral roll per polling district, and report configuration. In DDD terms, this would probably not be considered a repository, but named so here for
  * consistency.
  */
+@Default
+@ApplicationScoped
 public class ValgnattElectoralRollRepository extends BaseRepository {
 
 	private static final int PARAM_3 = 3;

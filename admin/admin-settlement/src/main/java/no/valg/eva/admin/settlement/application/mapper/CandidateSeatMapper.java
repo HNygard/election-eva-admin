@@ -8,7 +8,18 @@ import no.valg.eva.admin.common.settlement.model.CandidateSeat;
 import no.valg.eva.admin.configuration.domain.model.Affiliation;
 import no.valg.eva.admin.configuration.domain.model.Candidate;
 
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class CandidateSeatMapper extends Mapper {
+
+	public CandidateSeatMapper() {
+
+	}
+
 	public List<CandidateSeat> candidateSeats(List<no.valg.eva.admin.settlement.domain.model.CandidateSeat> candidateSeatEntities) {
 		return map(candidateSeatEntities, this::candidateSeat);
 	}

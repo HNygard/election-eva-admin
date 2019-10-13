@@ -48,7 +48,8 @@ public class OperatorDomainServiceTest extends MockUtilsTestCase {
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		service = new OperatorDomainService(operatorRepositoryMock, operatorRoleRepositoryMock);
+		//service = new OperatorDomainService(operatorRepositoryMock, operatorRoleRepositoryMock);
+		service = null;
 		testdataFactory = new RbacTestdataFactory(ELECTION_EVENT_PK);
 	}
 

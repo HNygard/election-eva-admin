@@ -41,8 +41,11 @@ import no.valg.eva.admin.counting.domain.modifiedballots.ModifiedBallotDomainSer
 import no.valg.eva.admin.counting.repository.ContestReportRepository;
 import no.valg.eva.admin.counting.repository.ModifiedBallotBatchRepository;
 import no.valg.eva.admin.rbac.domain.model.Operator;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ModifiedBallotBatchService")
+@Default
 @Remote(ModifiedBallotBatchService.class)
 public class ModifiedBallotBatchApplicationService implements ModifiedBallotBatchService {
 	@Inject

@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import javax.ejb.SessionContext;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,8 @@ import static no.valg.eva.admin.voting.domain.electoralroll.ImportElectoralRollT
  *   denne koden i ganske stor grad ikke hører hjemme i domene-laget, men i et ingegrasjons/ports/adapters-lag.
  */
 @Log4j
+@Default
+@ApplicationScoped
 public class IncrementalElectoralRollImporter extends ElectoralRollImporter {
 
 	@Inject
@@ -56,6 +60,10 @@ public class IncrementalElectoralRollImporter extends ElectoralRollImporter {
     private VotingRegistrationDomainService votingRegistrationDomainService;
     @Inject
     private VelgerDomainService velgerDomainService;
+
+    public IncrementalElectoralRollImporter() {
+
+    }
 
     /**
 	 * Tjeneste for å utføre "schedulert"/inkrementell manntallsimport. 

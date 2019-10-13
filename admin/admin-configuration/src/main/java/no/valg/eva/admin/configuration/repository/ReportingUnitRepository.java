@@ -15,12 +15,16 @@ import no.valg.eva.admin.configuration.domain.model.ReportingUnit;
 import no.valg.eva.admin.configuration.domain.model.ReportingUnitType;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghendelseSti;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class ReportingUnitRepository extends BaseRepository {
     private static final String PARAM_MV_AREA_PK = "mvAreaPk";
     private static final String PARAM_MV_ELECTION_PK = "mvElectionPk";

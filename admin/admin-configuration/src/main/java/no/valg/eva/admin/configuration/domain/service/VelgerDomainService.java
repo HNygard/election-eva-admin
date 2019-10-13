@@ -6,10 +6,14 @@ import no.valg.eva.admin.configuration.domain.model.Voter;
 import no.valg.eva.admin.configuration.repository.LegacyPollingDistrictRepository;
 import no.valg.eva.admin.configuration.repository.VoterRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class VelgerDomainService {
 
     @Inject

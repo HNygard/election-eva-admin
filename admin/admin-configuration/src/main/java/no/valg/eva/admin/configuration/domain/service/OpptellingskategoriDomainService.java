@@ -6,6 +6,9 @@ import static no.valg.eva.admin.common.counting.model.CountCategory.VO;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -19,6 +22,8 @@ import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValgSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghendelseSti;
 
+@ApplicationScoped
+@Default
 public class OpptellingskategoriDomainService {
 	@Inject
 	private MvElectionRepository mvElectionRepository;

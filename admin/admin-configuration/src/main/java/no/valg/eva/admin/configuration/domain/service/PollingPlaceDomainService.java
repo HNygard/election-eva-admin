@@ -19,6 +19,8 @@ import no.valg.eva.admin.configuration.repository.PollingPlaceRepository;
 import no.valg.eva.admin.configuration.repository.PollingStationRepository;
 import org.apache.log4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ import static no.valg.eva.admin.configuration.application.OpeningHoursSorter.toS
 import static no.valg.eva.admin.configuration.application.PollingPlaceMapper.toPollingPlace;
 
 @NoArgsConstructor //For testing
+@Default
+@ApplicationScoped
 public class PollingPlaceDomainService {
 
     private static final Logger LOGGER = Logger.getLogger(PollingPlaceDomainService.class);

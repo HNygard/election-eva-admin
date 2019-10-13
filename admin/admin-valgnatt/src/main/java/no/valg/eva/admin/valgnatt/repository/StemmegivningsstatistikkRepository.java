@@ -4,11 +4,15 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.voting.domain.model.Stemmegivningsstatistikk;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+@Default
+@ApplicationScoped
 public class StemmegivningsstatistikkRepository extends BaseRepository {
 
 	public StemmegivningsstatistikkRepository() {

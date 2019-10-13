@@ -30,11 +30,16 @@ import no.valg.eva.admin.configuration.domain.model.MvElection;
 import no.valg.eva.admin.configuration.domain.model.ReportingUnitType;
 import no.valg.eva.admin.configuration.repository.MvElectionReportingUnitsRepository;
 import no.valg.eva.admin.configuration.repository.ReportingUnitRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ReportingUnitTypeService")
+
+
+
+@Default
 @Remote(ReportingUnitTypeService.class)
 public class ReportingUnitTypeServiceEjb implements ReportingUnitTypeService {
 	@Inject

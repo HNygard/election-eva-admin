@@ -2,6 +2,8 @@ package no.evote.service.configuration;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -9,15 +11,17 @@ import no.valg.eva.admin.configuration.domain.model.ReportingUnit;
 import no.valg.eva.admin.configuration.domain.model.ResponsibleOfficer;
 import no.valg.eva.admin.configuration.repository.ResponsibleOfficerRepository;
 
+@Default
+@ApplicationScoped
 public class ResponsibleOfficerServiceBean {
 
 	// Injected
+	@Inject
 	private ResponsibleOfficerRepository responsibleOfficerRepository;
 
 	public ResponsibleOfficerServiceBean() {
 	}
 
-	@Inject
 	public ResponsibleOfficerServiceBean(ResponsibleOfficerRepository responsibleOfficerRepository) {
 		this.responsibleOfficerRepository = responsibleOfficerRepository;
 	}

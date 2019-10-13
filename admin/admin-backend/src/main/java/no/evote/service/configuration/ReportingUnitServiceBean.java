@@ -3,6 +3,8 @@ package no.evote.service.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.model.views.ContestRelArea;
@@ -12,11 +14,17 @@ import no.valg.eva.admin.configuration.domain.model.ReportingUnit;
 import no.valg.eva.admin.configuration.repository.ContestRelAreaRepository;
 import no.valg.eva.admin.configuration.repository.ReportingUnitRepository;
 
+@Default
+@ApplicationScoped
 public class ReportingUnitServiceBean {
 	@Inject
 	private ContestRelAreaRepository contestRelAreaRepository;
 	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
+
+	public ReportingUnitServiceBean() {
+
+	}
 
 	public List<ReportingUnit> getAccessibleReportingUnits(MvElection mvElection, MvArea mvArea) {
 		List<ReportingUnit> reportingUnits = new ArrayList<>();

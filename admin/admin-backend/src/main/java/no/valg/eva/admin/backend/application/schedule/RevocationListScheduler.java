@@ -3,6 +3,8 @@ package no.valg.eva.admin.backend.application.schedule;
 import javax.ejb.Schedule;
 import javax.ejb.Schedules;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.backend.application.service.SystemPasswordApplicationService;
@@ -12,6 +14,7 @@ import no.valg.eva.admin.backend.common.application.buypass.RevocationListUpdate
 import org.apache.log4j.Logger;
 
 @Stateless
+@Default
 public class RevocationListScheduler {
 	private static final Logger LOGGER = Logger.getLogger(RevocationListScheduler.class);
 

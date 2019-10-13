@@ -12,6 +12,8 @@ import java.util.List;
 import javax.ejb.Asynchronous;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.model.Batch;
@@ -27,6 +29,7 @@ import no.valg.eva.admin.counting.domain.auditevents.ImportUploadedCountAuditEve
 
 
 @Stateless(name = "BatchService")
+@Default
 @Remote(BatchService.class)
 public class BatchServiceEjb implements BatchService {
 	@Inject

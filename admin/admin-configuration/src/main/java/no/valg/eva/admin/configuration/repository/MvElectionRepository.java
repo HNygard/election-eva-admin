@@ -3,6 +3,9 @@ package no.valg.eva.admin.configuration.repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -23,6 +26,8 @@ import no.valg.eva.admin.configuration.domain.model.MvElectionDigest;
 import no.valg.eva.admin.felles.sti.valggeografi.ValggeografiSti;
 import no.valg.eva.admin.felles.sti.valghierarki.ValghierarkiSti;
 
+@Default
+@ApplicationScoped
 public class MvElectionRepository extends BaseRepository {
 
 	public MvElectionRepository() {

@@ -3,9 +3,13 @@ package no.valg.eva.admin.backend.common.repository;
 import no.evote.model.views.VoterAudit;
 import org.joda.time.LocalDate;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Default
+@ApplicationScoped
 public class VoterAuditRepository extends BaseRepository {
 	public VoterAuditRepository() {
 	}

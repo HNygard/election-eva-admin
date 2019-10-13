@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.model.SigningKey;
@@ -17,6 +19,7 @@ import no.valg.eva.admin.backend.common.repository.SigningKeyRepository;
 import org.apache.log4j.Logger;
 
 @ApplicationScoped
+@Default
 public class CertificateService {
 	private static final Logger LOGGER = Logger.getLogger(CertificateService.class);
 	@Inject

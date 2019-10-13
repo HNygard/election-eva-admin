@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -17,11 +19,17 @@ import no.valg.eva.admin.rbac.repository.OperatorRoleRepository;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class OperatorRoleServiceBean {
 	@Inject
 	private OperatorRepository operatorRepository;
 	@Inject
 	private OperatorRoleRepository operatorRoleRepository;
+
+	public OperatorRoleServiceBean() {
+
+	}
 
 	public List<OperatorRole> getOperatorRoles(Operator operator) {
 		return operatorRoleRepository.getOperatorRoles(operator);

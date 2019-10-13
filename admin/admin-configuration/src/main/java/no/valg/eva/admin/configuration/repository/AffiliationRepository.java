@@ -3,6 +3,8 @@ package no.valg.eva.admin.configuration.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -12,6 +14,8 @@ import no.evote.security.UserData;
 import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.Affiliation;
 
+@Default
+@ApplicationScoped
 public class AffiliationRepository extends BaseRepository {
 	public AffiliationRepository() {
 	}

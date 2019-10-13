@@ -17,10 +17,15 @@ import no.valg.eva.admin.common.configuration.service.PartiService;
 import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.configuration.repository.party.PartyRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import lombok.NoArgsConstructor;
 
 @Stateless(name = "PartiService")
+
+
+
+@Default
 @Remote(PartiService.class)
 @NoArgsConstructor
 public class PartiApplicationService implements PartiService {

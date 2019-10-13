@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
@@ -43,6 +45,8 @@ import no.valg.eva.admin.valgnatt.domain.model.resultat.ValgnattskjemaJsonBuilde
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class ValgnattCandidateDomainService {
 
 	private static final Logger LOGGER = Logger.getLogger(ValgnattCandidateDomainService.class);

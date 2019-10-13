@@ -40,8 +40,13 @@ import no.valg.eva.admin.felles.valggeografi.model.Stemmested;
 import no.valg.eva.admin.felles.valggeografi.model.Valggeografi;
 import no.valg.eva.admin.felles.valggeografi.model.Valghendelse;
 import no.valg.eva.admin.felles.valggeografi.service.ValggeografiService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ValggeografiService")
+
+
+@Default
 @Remote(ValggeografiService.class)
 public class ValggeografiApplicationService implements ValggeografiService {
 	@Inject

@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.exception.EvoteException;
@@ -21,6 +24,8 @@ import no.valg.eva.admin.crypto.Pkcs12Decoder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class SystemPasswordApplicationService {
 	private static final Logger LOGGER = Logger.getLogger(SystemPasswordApplicationService.class);
 

@@ -19,11 +19,16 @@ import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.configuration.domain.model.ElectionGroup;
 import no.valg.eva.admin.configuration.domain.model.ElectionVoteCountCategory;
 import no.valg.eva.admin.configuration.repository.ElectionVoteCountCategoryRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ElectionVoteCountCategoryService")
+
+
+
+@Default
 @Remote(ElectionVoteCountCategoryService.class)
 public class ElectionVoteCountCategoryServiceEjb implements ElectionVoteCountCategoryService {
 	@Inject

@@ -5,6 +5,8 @@ import static no.evote.constants.AreaLevelEnum.MUNICIPALITY;
 import static no.evote.constants.AreaLevelEnum.POLLING_DISTRICT;
 import static no.evote.constants.AreaLevelEnum.POLLING_PLACE;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -20,15 +22,23 @@ import no.valg.eva.admin.voting.repository.VotingRepository;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class ReduserStemmegivningerDomainService {
 
 	private static final Logger LOGGER = Logger.getLogger(ReduserStemmegivningerDomainService.class);
 
+	@Inject
 	private ReduserGeografiDomainService reduserGeografiDomainService;
+	@Inject
 	private VotingRepository votingRepository;
+	@Inject
 	private MvElectionRepository mvElectionRepository;
 
-	@Inject
+	public ReduserStemmegivningerDomainService() {
+
+	}
+
 	public ReduserStemmegivningerDomainService(ReduserGeografiDomainService reduserGeografiDomainService, VotingRepository votingRepository,
 											   MvElectionRepository mvElectionRepository) {
 		this.reduserGeografiDomainService = reduserGeografiDomainService;

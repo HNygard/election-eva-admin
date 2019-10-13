@@ -13,8 +13,13 @@ import no.valg.eva.admin.common.counting.model.CountCategory;
 import no.valg.eva.admin.common.rbac.SecurityNone;
 import no.valg.eva.admin.configuration.domain.service.OpptellingskategoriDomainService;
 import no.valg.eva.admin.felles.sti.valghierarki.ValgSti;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "OpptellingskategoriService")
+
+
+@Default
 @Remote(OpptellingskategoriService.class)
 public class OpptellingskategoriApplicationService implements OpptellingskategoriService {
 	@Inject

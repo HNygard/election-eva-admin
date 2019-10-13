@@ -25,6 +25,9 @@ import no.valg.eva.admin.configuration.repository.PollingDistrictRepository;
 import no.valg.eva.admin.configuration.repository.PollingPlaceRepository;
 import org.joda.time.LocalTime;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
@@ -38,6 +41,8 @@ import java.util.regex.Pattern;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class AreaImportServiceBean {
     private static final Pattern OPENING_HOURS = Pattern.compile("\\s*(\\d{2}.\\d{2}.\\d{4})\\s+(\\d{2}).(\\d{2})\\s*-\\s*(\\d{2}).(\\d{2})\\s*");
     private static final char PERIOD = '.';

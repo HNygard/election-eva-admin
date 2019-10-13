@@ -24,11 +24,16 @@ import no.valg.eva.admin.common.rbac.SecurityNone;
 import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 import no.valg.eva.admin.rbac.domain.model.Role;
 import no.valg.eva.admin.rbac.repository.RoleRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "RoleService")
+
+
+@Default
 @Remote(RoleService.class)
 public class RoleServiceEjb implements RoleService {
 	@Inject

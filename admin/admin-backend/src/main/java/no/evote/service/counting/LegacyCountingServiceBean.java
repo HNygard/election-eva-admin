@@ -5,6 +5,8 @@ import static no.evote.constants.AreaLevelEnum.MUNICIPALITY;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
@@ -35,6 +37,8 @@ import no.valg.eva.admin.counting.domain.model.ContestReport;
 import no.valg.eva.admin.counting.domain.model.VoteCount;
 import no.valg.eva.admin.counting.repository.ContestReportRepository;
 
+@Default
+@ApplicationScoped
 public class LegacyCountingServiceBean {
 	@Inject
 	private ContestReportRepository contestReportRepository;
@@ -48,6 +52,10 @@ public class LegacyCountingServiceBean {
 	private MvAreaRepository mvAreaRepository;
 	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
+
+	public LegacyCountingServiceBean() {
+
+	}
 
 	public ReportCountCategory getReportCountCategoryFromMunicipality(Municipality municipality, Contest contest, VoteCountCategory votingCountCategory) {
 		try {

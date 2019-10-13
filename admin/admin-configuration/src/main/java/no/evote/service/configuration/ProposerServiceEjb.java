@@ -26,11 +26,16 @@ import no.valg.eva.admin.configuration.domain.model.Proposer;
 import no.valg.eva.admin.configuration.domain.model.ProposerRole;
 import no.valg.eva.admin.configuration.domain.model.Voter;
 import no.valg.eva.admin.configuration.repository.ProposerRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ProposerService")
+
+
+
+@Default
 @Remote(ProposerService.class)
 public class ProposerServiceEjb implements ProposerService {
 	@Inject

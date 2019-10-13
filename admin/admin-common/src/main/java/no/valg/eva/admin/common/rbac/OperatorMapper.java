@@ -12,8 +12,13 @@ import no.valg.eva.admin.rbac.application.PersonMapper;
 import no.valg.eva.admin.rbac.domain.model.OperatorRole;
 import no.valg.eva.admin.rbac.domain.model.Role;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class OperatorMapper {
-	protected OperatorMapper() {
+	public OperatorMapper() {
 	}
 
 	public static RoleAssociation toRoleAssociation(OperatorRole operatorRole) {

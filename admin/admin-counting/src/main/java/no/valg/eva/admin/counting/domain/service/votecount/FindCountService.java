@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -40,18 +42,30 @@ import no.valg.eva.admin.counting.domain.service.ReportingUnitDomainService;
 import no.valg.eva.admin.counting.domain.service.VoteCountService;
 import no.valg.eva.admin.counting.repository.BallotRejectionRepository;
 
+@Default
+@ApplicationScoped
 public class FindCountService {
 	private static final boolean MANUAL_COUNT_TRUE = true;
 
+	@Inject
 	private VoteCountService voteCountService;
+	@Inject
 	private ReportingUnitRepository reportingUnitRepository;
+	@Inject
 	private AffiliationRepository affiliationRepository;
+	@Inject
 	private BallotRejectionRepository ballotRejectionRepository;
+	@Inject
 	private ReportingUnitDomainService reportingUnitDomainService;
+	@Inject
 	private MvElectionRepository mvElectionRepository;
+	@Inject
 	private AntallStemmesedlerLagtTilSideDomainService antallStemmesedlerLagtTilSideDomainService;
 
-	@Inject
+	public FindCountService(){
+
+	}
+
 	public FindCountService(VoteCountService voteCountService, ReportingUnitRepository reportingUnitRepository,
 			AffiliationRepository affiliationRepository, BallotRejectionRepository ballotRejectionRepository,
 			ReportingUnitDomainService reportingUnitDomainService, MvElectionRepository mvElectionRepository,

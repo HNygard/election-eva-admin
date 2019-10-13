@@ -21,6 +21,8 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import javax.ejb.SessionContext;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.FlushModeType;
 import javax.validation.ConstraintViolation;
@@ -43,6 +45,8 @@ import static no.valg.eva.admin.voting.domain.electoralroll.ImportElectoralRollT
  * - DDD: Koden her er i stor grad en "mapper" som sørger for integrasjon mot SKDs format. Det kan dermed diskuteres om
  *   denne koden i ganske stor grad ikke hører hjemme i domene-laget, men i et ingegrasjons/ports/adapters-lag.
  */
+@Default
+@ApplicationScoped
 public class FullElectoralRollImporter extends ElectoralRollImporter {
 	private static final Logger LOGGER = Logger.getLogger(FullElectoralRollImporter.class);
 
@@ -50,6 +54,10 @@ public class FullElectoralRollImporter extends ElectoralRollImporter {
 	private VelgerDomainService velgerDomainService;
     @Inject
 	private VoterImportBatchRepository voterImportBatchRepository;
+
+    public FullElectoralRollImporter() {
+
+	}
 
     /**
 	 * Main service method for performing full imports of electoral roll.

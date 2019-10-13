@@ -17,6 +17,8 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ import static no.valg.eva.admin.common.voting.VotingPhase.ADVANCE;
 import static no.valg.eva.admin.common.voting.VotingPhase.EARLY;
 import static no.valg.eva.admin.util.DateUtil.toLocalDateTime;
 
+@Default
+@ApplicationScoped
 public class VotingCategoryStatusDomainService {
 
     private static final String CONFIG_ELECTION_EVENT_MISSING_VALUE = "@config.election_event.missing_value";

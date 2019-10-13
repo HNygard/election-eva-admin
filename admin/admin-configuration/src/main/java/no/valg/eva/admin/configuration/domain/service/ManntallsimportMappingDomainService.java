@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.event.Observes;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -26,6 +28,8 @@ import org.apache.log4j.Logger;
 /**
  * Tjenester som hjelper til med å mappe velgere til annen geografi enn i manntallsimport
  */
+@Default
+@ApplicationScoped
 public class ManntallsimportMappingDomainService {
 
 	private static final Logger LOG = Logger.getLogger(ManntallsimportMappingDomainService.class);

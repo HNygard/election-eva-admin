@@ -3,6 +3,9 @@ package no.valg.eva.admin.configuration.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -12,6 +15,8 @@ import no.valg.eva.admin.backend.common.repository.BaseRepository;
 import no.valg.eva.admin.configuration.domain.model.Borough;
 import no.valg.eva.admin.configuration.domain.model.Country;
 
+@Default
+@ApplicationScoped
 public class BoroughRepository extends BaseRepository {
 	private static final String PARAM_MUNICIPALITY_PK = "municipalityPk";
 	private static final String ID = "id";

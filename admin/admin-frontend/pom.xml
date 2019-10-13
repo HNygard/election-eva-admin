@@ -24,12 +24,6 @@
             <groupId>no.valg.eva</groupId>
             <artifactId>admin-integration</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.valg.eva</groupId>
-            <artifactId>admin-common</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Eksterne avhengigheter -->
         <dependency>

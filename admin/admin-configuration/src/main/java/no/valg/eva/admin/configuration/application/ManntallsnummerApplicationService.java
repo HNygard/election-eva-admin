@@ -37,8 +37,13 @@ import no.valg.eva.admin.util.Service;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ManntallsnummerService")
+
+
+@Default
 @Remote(ManntallsnummerService.class)
 public class ManntallsnummerApplicationService implements ManntallsnummerService {
 

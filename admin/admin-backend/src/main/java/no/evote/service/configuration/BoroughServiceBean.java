@@ -3,6 +3,8 @@ package no.evote.service.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.dto.ConfigurationDto;
@@ -16,11 +18,17 @@ import no.valg.eva.admin.configuration.repository.CountryRepository;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+@Default
+@ApplicationScoped
 public class BoroughServiceBean {
 	@Inject
 	private BoroughRepository boroughRepository;
 	@Inject
 	private CountryRepository countryRepository;
+
+	public BoroughServiceBean() {
+
+	}
 
 	public Borough create(UserData userData, Borough borough) {
 		// The municipality can only have one borough for the whole municipality

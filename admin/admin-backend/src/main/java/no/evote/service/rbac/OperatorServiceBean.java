@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -21,6 +23,9 @@ import no.valg.eva.admin.rbac.repository.OperatorRepository;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
+
+@Default
+@ApplicationScoped
 public class OperatorServiceBean {
 	private final Validator validator;
 	@Inject

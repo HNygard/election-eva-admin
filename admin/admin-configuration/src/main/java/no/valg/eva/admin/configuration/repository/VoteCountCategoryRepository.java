@@ -9,6 +9,8 @@ import no.valg.eva.admin.configuration.domain.model.ElectionEvent;
 import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.domain.model.VoteCountCategory;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Arrays;
@@ -22,6 +24,8 @@ import static no.valg.eva.admin.common.counting.model.CountCategory.VB;
 import static no.valg.eva.admin.common.counting.model.CountCategory.VO;
 import static no.valg.eva.admin.common.counting.model.CountCategory.VS;
 
+@Default
+@ApplicationScoped
 public class VoteCountCategoryRepository extends BaseRepository {
 
 	public VoteCountCategoryRepository() {

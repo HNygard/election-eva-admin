@@ -3,6 +3,8 @@ package no.evote.service.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -12,11 +14,17 @@ import no.valg.eva.admin.configuration.repository.CountyRepository;
 
 /**
  */
+@Default
+@ApplicationScoped
 public class CountryServiceBean {
 	@Inject
 	private CountryRepository countryRepository;
 	@Inject
 	private CountyRepository countyRepository;
+
+	public CountryServiceBean() {
+
+	}
 
 	public Country create(UserData userData, Country country) {
 		return countryRepository.create(userData, country);

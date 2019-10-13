@@ -1,4 +1,8 @@
 package no.valg.eva.admin.rbac.service;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 import static no.evote.constants.AreaLevelEnum.MUNICIPALITY;
 import static no.valg.eva.admin.common.rbac.Accesses.Tilgang_Brukere_Importer_Forhånd;
@@ -38,6 +42,8 @@ import org.apache.log4j.Logger;
 
 @Stateless(name = "ImportOperatorService")
 @Remote(ImportOperatorService.class)
+@Default
+@Dependent
 public class ImportOperatorServiceEjb implements ImportOperatorService {
 
 	private static final String EARLY_VOTE_RECEIVER = "stemmemottak_forhånd";

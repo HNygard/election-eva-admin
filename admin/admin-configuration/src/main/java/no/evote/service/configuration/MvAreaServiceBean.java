@@ -1,5 +1,7 @@
 package no.evote.service.configuration;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.valg.eva.admin.common.AreaPath;
@@ -14,6 +16,8 @@ import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
 import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 import no.valg.eva.admin.configuration.repository.PollingDistrictRepository;
 
+@Default
+@ApplicationScoped
 public class MvAreaServiceBean {
 	private static final String PERIOD = ".";
 
@@ -23,6 +27,10 @@ public class MvAreaServiceBean {
 	private PollingDistrictRepository pollingDistrictRepository;
 	@Inject
 	private MunicipalityRepository municipalityRepository;
+
+	public MvAreaServiceBean() {
+
+	}
 
 	public MvArea findByPollingDistrict(Long pollingDistrictPk) {
 		PollingDistrict pollingDistrict = pollingDistrictRepository.findByPk(pollingDistrictPk);

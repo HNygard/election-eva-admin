@@ -18,11 +18,15 @@ import no.valg.eva.admin.configuration.domain.model.ReportingUnit;
 import no.valg.eva.admin.configuration.repository.MvElectionRepository;
 import no.valg.eva.admin.configuration.repository.ReportingUnitRepository;
 import no.valg.eva.admin.counting.repository.ContestReportRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "ContestReportService")
+
+
+@Default
 @Remote(ContestReportService.class)
 public class ContestReportServiceEjb implements ContestReportService {
 	@Inject

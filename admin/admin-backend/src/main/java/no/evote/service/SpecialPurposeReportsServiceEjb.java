@@ -69,11 +69,16 @@ import static no.valg.eva.admin.common.rbac.Accesses.Manntall_Valgkort_Tomt;
 import static no.valg.eva.admin.common.rbac.Accesses.Opptelling_Strekkodelapper;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * @see SpecialPurposeReportService
  */
 @Stateless(name = "SpecialPurposeReportService")
+
+
+@Default
 @Remote(SpecialPurposeReportService.class)
 public class SpecialPurposeReportsServiceEjb implements SpecialPurposeReportService {
 	private static final String UNCHECKED = "unchecked";

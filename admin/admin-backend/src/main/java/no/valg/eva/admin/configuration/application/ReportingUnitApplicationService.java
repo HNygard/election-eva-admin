@@ -38,8 +38,13 @@ import no.valg.eva.admin.configuration.repository.ResponsibleOfficerRepository;
 import no.valg.eva.admin.configuration.repository.VoterRepository;
 import no.valg.eva.admin.counting.domain.service.ReportingUnitDomainService;
 import org.apache.log4j.Logger;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ReportingUnitService")
+
+
+@Default
 @Remote(ReportingUnitService.class)
 public class ReportingUnitApplicationService implements ReportingUnitService {
     private static final Logger LOGGER = Logger.getLogger(ReportingUnitApplicationService.class);

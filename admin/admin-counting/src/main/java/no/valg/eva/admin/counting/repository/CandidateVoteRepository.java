@@ -8,6 +8,8 @@ import no.valg.eva.admin.common.ElectionPath;
 import no.valg.eva.admin.configuration.domain.model.Party;
 import no.valg.eva.admin.configuration.repository.party.PartyRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +20,8 @@ import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
 @NoArgsConstructor
+@Default
+@ApplicationScoped
 public class CandidateVoteRepository extends BaseRepository {
 
     @Inject

@@ -16,11 +16,16 @@ import java.util.List;
 
 import static no.valg.eva.admin.common.rbac.Accesses.Tilgang_Roller_Tilganger;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "OperatorService")
+
+
+@Default
 @Remote(OperatorService.class)
 public class OperatorServiceEjb implements OperatorService {
 	@Inject

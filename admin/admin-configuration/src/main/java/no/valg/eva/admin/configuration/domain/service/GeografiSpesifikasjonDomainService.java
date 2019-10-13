@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.constants.AreaLevelEnum;
@@ -14,11 +17,18 @@ import no.valg.eva.admin.common.configuration.model.GeografiSpesifikasjon;
 import no.valg.eva.admin.configuration.domain.model.MvAreaDigest;
 import no.valg.eva.admin.configuration.repository.MvAreaRepository;
 
+@Default
+@ApplicationScoped
+
 public class GeografiSpesifikasjonDomainService {
 
+	@Inject
 	private MvAreaRepository mvAreaRepository;
 
-	@Inject
+	public GeografiSpesifikasjonDomainService() {
+
+	}
+
 	public GeografiSpesifikasjonDomainService(MvAreaRepository mvAreaRepository) {
 		this.mvAreaRepository = mvAreaRepository;
 	}

@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+
+  eva-jboss-wildfly:
+    build: ./jboss
+    ports:
+      - 8080:8080
+      - 9990:9990
+    volumes:
+      - ./../maven-repo:/.m2
+
+  eva-postgres:
+    image: postgres
+    container_name: eva-posgres-database
+    environment:
+      POSTGRES_DB: evaadmin
+      POSTGRES_USER: jboss
+      POSTGRES_PASSWORD: example

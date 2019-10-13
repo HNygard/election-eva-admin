@@ -21,8 +21,12 @@ import static no.valg.eva.admin.common.rbac.Accesses.Konfigurasjon_Grunnlagsdata
 import static no.valg.eva.admin.common.rbac.Accesses.Listeforslag_Rediger;
 import static no.valg.eva.admin.common.rbac.Accesses.Tilgang_Brukere_Administrere;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ResponsibilityValidationService")
+
+@Default
 @Remote(ResponsibilityValidationService.class)
 public class ResponsibilityValidationApplicationService implements ResponsibilityValidationService {
 

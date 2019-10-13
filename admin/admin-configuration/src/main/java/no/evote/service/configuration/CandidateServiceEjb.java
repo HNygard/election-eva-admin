@@ -29,11 +29,16 @@ import no.valg.eva.admin.configuration.domain.model.Candidate;
 import no.valg.eva.admin.configuration.domain.model.MvArea;
 import no.valg.eva.admin.configuration.domain.model.Voter;
 import no.valg.eva.admin.configuration.repository.CandidateRepository;
-
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "CandidateService")
+
+
+
+@Default
 @Remote(CandidateService.class)
 public class CandidateServiceEjb implements CandidateService {
 	@Inject

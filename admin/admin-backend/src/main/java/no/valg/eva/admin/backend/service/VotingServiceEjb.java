@@ -59,11 +59,16 @@ import static no.valg.eva.admin.common.rbac.Accesses.Stemmegiving_Valgting_Regis
 import static no.valg.eva.admin.common.rbac.Accesses.Stemmegiving_Valgting_Registrer_Sentralt;
 import static no.valg.eva.admin.common.rbac.SecurityType.READ;
 import static no.valg.eva.admin.common.rbac.SecurityType.WRITE;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "VotingService")
+
+
+@Default
 @Remote(VotingService.class)
 public class VotingServiceEjb implements VotingService {
     private static final long serialVersionUID = 7946562029498331749L;

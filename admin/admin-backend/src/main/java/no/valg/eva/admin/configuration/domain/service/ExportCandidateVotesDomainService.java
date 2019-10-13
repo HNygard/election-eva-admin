@@ -5,8 +5,12 @@ import no.valg.eva.admin.common.ElectionPath;
 import no.valg.eva.admin.counting.repository.CandidateVoteRepository;
 import no.valg.eva.admin.util.ExcelUtil;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
+@Default
+@ApplicationScoped
 public class ExportCandidateVotesDomainService {
 
     @Inject

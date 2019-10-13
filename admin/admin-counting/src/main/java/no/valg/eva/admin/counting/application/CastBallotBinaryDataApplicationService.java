@@ -18,8 +18,11 @@ import no.valg.eva.admin.common.rbac.Security;
 import no.valg.eva.admin.counting.domain.model.BallotCount;
 import no.valg.eva.admin.counting.domain.model.VoteCount;
 import no.valg.eva.admin.counting.domain.service.VoteCountService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "CastBallotBinaryDataService")
+@Default
 @Remote(CastBallotBinaryDataService.class)
 public class CastBallotBinaryDataApplicationService implements CastBallotBinaryDataService {
 	@Inject

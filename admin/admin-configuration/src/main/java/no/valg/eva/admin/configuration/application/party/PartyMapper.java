@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -22,14 +24,22 @@ import no.valg.eva.admin.configuration.repository.party.PartyCategoryRepository;
 
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class PartyMapper {
 
 	private static final Logger LOG = Logger.getLogger(PartyMapper.class);
+	@Inject
 	private PartyCategoryRepository partyCategoryRepository;
+	@Inject
 	private LocaleTextRepository localeTextRepository;
+	@Inject
 	private MvAreaRepository mvAreaRepository;
 
-	@Inject
+	public PartyMapper() {
+
+	}
+
 	public PartyMapper(PartyCategoryRepository partyCategoryRepository, LocaleTextRepository localeTextRepository, MvAreaRepository mvAreaRepository) {
 		this.partyCategoryRepository = partyCategoryRepository;
 		this.localeTextRepository = localeTextRepository;

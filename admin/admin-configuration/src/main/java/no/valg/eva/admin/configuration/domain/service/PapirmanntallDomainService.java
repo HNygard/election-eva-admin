@@ -4,6 +4,9 @@ import static no.valg.eva.admin.util.TidtakingUtil.taTiden;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.UserData;
@@ -26,17 +29,27 @@ import org.apache.log4j.Logger;
  * Tjenesteklasse ment for å separere ut logikk som har med papirmanntall å gjøre, inkludert side- og linje-beregninger.
  * Dersom papirmanntallet blir fjernet fra valgene, kan denne klassen (og en del tilstøtende kode) slettes
  */
+@Default
+@ApplicationScoped
 public class PapirmanntallDomainService {
 	private static final Logger LOG = Logger.getLogger(PapirmanntallDomainService.class);
 
+	@Inject
 	private ElectionEventRepository electionEventRepository;
+	@Inject
 	private PollingDistrictRepository pollingDistrictRepository;
+	@Inject
 	private PollingStationRepository pollingStationRepository;
+	@Inject
 	private PollingPlaceRepository pollingPlaceRepository;
+	@Inject
 	private VoterRepository voterRepository;
 
-	@Inject
-	public PapirmanntallDomainService(ElectionEventRepository electionEventRepository, 
+	public PapirmanntallDomainService() {
+
+	}
+
+	public PapirmanntallDomainService(ElectionEventRepository electionEventRepository,
 									  PollingDistrictRepository pollingDistrictRepository,
 									  PollingPlaceRepository pollingPlaceRepository, 
 									  PollingStationRepository pollingStationRepository,

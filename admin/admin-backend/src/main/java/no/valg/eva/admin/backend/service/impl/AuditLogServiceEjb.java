@@ -8,11 +8,16 @@ import no.valg.eva.admin.backend.common.auditlog.AuditLogServiceBean;
 import no.valg.eva.admin.common.auditlog.AuditLogService;
 import no.valg.eva.admin.common.auditlog.auditevents.AbstractAuditEvent;
 import no.valg.eva.admin.common.rbac.SecurityNone;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "AuditLogService")
+
+
+@Default
 @Remote(AuditLogService.class)
 public class AuditLogServiceEjb implements AuditLogService {
 	@Inject

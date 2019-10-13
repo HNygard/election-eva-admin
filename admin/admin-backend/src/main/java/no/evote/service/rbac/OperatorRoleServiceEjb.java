@@ -38,11 +38,16 @@ import no.valg.eva.admin.rbac.domain.model.Operator;
 import no.valg.eva.admin.rbac.domain.model.OperatorRole;
 import no.valg.eva.admin.rbac.repository.AccessRepository;
 import no.valg.eva.admin.rbac.repository.OperatorRoleRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 /**
  * NOTE! This is legacy code and based on the old architecture and should not be extended and or build upon!
  */
 @Stateless(name = "OperatorRoleService")
+
+
+@Default
 @Remote(OperatorRoleService.class)
 public class OperatorRoleServiceEjb implements OperatorRoleService {
 	@Inject

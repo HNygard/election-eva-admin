@@ -13,7 +13,16 @@ import no.valg.eva.admin.settlement.domain.model.factory.LevelingSeatFactory;
 import no.valg.eva.admin.settlement.domain.model.factory.LevelingSeatQuotientFactory;
 import no.valg.eva.admin.settlement.domain.model.factory.LevelingSeatSummaryFactory;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+
+@Default
+@ApplicationScoped
 public class LevelingSeatSettlementBuilderFactory {
+	public LevelingSeatSettlementBuilderFactory() {
+
+	}
+
 	public LevelingSeatSettlementBuilder levelingSeatSettlementBuilder(Election election, List<Settlement> settlements) {
 		// event factories
 		ElectionVoteCountEventsFromSettlementModel electionVoteCountEventsFromSettlementModel = new ElectionVoteCountEventsFromSettlementModel();

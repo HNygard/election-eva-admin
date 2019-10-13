@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import no.evote.security.AccessCache;
@@ -20,6 +23,8 @@ import no.valg.eva.admin.rbac.repository.AccessRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+@Default
+@ApplicationScoped
 public class AccessServiceBean {
 	private static final Logger LOG = Logger.getLogger(AccessServiceBean.class);
 	

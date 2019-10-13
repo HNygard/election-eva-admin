@@ -26,17 +26,28 @@ import no.valg.eva.admin.configuration.domain.model.Contest;
 import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.repository.ContestRepository;
 import no.valg.eva.admin.configuration.repository.MunicipalityRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @Stateless(name = "ListProposalService")
+
+
+@Default
 @Remote(ListProposalService.class)
 public class ListProposalApplicationService implements ListProposalService {
 
 	// Injected
+	@Inject
 	private ContestRepository contestRepository;
+	@Inject
 	private MunicipalityRepository municipalityRepository;
+	@Inject
 	private ContestMapper contestMapper;
 
-	@Inject
+	public ListProposalApplicationService() {
+
+	}
+
 	public ListProposalApplicationService(ContestRepository contestRepository, MunicipalityRepository municipalityRepository, ContestMapper contestMapper) {
 		this.contestRepository = contestRepository;
 		this.municipalityRepository = municipalityRepository;

@@ -9,6 +9,8 @@ import no.valg.eva.admin.configuration.domain.model.Municipality;
 import no.valg.eva.admin.configuration.domain.model.MunicipalityStatus;
 import org.apache.log4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -18,6 +20,8 @@ import java.util.List;
 /**
  * Repository for accessing Municipality aggregates.
  */
+@Default
+@ApplicationScoped
 public class MunicipalityRepository extends BaseRepository {
     private static final Logger LOG = Logger.getLogger(MunicipalityRepository.class);
 

@@ -4,6 +4,8 @@ import static java.math.BigInteger.ZERO;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -13,6 +15,8 @@ import no.valg.eva.admin.configuration.domain.model.Election;
 import no.valg.eva.admin.settlement.domain.model.LevelingSeat;
 import no.valg.eva.admin.settlement.domain.model.LevelingSeatSettlement;
 
+@Default
+@ApplicationScoped
 public class LevelingSeatSettlementRepository extends BaseRepository {
 
 	public boolean distributeLevelingSeats(long electionPk) {
