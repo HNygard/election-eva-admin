@@ -52,12 +52,6 @@
 		</dependency>
 		<dependency>
 			<groupId>no.valg.eva</groupId>
-			<artifactId>admin-common</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>no.valg.eva</groupId>
 			<artifactId>admin-report-templates</artifactId>
             <version>2019.22-SNAPSHOT</version>
 		</dependency>
@@ -147,11 +141,6 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>no.valg.eva</groupId>
-			<artifactId>admin-backend-testtools</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

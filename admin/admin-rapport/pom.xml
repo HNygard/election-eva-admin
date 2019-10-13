@@ -22,17 +22,6 @@
 		</dependency>
 		<dependency>
 			<groupId>no.valg.eva</groupId>
-			<artifactId>admin-common</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>no.valg.eva</groupId>
-			<artifactId>admin-backend-testtools</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>no.valg.eva</groupId>
 			<artifactId>admin-backend-common</artifactId>
 		</dependency>
 		<dependency>
