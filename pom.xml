@@ -168,7 +168,7 @@
                 <!-- IO/fil-håndtering -->
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.5</version>
+                <version>2.7</version>
             </dependency>
             <dependency>
                 <!-- Brukes kun i itests-prosjektet som er litt utdatert, så den kan muligens tas bort -->
