@@ -485,7 +485,7 @@
                 <!-- PrimeFaces - GUI-rammeverket vi bruker i frontend. Holder oss på v5.3 pga legacy custom frontend styling -->
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>5.3</version>
+                <version>6.0</version>
             </dependency>
             <dependency>
                 <!-- Browsertestingsrammeverk. Er kun i bruk i admin-frontend-itests, og kan sannsynligvis tas bort etterhvert -->
