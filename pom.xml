@@ -29,7 +29,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <slf4j.version>1.8.0-beta2</slf4j.version>
         <bc-jdk15on.version>1.60</bc-jdk15on.version>
-        <poi.version>3.17</poi.version>
+        <poi.version>4.1.1</poi.version>
     </properties>
 
     <!-- Brukes for å definere versjonene til bibliotekene vi bruker i submodulene våre. 
