@@ -21,7 +21,7 @@
         <!-- Sonar -->
         <sonar.jacoco.reportPath>${jacoco.out.path}/${jacoco.out.file}</sonar.jacoco.reportPath>
 
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <testDatabaseHost>localhost</testDatabaseHost>
         <testDatabasePort>15432</testDatabasePort>
         <testDatabaseName>evote</testDatabaseName>
