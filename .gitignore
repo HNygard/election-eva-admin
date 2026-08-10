@@ -1,0 +1,19 @@
+# The release shipped without a .gitignore. This one only covers build output and
+# bulky reference material, so that tools/manifest-check.sh does not have to
+# reason about artefacts. It must never be used to hide changes to EVA Admin
+# source -- the manifest check is the control for that.
+
+# Maven build output
+target/
+
+# Reference material: manuals and portal copies are large and externally owned.
+# docs/reference/INDEX.md records what belongs here, with checksums.
+docs/reference/manuals/*
+!docs/reference/manuals/.gitkeep
+docs/reference/valgmedarbeiderportalen/*
+!docs/reference/valgmedarbeiderportalen/.gitkeep
+
+# Editors
+.idea/
+*.iml
+*.swp

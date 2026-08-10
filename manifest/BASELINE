@@ -1,0 +1,23 @@
+# Pristine EVA Admin release baseline.
+#
+# Every file shipped in the public EVA Admin 2019 release is an ORIGINAL. Its
+# expected content is pinned by git blob sha in manifest/originals.sha, which is
+# generated from the commit below by tools/manifest-generate.sh.
+#
+# Anything that is not byte-identical to its baseline blob, and anything that is
+# not in the baseline at all, must be declared in manifest/changes.tsv with a
+# reason. tools/manifest-check.sh enforces this and runs as a pre-commit hook.
+
+BASELINE_COMMIT=629c4eab96a38baa308c1b3f59a9f197c16eb4e6
+
+# 629c4ea is the EVA Admin 2019 release drop ("admin-2019.22.7829"). It is the
+# 2017 import a7435cd plus one release change (admin/admin-integration/pom.xml
+# gained jackson-jaxrs-json-provider) plus repo-owner edits to readme.md.
+#
+# Because readme.md was already edited by the repo owner before this control
+# system existed, its baseline blob is taken from the untouched import instead,
+# so the edits show up honestly as a declared modification rather than being
+# silently absorbed into the baseline.
+
+README_BASELINE_COMMIT=a7435cd0be89d03b4940eaf80792eb70dac24f4b
+README_BASELINE_PATH=readme.md

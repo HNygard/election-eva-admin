@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# Refuses the commit unless every deviation from the EVA Admin release is
+# declared in manifest/changes.tsv, and every docs index matches its directory.
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+"$REPO_ROOT/tools/manifest-check.sh"
+"$REPO_ROOT/tools/docs-index.sh" --check

@@ -1,0 +1,33 @@
+# Every deviation from the EVA Admin 2019 release, declared.
+#
+# Format, tab separated:
+#   STATUS<TAB>PATH<TAB>MILESTONE<TAB>REASON
+#
+# STATUS
+#   MODIFIED    a release file whose content differs from manifest/originals.sha
+#   DELETED     a release file that is no longer present
+#   ADDED       a file that is not part of the release
+#   GENERATED   an added file produced by a tool, regenerable, not hand-edited
+#   ADDED_TREE  a directory of our own scaffolding; every file under it counts as
+#               ADDED. Rejected if it overlaps any release path, so it can never
+#               be used to hide an edit to EVA Admin source.
+#
+# MILESTONE is M0 (setup), M1..M4, or the milestone the change belongs to.
+# REASON must say why, not what. "Fixed web.xml" is not a reason.
+#
+# Verified by tools/manifest-check.sh, which runs as a pre-commit hook.
+# See docs/decisions/D002-changes-in-place-with-manifest.md
+
+MODIFIED	readme.md	M0	Repo owner recorded which modules are missing from the release, before this control system existed. Baseline for this file is therefore the untouched 2017 import.
+
+ADDED	added-stuff/README.md	M0	2019-2020 notes from the first attempt to build and deploy: docker commands tried and the errors they produced. Kept as evidence, superseded by tools/ and docs/findings/.
+ADDED	added-stuff/jboss/Dockerfile	M0	WildFly 17 image built during that first attempt.
+ADDED	added-stuff/jboss/start.sh	M0	Deployment script from that first attempt; copies the built WARs into WildFly.
+
+ADDED	.gitignore	M0	The release shipped without one. Keeps build output and bulky reference material out of the manifest check.
+ADDED	CLAUDE.md	M0	Operating instructions for AI agents working this repo.
+
+ADDED_TREE	manifest	M0	The control that makes in-place changes traceable: baseline definition, generated checksums, and this declaration file.
+ADDED_TREE	tools	M0	Dockerised build toolchain, manifest and docs checks, git hook. Nothing here touches EVA Admin source.
+ADDED_TREE	docs	M0	Status, decisions, findings, work queue, specs and reference index.
+ADDED_TREE	docker	M0	PostgreSQL on the coordinates the release expects, for M2 onwards.
