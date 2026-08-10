@@ -18,3 +18,5 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `OPEN` **NF-012 — All 32 Jasper report templates are missing, which blocks valgprotokoll** — [NF-012-jasper-report-templates-missing.md](NF-012-jasper-report-templates-missing.md)
 - `OPEN` **NF-013 — Work out how far the 2019 release is from today's EVA Admin** — [NF-013-establish-drift-from-todays-system.md](NF-013-establish-drift-from-todays-system.md)
 - `FIXED` **NF-014 — The toolchain cannot reach Docker** — [NF-014-no-docker-permission.md](NF-014-no-docker-permission.md)
+- `OPEN` **NF-015 — The security filter chain order cannot be recovered** — [NF-015-filter-chain-order-is-unrecoverable.md](NF-015-filter-chain-order-is-unrecoverable.md)
+- `OPEN` **NF-016 — faces-config.xml is missing, so the PhaseListener is unregistered** — [NF-016-faces-config-missing.md](NF-016-faces-config-missing.md)

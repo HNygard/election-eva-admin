@@ -36,16 +36,23 @@ Further content has to be derived from what the code expects: the frontend is JS
 `no.valg.eva.admin.frontend` and `no.evote.presentation`; the backend WAR carries
 EJBs looked up remotely as `ejb:/admin-backend//<Service>!<FQCN>`.
 
-## How to approach
+## What the enumeration found
 
-Enumerate what actually needs declaring before writing any XML: grep the frontend
-for `@WebServlet`, `@WebFilter`, `@WebListener` and for classes extending servlet
-or filter types, and check which of them are annotation-configured already. A Java
-EE 7 `web.xml` may need very little beyond the JSF servlet mapping, the two
-filtered properties, and security constraints.
+Done — see `docs/findings/2026-08-10-what-web-xml-must-contain.md`.
 
-Compare with `git diff master origin/attempt -- '*/WEB-INF/web.xml'` to see what
-was enough to make the backend start there.
+**Backend:** near-trivial. `origin/attempt` replaced it with an empty
+`<web-app version="3.1">` shell and that was enough for the backend to start. The
+WAR carries EJBs, which need no servlet declarations.
+
+**Frontend:** genuine reconstruction. Nine components are annotation-configured
+and need nothing. Ten are not, and exist only if declared — including five
+security filters. `attempt` never touched the frontend descriptor, so it offers
+no help here.
+
+Two consequences were split out as their own items:
+
+- **NF-015** — the filter chain order is recorded nowhere but `web.xml`, and five of the filters are security controls. A wrong order fails silently.
+- **NF-016** — `faces-config.xml` is missing too; only one thing actually needs it.
 
 Both files are release files: each needs a `MODIFIED` row in
 `manifest/changes.tsv` explaining what was reconstructed and from what evidence.
