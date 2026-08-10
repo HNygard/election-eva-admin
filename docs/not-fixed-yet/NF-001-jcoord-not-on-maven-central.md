@@ -1,6 +1,6 @@
 # NF-001 — jcoord 1.0 is not on Maven Central
 
-Status: OPEN
+Status: FIXED
 Milestone: M1
 
 ## Symptom
@@ -28,3 +28,13 @@ not the install command succeeding.
 
 `tools/build.sh` no longer fails on jcoord resolution, starting from an empty
 `eva-admin-maven-repo` volume, and a finding records the output.
+
+## Resolution
+
+`tools/seed-local-repo.sh` installs it, and the proof is that it ends up bundled
+in the built artifact:
+
+    admin/admin-frontend/target/admin-frontend-2019.22-SNAPSHOT/WEB-INF/lib/jcoord-1.0.jar
+
+The build no longer fails on resolution. See
+`docs/findings/2026-08-10-first-successful-build.md`.
