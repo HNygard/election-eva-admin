@@ -1,7 +1,27 @@
 # NF-014 — The toolchain cannot reach Docker
 
-Status: BLOCKED — needs the repo owner
+Status: FIXED
 Milestone: M1
+
+## Resolution
+
+The repo owner added the user to the `docker` group. `getent group docker` then
+showed `docker:x:124:hallvard`, but `id -nG` in an already-running shell still did
+not list it — group membership is fixed at process start, so existing sessions
+never pick it up. `newgrp docker` does not help either, because it only affects
+the shell it spawns, not other processes.
+
+Two ways through:
+
+- **New login session** — the clean fix. Anything started afterwards has the group.
+- **`sg docker -c "<command>"`** — runs a single command with the group applied. Works without a password once the user is genuinely a member, which is what unblocked this session:
+
+      $ sg docker -c "./tools/mvn.sh -version"
+      Apache Maven 3.8.6
+      Java version: 1.8.0_342, vendor: Oracle Corporation
+
+`sg` is a bridge for a stale session, not something to bake into `tools/`. In a
+fresh session the tools work directly.
 
 ## Symptom
 

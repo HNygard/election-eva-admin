@@ -17,4 +17,4 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `OPEN` **NF-011 — Reference material is not in the repo yet** — [NF-011-reference-material-not-collected.md](NF-011-reference-material-not-collected.md)
 - `OPEN` **NF-012 — All 32 Jasper report templates are missing, which blocks valgprotokoll** — [NF-012-jasper-report-templates-missing.md](NF-012-jasper-report-templates-missing.md)
 - `OPEN` **NF-013 — Work out how far the 2019 release is from today's EVA Admin** — [NF-013-establish-drift-from-todays-system.md](NF-013-establish-drift-from-todays-system.md)
-- `BLOCKED — needs the repo owner` **NF-014 — The toolchain cannot reach Docker** — [NF-014-no-docker-permission.md](NF-014-no-docker-permission.md)
+- `FIXED` **NF-014 — The toolchain cannot reach Docker** — [NF-014-no-docker-permission.md](NF-014-no-docker-permission.md)
