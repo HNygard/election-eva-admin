@@ -1,6 +1,6 @@
 # NF-002 — Tests abort because EVOTE_PROPERTIES is not defined
 
-Status: OPEN
+Status: FIXED
 Milestone: M1
 
 ## Symptom
@@ -46,3 +46,23 @@ Try that before editing anything.
 
 `tools/build.sh --with-tests` gets past class initialisation, and whatever tests
 then fail do so for their own reasons — each recorded.
+
+## Resolution
+
+The environment-variable route works and changes nothing in the release.
+
+`EvoteProperties.loadPropertyFilePath()` reads `System.getenv` first
+(`EvoteProperties.java:104`), and a Surefire fork inherits the Maven process
+environment. So passing `--env EVOTE_PROPERTIES=...` in `tools/mvn.sh`, pointing
+at the sample file the release ships for its own tests, is enough:
+
+    EVOTE_PROPERTIES=/usr/src/eva-admin/admin/admin-backend/src/test/resources/evote.properties
+
+Result in `admin-common`, previously the worst-affected module:
+
+    [INFO] Tests run: 2428, Failures: 0, Errors: 0, Skipped: 0
+    [INFO] BUILD SUCCESS
+
+No pom edit, no `systemPropertyVariables` entry, no source change. The 2019 notes
+in `added-stuff/README.md` concluded this required removing test-scoped
+dependencies from the poms; it did not.

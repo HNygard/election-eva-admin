@@ -18,6 +18,16 @@ MAVEN_IMAGE="${MAVEN_IMAGE:-maven:3-jdk-8}"
 MAVEN_VOLUME="${MAVEN_VOLUME:-eva-admin-maven-repo}"
 CONTAINER_HOME=/var/maven
 
+# EvoteProperties throws from its static initialiser when this is unset, which
+# takes down any test that touches it plus everything sharing the classloader
+# (NF-002). It reads System.getenv first (EvoteProperties.java:104), and a
+# Surefire fork inherits the Maven process environment -- so passing it here
+# fixes the build without editing a single release file.
+#
+# The path is the sample the release ships for its own tests. Override by
+# exporting EVOTE_PROPERTIES before calling this script.
+EVOTE_PROPERTIES="${EVOTE_PROPERTIES:-/usr/src/eva-admin/admin/admin-backend/src/test/resources/evote.properties}"
+
 if ! docker volume inspect "$MAVEN_VOLUME" >/dev/null 2>&1; then
 	echo "Creating Maven repository volume '$MAVEN_VOLUME'"
 	docker volume create --name "$MAVEN_VOLUME" >/dev/null
@@ -35,5 +45,6 @@ exec docker run --rm -i "${TTY_FLAGS[@]}" \
 	--volume "$REPO_ROOT:/usr/src/eva-admin" \
 	--workdir /usr/src/eva-admin \
 	--env "MAVEN_CONFIG=$CONTAINER_HOME/.m2" \
+	--env "EVOTE_PROPERTIES=$EVOTE_PROPERTIES" \
 	"$MAVEN_IMAGE" \
 	mvn -Duser.home="$CONTAINER_HOME" "$@"
