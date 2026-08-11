@@ -1,1 +1,193 @@
-<!-- Generated for building purposes -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RECONSTRUCTED, AND PARTLY ASSUMED. Read NF-015 before trusting the filter order
+  below.
+
+  The release ships this file as a single comment line with no root element, so
+  the WAR cannot deploy at all. Nine web components here are annotation
+  configured and need nothing; ten are not, and exist only if declared here.
+
+  Two things had to be recovered rather than copied:
+
+  1. WHICH components must be declared. Established by checking every class
+     implementing Filter / HttpSessionListener for @WebFilter / @WebListener.
+
+  2. In WHAT ORDER the filters run. A chain executes in filter-mapping order and
+     that order is recorded nowhere else in the release. Five of these ten are
+     security controls, so a wrong order is a security defect that still looks
+     like a working application.
+
+  The order below is derived from data flow, not taste. Each filter was checked
+  for whether it writes UserData or only reads it:
+
+     writes UserData:  OidcFilter (3 sites), TmpLoginFilter (2 sites)
+     reads only:       SessionHijackingDetector, ForceLocaleFilter,
+                       SelectRoleFilter, PageAccessFilter, WelcomePageFilter
+     neither:          LifecycleFilter, IEModeFilter
+
+  so every reader must follow the writers. SessionHijackingDetector's own javadoc
+  confirms it: "implemented in a separate filter to OidcFilter ... UserData is
+  expected to exist."
+
+  FORCED by that evidence:
+    - OidcFilter and TmpLoginFilter before all five readers.
+  ASSUMED, and flagged in NF-015:
+    - LifecycleFilter outermost, so request lifecycle wraps everything.
+    - IEModeFilter early; it only sets a response header, order is immaterial.
+    - SelectRoleFilter before PageAccessFilter: a role must be chosen before
+      access to a path can be evaluated for that role.
+    - The url-patterns. /secure/* is the protected tree (it is the webapp's own
+      directory layout) and /welcome.xhtml the entry page; both names appear as
+      string constants in the filters themselves.
+
+  ${session.cookie.secure} and ${jsf.projectStage} are substituted by
+  maven-war-plugin. The root pom filters this file in the secureCookies,
+  insecureCookies and jsf-development profiles, so those placeholders are not
+  decoration: without them the profiles do nothing.
+
+  Declared MODIFIED in manifest/changes.tsv. See NF-004 and NF-015.
+-->
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>EVA Admin</display-name>
+
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>${jsf.projectStage}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- 1. Outermost: request lifecycle. ASSUMED position. -->
+    <filter>
+        <filter-name>LifecycleFilter</filter-name>
+        <filter-class>no.evote.lifecycle.LifecycleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LifecycleFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 2. Response header only; position immaterial. -->
+    <filter>
+        <filter-name>IEModeFilter</filter-name>
+        <filter-class>no.valg.eva.admin.frontend.filter.IEModeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>IEModeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 3. Authentication. Writes UserData, so it precedes every reader. -->
+    <filter>
+        <filter-name>OidcFilter</filter-name>
+        <filter-class>no.valg.eva.admin.frontend.security.OidcFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>OidcFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 4. Alternative login path, paired with the annotated TmpLoginServlet
+         at /tmpLogin. Also writes UserData. -->
+    <filter>
+        <filter-name>TmpLoginFilter</filter-name>
+        <filter-class>no.valg.eva.admin.frontend.security.TmpLoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TmpLoginFilter</filter-name>
+        <url-pattern>/tmpLogin</url-pattern>
+    </filter-mapping>
+
+    <!-- 5. Requires UserData to exist; its javadoc says so explicitly. -->
+    <filter>
+        <filter-name>SessionHijackingDetector</filter-name>
+        <filter-class>no.valg.eva.admin.frontend.security.SessionHijackingDetector</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SessionHijackingDetector</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 6. Reads the user's chosen locale. -->
+    <filter>
+        <filter-name>ForceLocaleFilter</filter-name>
+        <filter-class>no.valg.eva.admin.frontend.filter.ForceLocaleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ForceLocaleFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 7. Ensures a role is selected. ASSUMED to precede PageAccessFilter. -->
+    <filter>
+        <filter-name>SelectRoleFilter</filter-name>
+        <filter-class>no.evote.service.security.SelectRoleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SelectRoleFilter</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 8. Authorisation for the requested path, given the selected role. -->
+    <filter>
+        <filter-name>PageAccessFilter</filter-name>
+        <filter-class>no.evote.service.security.PageAccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PageAccessFilter</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 9. Sends already-authenticated users from the entry page to Min Side. -->
+    <filter>
+        <filter-name>WelcomePageFilter</filter-name>
+        <filter-class>no.valg.eva.admin.frontend.filter.WelcomePageFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WelcomePageFilter</filter-name>
+        <url-pattern>/welcome.xhtml</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>no.evote.service.security.SessionListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>${session.cookie.secure}</secure>
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>welcome.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404</location>
+    </error-page>
+</web-app>

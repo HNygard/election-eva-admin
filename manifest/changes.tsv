@@ -60,3 +60,8 @@ ADDED	admin/admin-valgnatt/src/main/resources/META-INF/beans.xml	M2	bean-discove
 ADDED	admin/admin-rapport/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
 ADDED	admin/admin-backend/src/main/webapp/WEB-INF/beans.xml	M2	bean-discovery-mode=all for the backend WAR itself. NF-005.
 ADDED	admin/admin-frontend/src/main/webapp/WEB-INF/beans.xml	M2	bean-discovery-mode=all for the frontend WAR, needed once the frontend deploys in M3. NF-005.
+
+# --- M3: making admin-frontend deployable ------------------------------------
+MODIFIED	admin/admin-frontend/src/main/webapp/WEB-INF/web.xml	M3	Released as a single comment line with no root element. Reconstructed: 10 filters and listeners carry no annotations and exist only if declared here, plus the ${session.cookie.secure} and ${jsf.projectStage} placeholders the root pom's war-plugin profiles filter. Filter ORDER is partly derived from UserData data flow and partly assumed; see NF-015 before trusting it. NF-004.
+ADDED	admin/admin-frontend/src/main/resources/META-INF/faces-config.xml	M3	Registers MultiPageMessagesSupport, a PhaseListener that can only be declared in faces-config.xml. Everything else in the frontend is annotation registered, so this file contains nothing else. Without it, faces messages vanish across redirects. NF-016.
+ADDED	admin/admin-frontend/src/main/webapp/WEB-INF/jboss-deployment-structure.xml	M3	Same org.hibernate module visibility the backend needs; the frontend shares admin-common, whose repositories use the Hibernate API directly. NF-017.

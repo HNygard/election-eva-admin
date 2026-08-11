@@ -1,6 +1,6 @@
 # NF-016 — faces-config.xml is missing, so the PhaseListener is unregistered
 
-Status: OPEN
+Status: FIXED
 Milestone: M2
 
 ## Symptom

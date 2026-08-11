@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADDED. The release ships no faces-config.xml (NF-016). Almost nothing needs one
+  here: converters, validators and components are annotation registered (12
+  @FacesConverter, 1 @FacesValidator, 1 @FacesComponent) and backing beans are
+  CDI @Named rather than @ManagedBean.
+
+  The exception is a PhaseListener, which can only be registered through this
+  file. Without it MultiPageMessagesSupport never runs and faces messages are
+  silently dropped across a redirect, which reads as an application bug rather
+  than a missing descriptor.
+
+  Deliberately contains nothing else: anything the annotations already handle
+  does not belong here.
+-->
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+              http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+    <lifecycle>
+        <phase-listener>no.valg.eva.admin.frontend.faces.MultiPageMessagesSupport</phase-listener>
+    </lifecycle>
+</faces-config>
