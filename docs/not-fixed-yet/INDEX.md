@@ -10,7 +10,7 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `OPEN` **NF-004 — Both web.xml files are 41-byte stubs** — [NF-004-web-xml-is-a-stub.md](NF-004-web-xml-is-a-stub.md)
 - `OPEN` **NF-005 — No beans.xml anywhere, so CDI is off** — [NF-005-no-beans-xml-anywhere.md](NF-005-no-beans-xml-anywhere.md)
 - `OPEN` **NF-006 — No runtime persistence unit or datasource** — [NF-006-no-runtime-persistence-unit-or-datasource.md](NF-006-no-runtime-persistence-unit-or-datasource.md)
-- `OPEN` **NF-007 — No database schema ships with the release** — [NF-007-no-database-schema-ships.md](NF-007-no-database-schema-ships.md)
+- `FIXED` **NF-007 — No database schema ships with the release** — [NF-007-no-database-schema-ships.md](NF-007-no-database-schema-ships.md)
 - `OPEN` **NF-008 — Around 340 classes lack the no-arg constructors CDI needs** — [NF-008-cdi-no-arg-constructors-missing.md](NF-008-cdi-no-arg-constructors-missing.md)
 - `OPEN` **NF-009 — Frontend reaches the backend over remote EJB JNDI** — [NF-009-frontend-to-backend-ejb-lookups.md](NF-009-frontend-to-backend-ejb-lookups.md)
 - `OPEN` **NF-010 — No reference data and no authentication configuration** — [NF-010-no-seed-data-and-no-auth-config.md](NF-010-no-seed-data-and-no-auth-config.md)

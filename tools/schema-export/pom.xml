@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Generates the PostgreSQL schema from the release's own JPA entity classes.
+
+  Deliberately standalone: it is NOT a module of the EVA Admin reactor, so
+  admin/pom.xml stays untouched. It depends on the artifacts a normal
+  tools/build.sh installs into the Maven volume.
+
+  See docs/decisions/D005-database-schema-generated-from-this-repo.md
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>no.valg.eva.tools</groupId>
+    <artifactId>schema-export</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Must match the release. Root pom: hibernate-core 5.0.10.Final,
+             postgresql 42.2.5, and the persistence unit asks for
+             PostgreSQL9Dialect. A different Hibernate would generate a
+             different schema, which would defeat the point. -->
+        <eva.version>2019.22-SNAPSHOT</eva.version>
+        <hibernate.version>5.0.10.Final</hibernate.version>
+    </properties>
+
+    <dependencies>
+        <!-- Every module that contributes entity classes to the persistence
+             unit. admin-common carries the bulk of them (84), including the
+             rbac and voting models. -->
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-common</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-configuration</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-counting</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-settlement</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-valgnatt</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-rapport</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-rbac</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-voting</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.valg.eva</groupId>
+            <artifactId>admin-backend-common</artifactId>
+            <version>${eva.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <mainClass>no.valg.eva.tools.SchemaExport</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

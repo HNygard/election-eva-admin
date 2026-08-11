@@ -31,3 +31,5 @@ ADDED_TREE	manifest	M0	The control that makes in-place changes traceable: baseli
 ADDED_TREE	tools	M0	Dockerised build toolchain, manifest and docs checks, git hook. Nothing here touches EVA Admin source.
 ADDED_TREE	docs	M0	Status, decisions, findings, work queue, specs and reference index.
 ADDED_TREE	docker	M0	PostgreSQL on the coordinates the release expects, for M2 onwards.
+
+GENERATED	docker/postgres/initdb/01-schema-generated.sql	M2	PostgreSQL DDL derived from the release's 120 @Entity classes by tools/schema-export. Regenerate with tools/schema-export/generate.sh; never hand-edit. The release ships no schema and the Flyway migrations were withheld (NF-007).
