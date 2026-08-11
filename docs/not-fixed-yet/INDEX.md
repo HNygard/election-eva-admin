@@ -22,5 +22,5 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `OPEN` **NF-016 — faces-config.xml is missing, so the PhaseListener is unregistered** — [NF-016-faces-config-missing.md](NF-016-faces-config-missing.md)
 - `FIXED` **NF-017 — WildFly does not expose Hibernate's API to the deployment** — [NF-017-hibernate-not-visible-to-deployment.md](NF-017-hibernate-not-visible-to-deployment.md)
 - `FIXED` **NF-018 — Runtime config files exist only under src/test/resources** — [NF-018-runtime-config-files-missing.md](NF-018-runtime-config-files-missing.md)
-- `OPEN` **NF-019 — EJB JNDI names do not match what the frontend looks up** — [NF-019-ejb-jndi-name-depends-on-war-filename.md](NF-019-ejb-jndi-name-depends-on-war-filename.md)
+- `FIXED` **NF-019 — EJB JNDI names do not match what the frontend looks up** — [NF-019-ejb-jndi-name-depends-on-war-filename.md](NF-019-ejb-jndi-name-depends-on-war-filename.md)
 - `OPEN` **NF-020 — BouncyCastle is `provided` but the container has no module for it** — [NF-020-bouncycastle-not-in-container.md](NF-020-bouncycastle-not-in-container.md)

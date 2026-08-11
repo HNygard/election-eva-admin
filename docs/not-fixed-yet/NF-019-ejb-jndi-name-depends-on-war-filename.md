@@ -1,6 +1,6 @@
 # NF-019 — EJB JNDI names do not match what the frontend looks up
 
-Status: OPEN
+Status: FIXED
 Milestone: M3
 
 ## Symptom
@@ -47,3 +47,17 @@ WildFly 13 precisely so that form is still understood.
 
 A lookup from the frontend resolves against the backend, evidenced by a page that
 renders backend data.
+
+## Resolution
+
+`tools/wildfly.sh` copies the WAR in as `admin-backend.war` instead of
+`admin-backend-2019.22-SNAPSHOT.war`. The bound names change accordingly:
+
+    before: ejb:admin-backend-2019.22-SNAPSHOT/MvAreaService!no.evote.service.configuration.MvAreaService
+    after:  ejb:admin-backend/MvAreaService!no.evote.service.configuration.MvAreaService
+
+which is what `ServiceLookupUtil` asks for. No release file touched; the fix is
+purely in how we deploy. Startup stays clean at 2082 services.
+
+Whether the frontend's lookups actually resolve is still unproven — that needs
+the frontend deployed, and is the real test.

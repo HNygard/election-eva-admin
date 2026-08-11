@@ -29,14 +29,20 @@ backend | both)
 		echo "Missing $BACKEND_WAR -- run tools/build.sh first" >&2
 		exit 1
 	}
-	cp "$BACKEND_WAR" "$DEPLOYMENTS/"
+	# Deployed WITHOUT the version suffix, deliberately. An EJB's module name is
+	# the deployment filename, and ServiceLookupUtil builds lookups of the form
+	#   ejb:/admin-backend//<Service>!<FQCN>
+	# so admin-backend-2019.22-SNAPSHOT.war would bind every one of the 190 EJBs
+	# under a name the frontend's 73 producers cannot find. Renaming on the way
+	# in fixes that without touching a release file. See NF-019.
+	cp "$BACKEND_WAR" "$DEPLOYMENTS/admin-backend.war"
 
 	if [ "$1" = "both" ]; then
 		[ -f "$FRONTEND_WAR" ] || {
 			echo "Missing $FRONTEND_WAR -- run tools/build.sh first" >&2
 			exit 1
 		}
-		cp "$FRONTEND_WAR" "$DEPLOYMENTS/"
+		cp "$FRONTEND_WAR" "$DEPLOYMENTS/admin-frontend.war"
 	fi
 
 	echo "Deploying:"
