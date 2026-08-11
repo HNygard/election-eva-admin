@@ -26,3 +26,6 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `OPEN` **NF-020 — BouncyCastle is `provided` but the container has no module for it** — [NF-020-bouncycastle-not-in-container.md](NF-020-bouncycastle-not-in-container.md)
 - `FIXED — see D011` **NF-021 — Nothing in the published source can enter the system passphrase** — [NF-021-no-way-to-enter-the-system-passphrase.md](NF-021-no-way-to-enter-the-system-passphrase.md)
 - `PARTIALLY FIXED — bundle generated, values are placeholders` **NF-022 — The i18n message bundle is missing, so no page can render** — [NF-022-i18n-message-bundle-missing.md](NF-022-i18n-message-bundle-missing.md)
+- `OPEN — disabled, not solved` **NF-023 — The page authorisation map is unrecoverable** — [NF-023-page-access-map-unrecoverable.md](NF-023-page-access-map-unrecoverable.md)
+- `PARTIALLY FIXED — components stubbed, styling and scripts absent` **NF-024 — The whole JSF resources/ tree is missing** — [NF-024-jsf-resources-tree-missing.md](NF-024-jsf-resources-tree-missing.md)
+- `PARTIALLY FIXED — role_include_all reconstructed` **NF-025 — Views are missing from the generated schema** — [NF-025-database-views-missing.md](NF-025-database-views-missing.md)

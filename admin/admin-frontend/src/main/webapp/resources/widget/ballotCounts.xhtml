@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  GENERATED STUB by tools/generate-composite-components.py. Not EVA Admin markup.
+
+  The release ships no resources/ directory, so this composite component and the
+  rest of its library were missing and every page using them failed to render.
+
+  The INTERFACE below is accurate: these are the attributes ballotCounts is
+  actually passed, recovered from its call sites in the released pages.
+
+  The IMPLEMENTATION is a placeholder. What this component really rendered was in
+  the withheld resources/ directory and is not recoverable from the source. It
+  renders its own name and any children, so page structure is visible and it is
+  obvious on screen that the appearance is not EVA Admin's.
+
+  See docs/not-fixed-yet/NF-024.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <cc:interface>
+        <cc:attribute name="ballotCountList"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <div class="eva-stub eva-stub-widget-ballotCounts"
+             data-eva-stub="widget:ballotCounts">
+            <cc:insertChildren/>
+        </div>
+    </cc:implementation>
+</ui:composition>
