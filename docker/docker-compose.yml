@@ -1,0 +1,61 @@
+# EVA Admin: PostgreSQL, Adminer, and WildFly on one network.
+#
+# PostgreSQL uses the coordinates the release itself expects -- the root pom
+# defaults to testDatabaseName=evote and admin-backend's test persistence unit
+# connects as admin/admin -- so the release's own configuration works unmodified.
+#
+#   sg docker -c "docker compose -f docker/docker-compose.yml up -d"
+#
+# Adminer:            http://localhost:15433/
+# EVA Admin:          http://localhost:8080/
+# WildFly management: http://localhost:9990/  (admin / Admin#70365)
+
+services:
+  eva-postgres:
+    image: postgres:11
+    container_name: eva-admin-postgres
+    environment:
+      POSTGRES_DB: evote
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "15432:5432"
+    volumes:
+      # Runs in filename order, but only on an empty database. To re-apply after
+      # regenerating the schema:
+      #   docker compose -f docker/docker-compose.yml down -v
+      - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
+      - eva-postgres-data:/var/lib/postgresql/data
+
+  eva-adminer:
+    image: adminer
+    container_name: eva-admin-adminer
+    ports:
+      - "15433:8080"
+    depends_on:
+      - eva-postgres
+
+  eva-wildfly:
+    build: ./wildfly
+    image: eva-admin-wildfly:13.0.0.Final
+    container_name: eva-admin-wildfly
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    environment:
+      # EvoteProperties reads this from the environment and throws from its
+      # static initialiser without it, taking down Log4jConfigurator and every
+      # startup singleton behind it (NF-002, same cause as in the build).
+      EVOTE_PROPERTIES: /opt/jboss/conf/evote.properties
+    volumes:
+      # Built WARs, mounted rather than baked in so a rebuild only needs a
+      # container restart. Populated by tools/wildfly.sh.
+      - ./deployments:/deployments:ro
+      # The release's own sample properties, mounted read-only. Using the file
+      # the project ships for its own tests rather than inventing values.
+      - ../admin/admin-backend/src/test/resources/evote.properties:/opt/jboss/conf/evote.properties:ro
+    depends_on:
+      - eva-postgres
+
+volumes:
+  eva-postgres-data:

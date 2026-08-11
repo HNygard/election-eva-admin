@@ -33,3 +33,30 @@ ADDED_TREE	docs	M0	Status, decisions, findings, work queue, specs and reference 
 ADDED_TREE	docker	M0	PostgreSQL on the coordinates the release expects, for M2 onwards.
 
 GENERATED	docker/postgres/initdb/01-schema-generated.sql	M2	PostgreSQL DDL derived from the release's 120 @Entity classes by tools/schema-export. Regenerate with tools/schema-export/generate.sh; never hand-edit. The release ships no schema and the Flyway migrations were withheld (NF-007).
+
+# --- M2: making admin-backend deployable -------------------------------------
+MODIFIED	admin/admin-backend/src/main/webapp/WEB-INF/web.xml	M2	Released as a single comment line with no root element, so WildFly fails the deployment at PARSE with "Unexpected EOF in prolog". Replaced by an empty web-app 3.1 shell: this WAR holds EJBs and no servlets of its own. Same shell that made the backend start on origin/attempt. NF-004.
+
+GENERATED	admin/admin-backend/src/main/resources/META-INF/persistence.xml	M2	The runtime persistence unit the release does not ship; all nine of its persistence.xml files are test-scoped. Without it: "Can't find a persistence unit named 'evotePU'". Unit name and java:/jdbc/evote both recovered from the release source, entity list derived from the 120 @Entity classes. Regenerate with tools/generate-persistence-xml.sh. NF-006.
+
+ADDED	admin/admin-backend/src/main/webapp/WEB-INF/jboss-deployment-structure.xml	M2	WildFly exposes only javax.persistence to a deployment, but EVA Admin's repositories use org.hibernate.Session and org.hibernate.jdbc.Work directly, so Weld refused to define the entire repository layer as beans. Adds the org.hibernate module dependency. NF-017.
+
+ADDED	admin/admin-backend/src/main/resources/log4j.xml	M2	Log4jUtil.configureFromClasspathConfig looks up log4j.xml on the classpath and throws "Unable to find log4j.xml on classpath" without it, taking down Log4jConfigurator. Copied verbatim from the release's own admin-backend test resources. NF-018.
+ADDED	admin/admin-backend/src/main/resources/log4j.dtd	M2	Referenced by the DOCTYPE of the log4j.xml above; copied from the same place in the release. NF-018.
+ADDED	admin/admin-backend/src/main/resources/version.properties	M2	CommitIdProducer reads /version.properties at startup and throws without it. Not invented: admin-backend/pom.xml runs git-commit-id-plugin and filters src/main/resources, so the release had this file and it was stripped. Uses the plugin's own ${git.commit.id}. NF-018.
+
+# beans.xml, one per bean archive. The release ships none, leaving every archive
+# an implicit bean archive, which under CDI 1.1 only discovers classes with a
+# bean-defining annotation -- and most EVA Admin services have none. See D010.
+ADDED	admin/admin-common/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-integration/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-voting/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-backend-common/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-configuration/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-counting/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-rbac/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-settlement/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-valgnatt/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-rapport/src/main/resources/META-INF/beans.xml	M2	bean-discovery-mode=all, so constructor-injected services are discovered. NF-005.
+ADDED	admin/admin-backend/src/main/webapp/WEB-INF/beans.xml	M2	bean-discovery-mode=all for the backend WAR itself. NF-005.
+ADDED	admin/admin-frontend/src/main/webapp/WEB-INF/beans.xml	M2	bean-discovery-mode=all for the frontend WAR, needed once the frontend deploys in M3. NF-005.

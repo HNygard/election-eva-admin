@@ -1,6 +1,6 @@
 # NF-004 — Both web.xml files are 41-byte stubs
 
-Status: OPEN
+Status: FIXED
 Milestone: M2
 
 ## Symptom

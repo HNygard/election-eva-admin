@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADDED. WildFly does not expose Hibernate's own API to a deployment: the JPA
+  subsystem provides it internally, but only javax.persistence is visible unless
+  the deployment asks for more.
+
+  EVA Admin's repositories use the Hibernate API directly, so without this Weld
+  refuses to define them as beans:
+
+    WELD-000119: Not generating any bean definitions from
+    no.valg.eva.admin.backend.common.repository.GenericRepository because of
+    underlying class loading error: Type org.hibernate.Session from
+    [Module "deployment.admin-backend-2019.22-SNAPSHOT.war"] not found.
+
+  That affected the whole repository layer plus no.evote.service.ExportServiceBean,
+  which uses org.hibernate.jdbc.Work.
+
+  The release must have carried an equivalent descriptor; it was not published.
+  Declared ADDED in manifest/changes.tsv. See docs/not-fixed-yet/NF-017.
+-->
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <module name="org.hibernate"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

@@ -1,6 +1,6 @@
 # NF-006 — No runtime persistence unit or datasource
 
-Status: OPEN
+Status: FIXED
 Milestone: M2
 
 ## Symptom

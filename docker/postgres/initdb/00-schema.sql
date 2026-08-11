@@ -10,3 +10,9 @@
 CREATE SCHEMA IF NOT EXISTS admin AUTHORIZATION admin;
 
 ALTER ROLE admin IN DATABASE evote SET search_path TO admin, public;
+
+-- DatabaseSchemaCheckerBean.java:37 configures Flyway with
+-- setSchemas("admin", "audit"), so the real system has an audit schema too.
+-- Nothing generated targets it -- the audit entities (no.evote.model.views.*)
+-- come out unqualified -- but Flyway expects it to exist at startup.
+CREATE SCHEMA IF NOT EXISTS audit AUTHORIZATION admin;

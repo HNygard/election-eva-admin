@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADDED. The release ships no beans.xml anywhere (NF-005), which leaves every
+  archive an *implicit* bean archive. Under CDI 1.1 that only discovers classes
+  carrying a bean-defining annotation, and most EVA Admin services carry none:
+  they declare an @Inject constructor and nothing else. Weld therefore reports
+  them as unsatisfied dependencies, for example
+
+    WELD-001408: Unsatisfied dependencies for type ValghierarkiDomainService
+                 with qualifiers @Default
+
+  bean-discovery-mode="all" makes this an explicit bean archive, so every class
+  is a candidate bean and constructor injection resolves as the code expects.
+
+  This is the alternative to what origin/attempt did, which was adding
+  @ApplicationScoped and a no-arg constructor to some 342 release classes. See
+  docs/decisions/D010-beans-xml-instead-of-annotating-342-classes.md
+-->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+       bean-discovery-mode="all">
+</beans>

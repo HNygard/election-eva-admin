@@ -12,3 +12,5 @@ One file per decision, written when the decision is made. Superseding a decision
 - [D006 — One file per decision, finding and work item](D006-separate-files-for-decisions-and-logs.md)
 - [D007 — Verify M3 against archived valgmedarbeiderportalen material](D007-verify-against-archived-valgmedarbeiderportalen.md)
 - [D008 — Producing a valgprotokoll is the goal that defines "working"](D008-valgprotokoll-is-the-goal.md)
+- [D009 — Deploy on WildFly 13, not 17](D009-wildfly-13-for-java-ee-7.md)
+- [D010 — One beans.xml per archive, instead of annotating 342 classes](D010-beans-xml-instead-of-annotating-342-classes.md)

@@ -1,0 +1,36 @@
+# Datasource for EVA Admin.
+#
+# The JNDI name is not a guess. Two beans in admin-backend name it explicitly:
+#
+#   StatusApplicationService.java:36   @Resource(lookup = "java:/jdbc/evote")
+#   DatabaseSchemaCheckerBean.java:20  @Resource(mappedName = "java:/jdbc/evote")
+#
+# Credentials and database name come from the release's own defaults: the root
+# pom uses testDatabaseName=evote, and admin-backend's test persistence unit
+# connects as admin/admin.
+#
+# Applied at image build time against the offline configuration.
+
+embed-server --server-config=standalone.xml --std-out=echo
+
+/subsystem=datasources/jdbc-driver=postgresql:add( \
+    driver-name=postgresql, \
+    driver-module-name=org.postgresql, \
+    driver-class-name=org.postgresql.Driver, \
+    driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+
+data-source add \
+    --name=evote \
+    --jndi-name=java:/jdbc/evote \
+    --driver-name=postgresql \
+    --connection-url=jdbc:postgresql://eva-postgres:5432/evote \
+    --user-name=admin \
+    --password=admin \
+    --min-pool-size=5 \
+    --max-pool-size=20 \
+    --jta=true \
+    --use-ccm=true \
+    --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker \
+    --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
+
+stop-embedded-server

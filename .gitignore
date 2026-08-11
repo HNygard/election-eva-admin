@@ -17,3 +17,6 @@ docs/reference/valgmedarbeiderportalen/*
 .idea/
 *.iml
 *.swp
+
+# Built WARs staged for the WildFly container
+docker/deployments/

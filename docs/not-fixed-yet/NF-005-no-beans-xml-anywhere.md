@@ -1,6 +1,6 @@
 # NF-005 — No beans.xml anywhere, so CDI is off
 
-Status: OPEN
+Status: FIXED
 Milestone: M2
 
 ## Symptom

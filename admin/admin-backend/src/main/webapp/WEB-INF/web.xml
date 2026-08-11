@@ -1,1 +1,22 @@
-<!-- Generated for building purposes -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RECONSTRUCTED. The published release ships this file as a single comment line,
+  "<!- - Generated for building purposes - ->", which has no root element and
+  makes WildFly fail the deployment at the PARSE phase with
+  "WstxEOFException: Unexpected EOF in prolog". See docs/not-fixed-yet/NF-004.
+
+  This WAR contains EJBs and no servlets of its own, so an empty deployment
+  descriptor is sufficient: every web component in the release that lives here is
+  either an EJB or annotation-configured. The same empty shell is what made the
+  backend start on origin/attempt (dc1e8e1, "EVA Admin backend starts up!").
+
+  Version 3.1 matches the release's javaee-api 7.0 dependency.
+
+  Declared MODIFIED in manifest/changes.tsv.
+-->
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+</web-app>
