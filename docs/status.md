@@ -1,8 +1,16 @@
 # Status
 
-**Current milestone: M2 — backend deploys**
+**Current milestone: M3 — full app**
 
-M1 is done, as of 2026-08-11. The released source builds and its tests pass with
+M1 and M2 are done, as of 2026-08-11. Both WARs now deploy on WildFly 13 with
+zero failed services, and the application answers on HTTP with its own logic:
+`System passphrase has not been entered, unable to continue.`
+
+The current blocker is **NF-021**: nothing in the published source can enter that
+passphrase. The remote interface exposes only `isPasswordSet()`, and no page
+references the setter. Whatever performed this was withheld with `admin-other`.
+
+M1 detail: The released source builds and its tests pass with
 **no modification to any release file** — two Maven flags and one environment
 variable were the whole story:
 
@@ -36,15 +44,14 @@ One caveat carried into M2: only the default Surefire group ran. The
 `repository,slow,erasesTestData,resources` groups need a database and have never
 been attempted (NF-003).
 
-### M2 — backend deploys
+### M2 — backend deploys — DONE 2026-08-11
 
-`admin-backend.war` starts in WildFly against PostgreSQL with no `MSC000001`
-failure.
+- ✅ PostgreSQL populated from a schema generated from this repo's 120 entity classes: 113 tables, 176 foreign keys, matching an independent derivation exactly.
+- ✅ `WFLYSRV0025 ... Started 2082 of 2270 services`, zero `MSC000001`, HTTP 200 on the context root, 190 EJBs bound.
+- ✅ All 18 reconstructed artefacts declared in `manifest/changes.tsv`.
 
-Exit criteria:
-- Postgres from `docker/postgres/` is populated by a schema generated from this repo's entity classes.
-- WildFly reports the deployment as `Deployed`, and the server log excerpt proving it is in a finding.
-- Every descriptor that had to be reconstructed (`web.xml`, `beans.xml`, datasource, persistence unit) is declared in `manifest/changes.tsv` with the reasoning.
+Seven blockers, none of them a bug in the code: every one was a missing
+deployment artefact. See `docs/findings/2026-08-11-backend-deploys.md`.
 
 ### M3 — full app
 

@@ -24,3 +24,4 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `FIXED` **NF-018 — Runtime config files exist only under src/test/resources** — [NF-018-runtime-config-files-missing.md](NF-018-runtime-config-files-missing.md)
 - `FIXED` **NF-019 — EJB JNDI names do not match what the frontend looks up** — [NF-019-ejb-jndi-name-depends-on-war-filename.md](NF-019-ejb-jndi-name-depends-on-war-filename.md)
 - `OPEN` **NF-020 — BouncyCastle is `provided` but the container has no module for it** — [NF-020-bouncycastle-not-in-container.md](NF-020-bouncycastle-not-in-container.md)
+- `OPEN — this is the current blocker` **NF-021 — Nothing in the published source can enter the system passphrase** — [NF-021-no-way-to-enter-the-system-passphrase.md](NF-021-no-way-to-enter-the-system-passphrase.md)
