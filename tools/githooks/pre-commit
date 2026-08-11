@@ -8,4 +8,5 @@ set -euo pipefail
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
 "$REPO_ROOT/tools/manifest-check.sh"
+"$REPO_ROOT/tools/xml-check.sh"
 "$REPO_ROOT/tools/docs-index.sh" --check

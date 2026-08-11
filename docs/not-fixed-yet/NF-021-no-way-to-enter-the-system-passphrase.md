@@ -1,6 +1,6 @@
 # NF-021 — Nothing in the published source can enter the system passphrase
 
-Status: OPEN — this is the current blocker
+Status: FIXED — see D011
 Milestone: M3
 
 ## Symptom

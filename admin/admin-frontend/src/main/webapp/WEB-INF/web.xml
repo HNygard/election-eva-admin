@@ -88,14 +88,27 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- 3. Authentication. Writes UserData, so it precedes every reader. -->
+    <!-- 3. Authentication. Writes UserData, so it precedes every reader.
+
+         Mapped to /secure/* and NOT /*, and this one is FORCED by the code
+         rather than assumed. OidcFilter:114 redirects failures to
+         /welcome.xhtml?type=error. Mapped at /* it filters its own error page,
+         so a failed login becomes an infinite redirect loop. Observed, before
+         this was narrowed:
+
+           GET /welcome.xhtml gives 302 to /welcome.xhtml?type=error, again and
+           again, until
+           the client gives up, with one "OIDC_CLAIM_pid is blank" per hop.
+
+         The error page therefore has to sit outside the filter, which makes
+         /secure/* the only mapping consistent with the code. -->
     <filter>
         <filter-name>OidcFilter</filter-name>
         <filter-class>no.valg.eva.admin.frontend.security.OidcFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>OidcFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/secure/*</url-pattern>
     </filter-mapping>
 
     <!-- 4. Alternative login path, paired with the annotated TmpLoginServlet

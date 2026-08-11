@@ -14,3 +14,4 @@ One file per decision, written when the decision is made. Superseding a decision
 - [D008 — Producing a valgprotokoll is the goal that defines "working"](D008-valgprotokoll-is-the-goal.md)
 - [D009 — Deploy on WildFly 13, not 17](D009-wildfly-13-for-java-ee-7.md)
 - [D010 — One beans.xml per archive, instead of annotating 342 classes](D010-beans-xml-instead-of-annotating-342-classes.md)
+- [D011 — Disabling the system passphrase gate](D011-disabling-the-system-passphrase-gate.md)
