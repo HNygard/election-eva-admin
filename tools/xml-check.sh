@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 #
-# Checks that every XML file we added or modified is well-formed.
+# Checks that every XML or XHTML file we added or modified is well-formed.
+#
+# .xhtml is included deliberately: Facelets are XML, and a malformed one fails at
+# render time with "Error Parsing ... The string \"--\" is not permitted within
+# comments", which is a long way from the edit that caused it.
 #
 # Exists because the same mistake was made three times: a "--" inside an XML
 # comment. It is illegal in XML, and the failure surfaces far from the cause --
@@ -27,7 +31,7 @@ while IFS= read -r line; do
 	path="$(printf '%s' "$line" | cut -d"$TAB" -f2)"
 
 	case "$status" in ADDED | MODIFIED | GENERATED) ;; *) continue ;; esac
-	case "$path" in *.xml) ;; *) continue ;; esac
+	case "$path" in *.xml | *.xhtml) ;; *) continue ;; esac
 	[ -f "$path" ] || continue
 
 	if ! python3 -c "import sys,xml.dom.minidom; xml.dom.minidom.parse(sys.argv[1])" "$path" 2>/tmp/xml-check-err; then

@@ -109,17 +109,28 @@ def main():
         return 1
 
     written = 0
+    kept = 0
     per_library = defaultdict(int)
     for (library, name), attributes in sorted(components.items()):
         directory = os.path.join(RESOURCES, library)
         os.makedirs(directory, exist_ok=True)
+
+        target = os.path.join(directory, name + ".xhtml")
+        # Never clobber a component that has been reconstructed by hand. Some of
+        # these stubs get replaced with real behaviour (widget:menu is the whole
+        # navigation), and regenerating must not silently undo that work.
+        if os.path.exists(target):
+            with open(target, encoding="utf-8", errors="replace") as existing:
+                if "RECONSTRUCTED, not a stub" in existing.read(2000):
+                    kept += 1
+                    continue
 
         declared = "".join(
             '        <cc:attribute name="%s"/>\n' % attribute
             for attribute in sorted(attributes)
         )
         # A component taking no attributes still needs a valid, empty interface.
-        with open(os.path.join(directory, name + ".xhtml"), "w", encoding="utf-8") as handle:
+        with open(target, "w", encoding="utf-8") as handle:
             handle.write(
                 TEMPLATE.format(
                     name=name,
@@ -133,6 +144,8 @@ def main():
     for library in sorted(per_library):
         print("  %-16s %d components" % (library, per_library[library]))
     print("Wrote %d composite component stubs under %s" % (written, RESOURCES))
+    if kept:
+        print("Kept %d hand-reconstructed component(s) untouched" % kept)
     return 0
 
 

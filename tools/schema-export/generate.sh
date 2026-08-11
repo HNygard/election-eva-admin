@@ -40,6 +40,7 @@ echo "Entity classes derived from source: $(wc -l <"$CLASS_LIST")"
 
 "$REPO_ROOT/tools/mvn.sh" -q -f tools/schema-export/pom.xml \
 	compile exec:java \
+	-Dexec.mainClass=no.valg.eva.tools.SchemaExport \
 	-Dexec.args="/usr/src/eva-admin/$CLASS_LIST /usr/src/eva-admin/$OUTPUT"
 
 echo

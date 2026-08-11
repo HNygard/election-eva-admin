@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  GENERATED STUB by tools/generate-composite-components.py. Not EVA Admin markup.
+  RECONSTRUCTED, not a stub. This is the navigation menu, and with the generated
+  placeholder in its place the application renders but has no way to reach any
+  screen: the whole of EVA Admin is behind this component.
 
-  The release ships no resources/ directory, so this composite component and the
-  rest of its library were missing and every page using them failed to render.
+  The contract is fully determined by the source, so this is a reconstruction of
+  behaviour rather than a guess:
 
-  The INTERFACE below is accurate: these are the attributes menu is
-  actually passed, recovered from its call sites in the released pages.
+    * Call sites pass menu, renderRootHeader and menuItemTemplate, e.g.
+        secure/index.xhtml:31
+          <widget:menu menu="#{menu}" renderRootHeader="false"
+                       menuItemTemplate="/secure/includes/indexMenuItem.xhtml"/>
 
-  The IMPLEMENTATION is a placeholder. What this component really rendered was in
-  the withheld resources/ directory and is not recoverable from the source. It
-  renders its own name and any children, so page structure is visible and it is
-  obvious on screen that the appearance is not EVA Admin's.
+    * The model is no.valg.eva.admin.frontend.common.menu.Menu, a tree with
+      getChildren(), getText(), getUrl(), hasHeader(), isEnabled().
 
-  See docs/not-fixed-yet/NF-024.
+    * The item templates declare the variable they expect, via an elvariable
+      hint in secure/includes/indexMenuItem.xhtml naming "menuItem" as a
+      ...common.menu.Menu, so this component's job is to walk the tree and
+      include the template once per node with "menuItem" bound to it.
+
+  KNOWN LIMITATION: the tree is walked to a fixed depth of three levels rather
+  than recursively. Facelets cannot recurse a ui:include without a guard, and
+  three is what EVA Admin's menus actually use. A deeper menu would silently lose
+  its deepest level, which is why this is written down rather than left to be
+  discovered.
+
+  The MARKUP is still ours: what the original emitted, and the classes its CSS
+  expected, were in the withheld resources/ directory. Structure is right,
+  appearance is not. See NF-024.
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -22,14 +37,52 @@
 
     <cc:interface>
         <cc:attribute name="menu"/>
-        <cc:attribute name="menuItemTemplate"/>
         <cc:attribute name="renderRootHeader"/>
+        <cc:attribute name="menuItemTemplate"/>
     </cc:interface>
 
     <cc:implementation>
-        <div class="eva-stub eva-stub-widget-menu"
-             data-eva-stub="widget:menu">
-            <cc:insertChildren/>
+        <div class="eva-menu" data-eva-reconstructed="widget:menu">
+
+            <ui:fragment rendered="#{cc.attrs.renderRootHeader and cc.attrs.menu.hasHeader()}">
+                <h3 class="eva-menu-header">
+                    <h:outputText value="#{msgs[cc.attrs.menu.text]}"/>
+                </h3>
+            </ui:fragment>
+
+            <ul class="eva-menu-level-1">
+                <ui:repeat value="#{cc.attrs.menu.children}" var="level1">
+                    <li class="eva-menu-item">
+                        <ui:include src="#{cc.attrs.menuItemTemplate}">
+                            <ui:param name="menuItem" value="#{level1}"/>
+                        </ui:include>
+
+                        <ui:fragment rendered="#{not empty level1.children}">
+                            <ul class="eva-menu-level-2">
+                                <ui:repeat value="#{level1.children}" var="level2">
+                                    <li class="eva-menu-item">
+                                        <ui:include src="#{cc.attrs.menuItemTemplate}">
+                                            <ui:param name="menuItem" value="#{level2}"/>
+                                        </ui:include>
+
+                                        <ui:fragment rendered="#{not empty level2.children}">
+                                            <ul class="eva-menu-level-3">
+                                                <ui:repeat value="#{level2.children}" var="level3">
+                                                    <li class="eva-menu-item">
+                                                        <ui:include src="#{cc.attrs.menuItemTemplate}">
+                                                            <ui:param name="menuItem" value="#{level3}"/>
+                                                        </ui:include>
+                                                    </li>
+                                                </ui:repeat>
+                                            </ul>
+                                        </ui:fragment>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </ui:fragment>
+                    </li>
+                </ui:repeat>
+            </ul>
         </div>
     </cc:implementation>
 </ui:composition>

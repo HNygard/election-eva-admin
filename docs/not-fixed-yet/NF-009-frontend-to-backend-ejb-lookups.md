@@ -1,6 +1,6 @@
 # NF-009 — Frontend reaches the backend over remote EJB JNDI
 
-Status: OPEN
+Status: FIXED
 Milestone: M3
 
 ## Symptom

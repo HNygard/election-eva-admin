@@ -92,6 +92,14 @@
                 <version>2019.22-SNAPSHOT</version>
                 <type>test-jar</type>
             </dependency>
+            <!-- RECONSTRUCTED. admin-rapport is built by the reactor but no module
+                 depends on it, so RapportApplicationService is never packaged and the
+                 frontend's lookup of ejb:/admin-backend//RapportService fails. See NF-027. -->
+            <dependency>
+                <groupId>no.valg.eva</groupId>
+                <artifactId>admin-rapport</artifactId>
+                <version>2019.22-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>no.valg.eva</groupId>
                 <artifactId>admin-backend-common</artifactId>

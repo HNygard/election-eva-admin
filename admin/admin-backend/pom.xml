@@ -36,6 +36,13 @@
 			<groupId>no.valg.eva</groupId>
 			<artifactId>admin-rbac</artifactId>
 		</dependency>
+		<!-- RECONSTRUCTED. Without this RapportApplicationService is not in the
+		     WAR, so ejb:/admin-backend//RapportService cannot resolve and every
+		     page that lists reports fails. See NF-027. -->
+		<dependency>
+			<groupId>no.valg.eva</groupId>
+			<artifactId>admin-rapport</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>no.valg.eva</groupId>
 			<artifactId>admin-backend-common</artifactId>

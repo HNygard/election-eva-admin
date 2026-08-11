@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADDED. The frontend does not inject EJBs; it looks them up remotely through
+  ServiceLookupUtil, which builds names of the form
+
+      ejb:/admin-backend//<Service>!<FQCN>
+
+  and 73 service producers route through that. Without an EJB client context the
+  lookup resolves to nothing:
+
+      NoSuchEJBException: EJBCLIENT000079: Unable to discover destination for
+      request for EJB StatelessEJBLocator for "/admin-backend/RapportService",
+      view is interface ...RapportService, affinity is None
+
+  Both WARs are deployed in the same server, so the local receiver can serve
+  these calls without any network hop. Declaring it here is what tells the client
+  that.
+
+  local-receiver-pass-by-value MUST stay true. Setting it to false was tried
+  first, to avoid serialising arguments for a call that never leaves the JVM, and
+  it fails immediately:
+
+      java.lang.ClassCastException: no.valg.eva.admin.rbac.domain.model.Operator
+      cannot be cast to no.valg.eva.admin.rbac.domain.model.Operator
+
+  The two WARs each bundle their own admin-common, so the same class name is
+  loaded by two classloaders. Pass-by-value serialises across the boundary and
+  the copy is rebuilt in the caller's classloader; pass-by-reference hands over
+  an object the caller's classloader cannot accept. The cost of serialisation is
+  what keeps the two deployments independent.
+
+  The release must have carried an equivalent descriptor, or configured the
+  client elsewhere; it was not published. See NF-009.
+-->
+<jboss-ejb-client xmlns="urn:jboss:ejb-client:1.2">
+    <client-context>
+        <ejb-receivers local-receiver-pass-by-value="true"/>
+    </client-context>
+</jboss-ejb-client>

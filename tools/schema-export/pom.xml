@@ -97,9 +97,9 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
-                <configuration>
-                    <mainClass>no.valg.eva.tools.SchemaExport</mainClass>
-                </configuration>
+                <!-- mainClass is passed per invocation: this project holds more
+                     than one tool (SchemaExport, AccessDump), and a configured
+                     mainClass here would override -Dexec.mainClass. -->
             </plugin>
         </plugins>
     </build>
