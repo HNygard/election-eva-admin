@@ -1,7 +1,23 @@
 # NF-003 — The whole test suite is skipped
 
-Status: OPEN
-Milestone: M1
+Status: OPEN — fast tests pass; database-backed groups still unrun
+Milestone: M1 → M2
+
+## Update: the fast tests all pass
+
+    Tests run: 8083, Failures: 0, Errors: 0, Skipped: 0
+
+across all 16 modules, with no file modified — see
+`docs/findings/2026-08-11-full-test-suite-passes.md`. Cause 1 (NF-002) is fixed,
+and cause 2 turned out not to require deleting anything from the poms.
+
+What remains is the tail: the root pom's Surefire config excludes the groups
+`repository,slow,erasesTestData,resources`, which need a populated PostgreSQL
+database. Those have never been run, and how many tests they contain is unknown.
+They become reachable once M2 provides a database, via the `slowTests` and
+`allTests` profiles.
+
+This item stays open for that tail and moves to M2.
 
 ## Symptom
 

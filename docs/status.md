@@ -1,25 +1,40 @@
 # Status
 
-**Current milestone: M1 — reproducible build**
+**Current milestone: M2 — backend deploys**
 
-Nothing has been built successfully yet in this repo under the current setup. The
-repo is byte-identical to the EVA Admin 2019 release except for `readme.md`,
-`added-stuff/`, and the scaffolding added on 2026-08-10.
+M1 is done, as of 2026-08-11. The released source builds and its tests pass with
+**no modification to any release file** — two Maven flags and one environment
+variable were the whole story:
+
+    16/16 modules SUCCESS, 3m16s
+    Tests run: 8083, Failures: 0, Errors: 0, Skipped: 0
+    35M admin-backend-2019.22-SNAPSHOT.war
+    30M admin-frontend-2019.22-SNAPSHOT.war
+
+See `docs/findings/2026-08-10-first-successful-build.md` and
+`docs/findings/2026-08-11-full-test-suite-passes.md`.
+
+The manifest still reports **3233 original / 1 modified / N added** — the one
+modification is `readme.md`, which predates this work. Nothing in `admin/` has
+been touched.
 
 Pick work from [docs/not-fixed-yet/INDEX.md](not-fixed-yet/INDEX.md): the topmost
 `OPEN` item tagged with the current milestone.
 
 ## Milestones
 
-### M1 — reproducible build
+### M1 — reproducible build — DONE 2026-08-11
 
 `tools/build.sh` produces every JAR and WAR from a clean container and an empty
 Maven volume.
 
-Exit criteria:
-- `tools/build.sh` exits 0 twice in a row starting from an empty `eva-admin-maven-repo` volume.
-- Every artifact the build should produce is listed in a finding, with the exact `find`/`ls` output that shows it.
-- Tests may still be skipped, but the reason is recorded and tracked as an open item, not treated as normal.
+- ✅ Two consecutive clean builds, the first from an empty `eva-admin-maven-repo` volume.
+- ✅ All 16 modules and both WARs verified on disk, not just in the log.
+- ✅ Tests are not merely unskipped but passing: 8083, zero failures.
+
+One caveat carried into M2: only the default Surefire group ran. The
+`repository,slow,erasesTestData,resources` groups need a database and have never
+been attempted (NF-003).
 
 ### M2 — backend deploys
 
