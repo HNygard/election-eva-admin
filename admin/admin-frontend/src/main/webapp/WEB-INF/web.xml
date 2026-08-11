@@ -106,21 +106,47 @@
         <filter-name>OidcFilter</filter-name>
         <filter-class>no.valg.eva.admin.frontend.security.OidcFilter</filter-class>
     </filter>
+    <!-- ORDER: TmpLoginFilter runs BEFORE OidcFilter, and the code forces it.
+         OidcFilter has no notion of tmp login: it passes through only when
+         UserData already exists or a role is being switched, and otherwise
+         fails with "OIDC_CLAIM_pid is blank". TmpLoginFilter, by contrast,
+         skips itself when no.valg.eva.admin.login.tmp.enabled is false.
+
+         So the enabled-aware filter has to come first. With tmp login on,
+         TmpLoginFilter establishes UserData and OidcFilter then sees it and
+         passes through; with tmp login off, TmpLoginFilter stands aside and
+         OidcFilter authenticates from the proxy header. The reverse order
+         breaks the tmp login path entirely: /secure/* redirected to
+         /welcome.xhtml?type=error before TmpLoginFilter ever ran. -->
+    <filter-mapping>
+        <filter-name>TmpLoginFilter</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>OidcFilter</filter-name>
         <url-pattern>/secure/*</url-pattern>
     </filter-mapping>
 
     <!-- 4. Alternative login path, paired with the annotated TmpLoginServlet
-         at /tmpLogin. Also writes UserData. -->
+         at /tmpLogin. Also writes UserData.
+
+         Mapped to /secure/* and NOT /tmpLogin. FORCED by the code, and the
+         opposite of what the name suggests: this filter GUARDS the secure area
+         and redirects TO /tmpLogin when the session has no TmpLoginForm
+         (TmpLoginFilter:84). Mapped at /tmpLogin it intercepts its own target
+         and loops:
+
+           GET /tmpLogin gives 302 to /tmpLogin, forever.
+
+         It then picks the submitted form back up when TmpLoginServlet redirects
+         to /secure/selectRole.xhtml, which is inside this mapping.
+
+         It skips itself unless no.valg.eva.admin.login.tmp.enabled is true, so
+         it and OidcFilter can share /secure/* without conflicting. -->
     <filter>
         <filter-name>TmpLoginFilter</filter-name>
         <filter-class>no.valg.eva.admin.frontend.security.TmpLoginFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>TmpLoginFilter</filter-name>
-        <url-pattern>/tmpLogin</url-pattern>
-    </filter-mapping>
 
     <!-- 5. Requires UserData to exist; its javadoc says so explicitly. -->
     <filter>

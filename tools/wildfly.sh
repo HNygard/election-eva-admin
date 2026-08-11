@@ -42,7 +42,13 @@ backend | both)
 			echo "Missing $FRONTEND_WAR -- run tools/build.sh first" >&2
 			exit 1
 		}
-		cp "$FRONTEND_WAR" "$DEPLOYMENTS/admin-frontend.war"
+		# Deployed as ROOT.war, so the frontend answers on "/" rather than
+		# "/admin-frontend". Not a preference: the application generates
+		# context-less absolute links. welcome.xhtml renders
+		#   <a href="/tmpLogin?scanning=false">
+		# and TmpLoginFilter does response.sendRedirect("/tmpLogin?..."), both of
+		# which only resolve if the frontend is the root context. See NF-023.
+		cp "$FRONTEND_WAR" "$DEPLOYMENTS/ROOT.war"
 	fi
 
 	echo "Deploying:"

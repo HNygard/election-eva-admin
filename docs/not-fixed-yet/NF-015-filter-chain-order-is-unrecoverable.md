@@ -1,6 +1,6 @@
 # NF-015 — The security filter chain order cannot be recovered
 
-Status: OPEN
+Status: OPEN — 3 mappings now forced by evidence, 3 still assumed
 Milestone: M2
 
 ## Symptom
@@ -44,3 +44,24 @@ Do not guess quietly. Whatever order is chosen:
 The chain is declared, each position is justified in writing as either forced or
 assumed, and the assumptions are listed somewhere an evaluator would find them —
 not buried in a commit message.
+
+
+## Update 2026-08-11: three mappings proved, three still assumed
+
+Deploying and exercising the login path forced three of them (see
+`docs/findings/2026-08-11-login-chain-works.md`):
+
+- `OidcFilter` on `/secure/*`, not `/*` — it filters its own error page otherwise.
+- `TmpLoginFilter` on `/secure/*`, not `/tmpLogin` — it redirects *to* `/tmpLogin`.
+- `TmpLoginFilter` before `OidcFilter` — only the former is aware of whether tmp login is enabled.
+
+Each was proved by an infinite redirect or an unreachable path, i.e. loudly.
+
+**Still assumed, and still able to fail silently:** the relative order of
+`SessionHijackingDetector`, `SelectRoleFilter` and `PageAccessFilter`. All three
+read `UserData`, all three sit behind the authenticators, and nothing observed so
+far distinguishes their sequence. Authorisation running before role selection, or
+hijack detection running after a session is trusted, would look like a working
+application.
+
+That is what keeps this item open.

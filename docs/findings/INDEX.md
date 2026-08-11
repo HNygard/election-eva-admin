@@ -10,4 +10,5 @@ One file per investigation: what was tried, the verbatim error, what it means. W
 - [The backend deploys](2026-08-11-backend-deploys.md)
 - [Both WARs deployed, and the application speaks](2026-08-11-both-wars-deployed-app-responds.md)
 - [The full test suite passes, unmodified](2026-08-11-full-test-suite-passes.md)
+- [The login chain works, and the filter order corrected itself](2026-08-11-login-chain-works.md)
 - [Schema generated from the release's entities, and what it revealed](2026-08-11-schema-generated-from-entities.md)
