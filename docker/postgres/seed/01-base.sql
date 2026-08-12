@@ -37,7 +37,8 @@ BEGIN;
 TRUNCATE TABLE
     operator_role, operator, role_access, role, access,
     contest_area, contest, election, election_group, mv_election,
-    mv_area, municipality, county, country,
+    mv_area, polling_station, polling_place, polling_district, borough,
+    municipality, county, country,
     municipality_status, county_status,
     election_event, election_event_status, area_level, locale,
     election_type, vote_count_category, voting_category, marital_status,

@@ -5,7 +5,21 @@ Milestone: M3
 
 ## Where things stand
 
-    tools/smoke-pages.sh, municipality role:  30 of 71 pages return 200
+    tools/smoke-pages.sh, municipality role:  41 of 71 pages return 200
+
+Progress so far, each step a separate commit:
+
+    19  menu reconstructed (widget:menu was a stub)
+    23  municipality-level role added
+    29  election hierarchy seeded
+    30  ltree extension installed into the public schema
+    41  ehcache-local.xml added (NF-030) -- one file, eleven screens
+    42  message keys that are format patterns given real values
+    41  deep geography added: one screen that had been rendering only because
+        the data was absent now resolves a context and fails further along
+
+That last line is worth keeping. A rising count is not by itself progress: a
+screen can render because a controller found nothing to do.
 
 The other 41 split into two quite different problems.
 
@@ -31,8 +45,7 @@ municipality, and a second municipality so the chooser has a choice to offer.
 Each is its own missing-data or missing-behaviour question. The recurring shapes
 seen so far:
 
-- **A null deep in a controller's `init()`**, where the screen expects rows the seed does not have — voters, ballots, counts, list proposals.
-- **`userDataController.currentElectionEventDisabled` NPE** from `templates/layout.xhtml`, which affects several screens at once and is therefore the highest-value one to chase next. `isCurrentElectionEventDisabled` guards `getElectionEvent() != null` and then reads `getElectionEventStatus().getId()`; the association is EAGER and the seeded row exists, so the null is more likely `userData.getElectionEventPk()` being unset at that point than a missing row.
+- **`KontekstAvhengigController.init()` and `MvAreaController.init()` NPEs.** These are the bulk of what remains. Both are context-dependent controllers, and they now have geography to work with, so the missing piece is further along: most likely the election-to-area wiring (`contest_area` covers the municipality only) or rows these screens read directly — voters, ballots, counts, list proposals.
 - **Placeholder composite components**, where a screen's behaviour lived in markup that was withheld (NF-024). No amount of data fixes these; they need the component reconstructed the way `widget:menu` was.
 
 ## How to work this
