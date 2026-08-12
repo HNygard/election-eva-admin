@@ -5,7 +5,7 @@ Milestone: M3
 
 ## Where things stand
 
-    tools/smoke-pages.sh, municipality role:  41 of 71 pages return 200
+    tools/smoke-pages.sh, municipality role:  45 of 69 pages return 200
 
 Progress so far, each step a separate commit:
 
@@ -17,6 +17,7 @@ Progress so far, each step a separate commit:
     42  message keys that are format patterns given real values
     41  deep geography added: one screen that had been rendering only because
         the data was absent now resolves a context and fails further along
+    45  frontend log4j.xml, and mv_area's foreign keys populated
 
 That last line is worth keeping. A rising count is not by itself progress: a
 screen can render because a controller found nothing to do.
@@ -63,90 +64,49 @@ than one that fails, because it is demoable and wrong.
 Either every screen renders, or every screen that does not has a recorded reason
 that is either "needs data of kind X" or "needs component Y reconstructed".
 
-## The 23 redirects
+## What remains: 12 redirects, 5 errors
 
-  302 /secure/delete/deleteVotings.xhtml
-  302 /secure/opptelling/behandleManueltForkastede.xhtml
-  302 /secure/opptelling/behandleSkannetForkastede.xhtml
-  302 /secure/opptelling/genererStrekkodelapper.xhtml
-  302 /secure/selectRole.xhtml
-  302 /secure/settlement/candidateAnnouncement.xhtml
-  302 /secure/settlement/correctionsReport.xhtml
-  302 /secure/settlement/levelingSeats.xhtml
-  302 /secure/settlement/settlementResult.xhtml
-  302 /secure/settlement/settlementStatus.xhtml
-  302 /secure/settlement/settlementSummary.xhtml
-  302 /secure/stemmegivning/emptyElectionCard.xhtml
-  302 /secure/stemmegivning/faVotingsSentFromMunicipality.xhtml
-  302 /secure/stemmegivning/forhandOrdinaer.xhtml
-  302 /secure/stemmegivning/forhandProvingSamlet.xhtml
-  302 /secure/stemmegivning/forhandProvingVelger.xhtml
-  302 /secure/stemmegivning/rejectedVotingsReport.xhtml
-  302 /secure/stemmegivning/valgtingOrdinaer.xhtml
-  302 /secure/stemmegivning/valgtingProvingSamlet.xhtml
-  302 /secure/stemmegivning/valgtingProvingVelger.xhtml
-  302 /secure/translation/translationsEdit.xhtml
-  302 /secure/voting/confirming/votingConfirmation.xhtml
-  302 /secure/voting/registerVotingInEnvelope.xhtml
-- /secure/delete/deleteVotings.xhtml
-- /secure/opptelling/behandleManueltForkastede.xhtml
-- /secure/opptelling/behandleSkannetForkastede.xhtml
-- /secure/opptelling/genererStrekkodelapper.xhtml
-- /secure/selectRole.xhtml
-- /secure/settlement/candidateAnnouncement.xhtml
-- /secure/settlement/correctionsReport.xhtml
-- /secure/settlement/levelingSeats.xhtml
-- /secure/settlement/settlementResult.xhtml
-- /secure/settlement/settlementStatus.xhtml
-- /secure/settlement/settlementSummary.xhtml
-- /secure/stemmegivning/emptyElectionCard.xhtml
-- /secure/stemmegivning/faVotingsSentFromMunicipality.xhtml
-- /secure/stemmegivning/forhandOrdinaer.xhtml
-- /secure/stemmegivning/forhandProvingSamlet.xhtml
-- /secure/stemmegivning/forhandProvingVelger.xhtml
-- /secure/stemmegivning/rejectedVotingsReport.xhtml
-- /secure/stemmegivning/valgtingOrdinaer.xhtml
-- /secure/stemmegivning/valgtingProvingSamlet.xhtml
-- /secure/stemmegivning/valgtingProvingVelger.xhtml
-- /secure/translation/translationsEdit.xhtml
-- /secure/voting/confirming/votingConfirmation.xhtml
-- /secure/voting/registerVotingInEnvelope.xhtml
+The redirects are the context chooser doing its job and are not listed
+individually. The five errors each have a named cause now, which they did not
+before `admin-frontend` got a log4j configuration:
 
-## The 18 errors
+**`/secure/counting/countingOverview.xhtml`** and
+**`/secure/reporting/statistics/evaResultatRapportering.xhtml`**
 
-  500 /secure/config/generateEML.xhtml
-  500 /secure/config/listAreas.xhtml
-  500 /secure/config/listElections.xhtml
-  500 /secure/config/local/local.xhtml
-  500 /secure/counting/antallStemmesedlerLagtTilSide.xhtml
-  500 /secure/counting/countingOverview.xhtml
-  500 /secure/delete/deleteVotersBatches.xhtml
-  500 /secure/election/electionEvent.xhtml
-  500 /secure/election/listElectionEvents.xhtml
-  500 /secure/manntall/generateVoterNumbers.xhtml
-  500 /secure/manntall/genererValgkortgrunnlag.xhtml
-  500 /secure/manntall/importElectoralRoll.xhtml
-  500 /secure/manntall/listVoterAudit.xhtml
-  500 /secure/manntall/opprett.xhtml
-  500 /secure/manntall/sok.xhtml
-  500 /secure/opptelling/slettOpptellinger.xhtml
-  500 /secure/rbac/accessOverview.xhtml
-  500 /secure/reportingUnit/reportingUnitType.xhtml
-- /secure/config/generateEML.xhtml
-- /secure/config/listAreas.xhtml
-- /secure/config/listElections.xhtml
-- /secure/config/local/local.xhtml
-- /secure/counting/antallStemmesedlerLagtTilSide.xhtml
-- /secure/counting/countingOverview.xhtml
-- /secure/delete/deleteVotersBatches.xhtml
-- /secure/election/electionEvent.xhtml
-- /secure/election/listElectionEvents.xhtml
-- /secure/manntall/generateVoterNumbers.xhtml
-- /secure/manntall/genererValgkortgrunnlag.xhtml
-- /secure/manntall/importElectoralRoll.xhtml
-- /secure/manntall/listVoterAudit.xhtml
-- /secure/manntall/opprett.xhtml
-- /secure/manntall/sok.xhtml
-- /secure/opptelling/slettOpptellinger.xhtml
-- /secure/rbac/accessOverview.xhtml
-- /secure/reportingUnit/reportingUnitType.xhtml
+    IllegalArgumentException: Could not locate appropriate constructor on class :
+    no.valg.eva.admin.configuration.domain.model.valgnatt.ReportConfiguration
+
+Not missing data. `MvArea.reportConfigurationQuery` is a native query whose
+result is mapped through a constructor taking `Integer pollingDistrictPk` and
+`Integer mvAreaPk`, while the generated schema types those columns `int8`, so
+JDBC hands back `Long`. This is a **schema generation artefact**: JPA maps the
+entity pk as `Long`, so `bigserial` is what the generator emits, and the real
+database evidently used a narrower type for these columns. Fixing it means
+either narrowing those columns in the generated schema or casting in the query,
+and the first is closer to what the original must have been. Worth checking
+whether other native queries have the same latent mismatch.
+
+**`/secure/settlement/levelingSeats.xhtml`**
+
+    EvoteException: @leveling_seats.error.missing_election
+
+This is arguably correct behaviour. The seeded election has `leveling_seats = 0`,
+and the screen exists to show leveling seat settlement, so it refuses. Giving the
+election leveling seats would make the screen render, but it would then be
+showing a leveling seat calculation for an election configuration nobody chose.
+Decide deliberately before changing the seed.
+
+**`/secure/settlement/candidateAnnouncement.xhtml`**
+
+    javax.persistence.NoResultException: No entity found for query
+
+Needs settlement data: candidates, ballots and a completed settlement. This is
+genuine election data, not configuration.
+
+**`/secure/config/local/local.xhtml`**
+
+    NullPointerException, surfacing through ForceLocaleFilter
+
+Still needs its own investigation; the visible frame is the filter, not the
+cause.
+
