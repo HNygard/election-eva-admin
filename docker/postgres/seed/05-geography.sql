@@ -11,7 +11,9 @@
 -- POLLING_DISTRICT 5, POLLING_PLACE 6, POLLING_STATION 7, and AreaPath appends a
 -- segment per level:
 --
---   000000.47.03.0301.000001.0001.0001.01
+--   000000.47.03.0301.000001.0001.0001
+--
+-- mv_area stops at POLLING_PLACE; see the note by the last row for why.
 --
 -- NOT REAL GEOGRAPHY. One borough, one district, one place, one station under the
 -- seeded municipality. Enough for the context chooser to have something to
@@ -50,24 +52,42 @@ INSERT INTO mv_area (mv_area_pk, area_level, area_path, election_event_id, elect
                      polling_district_id, polling_district_name, parent_polling_district,
                      polling_place_id, polling_place_name,
                      polling_station_first, polling_station_last,
+                     country_pk, county_pk, municipality_pk, borough_pk,
+                     polling_district_pk, polling_place_pk,
                      election_event_pk) VALUES
     (5, 4, '000000.47.03.0301.000001', '000000', 'Demo valghendelse',
      '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', '000001', 'Sentrum',
-     NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+     NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+     1, 1, 1, 1, NULL, NULL, 1),
     (6, 5, '000000.47.03.0301.000001.0001', '000000', 'Demo valghendelse',
      '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', '000001', 'Sentrum',
-     '0001', 'Sentrum krets', false, NULL, NULL, NULL, NULL, 1),
+     '0001', 'Sentrum krets', false, NULL, NULL, NULL, NULL,
+     1, 1, 1, 1, 1, NULL, 1),
     (7, 6, '000000.47.03.0301.000001.0001.0001', '000000', 'Demo valghendelse',
      '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', '000001', 'Sentrum',
-     '0001', 'Sentrum krets', false, '0001', 'Sentrum skole', NULL, NULL, 1),
-    (8, 7, '000000.47.03.0301.000001.0001.0001.01', '000000', 'Demo valghendelse',
-     '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', '000001', 'Sentrum',
-     '0001', 'Sentrum krets', false, '0001', 'Sentrum skole', '01', '01', 1);
+     '0001', 'Sentrum krets', false, '0001', 'Sentrum skole', '01', '01',
+     1, 1, 1, 1, 1, 1, 1);
+
+-- NO level 7 row, and the schema is what says so. mv_area carries a unique
+-- constraint over the FK tuple
+--
+--   UNIQUE (election_event_pk, country_pk, county_pk, municipality_pk,
+--           borough_pk, polling_district_pk, polling_place_pk)
+--
+-- and there is no polling_station_pk column, so a station level row would be
+-- indistinguishable from its polling place and collides:
+--
+--   duplicate key value violates unique constraint "ukausg71clflxjqnr8ctjvkd8fa"
+--
+-- Which explains what polling_station_first and polling_station_last are for:
+-- the station range lives ON the polling place row, above, rather than as rows
+-- of its own. The schema described the model correctly and the first attempt
+-- did not read it.
 
 SELECT setval('borough_borough_pk_seq', 1, true);
 SELECT setval('polling_district_polling_district_pk_seq', 1, true);
 SELECT setval('polling_place_polling_place_pk_seq', 1, true);
 SELECT setval('polling_station_polling_station_pk_seq', 1, true);
-SELECT setval('mv_area_mv_area_pk_seq', 8, true);
+SELECT setval('mv_area_mv_area_pk_seq', 7, true);
 
 COMMIT;

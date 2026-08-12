@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADDED. Copied from the release's own admin-backend test resources, the same
+  source as the backend's copy (NF-018).
+
+  The frontend had no log4j configuration at all, so anything it logged through
+  log4j went nowhere. That is not cosmetic: JSF and Weld failures in the frontend
+  are reported through this logger, so every failing screen looked like
+
+      HTTP 500, and nothing whatsoever in the server log
+
+  which made the remaining screens undiagnosable. Container level logging
+  (org.jboss, io.undertow) was unaffected, which is why SOME stacks appeared and
+  others did not. That split cost several rounds of guessing.
+-->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss,SSS} %5p %c - %m%n"/>
+		</layout>
+	</appender>
+
+	<appender name="SecuredObjectsAppender" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="time=&quot;%d{yyyy-MM-dd HH:mm:ss,SSS Z}&quot;, thread=%t, priority=%p, %m%n"/>
+		</layout>
+	</appender>
+
+	<logger name="SecuredObjectsLogger" additivity="false">
+		<level value="INFO"/>
+		<appender-ref ref="SecuredObjectsAppender"/>
+	</logger>
+
+	<category name="no">
+		<level value="DEBUG"/>
+	</category>
+
+	<root>
+		<level value="WARN"/>
+		<appender-ref ref="consoleAppender"/>
+	</root>
+</log4j:configuration>

@@ -106,13 +106,21 @@ VALUES (1, 0, false, false, '0301', 'Oslo', false, false, 1, 1, 1);
 -- mv_area is a materialised view in the real system; here it is an ordinary
 -- table (D005), so the rows have to be written explicitly. Each level repeats
 -- the ids and names of its ancestors, which is what makes it a view worth having.
+-- The FOREIGN KEY columns matter as much as the denormalised ids, and are easy
+-- to miss because the ids alone make the rows look complete. MvArea.findRoot is
+--     WHERE mva.country IS NULL AND mva.electionEvent.pk = :eepk
+-- so with country_pk left NULL on every row it matched all of them:
+--     NonUniqueResultException: result returns more than one elements
+-- Each level therefore carries the FKs of itself and its ancestors, and NULL
+-- below.
 INSERT INTO mv_area (mv_area_pk, area_level, area_path, election_event_id, election_event_name,
                      country_id, country_name, county_id, county_name,
-                     municipality_id, municipality_name, election_event_pk) VALUES
-    (1, 0, '000000',              '000000', 'Demo valghendelse', NULL, NULL,   NULL, NULL,   NULL,   NULL,   1),
-    (2, 1, '000000.47',           '000000', 'Demo valghendelse', '47', 'Norge', NULL, NULL,  NULL,   NULL,   1),
-    (3, 2, '000000.47.03',        '000000', 'Demo valghendelse', '47', 'Norge', '03', 'Oslo', NULL,  NULL,   1),
-    (4, 3, '000000.47.03.0301',   '000000', 'Demo valghendelse', '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', 1);
+                     municipality_id, municipality_name,
+                     country_pk, county_pk, municipality_pk, election_event_pk) VALUES
+    (1, 0, '000000',              '000000', 'Demo valghendelse', NULL, NULL,   NULL, NULL,   NULL,   NULL,   NULL, NULL, NULL, 1),
+    (2, 1, '000000.47',           '000000', 'Demo valghendelse', '47', 'Norge', NULL, NULL,  NULL,   NULL,   1,    NULL, NULL, 1),
+    (3, 2, '000000.47.03',        '000000', 'Demo valghendelse', '47', 'Norge', '03', 'Oslo', NULL,  NULL,   1,    1,    NULL, 1),
+    (4, 3, '000000.47.03.0301',   '000000', 'Demo valghendelse', '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', 1,    1,    1,    1);
 
 -- The election hierarchy and the operator_role rows that reference it are built
 -- in 04-election-hierarchy.sql, because operator_role points at an mv_election
