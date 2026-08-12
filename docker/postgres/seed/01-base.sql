@@ -25,21 +25,25 @@
 
 BEGIN;
 
-DELETE FROM operator_role;
-DELETE FROM operator;
-DELETE FROM role_access;
-DELETE FROM role;
-DELETE FROM mv_election;
-DELETE FROM mv_area;
-DELETE FROM municipality;
-DELETE FROM county;
-DELETE FROM country;
-DELETE FROM municipality_status;
-DELETE FROM county_status;
-DELETE FROM election_event;
-DELETE FROM election_event_status;
-DELETE FROM area_level;
-DELETE FROM locale;
+-- Reset. TRUNCATE ... CASCADE rather than an ordered list of DELETEs: the seed
+-- spans four files and their tables reference each other across file boundaries
+-- (contest_area in 04 points at mv_area here, election_group in 04 at
+-- election_event here), so any hand-maintained order breaks the moment the seed
+-- grows. CASCADE works the graph out for itself.
+--
+-- Safe because this database holds nothing but seed data. It would not be safe
+-- against a real EVA Admin database, which is one more reason this file is for a
+-- local reconstruction only.
+TRUNCATE TABLE
+    operator_role, operator, role_access, role, access,
+    contest_area, contest, election, election_group, mv_election,
+    mv_area, municipality, county, country,
+    municipality_status, county_status,
+    election_event, election_event_status, area_level, locale,
+    election_type, vote_count_category, voting_category, marital_status,
+    contest_status, ballot_status, count_qualifier, reporting_unit_type,
+    party_category
+CASCADE;
 
 -- The id is 'nb-NO' with a HYPHEN, not the underscore Java uses for bundle
 -- names. TmpLoginFilter:130 calls translationService.findLocaleById("nb-NO"),
@@ -109,12 +113,9 @@ INSERT INTO mv_area (mv_area_pk, area_level, area_path, election_event_id, elect
     (3, 2, '000000.47.03',        '000000', 'Demo valghendelse', '47', 'Norge', '03', 'Oslo', NULL,  NULL,   1),
     (4, 3, '000000.47.03.0301',   '000000', 'Demo valghendelse', '47', 'Norge', '03', 'Oslo', '0301', 'Oslo', 1);
 
--- Election hierarchy: only the event level so far, which is what operator_role
--- needs. Election groups, elections and contests are the next step, and are what
--- the counting and settlement screens will require.
-INSERT INTO mv_election (mv_election_pk, election_event_id, election_event_name,
-                         election_level, election_path, election_event_pk)
-VALUES (1, '000000', 'Demo valghendelse', 0, '000000', 1);
+-- The election hierarchy and the operator_role rows that reference it are built
+-- in 04-election-hierarchy.sql, because operator_role points at an mv_election
+-- and the rows have to exist first.
 
 -- security_level 3 matches the default the tmp login form offers.
 INSERT INTO role (role_pk, audit_oplock, active, check_candidate_conflicts,
@@ -129,23 +130,6 @@ INSERT INTO operator (operator_pk, audit_oplock, active, contact_info_confirmed,
                       election_event_pk)
 VALUES (1, 0, true, true, 'Demo', '01017012345', 'Operator', 'Demo Operator', 1);
 
--- Two roles for the same operator, at different points in the area hierarchy.
---
--- Role 1 sits at the election event root and is the one to pick for
--- configuration screens. Role 2 sits at the municipality and exists because many
--- screens require a geography context at a specific level and otherwise bounce
--- to the context chooser:
---
---   GET /secure/counting/countingOverview.xhtml
---     302 -> /secure/kontekstvelger.xhtml?oppsett=[geografi|nivaer|2,3][side|uri|42]
---
--- That redirect is EVA Admin working correctly, not a fault. Holding a role at
--- municipality level lets those screens resolve their context directly, which is
--- what makes them reachable in a demo.
-INSERT INTO operator_role (operator_role_pk, audit_oplock, mv_area_pk,
-                           mv_election_pk, operator_pk, role_pk) VALUES
-    (1, 0, 1, 1, 1, 1),
-    (2, 0, 4, 1, 1, 1);
 
 -- bigserial sequences must be moved past the hand-assigned ids, or the first
 -- insert the application makes will collide.
@@ -159,9 +143,7 @@ SELECT setval('country_country_pk_seq', 1, true);
 SELECT setval('county_county_pk_seq', 1, true);
 SELECT setval('municipality_municipality_pk_seq', 1, true);
 SELECT setval('mv_area_mv_area_pk_seq', 4, true);
-SELECT setval('mv_election_mv_election_pk_seq', 1, true);
 SELECT setval('role_role_pk_seq', 1, true);
 SELECT setval('operator_operator_pk_seq', 1, true);
-SELECT setval('operator_role_operator_role_pk_seq', 2, true);
 
 COMMIT;
