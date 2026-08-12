@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADDED. The release ships no ehcache configuration, and
+  no.evote.presentation.cache.GenericCacheManager loads one by name:
+
+      CacheManager.create(getClass().getClassLoader()
+          .getResourceAsStream("ehcache-local.xml"));
+
+  With the file absent that call gets a null stream, EhCache builds a manager
+  with no caches, and every getCache(...) returns null. The failure surfaces far
+  away, as a NullPointerException inside EntityCache.get, which the page reports
+  as
+
+      /templates/layout.xhtml @26,99
+      value="#{userDataController.currentElectionEventDisabled}":
+      java.lang.NullPointerException
+
+  Because layout.xhtml is the shared template, that one missing file took out
+  every screen using the entity cache.
+
+  The cache NAMES are recovered from the code that asks for them, so this part is
+  not guesswork. Three are referenced:
+
+      entityCache             EntityCache.get / .remove
+      serviceInvocationCache  ServiceInvocationHandler
+      election-event-pkcs12   the election event signing key cache
+
+  The SIZES AND TIMEOUTS ARE OURS. What the release configured is unknown, and
+  these values are chosen to be safe rather than fast: modest heap counts, no
+  disk persistence, and eviction by time so a stale entity cannot survive
+  indefinitely. Wrong values here show up as memory pressure or as stale data on
+  screen, not as an error, so they are worth revisiting if either appears.
+
+  Declared ADDED in manifest/changes.tsv. See docs/not-fixed-yet/NF-030.
+-->
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false"
+         monitoring="off"
+         dynamicConfig="false">
+
+    <defaultCache
+            maxElementsInMemory="1000"
+            eternal="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="600"
+            overflowToDisk="false"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Entities looked up by primary key (EntityCache). -->
+    <cache name="entityCache"
+           maxElementsInMemory="5000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Results of remote service calls (ServiceInvocationHandler). Shorter
+         lifetimes than entities: these are answers, not records. -->
+    <cache name="serviceInvocationCache"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="300"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Election event signing keys. Deliberately small and never written to
+         disk: this holds key material, and overflowToDisk would put it on the
+         filesystem. -->
+    <cache name="election-event-pkcs12"
+           maxElementsInMemory="50"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1800"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+</ehcache>
