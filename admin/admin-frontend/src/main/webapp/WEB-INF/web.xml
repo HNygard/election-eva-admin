@@ -229,4 +229,15 @@
         <error-code>404</error-code>
         <location>/404</location>
     </error-page>
+
+    <!-- ADDED to the reconstruction after observing it in use. A page left open
+         across a redeploy posts a JSF view the server no longer holds, and
+         without this the user gets a bare "Internal Server Error" with nothing
+         in the server log to explain it. Sending them back to the entry page
+         makes a stale tab recoverable by clicking, instead of looking like the
+         application is broken. Whether the original did this is unknown. -->
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/welcome.xhtml</location>
+    </error-page>
 </web-app>
