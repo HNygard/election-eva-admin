@@ -77,6 +77,33 @@ write_bundle() {
 				| sed 's/_/ /g')"
 			# Capitalise, and mark the locale so nb and nn are distinguishable on screen
 			label="$(printf '%s' "$label" | sed 's/^./\U&/')"
+
+			# Some keys are not display text: they are FORMAT PATTERNS that the
+			# code feeds to a formatter. A humanised placeholder there is not
+			# merely ugly, it throws:
+			#   IllegalArgumentException: Illegal pattern component: t
+			#   at AbstractDateOrTimeConverter.getAsString
+			# because Joda parses "Date date pattern" as pattern letters.
+			#
+			# The first two values are the release's own fallbacks, taken from
+			# the converters' constructors:
+			#   DateConverter      super("@common.date.date_pattern", "yyyy-MM-dd")
+			#   DateTimeConverter  super("@common.date.date_time_pattern", "yyyy-MM-dd HH:mm")
+			# The rest follow the same style; no fallback is given for them in
+			# the source.
+			case "$key" in
+			'@common.date.date_pattern' | '@common.date.date_display_pattern' | '@common.date.date_format')
+				label='yyyy-MM-dd' ;;
+			'@common.date.date_time_pattern')
+				label='yyyy-MM-dd HH:mm' ;;
+			'@common.date.time_pattern' | '@common.date.time_display_pattern')
+				label='HH:mm' ;;
+			'@common.date.date_mask')
+				label='9999-99-99' ;;
+			'@common.date.time_mask')
+				label='99:99' ;;
+			esac
+
 			printf '%s %s\n' "$key" "$label"
 		done <"$KEYS"
 	} >"$out"
