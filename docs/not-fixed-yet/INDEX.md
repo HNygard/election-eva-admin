@@ -32,3 +32,4 @@ The work queue. Take the topmost OPEN item for the milestone named in docs/statu
 - `OPEN — deliberate, and wrong` **NF-026 — The demo role holds every access** — [NF-026-demo-role-holds-every-access.md](NF-026-demo-role-holds-every-access.md)
 - `FIXED` **NF-027 — admin-rapport is built but never packaged** — [NF-027-admin-rapport-never-packaged.md](NF-027-admin-rapport-never-packaged.md)
 - `OPEN — this is the next step for the demo` **NF-028 — No election hierarchy, so context-dependent screens bounce** — [NF-028-election-hierarchy-not-seeded.md](NF-028-election-hierarchy-not-seeded.md)
+- `OPEN — the standing work item for the demo` **NF-029 — 41 of 71 screens still do not render** — [NF-029-remaining-screens.md](NF-029-remaining-screens.md)

@@ -2,6 +2,16 @@
 
 **Current milestone: M3 — full app**
 
+As of 2026-08-12 the application runs, authenticates, and is navigable:
+**30 of 71 screens render** (`tools/smoke-pages.sh`, municipality role), from a
+70-link menu. Of the rest, 23 redirect to the context chooser because they want a
+context the seed does not reach, and 18 return errors. NF-029 lists both, by URL.
+
+Two security features are deliberately disabled to get this far, D011 (the system
+passphrase) and D012 (page-level authorisation), and the demo role holds every
+access (NF-026). Nothing this system shows about authorisation is evidence about
+EVA Admin.
+
 M1 and M2 are done, as of 2026-08-11. Both WARs now deploy on WildFly 13 with
 zero failed services, and the application answers on HTTP with its own logic:
 `System passphrase has not been entered, unable to continue.`

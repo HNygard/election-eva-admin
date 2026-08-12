@@ -16,7 +16,15 @@
 -- This is a second, quieter instance of the D005 limitation: not a missing view
 -- this time, but a missing extension that only native SQL reveals.
 
-CREATE EXTENSION IF NOT EXISTS ltree;
+-- SCHEMA public matters. search_path puts "admin" first, so an unqualified
+-- CREATE EXTENSION installs the functions there, and the application's queries
+-- ask for them by explicit schema:
+--
+--   ERROR: function public.text2ltree(character varying) does not exist
+--
+-- Installing into public is what makes that name resolve.
+DROP EXTENSION IF EXISTS ltree CASCADE;
+CREATE EXTENSION ltree SCHEMA public;
 
 -- Views the schema generator cannot produce.
 --
